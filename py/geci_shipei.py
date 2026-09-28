@@ -751,11 +751,11 @@ def wy_playlist_songs(pid, pg=1):
 # ==================== TVBox 蜘蛛接口 (老式 CSP 标准, 参照 juhe_music.py) ====================
 
 def _entry(vod_id, name, pic, remark="", desc=""):
-    """构造 TVBox vod 条目 (纯文字, 不带图)"""
+    """构造 TVBox vod 条目 (歌单带图, 歌曲无图纯文字)"""
     return {
         "vod_id": vod_id,
         "vod_name": name,
-        "vod_pic": "",
+        "vod_pic": pic or "",
         "vod_remarks": remark,
         "vod_content": desc,
         "type_name": "音乐",
