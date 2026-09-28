@@ -342,10 +342,10 @@ class Spider(Spider):
         try:
             token = unquote(id)
             if token.startswith('http://') or token.startswith('https://'):
-                return {'url': token, 'header': {'User-Agent': self._UA}}
+                return {'parse': 0, 'playUrl': '', 'url': token, 'header': json.dumps({'User-Agent': self._UA})}
             s = self.sj_get(self.cur_host + '/v1/playback/resolve/' + quote(token))
             if not s:
-                return {'url': 'toast://播放失败,未获取到播放地址'}
+                return {'parse': 1, 'playUrl': '', 'url': 'toast://播放失败,未获取到播放地址', 'header': '{}'}
             sj = json.loads(s)
             lines = sj.get('line_options') or []
             bad_hosts = ['v.qq.com', 'qq.com', 'iqiyi.com', 'youku.com', 'mgtv.com',
@@ -360,7 +360,8 @@ class Spider(Spider):
                             skip = True
                             break
                     if not skip:
-                        return {'url': u, 'header': {'User-Agent': self._UA, 'Referer': self.cur_host + '/'}}
+                        return {'parse': 0, 'playUrl': '', 'url': u,
+                                'header': json.dumps({'User-Agent': self._UA, 'Referer': self.cur_host + '/'})}
             for ln in lines:
                 u = str(ln.get('url') or '').strip()
                 kind = str(ln.get('url_kind') or '')
@@ -374,13 +375,14 @@ class Spider(Spider):
                                 for ln2 in rj.get('line_options') or []:
                                     u2 = str(ln2.get('url') or '').strip()
                                     if u2.startswith('http'):
-                                        return {'url': u2, 'header': {'User-Agent': self._UA, 'Referer': self.cur_host + '/'}}
+                                        return {'parse': 0, 'playUrl': '', 'url': u2,
+                                                'header': json.dumps({'User-Agent': self._UA, 'Referer': self.cur_host + '/'})}
                             except Exception:
                                 pass
-            return {'url': 'toast://未找到可播放线路'}
+            return {'parse': 1, 'playUrl': '', 'url': 'toast://未找到可播放线路', 'header': '{}'}
         except Exception as e:
             print('[搜剧AI] 播放失败: %s' % e)
-            return {'url': 'toast://播放失败:%s' % e}
+            return {'parse': 1, 'playUrl': '', 'url': 'toast://播放失败:%s' % e, 'header': '{}'}
 
     # ============ 工具 ============
     def _entry(self, vod_id, name, pic, remark='', desc=''):
