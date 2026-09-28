@@ -54,15 +54,15 @@ class Spider(Spider):
         for bi in range(1, 11):
             self.SJ_DOMAINS.append('https://baipaizhe%d.com' % bi)
         self.cur_host = self.SJ_DOMAINS[0]
-        self.session = requests.Session()
-        self.session.headers.update({
-            'User-Agent': 'Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36',
+        self._UA = 'Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Mobile Safari/537.36'
+        self._base_headers = {
+            'User-Agent': self._UA,
             'x-ai-movie-client-name': 'movie-search-frontend',
             'x-ai-movie-client-version': '1.0.0',
             'x-ai-movie-build-version': 'aimovie-v2026.09.22.2-4570aa027fc4-web',
             'x-ai-movie-protocol-version': '2026-07-05.library-v2.playback-v1',
             'Cookie': 'ai_movie_session=' + self.SESSION,
-        })
+        }
         self.classes = [
             {'type_name': '大家都在看', 'type_id': 'feed_sec_everyone_watching'},
             {'type_name': '韩剧在追', 'type_id': 'feed_sec_hot_tv_korean'},
@@ -106,7 +106,7 @@ class Spider(Spider):
             'x-ai-movie-protocol-version': '2026-07-05.library-v2.playback-v1',
             'x-ai-movie-site-host': host.replace('https://', ''),
             'Cookie': 'ai_movie_session=' + self.SESSION,
-            'User-Agent': self.session.headers['User-Agent'],
+            'User-Agent': self._UA,
         }
 
     def _rewrite(self, url, host_old, h2):
@@ -117,7 +117,7 @@ class Spider(Spider):
             return h2 + (url[slash:] if slash >= 0 else '/')
         return url
 
-    # ============ 请求 (域名失效自动切换) ============
+    # ============ 请求 (域名失效自动切换, 用基类 self.fetch) ============
     def sj_get(self, url, host_old=None):
         if host_old is None:
             host_old = self.cur_host
@@ -127,9 +127,9 @@ class Spider(Spider):
             try:
                 url2 = self._rewrite(url, host_old, h2)
                 headers = self._sig_headers('GET', url2, h2)
-                resp = self.session.get(url2, headers=headers, timeout=15, verify=False)
-                if resp.status_code != 200 or not resp.text:
-                    last_err = 'empty/%s' % resp.status_code
+                resp = self.fetch(url2, headers=headers, timeout=15)
+                if resp is None or not resp.text:
+                    last_err = 'empty'
                     continue
                 self.cur_host = h2
                 return resp.text
@@ -143,8 +143,8 @@ class Spider(Spider):
                 try:
                     url2 = self._rewrite(url, host_old, h2)
                     headers = self._sig_headers('GET', url2, h2)
-                    resp = self.session.get(url2, headers=headers, timeout=15, verify=False)
-                    if resp.status_code == 200 and resp.text:
+                    resp = self.fetch(url2, headers=headers, timeout=15)
+                    if resp is not None and resp.text:
                         self.cur_host = h2
                         return resp.text
                 except Exception:
@@ -342,7 +342,7 @@ class Spider(Spider):
         try:
             token = unquote(id)
             if token.startswith('http://') or token.startswith('https://'):
-                return {'url': token, 'header': {'User-Agent': self.session.headers['User-Agent']}}
+                return {'url': token, 'header': {'User-Agent': self._UA}}
             s = self.sj_get(self.cur_host + '/v1/playback/resolve/' + quote(token))
             if not s:
                 return {'url': 'toast://播放失败,未获取到播放地址'}
@@ -360,7 +360,7 @@ class Spider(Spider):
                             skip = True
                             break
                     if not skip:
-                        return {'url': u, 'header': {'User-Agent': self.session.headers['User-Agent'], 'Referer': self.cur_host + '/'}}
+                        return {'url': u, 'header': {'User-Agent': self._UA, 'Referer': self.cur_host + '/'}}
             for ln in lines:
                 u = str(ln.get('url') or '').strip()
                 kind = str(ln.get('url_kind') or '')
@@ -374,7 +374,7 @@ class Spider(Spider):
                                 for ln2 in rj.get('line_options') or []:
                                     u2 = str(ln2.get('url') or '').strip()
                                     if u2.startswith('http'):
-                                        return {'url': u2, 'header': {'User-Agent': self.session.headers['User-Agent'], 'Referer': self.cur_host + '/'}}
+                                        return {'url': u2, 'header': {'User-Agent': self._UA, 'Referer': self.cur_host + '/'}}
                             except Exception:
                                 pass
             return {'url': 'toast://未找到可播放线路'}
@@ -404,6 +404,14 @@ class Spider(Spider):
     def gethost(self):
         return self.cur_host
 
+    def fetch(self, url, headers=None, timeout=15):
+        """基类 Spider.fetch 的本地兜底 (WebHomeTV 环境用基类自带, 本地测试用 requests)"""
+        try:
+            return requests.get(url, headers=headers, timeout=timeout, verify=False)
+        except Exception as e:
+            print('[搜剧AI] fetch失败:', e)
+            return None
+
     def localProxy(self, param):
         return ''
 
@@ -414,8 +422,4 @@ class Spider(Spider):
         return ''
 
     def destroy(self):
-        try:
-            self.session.close()
-        except Exception:
-            pass
         return ''
