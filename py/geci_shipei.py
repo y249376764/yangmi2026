@@ -751,11 +751,11 @@ def wy_playlist_songs(pid, pg=1):
 # ==================== TVBox 蜘蛛接口 (老式 CSP 标准, 参照 juhe_music.py) ====================
 
 def _entry(vod_id, name, pic, remark="", desc=""):
-    """构造 TVBox vod 条目 (歌单带图, 歌曲无图纯文字)"""
+    """构造 TVBox vod 条目 (全文字, 无图片位)"""
     return {
         "vod_id": vod_id,
         "vod_name": name,
-        "vod_pic": pic or "",
+        "vod_pic": "",
         "vod_remarks": remark,
         "vod_content": desc,
         "type_name": "音乐",
@@ -791,7 +791,7 @@ def _items_to_vods(items, plat, plat_tag):
         extra = _build_extra(it)
         vid = _make_vod_id(plat, it["songId"], extra, it.get("name") or "")
         name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
-        pic = it.get("pic") or PLATFORM_ICONS.get(plat, "")
+        pic = ""
         vods.append(_entry(vid, name, pic,
                            remark="[%s] %s" % (plat_tag, it.get("duration") or ""),
                            desc="%s《%s》 %s" % (plat_tag, it.get("album") or "", it.get("duration") or "")))
@@ -829,7 +829,7 @@ class Spider(Spider):
             for grp, cats in WY_PL_CATS:
                 vals = [{"n": "全部", "v": ""}]
                 vals += [{"n": c, "v": c} for c in cats]
-                groups.append({"key": "pl_cat", "name": grp, "value": vals})
+                groups.append({"key": "pl_" + grp, "name": grp, "value": vals})
             filters[plat] = groups
         return {"class": classes, "filters": filters}
 
@@ -852,10 +852,13 @@ class Spider(Spider):
         2) 没选 → 返回平台热歌榜"""
         try:
             pg = int(pg) or 1
-            # 二级: filter 里的 pl_cat = 歌单分类值
+            # 二级: filter 里任一 pl_xxx key 的值 = 歌单分类值
             pl_cat = ""
             if isinstance(filter, dict):
-                pl_cat = filter.get("pl_cat") or ""
+                for k, v in filter.items():
+                    if k.startswith("pl_") and v:
+                        pl_cat = v
+                        break
             if pl_cat:
                 # 返回该分类的歌单 (纯文字)
                 pls = wy_playlists(pl_cat, pg)
