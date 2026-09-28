@@ -346,7 +346,7 @@ def search_wy(keyword, page=1):
     results = []
     try:
         url = ("https://music.163.com/api/search/get/web?s=" + urllib.parse.quote(keyword) +
-               "&type=1&limit=30&offset=" + str((page - 1) * 30))
+               "&type=1&limit=60&offset=" + str((page - 1) * 60))
         resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "https://music.163.com"}, timeout=8)
         d = json.loads(resp)
         songs = ((d.get("result") or {}).get("songs")) or []
@@ -354,7 +354,7 @@ def search_wy(keyword, page=1):
             name = s.get("name") or ""
             singer = "&".join([a.get("name", "") for a in (s.get("artists") or [])]) or ""
             al = s.get("album") or {}
-            pic = "https://p2.music.126.net/" + (al.get("picId") and (str(al["picId"]) + ".jpg") or "") if al.get("picId") else ""
+            pic = (t.get("artists") or [{}])[0].get("img1v1Url") or ""
             results.append({
                 "name": name,
                 "singer": singer,
@@ -377,7 +377,7 @@ def search_kg(keyword, page=1):
         mid = str(int(time.time() * 1000))
         params = [
             "dfid=-", "mid=" + mid, "uuid=" + mid, "appid=1058", "srcappid=2919",
-            "clientver=1000", "clienttime=" + mid, "pagesize=30", "page=" + str(page),
+            "clientver=1000", "clienttime=" + mid, "pagesize=60", "page=" + str(page),
             "userid=440908392", "token=f7524337c1ae877929a1497cf3d5d37e5c4cb8073fc298e492a67babc376a9d4",
             "keyword=" + urllib.parse.quote(keyword),
             "platid=4", "version=8000", "iscorrection=1", "privilege_filter=0",
@@ -419,7 +419,7 @@ def search_kw(keyword, page=1):
     results = []
     try:
         p = {
-            "rformat": "json", "encoding": "utf8", "ft": "music", "rn": 30,
+            "rformat": "json", "encoding": "utf8", "ft": "music", "rn": 60,
             "pn": str(page - 1), "all": keyword, "vipver": "MUSIC_8.0.3.0_BCS75",
             "mobi": 1, "newsearch": 1, "searchapi": 7, "issubtitle": 1,
             "vermerge": 1, "strategy": 2012, "show_copyright_off": 1,
@@ -491,7 +491,7 @@ def search_qq(keyword, page=1):
             "module": "music.search.SearchCgiService",
             "method": "DoSearchForQQMusicLite",
             "param": {
-                "query": keyword, "search_type": 0, "num_per_page": 30,
+                "query": keyword, "search_type": 0, "num_per_page": 60,
                 "page_num": page, "nqc_flag": 0, "grp": 1,
             }
         }
@@ -620,7 +620,7 @@ def rank_wy(page=1):
             name = t.get("name") or ""
             singer = "&".join([a.get("name", "") for a in (t.get("artists") or [])]) or ""
             al = t.get("album") or {}
-            pic = "https://p2.music.126.net/" + (al.get("picId") and (str(al["picId"]) + ".jpg") or "") if al.get("picId") else ""
+            pic = (t.get("artists") or [{}])[0].get("img1v1Url") or ""
             results.append({
                 "name": name, "singer": singer, "duration": hms(t.get("duration")),
                 "songId": str(t.get("id")), "album": al.get("name") or "",
@@ -725,19 +725,18 @@ def wy_playlists(cat, pg=1):
 
 
 def wy_playlist_songs(pid, pg=1):
-    """取歌单内歌曲"""
+    """取歌单内歌曲 (一次拉全部, 不截断)"""
     results = []
     try:
         url = "https://music.163.com/api/playlist/detail?id=" + pid
         resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "https://music.163.com"}, timeout=10)
         d = json.loads(resp)
         tracks = ((d.get("result") or {}).get("tracks")) or []
-        start = (pg - 1) * 30
-        for t in tracks[start:start + 30]:
+        for t in tracks:
             name = t.get("name") or ""
             singer = "&".join([a.get("name", "") for a in (t.get("artists") or [])]) or ""
             al = t.get("album") or {}
-            pic = "https://p2.music.126.net/" + (al.get("picId") and (str(al["picId"]) + ".jpg") or "") if al.get("picId") else ""
+            pic = (t.get("artists") or [{}])[0].get("img1v1Url") or ""
             results.append({
                 "name": name, "singer": singer, "duration": hms(t.get("duration")),
                 "songId": str(t.get("id")), "album": al.get("name") or "",
@@ -840,10 +839,15 @@ class Spider(Spider):
         return {"class": classes, "filters": filters}
 
     def homeVideoContent(self):
-        """首页推荐: 网易云热歌榜前20首"""
+        """首页推荐: 热门歌单 (用户要求首页用歌单)"""
         try:
-            items = rank_wy(1)[:20]
-            return {"list": _items_to_vods(items, "wy", "网易云")}
+            pls = wy_playlists("全部", 1)
+            vods = []
+            for p in pls[:30]:
+                vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
+                                   remark="[歌单] %s首" % p["count"],
+                                   desc="热门歌单\n创建者: %s" % p["creator"]))
+            return {"list": vods}
         except Exception:
             return {"list": []}
 
@@ -921,19 +925,25 @@ class Spider(Spider):
             if vid.startswith("pl|"):
                 pid = vid[3:]
                 songs = wy_playlist_songs(pid)
-                # 每首歌当一集, 点哪集播哪首
+                # 每首歌当一集, 点哪集播哪首; TVBox 播完自动下一曲
                 eps = []
                 for i, it in enumerate(songs):
                     extra = _build_extra(it)
                     song_vid = _make_vod_id("wy", it["songId"], extra, it.get("name") or "")
                     eps.append("第%d首 %s - %s$%s" % (i + 1, it.get("name") or "", it.get("singer") or "", song_vid))
+                if not eps:
+                    return {"list": []}
+                # 随机播放: 打乱顺序生成第二行
+                import random as _rnd
+                rnd_eps = eps[:]
+                _rnd.shuffle(rnd_eps)
                 vod = {
                     "vod_id": vid,
                     "vod_name": "歌单",
                     "vod_pic": "",
-                    "vod_play_from": "歌词适配",
-                    "vod_play_url": "#".join(eps),
-                    "vod_content": "歌单内歌曲, 点选播放",
+                    "vod_play_from": "顺序播放$$$随机播放",
+                    "vod_play_url": "#".join(eps) + "$$$" + "#".join(rnd_eps),
+                    "vod_content": "歌单内歌曲\n顺序播放: 播完自动下一曲\n随机播放: 打乱顺序播放",
                 }
                 return {"list": [vod]}
             # ===== 单曲 =====
