@@ -166,7 +166,7 @@ class Spider(Spider):
             print('[%s] 搜索失败: %s' % (self.name, e))
             return {'list': [], 'page': pg, 'pagecount': 1}
 
-    def playerContent(self, flag, id, vipFlags):
+    def playerContent(self, flag, id, vipFlags=None):
         try:
             play_url = id
             if not self.isVideoFormat(play_url):
