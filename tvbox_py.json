@@ -1049,15 +1049,6 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
-    },
-    {
-      "key": "py_geci_shipei",
-      "name": "歌词适配[py]",
-      "type": 3,
-      "api": "./py/geci_shipei.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
     }
   ],
   "lives": [
