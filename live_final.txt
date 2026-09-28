@@ -590,6 +590,8 @@ CGTN纪录,https://english-livebkali.cgtn.com/live/doccgtn_0.m3u8
 之江纪录,https://ali-m-l.cztv.com/channels/lantian/channel012/1080p.m3u8
 Discovery探索,http://61.221.215.25:8800/hls/1/index.m3u8
 Discovery亚洲,http://61.221.215.25:8800/hls/50/index.m3u8
+动物世界,http://newcntv.qcloudcdn.com/asp/hls/1200/0303000a/3/default/71d7dce230b74c1b9e35b41e837ffc5f/1200.m3u8
+动物世界,http://61.221.215.25:8800/hls/57/index.m3u8
 动物星球,http://61.221.215.25:8800/hls/57/index.m3u8
 动物星球,https://epg.pw/stream/0e38a2ff528e933b9a9dc37acf08f88b9ac4c118cdbba4ad
 国家地理野生,https://epg.pw/stream/936ec911ca3a23631c8e822081ca3fe8f0e1a93bac068f4d
