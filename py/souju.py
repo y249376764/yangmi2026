@@ -63,7 +63,20 @@ class Spider(Spider):
             'x-ai-movie-protocol-version': '2026-07-05.library-v2.playback-v1',
             'Cookie': 'ai_movie_session=' + self.SESSION,
         })
-        self.classes = []
+        self.classes = [
+            {'type_name': '大家都在看', 'type_id': 'feed_sec_everyone_watching'},
+            {'type_name': '韩剧在追', 'type_id': 'feed_sec_hot_tv_korean'},
+            {'type_name': '日剧上新', 'type_id': 'feed_sec_hot_tv_japanese'},
+            {'type_name': '美剧续看', 'type_id': 'feed_sec_hot_tv_american'},
+            {'type_name': '国产新剧', 'type_id': 'feed_sec_hot_tv_domestic'},
+            {'type_name': '高分电影', 'type_id': 'feed_sec_hot_movie_high_score'},
+            {'type_name': '电影热播', 'type_id': 'feed_sec_hot_movie_hot'},
+            {'type_name': '院线热映', 'type_id': 'feed_sec_hot_movie_nowplaying'},
+            {'type_name': '即将上映', 'type_id': 'feed_sec_hot_movie_upcoming'},
+            {'type_name': '冷门好片', 'type_id': 'feed_sec_hot_movie_hidden_gems'},
+            {'type_name': '动画连载', 'type_id': 'feed_sec_hot_tv_animation'},
+        ]
+        self._feed_cache = None
 
     # ============ 签名 ============
     def _sign_path(self, url, host_old):
@@ -140,23 +153,37 @@ class Spider(Spider):
 
     # ============ 分类 ============
     def _load_classes(self):
+        return list(self.classes)
+
+    def _load_feed(self):
+        if self._feed_cache is not None:
+            return self._feed_cache
+        s = self.sj_get(self.cur_host + '/v1/feed/home?scope=public&mode=preview&sections=11&cards=10')
+        if not s:
+            return None
         try:
-            s = self.sj_get(self.cur_host + '/v1/feed/home?scope=public&mode=preview&sections=11&cards=10')
-            if not s:
-                return []
-            sj = json.loads(s)
-            secs = sj.get('sections') or []
-            arr = []
-            for sec in secs:
-                title = sec.get('title') or ''
-                if not title:
-                    continue
-                cid = sec.get('id') or title
-                arr.append({'type_id': str(cid), 'type_name': title})
-            return arr
-        except Exception as e:
-            print('[搜剧AI] 分类加载失败: %s' % e)
+            self._feed_cache = json.loads(s)
+        except Exception:
+            self._feed_cache = None
+        return self._feed_cache
+
+    def _cards_from_sec(self, sec_id, pg=1, per=20):
+        """按 section id 取卡片, 支持分页"""
+        feed = self._load_feed()
+        if not feed:
             return []
+        secs = feed.get('sections') or []
+        cards = []
+        for sec in secs:
+            if (sec.get('id') or '') == sec_id:
+                cards = sec.get('cards') or []
+                break
+        if not cards:
+            # 兜底: 汇总所有 sections 的卡片
+            for sec in secs:
+                cards.extend(sec.get('cards') or [])
+        start = (pg - 1) * per
+        return cards[start:start + per]
 
     # ============ 首页 ============
     def homeContent(self, filter=False):
@@ -164,16 +191,11 @@ class Spider(Spider):
         if filter:
             result['filters'] = {}
         try:
-            s = self.sj_get(self.cur_host + '/v1/feed/home?scope=public&mode=preview&sections=11&cards=10')
-            if s:
-                sj = json.loads(s)
-                secs = sj.get('sections') or []
+            feed = self._load_feed()
+            if feed:
+                secs = feed.get('sections') or []
                 arr = []
-                if not self.classes:
-                    self.classes = self._load_classes()
-                    result['class'] = self.classes
                 for sec in secs:
-                    title = sec.get('title') or ''
                     cards = sec.get('cards') or []
                     for c in cards:
                         av = c.get('id') or ''
@@ -208,16 +230,11 @@ class Spider(Spider):
     def categoryContent(self, tid, pg, filter=False, extend=False):
         pg = int(pg or 1)
         try:
-            url = '%s/v1/browse/catalog?q=%s&limit=20&page=%d' % (self.cur_host, quote(str(tid)), pg)
-            s = self.sj_get(url)
-            if not s:
-                return {'list': [], 'page': pg, 'pagecount': pg}
-            sj = json.loads(s)
-            cards = sj.get('cards') or []
+            cards = self._cards_from_sec(str(tid), pg, 20)
             arr = []
             seen = set()
             for cd in cards:
-                av = cd.get('selected_variant_id') or cd.get('default_variant_id') or ''
+                av = cd.get('id') or cd.get('selected_variant_id') or cd.get('default_variant_id') or ''
                 if not av.startswith('av_'):
                     continue
                 if av in seen:
@@ -233,7 +250,8 @@ class Spider(Spider):
                 except Exception:
                     pass
                 arr.append(self._entry(av, name, pic, remark))
-            return {'list': arr, 'page': pg, 'pagecount': pg + 1 if arr else pg}
+            has_more = len(cards) >= 20
+            return {'list': arr, 'page': pg, 'pagecount': pg + 1 if has_more else pg}
         except Exception as e:
             print('[搜剧AI] 分类失败: %s' % e)
             return {'list': [], 'page': pg, 'pagecount': pg}
@@ -373,8 +391,7 @@ class Spider(Spider):
             'vod_remarks': str(remark),
         }
 
-    def init(self):
-        self.classes = self._load_classes()
+    def init(self, extend=''):
         return ''
 
     def destroy(self):
