@@ -751,11 +751,11 @@ def wy_playlist_songs(pid, pg=1):
 # ==================== TVBox 蜘蛛接口 (老式 CSP 标准, 参照 juhe_music.py) ====================
 
 def _entry(vod_id, name, pic, remark="", desc=""):
-    """构造 TVBox vod 条目"""
+    """构造 TVBox vod 条目 (纯文字, 不带图)"""
     return {
         "vod_id": vod_id,
         "vod_name": name,
-        "vod_pic": pic or "",
+        "vod_pic": "",
         "vod_remarks": remark,
         "vod_content": desc,
         "type_name": "音乐",
@@ -814,28 +814,17 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        """首页: 四平台分类 + 歌单二级分类 (filters 按一级分类分组!)"""
-        classes = [
-            {"type_id": "wy", "type_name": "网易云热榜"},
-            {"type_id": "kg", "type_name": "酷狗TOP500"},
-            {"type_id": "kw", "type_name": "酷我热歌榜"},
-            {"type_id": "qq", "type_name": "QQ音乐热歌"},
-        ]
-        # 二级分类 = 网易云歌单分类 (语种/风格/场景/情感/主题)
-        # 正确结构: filters[一级type_id] = [筛选组数组], 每组 {key, name, value:[{n,v}]}
-        def pl_groups():
-            groups = []
-            for grp, cats in WY_PL_CATS:
-                vals = [{"n": "全部", "v": ""}]
-                vals += [{"n": c, "v": c} for c in cats]
-                groups.append({"key": "pl_" + grp, "name": grp, "value": vals})
-            return groups
-        filters = {
-            "wy": pl_groups(),
-            "kg": pl_groups(),
-            "kw": pl_groups(),
-            "qq": pl_groups(),
-        }
+        """首页: 一级分类 = 歌单分类组, 二级 = 具体分类值 (全歌单体系)"""
+        # 一级分类: 歌单分类组 (语种/风格/场景/情感/主题)
+        classes = []
+        for grp, cats in WY_PL_CATS:
+            classes.append({"type_id": grp, "type_name": grp + "歌单"})
+        # 二级分类: 每个一级组下的具体分类值
+        filters = {}
+        for grp, cats in WY_PL_CATS:
+            vals = [{"n": "全部", "v": ""}]
+            vals += [{"n": c, "v": c} for c in cats]
+            filters[grp] = [{"key": "pl_cat", "name": grp, "value": vals}]
         return {"class": classes, "filters": filters}
 
     def homeVideoContent(self):
@@ -852,45 +841,30 @@ class Spider(Spider):
             return {"list": []}
 
     def categoryContent(self, tid, pg, filter, extend):
-        """分类页: 
-        1) filter 有歌单分类 (pl_xxx=值) → 返回该分类热门歌单
-        2) 否则 → 返回该平台热歌榜
-        """
+        """分类页: tid=歌单分类组(语种/风格/场景/情感/主题), filter.pl_cat=具体值
+        返回该分类的热门歌单 (纯文字)"""
         try:
             pg = int(pg) or 1
-            # 歌单二级分类: filter 里 pl_xxx = 歌单分类
+            # 二级: filter 里的 pl_cat = 具体分类值
             pl_cat = ""
             if isinstance(filter, dict):
-                for k, v in filter.items():
-                    if k.startswith("pl_") and v:
-                        pl_cat = v
+                pl_cat = filter.get("pl_cat") or ""
+            if not pl_cat:
+                # 没选二级: 用该组第一个分类值 (或"全部")
+                for grp, cats in WY_PL_CATS:
+                    if grp == tid:
+                        pl_cat = cats[0] if cats else ""
                         break
-            if pl_cat:
-                # 返回该分类的歌单
-                pls = wy_playlists(pl_cat, pg)
-                vods = []
-                for p in pls:
-                    vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
-                                       remark="[歌单] %s首" % p["count"],
-                                       desc="歌单分类: %s\n创建者: %s" % (pl_cat, p["creator"])))
-                return {"list": vods}
-            # 平台热歌榜
-            if tid == "wy":
-                items = rank_wy(pg)
-                tag = "网易云"
-            elif tid == "kg":
-                items = rank_kg(pg)
-                tag = "酷狗"
-            elif tid == "kw":
-                items = rank_kw(pg)
-                tag = "酷我"
-            elif tid == "qq":
-                items = rank_wy(pg)  # QQ 热歌暂用网易云榜
-                tag = "QQ音乐"
-            else:
-                items = []
-                tag = tid
-            return {"list": _items_to_vods(items, tid, tag)}
+            if not pl_cat:
+                return {"list": []}
+            # 返回该分类的歌单 (纯文字)
+            pls = wy_playlists(pl_cat, pg)
+            vods = []
+            for p in pls:
+                vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
+                                   remark="[歌单] %s首" % p["count"],
+                                   desc="歌单分类: %s\n创建者: %s" % (pl_cat, p["creator"])))
+            return {"list": vods}
         except Exception:
             return {"list": []}
 
@@ -987,13 +961,16 @@ class Spider(Spider):
             return {"list": []}
 
     def playerContent(self, flag, id, vipFlags=None):
-        """播放: 直链已在详情解析好, 剥掉'播放$'前缀返回"""
+        """播放: 直链已在详情解析好, 剥掉'播放$'前缀和#isMusic=true标记"""
         try:
             u = id
             if u.startswith("播放$"):
                 u = u[3:]
             if u.startswith("$"):
                 u = u[1:]
+            # 去掉海阔专用标记 #isMusic=true (TVBox 不需要, 会干扰播放)
+            if "#isMusic" in u:
+                u = u.split("#isMusic")[0]
             return {"parse": 0, "url": u, "header": {}}
         except Exception:
             return {"parse": 0, "url": id, "header": {}}
