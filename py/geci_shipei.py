@@ -701,14 +701,31 @@ class Spider(object):
                            "filterable": 0, "type": 3}, ensure_ascii=False)
 
     def homeContent(self, filter_=False):
-        """首页: 四平台分类 (点进去是该平台热歌榜)"""
+        """首页: 四平台分类 + 首页推荐热歌 (合并返回, 否则主页空白)"""
         classes = [
             {"type_id": "wy", "type_name": "网易云热榜"},
             {"type_id": "kg", "type_name": "酷狗TOP500"},
             {"type_id": "kw", "type_name": "酷我热歌榜"},
             {"type_id": "qq", "type_name": "QQ音乐热歌"},
         ]
-        result = {"class": classes, "filters": {}}
+        # 首页推荐: 网易云热歌榜前20首
+        vod_list = []
+        try:
+            for it in rank_wy(1)[:20]:
+                extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
+                         "singer": it.get("singer") or "", "mid": it.get("songId"),
+                         "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
+                         "mediaMid": ""}
+                vod_id = "wy|%s|128k|%s|%s" % (it["songId"],
+                                               urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
+                                               urllib.parse.quote(it.get("name") or ""))
+                name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
+                vod_list.append(_entry(vod_id, name, it.get("pic") or "",
+                                       remark="[网易云] %s" % (it.get("duration") or ""),
+                                       desc="网易云《%s》 %s" % (it.get("album") or "", it.get("duration") or "")))
+        except Exception:
+            pass
+        result = {"class": classes, "filters": {}, "list": vod_list}
         return json.dumps(result, ensure_ascii=False)
 
     def category(self, tid, pg, filter_=False, ext=""):
