@@ -5,8 +5,73 @@ from base.spider import Spider as BaseSpider
 try:
     from bs4 import BeautifulSoup
 except ImportError:
-    # 环境无 bs4 时用正则降级（后续解析会走非bs4分支）
-    BeautifulSoup = None
+    # 环境无 bs4 时用 html.parser 标准库实现迷你兼容层
+    from html.parser import HTMLParser as _HTMLParser
+
+    class _MiniSoup:
+        def __init__(self, html, parser='html.parser'):
+            self._html = html or ''
+            self._parser = parser
+        def select(self, sel):
+            return _css_select(self._html, sel)
+        def select_one(self, sel):
+            res = _css_select(self._html, sel)
+            return res[0] if res else None
+        def get_text(self, strip=False):
+            txt = re.sub(r'<[^>]+>', '', self._html)
+            return txt.strip() if strip else txt
+        def get(self, key, default=None):
+            m = re.search(r'<[^>]+\b' + re.escape(key) + r'\s*=\s*["\']([^"\']*)["\']', self._html, re.I)
+            return m.group(1) if m else default
+        def __getitem__(self, key):
+            return self.get(key)
+
+    def _css_select(html, sel):
+        # 支持本文件用到的选择器：类选择器(.a .b) 和 标签+类组合(div.class, a.class)
+        from html.parser import HTMLParser
+        parts = [p.strip() for p in sel.split() if p.strip()]
+        # 先按最后一个选择器取元素
+        last = parts[-1]
+        tag, cls = '', ''
+        m = re.match(r'^([a-zA-Z0-9]*)[.#]?([a-zA-Z0-9_-]+)?$', last)
+        if m:
+            tag, cls = m.group(1), m.group(2)
+        # 用正则匹配元素边界
+        if tag and cls:
+            pat = re.compile(r'<'+tag+r'[^>]*class="[^"]*'+re.escape(cls)+r'[^"]*"[^>]*>', re.I)
+        elif cls:
+            pat = re.compile(r'<[a-zA-Z0-9]+[^>]*class="[^"]*'+re.escape(cls)+r'[^"]*"[^>]*>', re.I)
+        elif tag:
+            pat = re.compile(r'<'+tag+r'[^>]*>', re.I)
+        else:
+            return []
+        results = []
+        for m in pat.finditer(html):
+            # 找对应闭合标签
+            start = m.end()
+            t = m.group(0)
+            tname = re.match(r'<([a-zA-Z0-9]+)', t).group(1)
+            depth = 1
+            # 简单配对（忽略嵌套同名）
+            close_pat = re.compile(r'</'+tname+r'>', re.I)
+            open_pat = re.compile(r'<'+tname+r'[^>]*>', re.I)
+            pos = start
+            while depth > 0 and pos < len(html):
+                c = close_pat.search(html, pos)
+                o = open_pat.search(html, pos)
+                if o and o.start() < (c.start() if c else len(html)):
+                    depth += 1; pos = o.end()
+                elif c:
+                    depth -= 1; pos = c.end()
+                else:
+                    break
+            elem_html = html[m.start():pos if depth == 0 else len(html)]
+            results.append(_MiniSoup(elem_html))
+        return results
+
+    class BeautifulSoup(_MiniSoup):
+        def __init__(self, html, parser='html.parser'):
+            super().__init__(html, parser)
 
 SITES, TAG, UA = ['https://www.cd-zj.com', 'https://maihaolian.com', "https://zzztool.com"], "枫叶4K", "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/150.0.0.0 Mobile"
 SITE = SITES[0]
@@ -111,7 +176,7 @@ class Spider(BaseSpider):
 
     def init(self, extend=""):
         global SITE, SITES, HDRS
-        self.log("[init] 初始化开始"); self.sess = requests.Session(); self.sess.headers.update(HDRS)
+        self.log("[init] 初始化开始"); self.sess = requests.Session(); self.sess.headers.update(HDRS); self._cookie_cache = None
         if isinstance(extend, str) and extend:
             try:
                 ext_dict = json.loads(extend)
@@ -119,7 +184,7 @@ class Spider(BaseSpider):
                     SITES, idx = ext_dict['sites'], int(ext_dict.get('sitesIndex', 0))
                     SITE = SITES[idx if 0 <= idx < len(SITES) else 0]; HDRS["Referer"] = SITE + "/"
             except Exception: pass
-        cached_cookie = self.getCache("cd_zj_cookie")
+        cached_cookie = getattr(self, "_cookie_cache", None)
         if cached_cookie:
             for item in str(cached_cookie).split(";"):
                 if "=" in item:
@@ -151,7 +216,7 @@ class Spider(BaseSpider):
                     r2 = self.sess.get(SITE + "/", headers=HDRS, timeout=20); r2.encoding = 'utf-8'
                     if "系统安全验证" not in r2.text:
                         mac_v, ver_s = self.sess.cookies.get("mac_verify", ""), self.sess.cookies.get("verify_success", "1")
-                        if mac_v: self.setCache("cd_zj_cookie", f"mac_verify={mac_v};verify_success={ver_s};")
+                        if mac_v: self._cookie_cache = f"mac_verify={mac_v};verify_success={ver_s};"
                         return True
                 except Exception: return True
             time.sleep(1.5)
