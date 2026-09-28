@@ -57,9 +57,15 @@ function parseListJson(jsonStr) {
     return list;
 }
 
-async function fetchList(type, pg, by) {
+async function fetchList(type, pg, by, filter) {
     pg = pg || 1;
-    let data = 'type=' + (type || '') + '&class=&area=&year=&lang=&version=&state=&letter=&by=' + (by || 'time') + '&level=0&weekday=&page=' + pg;
+    filter = filter || {};
+    // 二级筛选: 类型/地区/年份/语言 (filter 是 {key: value})
+    let cls = filter['class'] || '';
+    let area = filter['area'] || '';
+    let year = filter['year'] || '';
+    let lang = filter['lang'] || '';
+    let data = 'type=' + (type || '') + '&class=' + encodeURIComponent(cls) + '&area=' + encodeURIComponent(area) + '&year=' + encodeURIComponent(year) + '&lang=' + encodeURIComponent(lang) + '&version=&state=&letter=&by=' + (by || 'time') + '&level=0&weekday=&page=' + pg;
     let json = await getHtml(host + '/index.php/ds_api/vod', data);
     let list = parseListJson(json);
     let pagecount = 1;
@@ -76,11 +82,32 @@ async function fetchList(type, pg, by) {
 async function init(cfg) {}
 
 /**
- * 首页分类
+ * 首页分类 (带二级筛选: 类型/地区/年份/语言/版本/状态)
  */
 async function home(filter) {
     let classes = CATS.map(c => ({ type_id: String(c[1]), type_name: c[0] }));
-    return JSON.stringify({ class: classes, filters: {} });
+    let filters = {
+        'class': { key: 'class', name: '类型', value: [
+            {n: '全部', v: ''}, {n: '剧情', v: '剧情'}, {n: '动作', v: '动作'}, {n: '爱情', v: '爱情'}, {n: '科幻', v: '科幻'},
+            {n: '喜剧', v: '喜剧'}, {n: '悬疑', v: '悬疑'}, {n: '惊悚', v: '惊悚'}, {n: '战争', v: '战争'}, {n: '犯罪', v: '犯罪'},
+            {n: '恐怖', v: '恐怖'}, {n: '冒险', v: '冒险'}, {n: '动画', v: '动画'}, {n: '纪录', v: '纪录'}, {n: '奇幻', v: '奇幻'}
+        ]},
+        'area': { key: 'area', name: '地区', value: [
+            {n: '全部', v: ''}, {n: '大陆', v: '大陆'}, {n: '香港', v: '香港'}, {n: '台湾', v: '台湾'}, {n: '美国', v: '美国'},
+            {n: '韩国', v: '韩国'}, {n: '日本', v: '日本'}, {n: '英国', v: '英国'}, {n: '法国', v: '法国'}, {n: '泰国', v: '泰国'},
+            {n: '印度', v: '印度'}, {n: '其他', v: '其他'}
+        ]},
+        'year': { key: 'year', name: '年份', value: [
+            {n: '全部', v: ''}, {n: '2026', v: '2026'}, {n: '2025', v: '2025'}, {n: '2024', v: '2024'}, {n: '2023', v: '2023'},
+            {n: '2022', v: '2022'}, {n: '2021', v: '2021'}, {n: '2020', v: '2020'}, {n: '2019', v: '2019'}, {n: '2018', v: '2018'},
+            {n: '2017', v: '2017'}, {n: '更早', v: '2016'}
+        ]},
+        'lang': { key: 'lang', name: '语言', value: [
+            {n: '全部', v: ''}, {n: '国语', v: '国语'}, {n: '粤语', v: '粤语'}, {n: '英语', v: '英语'}, {n: '日语', v: '日语'},
+            {n: '韩语', v: '韩语'}, {n: '法语', v: '法语'}, {n: '其他', v: '其他'}
+        ]}
+    };
+    return JSON.stringify({ class: classes, filters: filters });
 }
 
 /**
@@ -92,10 +119,10 @@ async function homeVod() {
 }
 
 /**
- * 分类列表
+ * 分类列表 (支持二级筛选: filter 为 {class/area/year/lang: value})
  */
 async function category(tid, pg, filter, extend) {
-    let r = await fetchList(tid, pg);
+    let r = await fetchList(tid, pg, 'time', filter || {});
     return JSON.stringify({ page: r.page, pagecount: r.pagecount, list: r.list });
 }
 
