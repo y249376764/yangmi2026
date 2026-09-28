@@ -1017,27 +1017,47 @@
     {
       "key": "py_dashixiong",
       "name": "大师兄影视[py]",
-      "api": "./py/大师兄影视.py"
+      "api": "./py/大师兄影视.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "py_fandazi",
       "name": "饭搭子影视[py]",
-      "api": "./py/饭搭子.py"
+      "api": "./py/饭搭子.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "py_fengye4k",
       "name": "枫叶4K[py]",
-      "api": "./py/枫叶4K.py"
+      "api": "./py/枫叶4K.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "py_wangfei",
       "name": "网飞[py]",
-      "api": "./py/网飞.py"
+      "api": "./py/网飞.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     },
     {
       "key": "py_zuiying",
       "name": "追影[py]",
-      "api": "./py/追影.py"
+      "api": "./py/追影.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
   ],
   "lives": [
