@@ -1031,6 +1031,24 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+    {
+      "key": "py_fengye4k",
+      "name": "枫叶4K[py]",
+      "api": "./py/fengye4k.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "py_wangfei",
+      "name": "网飞[py]",
+      "api": "./py/wangfei.py",
+      "type": 3,
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
   ],
   "lives": [
