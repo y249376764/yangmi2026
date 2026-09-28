@@ -463,46 +463,60 @@ def _qq_zzb_sign(post_body):
     return sign
 
 
+def _qq_get_comm():
+    """QQ comm 完整字段 (原版 getComm 移植)"""
+    cv = 948168827
+    return {
+        "cv": cv, "ct": 11, "format": "json", "inCharset": "utf-8", "outCharset": "utf-8",
+        "notice": 0, "platform": "yqq.json", "needNewCode": 1, "uin": cv,
+        "g_tk_new_20200303": cv, "g_tk": cv, "tmeAppID": "qqmusiclight",
+        "nettype": "NETWORK_WIFI", "tmeLoginType": "2", "devicelevel": "31",
+        "os_ver": 11, "v": cv, "qq": cv, "authst": "", "tmeLoginMethod": "1",
+        "fPersonality": "0", "phonetype": "0",
+    }
+
+
 def search_qq(keyword, page=1):
-    """QQ音乐搜索 (musicu.fcg + zzb 签名)"""
+    """QQ音乐搜索 (原版完整逻辑: musicu.fcg + zzb签名 + data包裹 + 完整comm)"""
     results = []
     try:
-        req = {
-            "req_0": {
-                "module": "music.search.SearchCgiService",
-                "method": "DoSearchForQQMusicLite",
-                "param": {
-                    "num_per_page": 30, "page_num": str(page), "query": keyword,
-                    "search_type": 0, "grp": 1, "nqc_flag": 0,
-                }
-            },
-            "comm": {
-                "uin": 0, "format": "json", "ct": 24, "cv": 0,
-                "platform": "yqq.json", "needNewCode": 1,
+        data = {
+            "module": "music.search.SearchCgiService",
+            "method": "DoSearchForQQMusicLite",
+            "param": {
+                "query": keyword, "search_type": 0, "num_per_page": 30,
+                "page_num": page, "nqc_flag": 0, "grp": 1,
             }
         }
-        body = json.dumps(req, separators=(",", ":"))
+        # 原版 body: {data: 请求, comm: getComm()}
+        body = json.dumps({"data": data, "comm": _qq_get_comm()}, separators=(",", ":"))
         sign = _qq_zzb_sign(body)
-        # 带 sign 的 musics.fcg
         url = ("https://u6.y.qq.com/cgi-bin/musics.fcg?_=" + str(int(time.time() * 1000)) +
                "&sign=" + sign)
         resp = http_post(url, data=body,
-                         headers={"Referer": "https://y.qq.com/", "User-Agent": UA_PC,
+                         headers={"Referer": "https://y.qq.com/",
+                                  "User-Agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
+                                  "Cookie": "qm_keyst=Q_H_L_5FBMRs-uicpIQo8Ymt3v0w1f0DAyJwQMdLJPVKmmOQZRQZkuz8AfB1Q; uin=948168827;",
                                   "Content-Type": "application/json"}, timeout=8)
         d = json.loads(resp)
-        songs = (((d.get("req_0") or {}).get("data") or {}).get("body") or {}).get("song") or {}
-        for s in (songs.get("list") or []):
+        # 新版响应路径: data.data.body.item_song (数组)
+        body_resp = ((d.get("data") or {}).get("data") or {}).get("body") or {}
+        songs = body_resp.get("item_song") or []
+        for s in songs:
             mid = s.get("mid") or s.get("songmid") or ""
-            name = s.get("name") or s.get("title") or ""
+            name = s.get("name") or s.get("title") or s.get("songname") or ""
             singer = "&".join([x.get("name", "") for x in (s.get("singer") or [])]) or s.get("singername") or ""
             album = s.get("album") or {}
+            f = s.get("file") or {}
+            pic = "https://y.gtimg.cn/music/photo_new/T002R500x500M000" + (album.get("mid") or "") + ".jpg"
             results.append({
                 "name": name,
                 "singer": singer,
                 "duration": hms((s.get("interval") or 0) * 1000),
                 "songId": mid,
                 "album": album.get("name") or s.get("albumname") or "",
-                "pic": "https://y.gtimg.cn/music/photo_new/T002R500x500M000" + (album.get("mid") or "") + ".jpg",
+                "pic": pic,
+                "strMediaMid": f.get("media_mid") or "",
                 "platform": "qq",
                 "qualitys": [],
             })
@@ -565,11 +579,20 @@ def lyric_kw(rid):
 
 
 def lyric_qq(songmid):
+    """QQ歌词 (musicu.fcg PlayLyricInfo, lyric 字段 base64)"""
     try:
-        url = "https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg?nobase64=1&songmid=" + songmid
-        resp = http_get(url, headers={"Referer": "https://y.qq.com/"}, timeout=8)
+        import urllib.parse as up
+        req = {"req_0": {"module": "music.musichallSong.PlayLyricInfo", "method": "GetPlayLyricInfo",
+                         "param": {"songMID": songmid, "songType": 0}},
+               "comm": {"uin": 948168827, "format": "json", "ct": 11, "cv": 948168827}}
+        url = "https://u.y.qq.com/cgi-bin/musicu.fcg?format=json&data=" + up.quote(json.dumps(req))
+        resp = http_get(url, headers={"Referer": "https://y.qq.com/", "User-Agent": UA_PC,
+                                      "Cookie": "qm_keyst=Q_H_L_5FBMRs-uicpIQo8Ymt3v0w1f0DAyJwQMdLJPVKmmOQZRQZkuz8AfB1Q; uin=948168827;"}, timeout=8)
         d = json.loads(resp)
-        return d.get("lyric") or ""
+        lyric_b64 = ((d.get("req_0") or {}).get("data") or {}).get("lyric") or ""
+        if lyric_b64:
+            return base64.b64decode(lyric_b64).decode("utf-8", "replace")
+        return ""
     except Exception:
         return ""
 
@@ -631,7 +654,7 @@ class Spider(object):
             name = urllib.parse.unquote(parts[4]) if len(parts) > 4 else ""
             # 依次尝试音质
             urls = []
-            # qq 搜索降级用的是网易云 ID, 播放走网易云线路; 若真是 QQ mid 则由 vkeys 线路兜底
+            # qq 搜索结果若为纯数字(降级兜底)走网易云线路; 真实 QQ mid(字母数字)走 vkeys/QQvkey/长青海棠
             play_plat = "wy" if (plat == "qq" and sid.isdigit()) else plat
             for q in ([quality, "320k", "flac"] if quality != "flac" else [quality]):
                 u = _play_url(play_plat, sid, q, extra, name)
@@ -641,12 +664,14 @@ class Spider(object):
             # 附带歌词 (供播放器滚动)
             lrc = ""
             try:
-                if plat in ("wy", "qq"):  # qq 搜索结果可能是网易云兜底, 歌词用网易云
+                if plat == "wy":
                     lrc = lyric_wy(sid)
                 elif plat == "kg":
                     lrc = lyric_kg(sid)
                 elif plat == "kw":
                     lrc = lyric_kw(sid)
+                elif plat == "qq":
+                    lrc = lyric_qq(sid) or (lyric_wy(sid) if sid.isdigit() else "")
             except Exception:
                 lrc = ""
             vod = {
@@ -666,7 +691,7 @@ class Spider(object):
         return json.dumps({"url": "", "parse": 0, "header": ""}, ensure_ascii=False)
 
     def searchContent(self, key, quick=False, pg=1):
-        """四平台搜索 (wy/kg/kw 真实; qq 官方搜索风控时自动降级网易云结果, 播放仍走QQ线路)"""
+        """四平台搜索 (wy/kg/kw/qq 全部真实搜索)"""
         results = []
         for plat in ["wy", "kg", "kw", "qq"]:
             try:
@@ -677,12 +702,12 @@ class Spider(object):
                 elif plat == "kw":
                     items = search_kw(key, pg)
                 else:
-                    items = search_qq(key, pg) or search_wy(key, pg)  # qq 失败降级网易云
+                    items = search_qq(key, pg)
                 for it in items:
                     extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
                              "singer": it.get("singer") or "", "mid": it.get("songId"),
                              "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
-                             "mediaMid": ""}
+                             "mediaMid": it.get("strMediaMid") or ""}
                     vod_id = "%s|%s|128k|%s|%s" % (plat, it["songId"],
                                                    urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
                                                    urllib.parse.quote(it.get("name") or ""))
