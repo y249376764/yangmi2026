@@ -814,17 +814,23 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        """首页: 一级分类 = 歌单分类组, 二级 = 具体分类值 (全歌单体系)"""
-        # 一级分类: 歌单分类组 (语种/风格/场景/情感/主题)
-        classes = []
-        for grp, cats in WY_PL_CATS:
-            classes.append({"type_id": grp, "type_name": grp + "歌单"})
-        # 二级分类: 每个一级组下的具体分类值
+        """首页: 一级分类 = 平台 (网易云/酷狗/酷我/QQ音乐), 二级 = 歌单分类组"""
+        classes = [
+            {"type_id": "wy", "type_name": "网易云"},
+            {"type_id": "kg", "type_name": "酷狗"},
+            {"type_id": "kw", "type_name": "酷我"},
+            {"type_id": "qq", "type_name": "QQ音乐"},
+        ]
+        # 二级分类 (每个平台下都有): 歌单分类组 (语种/风格/场景/情感/主题)
+        # 每个组里放具体分类值
         filters = {}
-        for grp, cats in WY_PL_CATS:
-            vals = [{"n": "全部", "v": ""}]
-            vals += [{"n": c, "v": c} for c in cats]
-            filters[grp] = [{"key": "pl_cat", "name": grp, "value": vals}]
+        for plat in ["wy", "kg", "kw", "qq"]:
+            groups = []
+            for grp, cats in WY_PL_CATS:
+                vals = [{"n": "全部", "v": ""}]
+                vals += [{"n": c, "v": c} for c in cats]
+                groups.append({"key": "pl_cat", "name": grp, "value": vals})
+            filters[plat] = groups
         return {"class": classes, "filters": filters}
 
     def homeVideoContent(self):
@@ -841,30 +847,41 @@ class Spider(Spider):
             return {"list": []}
 
     def categoryContent(self, tid, pg, filter, extend):
-        """分类页: tid=歌单分类组(语种/风格/场景/情感/主题), filter.pl_cat=具体值
-        返回该分类的热门歌单 (纯文字)"""
+        """分类页: tid=平台(wy/kg/kw/qq), filter.pl_cat=歌单分类值
+        1) 选了歌单分类 → 返回该分类歌单
+        2) 没选 → 返回平台热歌榜"""
         try:
             pg = int(pg) or 1
-            # 二级: filter 里的 pl_cat = 具体分类值
+            # 二级: filter 里的 pl_cat = 歌单分类值
             pl_cat = ""
             if isinstance(filter, dict):
                 pl_cat = filter.get("pl_cat") or ""
-            if not pl_cat:
-                # 没选二级: 用该组第一个分类值 (或"全部")
-                for grp, cats in WY_PL_CATS:
-                    if grp == tid:
-                        pl_cat = cats[0] if cats else ""
-                        break
-            if not pl_cat:
-                return {"list": []}
-            # 返回该分类的歌单 (纯文字)
-            pls = wy_playlists(pl_cat, pg)
-            vods = []
-            for p in pls:
-                vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
-                                   remark="[歌单] %s首" % p["count"],
-                                   desc="歌单分类: %s\n创建者: %s" % (pl_cat, p["creator"])))
-            return {"list": vods}
+            if pl_cat:
+                # 返回该分类的歌单 (纯文字)
+                pls = wy_playlists(pl_cat, pg)
+                vods = []
+                for p in pls:
+                    vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
+                                       remark="[歌单] %s首" % p["count"],
+                                       desc="歌单分类: %s\n创建者: %s" % (pl_cat, p["creator"])))
+                return {"list": vods}
+            # 没选二级: 平台热歌榜 (纯文字)
+            if tid == "wy":
+                items = rank_wy(pg)
+                tag = "网易云"
+            elif tid == "kg":
+                items = rank_kg(pg)
+                tag = "酷狗"
+            elif tid == "kw":
+                items = rank_kw(pg)
+                tag = "酷我"
+            elif tid == "qq":
+                items = rank_wy(pg)  # QQ 热歌暂用网易云榜
+                tag = "QQ音乐"
+            else:
+                items = []
+                tag = tid
+            return {"list": _items_to_vods(items, tid, tag)}
         except Exception:
             return {"list": []}
 
@@ -886,6 +903,15 @@ class Spider(Spider):
             if k not in seen:
                 seen.add(k)
                 dedup.append(v)
+        # 排序: 歌名精确匹配优先, 其次以关键词开头, 再按名称
+        def _rk(v):
+            n = (v.get("vod_name") or "").lower()
+            if n == key.lower():
+                return (0, n)
+            if n.startswith(key.lower()):
+                return (1, n)
+            return (2, n)
+        dedup.sort(key=_rk)
         return {"list": dedup}
 
     def detailContent(self, ids):
@@ -961,7 +987,7 @@ class Spider(Spider):
             return {"list": []}
 
     def playerContent(self, flag, id, vipFlags=None):
-        """播放: 直链已在详情解析好, 剥掉'播放$'前缀和#isMusic=true标记"""
+        """播放: 直链已在详情解析好, 剥掉'播放$'前缀和#isMusic=true标记, 带header"""
         try:
             u = id
             if u.startswith("播放$"):
@@ -971,7 +997,14 @@ class Spider(Spider):
             # 去掉海阔专用标记 #isMusic=true (TVBox 不需要, 会干扰播放)
             if "#isMusic" in u:
                 u = u.split("#isMusic")[0]
-            return {"parse": 0, "url": u, "header": {}}
+            # http 升级 https (播放器安全限制/防盗链)
+            if u.startswith("http://"):
+                u = u.replace("http://", "https://", 1)
+            # 带 UA + Referer header (防盗链源需要)
+            header = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+            }
+            return {"parse": 0, "url": u, "header": header}
         except Exception:
             return {"parse": 0, "url": id, "header": {}}
 
