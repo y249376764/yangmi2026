@@ -521,13 +521,70 @@ CHC动作电影,http://103.236.77.86:29824/644368714
 乌兰察布新闻,https://livestream-bt.nmtv.cn/nmtv/2354general.m3u8?txSecret=cf5f71d0000862b18f5813607b3dfd5b&txTime=771E8800
 
 音乐电台,#genre#
-广东音乐之声 FM99.3,http://live.xmcdn.com/live/74/64.m3u8
-河北音乐广播,https://satellitepull.cnr.cn/live/wxhebyygb/playlist.m3u8
-江苏经典流行音乐,https://satellitepull.cnr.cn/live/wx32jsjdlxyy/playlist.m3u8
-湖北经典音乐,https://satellitepull.cnr.cn/live/wx32hubyygb/playlist.m3u8
-山东音乐广播,https://satellitepull.cnr.cn/live/wxsdyygb/playlist.m3u8
-海南音乐广播,https://satellitepull.cnr.cn/live/wxhainyygb/playlist.m3u8
-贵州音乐广播,https://satellitepull.cnr.cn/live/wx32gzyygb/playlist.m3u8
-云南音乐广播,https://satellitepull.cnr.cn/live/wxynyygb/playlist.m3u8
-陕西音乐广播,https://satellitepull.cnr.cn/live/wxsxxyygb/playlist.m3u8
-重庆音乐广播,https://satellitepull.cnr.cn/live/wxcqyygb/playlist.m3u8
+清晨音乐台,http://live.xmcdn.com/live/1011/64.m3u8
+怀集音乐之声,http://live.xmcdn.com/live/966/64.m3u8
+江苏经典流行音乐,http://live.xmcdn.com/live/538/64.m3u8
+河北音乐广播,http://live.xmcdn.com/live/494/64.m3u8
+AsiaFM亚洲粤语台,http://live.xmcdn.com/live/999/64.m3u8
+上海Love Radio,http://live.xmcdn.com/live/55/64.m3u8
+北京音乐广播,http://live.xmcdn.com/live/95/64.m3u8
+苏州音乐广播,http://live.xmcdn.com/live/65/64.m3u8
+上海动感101,http://live.xmcdn.com/live/53/64.m3u8
+AsiaFM HD音乐台,http://live.xmcdn.com/live/1427/64.m3u8
+南京音乐广播,http://live.xmcdn.com/live/71/64.m3u8
+959年代音乐怀旧好声音,http://live.xmcdn.com/live/964/64.m3u8
+广东音乐之声,http://live.xmcdn.com/live/74/64.m3u8
+浙江音乐调频,http://live.xmcdn.com/live/637/64.m3u8
+AsiaFM亚洲经典台,http://live.xmcdn.com/live/1005/64.m3u8
+怀集音乐之声第二台,http://live.xmcdn.com/live/1205/64.m3u8
+山西音乐广播,http://live.xmcdn.com/live/886/64.m3u8
+四川城市之音,http://live.xmcdn.com/live/755/64.m3u8
+江苏音乐广播PlayFM89.7,http://live.xmcdn.com/live/537/64.m3u8
+上海城市沸点FM100.1,http://live.xmcdn.com/live/1236/64.m3u8
+重庆音乐广播,http://live.xmcdn.com/live/131/64.m3u8
+云南音乐广播,http://live.xmcdn.com/live/904/64.m3u8
+FM950广西音乐台,http://live.xmcdn.com/live/301/64.m3u8
+山东音乐频道,http://live.xmcdn.com/live/794/64.m3u8
+AsiaFM亚洲音乐台,http://live.xmcdn.com/live/764/64.m3u8
+深圳飞扬971,http://live.xmcdn.com/live/263/64.m3u8
+安徽音乐广播,http://live.xmcdn.com/live/136/64.m3u8
+上海经典947,http://live.xmcdn.com/live/54/64.m3u8
+山东经典音乐广播,http://live.xmcdn.com/live/802/64.m3u8
+西安音乐广播,http://live.xmcdn.com/live/1442/64.m3u8
+哈尔滨音乐广播,http://live.xmcdn.com/live/386/64.m3u8
+流行音乐先锋FM90.0 My Radio,http://live.xmcdn.com/live/468/64.m3u8
+广西女主播电台,http://live.xmcdn.com/live/300/64.m3u8
+广州金曲音乐广播,http://live.xmcdn.com/live/257/64.m3u8
+陕西音乐广播,http://live.xmcdn.com/live/867/64.m3u8
+济南音乐广播Music88.7,http://live.xmcdn.com/live/799/64.m3u8
+温州音乐之声,http://live.xmcdn.com/live/642/64.m3u8
+年代音乐88.9&103.2,http://live.xmcdn.com/live/763/64.m3u8
+保定1058飞扬调频汽车音乐广播,http://live.xmcdn.com/live/521/64.m3u8
+无锡音乐广播,http://live.xmcdn.com/live/561/64.m3u8
+河南音乐广播,http://live.xmcdn.com/live/465/64.m3u8
+郑州经典1079,http://live.xmcdn.com/live/476/64.m3u8
+江西潮台969,http://live.xmcdn.com/live/613/64.m3u8
+亚洲音乐成都FM96.5,http://live.xmcdn.com/live/1003/64.m3u8
+1047 Nice Fm,http://live.xmcdn.com/live/643/64.m3u8
+石家庄音乐广播,http://live.xmcdn.com/live/504/64.m3u8
+FM898汽车音乐广播,http://live.xmcdn.com/live/2265/64.m3u8
+陕西青少广播,http://live.xmcdn.com/live/870/64.m3u8
+FM105.6,http://live.xmcdn.com/live/325/64.m3u8
+湖州交通文艺广播,http://live.xmcdn.com/live/656/64.m3u8
+烟台音乐广播FM105.9,http://live.xmcdn.com/live/2152/64.m3u8
+南通生活广播,http://live.xmcdn.com/live/742/64.m3u8
+郑州音乐广播,http://live.xmcdn.com/live/475/64.m3u8
+东营交通音乐广播,http://live.xmcdn.com/live/835/64.m3u8
+听梦想FM,http://live.xmcdn.com/live/1015/64.m3u8
+洛阳音乐广播,http://live.xmcdn.com/live/493/64.m3u8
+秦皇岛体育音乐广播,http://live.xmcdn.com/live/522/64.m3u8
+江西音乐广播,http://live.xmcdn.com/live/608/64.m3u8
+常州音乐广播,http://live.xmcdn.com/live/80/64.m3u8
+Big Big MIX,http://live.xmcdn.com/live/1027/64.m3u8
+FM103.5绍兴音乐广播,http://live.xmcdn.com/live/670/64.m3u8
+德阳经济生活广播,http://live.xmcdn.com/live/1250/64.m3u8
+邯郸音乐广播,http://live.xmcdn.com/live/1125/64.m3u8
+大庆音乐广播,http://live.xmcdn.com/live/1081/64.m3u8
+宁波音乐广播私家车986,http://live.xmcdn.com/live/660/64.m3u8
+扬州音乐广播,http://live.xmcdn.com/live/67/64.m3u8
+淮安汽车音乐广播,http://live.xmcdn.com/live/1341/64.m3u8
