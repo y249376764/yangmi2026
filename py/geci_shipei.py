@@ -680,18 +680,6 @@ def rank_kw(page=1):
 
 # ==================== TVBox 蜘蛛接口 ====================
 
-def _entry(vod_id, name, pic, remark="", desc=""):
-    """构造 TVBox vod 条目 (歌曲当影片, vod_id 携带平台+id+extra)"""
-    return {
-        "vod_id": vod_id,
-        "vod_name": name,
-        "vod_pic": pic or "",
-        "vod_remarks": remark,
-        "vod_content": desc,
-        "type_name": "音乐",
-    }
-
-
 def _play_url(platform, song_id, quality="128k", extra=None, name=""):
     """返回可直接播放的直链 (带 # 后缀标记音频)"""
     u = heyin_play(platform, song_id, quality, extra)
@@ -789,13 +777,23 @@ def _build_extra(it):
             "mediaMid": it.get("strMediaMid") or ""}
 
 
+# 平台默认图标 (原版 image.js)
+PLATFORM_ICONS = {
+    "wy": "https://android-artworks.25pp.com/fs08/2024/01/09/0/110_9d8058e8404df856e99876c7c975a0e5_con_130x130.png",
+    "kg": "https://android-artworks.25pp.com/fs08/2024/01/02/3/110_4f951d42ac0dd576a53db81621be2f53_con_130x130.png",
+    "kw": "https://android-artworks.25pp.com/fs08/2023/12/28/2/110_9ff45ea0adf6502febdcc384df355269_con_130x130.png",
+    "qq": "https://android-artworks.25pp.com/fs08/2023/12/21/0/2_b7596a6777b7c62d06094bfb8d5bcfdd_con_130x130.png",
+}
+
+
 def _items_to_vods(items, plat, plat_tag):
     vods = []
     for it in items:
         extra = _build_extra(it)
         vid = _make_vod_id(plat, it["songId"], extra, it.get("name") or "")
         name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
-        vods.append(_entry(vid, name, it.get("pic") or "",
+        pic = it.get("pic") or PLATFORM_ICONS.get(plat, "")
+        vods.append(_entry(vid, name, pic,
                            remark="[%s] %s" % (plat_tag, it.get("duration") or ""),
                            desc="%s《%s》 %s" % (plat_tag, it.get("album") or "", it.get("duration") or "")))
     return vods
@@ -817,7 +815,7 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        """首页: 四平台分类 + 歌单二级分类"""
+        """首页: 四平台分类 + 歌单二级分类 (filters 按一级分类分组!)"""
         classes = [
             {"type_id": "wy", "type_name": "网易云热榜"},
             {"type_id": "kg", "type_name": "酷狗TOP500"},
@@ -825,13 +823,21 @@ class Spider(Spider):
             {"type_id": "qq", "type_name": "QQ音乐热歌"},
         ]
         # 二级分类 = 网易云歌单分类 (语种/风格/场景/情感/主题)
-        pl_filters = {}
-        for grp, cats in WY_PL_CATS:
-            vals = [{"n": "全部", "v": ""}]
-            vals += [{"n": c, "v": c} for c in cats]
-            pl_filters["pl_" + grp] = {"key": "pl", "name": grp, "value": vals}
-        # 一级分类也可选歌单分类 (在网易云分类下用 filter 选)
-        return {"class": classes, "filters": pl_filters}
+        # 正确结构: filters[一级type_id] = [筛选组数组], 每组 {key, name, value:[{n,v}]}
+        def pl_groups():
+            groups = []
+            for grp, cats in WY_PL_CATS:
+                vals = [{"n": "全部", "v": ""}]
+                vals += [{"n": c, "v": c} for c in cats]
+                groups.append({"key": "pl_" + grp, "name": grp, "value": vals})
+            return groups
+        filters = {
+            "wy": pl_groups(),
+            "kg": pl_groups(),
+            "kw": pl_groups(),
+            "qq": pl_groups(),
+        }
+        return {"class": classes, "filters": filters}
 
     def homeVideoContent(self):
         """首页推荐: 网易云热歌榜前20首"""
@@ -843,7 +849,7 @@ class Spider(Spider):
 
     def categoryContent(self, tid, pg, filter, extend):
         """分类页: 
-        1) filter 有歌单分类 → 返回该分类热门歌单
+        1) filter 有歌单分类 (pl_xxx=值) → 返回该分类热门歌单
         2) 否则 → 返回该平台热歌榜
         """
         try:
@@ -852,7 +858,7 @@ class Spider(Spider):
             pl_cat = ""
             if isinstance(filter, dict):
                 for k, v in filter.items():
-                    if k.startswith("pl") and v:
+                    if k.startswith("pl_") and v:
                         pl_cat = v
                         break
             if pl_cat:
