@@ -1,1 +1,46 @@
-{"spider": "", "sites": [{"key": "爱听音乐", "name": "🎶爱听｜音乐歌曲", "type": 3, "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/py/aiting.py"}, {"key": "枫叶音乐", "name": "🍁枫叶丨音乐合集", "type": 3, "api": "https://mpimg.cn/down.php/2090fedb67387ea1a1ad908a94eb0aa6.py", "searchable": 1, "changeable": 1, "quickSearch": 1, "filterable": 1}, {"key": "kwms", "name": "🎶裤硪丨音乐合集", "type": 3, "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/py/kuwo.py"}, {"key": "音乐", "name": "🎶听海丨音乐合集", "type": 3, "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/JS/tinghai.js", "searchable": 1, "quickSearch": 1, "filterable": 1}], "parses": []}
+{
+  "spider": "",
+  "sites": [
+    {
+      "key": "爱听音乐",
+      "name": "🎶爱听｜音乐歌曲",
+      "type": 3,
+      "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/py/aiting.py"
+    },
+    {
+      "key": "枫叶音乐",
+      "name": "🍁枫叶丨音乐合集",
+      "type": 3,
+      "api": "https://mpimg.cn/down.php/2090fedb67387ea1a1ad908a94eb0aa6.py",
+      "searchable": 1,
+      "changeable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "kwms",
+      "name": "🎶裤硪丨音乐合集",
+      "type": 3,
+      "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/py/kuwo.py"
+    },
+    {
+      "key": "音乐",
+      "name": "🎶听海丨音乐合集",
+      "type": 3,
+      "api": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/JS/tinghai.js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "juhemusic",
+      "name": "🎵聚合音乐丨网易+酷我",
+      "type": 3,
+      "api": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/juhe_music.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    }
+  ],
+  "parses": []
+}
