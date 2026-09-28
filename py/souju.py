@@ -61,9 +61,8 @@ class Spider(Spider):
             'x-ai-movie-client-version': '1.0.0',
             'x-ai-movie-build-version': 'aimovie-v2026.09.22.2-4570aa027fc4-web',
             'x-ai-movie-protocol-version': '2026-07-05.library-v2.playback-v1',
-            'Cookie': 'ai_movie_session=',
+            'Cookie': 'ai_movie_session=' + self.SESSION,
         })
-        self.SESSION = ''
         self.classes = []
 
     # ============ 签名 ============
