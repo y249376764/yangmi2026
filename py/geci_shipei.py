@@ -700,6 +700,67 @@ def _play_url(platform, song_id, quality="128k", extra=None, name=""):
     return ""
 
 
+# ==================== 网易云歌单 (二级分类) ====================
+
+# 网易云歌单分类 (语种/风格/场景/情感/主题)
+WY_PL_CATS = [
+    ("语种", ["华语", "欧美", "日语", "韩语", "粤语", "小语种"]),
+    ("风格", ["流行", "摇滚", "民谣", "电子", "舞曲", "说唱", "轻音乐", "爵士", "乡村", "古典"]),
+    ("场景", ["清晨", "夜晚", "学习", "工作", "下午茶", "地铁", "驾车", "运动"]),
+    ("情感", ["怀旧", "清新", "浪漫", "伤感", "治愈", "放松", "孤独", "感动"]),
+    ("主题", ["综艺", "影视原声", "游戏", "旅行", "咖啡", "动画"]),
+]
+
+
+def wy_playlists(cat, pg=1):
+    """按分类取网易云热门歌单"""
+    results = []
+    try:
+        url = ("https://music.163.com/api/playlist/list?cat=" + urllib.parse.quote(cat) +
+               "&order=hot&limit=30&offset=" + str((pg - 1) * 30) + "&total=true")
+        resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "https://music.163.com"}, timeout=10)
+        d = json.loads(resp)
+        # 注意: playlists 在顶层 (不是 result.playlists)
+        pls = d.get("playlists") or ((d.get("result") or {}).get("playlists")) or []
+        for p in pls:
+            pic = (p.get("coverImgUrl") or p.get("picUrl") or "").replace("http://", "https://")
+            results.append({
+                "pid": str(p.get("id") or ""),
+                "name": p.get("name") or "",
+                "pic": pic,
+                "count": p.get("trackCount") or 0,
+                "creator": ((p.get("creator") or {}).get("nickname")) or "",
+            })
+    except Exception:
+        pass
+    return results
+
+
+def wy_playlist_songs(pid, pg=1):
+    """取歌单内歌曲"""
+    results = []
+    try:
+        url = "https://music.163.com/api/playlist/detail?id=" + pid
+        resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "https://music.163.com"}, timeout=10)
+        d = json.loads(resp)
+        tracks = ((d.get("result") or {}).get("tracks")) or []
+        start = (pg - 1) * 30
+        for t in tracks[start:start + 30]:
+            name = t.get("name") or ""
+            singer = "&".join([a.get("name", "") for a in (t.get("artists") or [])]) or ""
+            al = t.get("album") or {}
+            pic = "https://p2.music.126.net/" + (al.get("picId") and (str(al["picId"]) + ".jpg") or "") if al.get("picId") else ""
+            results.append({
+                "name": name, "singer": singer, "duration": hms(t.get("duration")),
+                "songId": str(t.get("id")), "album": al.get("name") or "",
+                "pic": pic or (al.get("artist") or {}).get("img1v1Url") or "",
+                "platform": "wy", "qualitys": [],
+            })
+    except Exception:
+        pass
+    return results
+
+
 # ==================== TVBox 蜘蛛接口 (老式 CSP 标准, 参照 juhe_music.py) ====================
 
 def _entry(vod_id, name, pic, remark="", desc=""):
@@ -756,14 +817,21 @@ class Spider(Spider):
         pass
 
     def homeContent(self, filter):
-        """首页: 四平台分类"""
+        """首页: 四平台分类 + 歌单二级分类"""
         classes = [
             {"type_id": "wy", "type_name": "网易云热榜"},
             {"type_id": "kg", "type_name": "酷狗TOP500"},
             {"type_id": "kw", "type_name": "酷我热歌榜"},
             {"type_id": "qq", "type_name": "QQ音乐热歌"},
         ]
-        return {"class": classes, "filters": {}}
+        # 二级分类 = 网易云歌单分类 (语种/风格/场景/情感/主题)
+        pl_filters = {}
+        for grp, cats in WY_PL_CATS:
+            vals = [{"n": "全部", "v": ""}]
+            vals += [{"n": c, "v": c} for c in cats]
+            pl_filters["pl_" + grp] = {"key": "pl", "name": grp, "value": vals}
+        # 一级分类也可选歌单分类 (在网易云分类下用 filter 选)
+        return {"class": classes, "filters": pl_filters}
 
     def homeVideoContent(self):
         """首页推荐: 网易云热歌榜前20首"""
@@ -774,9 +842,29 @@ class Spider(Spider):
             return {"list": []}
 
     def categoryContent(self, tid, pg, filter, extend):
-        """分类页: 返回该平台热歌榜"""
+        """分类页: 
+        1) filter 有歌单分类 → 返回该分类热门歌单
+        2) 否则 → 返回该平台热歌榜
+        """
         try:
             pg = int(pg) or 1
+            # 歌单二级分类: filter 里 pl_xxx = 歌单分类
+            pl_cat = ""
+            if isinstance(filter, dict):
+                for k, v in filter.items():
+                    if k.startswith("pl") and v:
+                        pl_cat = v
+                        break
+            if pl_cat:
+                # 返回该分类的歌单
+                pls = wy_playlists(pl_cat, pg)
+                vods = []
+                for p in pls:
+                    vods.append(_entry("pl|" + p["pid"], p["name"], p["pic"],
+                                       remark="[歌单] %s首" % p["count"],
+                                       desc="歌单分类: %s\n创建者: %s" % (pl_cat, p["creator"])))
+                return {"list": vods}
+            # 平台热歌榜
             if tid == "wy":
                 items = rank_wy(pg)
                 tag = "网易云"
@@ -817,9 +905,32 @@ class Spider(Spider):
         return {"list": dedup}
 
     def detailContent(self, ids):
-        """详情: 用合音聚合解析出可播放地址 (音乐源详情=播放)"""
+        """详情:
+        1) vod_id = pl|<pid> → 返回歌单歌曲列表 (每首歌一集, 点哪集播哪首)
+        2) 否则 → 单曲详情, 用合音聚合解析出可播放地址
+        """
         try:
             vid = str(ids[0]) if isinstance(ids, (list, tuple)) else str(ids)
+            # ===== 歌单 =====
+            if vid.startswith("pl|"):
+                pid = vid[3:]
+                songs = wy_playlist_songs(pid)
+                # 每首歌当一集, 点哪集播哪首
+                eps = []
+                for i, it in enumerate(songs):
+                    extra = _build_extra(it)
+                    song_vid = _make_vod_id("wy", it["songId"], extra, it.get("name") or "")
+                    eps.append("第%d首 %s - %s$%s" % (i + 1, it.get("name") or "", it.get("singer") or "", song_vid))
+                vod = {
+                    "vod_id": vid,
+                    "vod_name": "歌单",
+                    "vod_pic": "",
+                    "vod_play_from": "歌词适配",
+                    "vod_play_url": "#".join(eps),
+                    "vod_content": "歌单内歌曲, 点选播放",
+                }
+                return {"list": [vod]}
+            # ===== 单曲 =====
             parts = vid.split("|")
             plat = parts[0]
             sid = parts[1] if len(parts) > 1 else vid
