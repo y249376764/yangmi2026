@@ -202,8 +202,15 @@ class Spider(BaseSpider):
                     target, headers=headers, timeout=self.timeout, allow_redirects=True
                 )
                 if not binary:
-                    response.encoding = response.apparent_encoding or "utf-8"
-                    text = response.text
+                    # 源站 meta charset 固定 UTF-8；apparent_encoding 探测会被
+                    # charset_normalizer 误判为 ptcp154(西里尔) 导致中文全部乱码，
+                    # 故强制 UTF-8 解码。
+                    raw_bytes = response.content
+                    try:
+                        text = raw_bytes.decode("utf-8")
+                    except UnicodeDecodeError:
+                        text = raw_bytes.decode("utf-8", "ignore")
+                    response.encoding = "utf-8"
                 if not self._blocked_response(response, text):
                     return response
                 break
@@ -222,8 +229,12 @@ class Spider(BaseSpider):
                     impersonate="chrome131",
                 )
                 if not binary:
-                    response.encoding = getattr(response, "apparent_encoding", None) or "utf-8"
-                    text = response.text
+                    raw_bytes = response.content
+                    try:
+                        text = raw_bytes.decode("utf-8")
+                    except UnicodeDecodeError:
+                        text = raw_bytes.decode("utf-8", "ignore")
+                    response.encoding = "utf-8"
                 if not self._blocked_response(response, text):
                     return response
             except Exception:
