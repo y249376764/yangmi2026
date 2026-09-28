@@ -331,12 +331,8 @@ NOW新闻,https://cdn.163189.xyz/163189/now
 上海,
 凤凰中文,http://zmgd.zyrnet.com:8888/hls/110/index.m3u8
 凤凰资讯,http://zmgd.zyrnet.com:8888/hls/109/index.m3u8
-凤凰资讯,http://playtv-live.ifeng.com:80/live/06OLEEWQKN4.m3u8
 凤凰香港,https://epg.pw/stream/5f16dc7fc8aaaed3205516c63e4a8c24bca9dbba1181684244729cf574505b0e.m3u8
-凤凰香港,http://173.208.234.146/live/fhxg.m3u8
-凤凰香港,http://122.152.202.33/s/81a8a44f/index.m3u8?id=fhhk
 
-#genre#
 上海新闻综合,http://103.236.77.86:29824/651632657
 上视东方影视,http://103.236.77.86:29824/617290047
 广东,#genre#
@@ -523,3 +519,15 @@ CHC动作电影,http://103.236.77.86:29824/644368714
 巴彦淖尔新闻,https://livestream-bt.nmtv.cn/nmtv/2348general.m3u8?txSecret=6a4ddce077e41b976fe33619fbef2b30&txTime=771E8800
 赤峰新闻综合,https://livestream-bt.nmtv.cn/nmtv/2351general.m3u8?txSecret=8857087aeec2cec44d178a18550fdb8a&txTime=771E8800
 乌兰察布新闻,https://livestream-bt.nmtv.cn/nmtv/2354general.m3u8?txSecret=cf5f71d0000862b18f5813607b3dfd5b&txTime=771E8800
+
+音乐电台,#genre#
+广东音乐之声 FM99.3,http://live.xmcdn.com/live/74/64.m3u8
+河北音乐广播,https://satellitepull.cnr.cn/live/wxhebyygb/playlist.m3u8
+江苏经典流行音乐,https://satellitepull.cnr.cn/live/wx32jsjdlxyy/playlist.m3u8
+湖北经典音乐,https://satellitepull.cnr.cn/live/wx32hubyygb/playlist.m3u8
+山东音乐广播,https://satellitepull.cnr.cn/live/wxsdyygb/playlist.m3u8
+海南音乐广播,https://satellitepull.cnr.cn/live/wxhainyygb/playlist.m3u8
+贵州音乐广播,https://satellitepull.cnr.cn/live/wx32gzyygb/playlist.m3u8
+云南音乐广播,https://satellitepull.cnr.cn/live/wxynyygb/playlist.m3u8
+陕西音乐广播,https://satellitepull.cnr.cn/live/wxsxxyygb/playlist.m3u8
+重庆音乐广播,https://satellitepull.cnr.cn/live/wxcqyygb/playlist.m3u8
