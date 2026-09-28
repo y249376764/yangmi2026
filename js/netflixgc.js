@@ -128,20 +128,28 @@ async function detail(id) {
     if (m) vod.vod_remarks = clean(m[1]);
 
     // ===== 资源列表（多源多集） =====
-    // 源 tab：anthology-tab 里 <a class="swiper-slide"><i></i>&nbsp;蓝光-1<span class="badge">10</span></a>
-    // 集数：anthology-list-box 里 <a class="hide this-link" href="/vodplay/{id}-{sid}-{nid}.html">标题</a>
+    // 源 tab：anthology-tab 里多个 <a class="swiper-slide"><i></i>&nbsp;线路名<span class="badge">N</span></a>
+    // 一次抓取 tab 容器内所有线路名（不再锚定 anthology-tab 导致只匹配第一个）
     let srcNames = [];
-    let srcRe = /anthology-tab[\s\S]*?<a class="swiper-slide">[\s\S]*?<\/i>&nbsp;([^<]+?)(?:<span class="badge">\d+<\/span>)?<\/a>/g;
-    while ((m = srcRe.exec(html)) !== null) {
-        srcNames.push(clean(m[1]));
+    let tabRe = /<div class="anthology-tab[\s\S]*?<div class="swiper-wrapper">([\s\S]*?)<\/div><\/div>/;
+    let tabHtml = (html.match(tabRe) || [])[1] || '';
+    if (tabHtml) {
+        let slideRe = /<a class="swiper-slide">[\s\S]*?<\/i>&nbsp;([^<]+?)(?:<span class="badge">\d+<\/span>)?<\/a>/g;
+        let sm;
+        while ((sm = slideRe.exec(tabHtml)) !== null) {
+            let n = clean(sm[1]);
+            if (n && srcNames.indexOf(n) === -1) srcNames.push(n);
+        }
     }
     // 集数按源分组：每个 anthology-list-box 一组
     let boxRe = /<div class="anthology-list-box[^"]*">[\s\S]*?<ul class="anthology-list-play[^"]*">([\s\S]*?)<\/ul>/g;
     let boxes = [];
     while ((m = boxRe.exec(html)) !== null) boxes.push(m[1]);
     let playFrom = [], playUrl = [];
-    srcNames.forEach(function (name, idx) {
-        let box = boxes[idx] || '';
+    let lineCount = Math.max(srcNames.length, boxes.length);
+    for (let li = 0; li < lineCount; li++) {
+        let name = srcNames[li] || ('线路' + (li + 1));
+        let box = boxes[li] || '';
         let epRe = /<a[^>]+href="\/vodplay\/\d+-(\d+)-(\d+)\.html"[^>]*>([^<]*)<\/a>/g;
         let eps = [], em;
         while ((em = epRe.exec(box)) !== null) {
@@ -153,7 +161,7 @@ async function detail(id) {
             playFrom.push(name);
             playUrl.push(eps.join('#'));
         }
-    });
+    }
     // 兜底：直接抓所有 vodplay 链接按 sid 分组
     if (playFrom.length === 0) {
         let allEpRe = /<a[^>]+href="\/vodplay\/(\d+)-(\d+)-(\d+)\.html"[^>]*>([^<]*)<\/a>/g;
@@ -222,18 +230,31 @@ function base64decode(str) {
 async function play(flag, id, flags) {
     // id 形如 https://www.netflixgc.com/vodplay/152700-1-1.html
     let html = await getHtml(id);
-    let m = html.match(/player_aaaa=({[\s\S]*?})<\/script>/);
+    let m = html.match(/player_aaaa=(\{[\s\S]*?\})<\/script>/);
     let url = '';
+    let urlNext = '';
     if (m) {
         try {
             let p = JSON.parse(m[1]);
-            if (p.url) {
+            let raw = p.url || '';
+            if (raw) {
                 if (p.encrypt == '2') {
-                    url = decodeURIComponent(base64decode(p.url));
+                    url = decodeURIComponent(base64decode(raw));
                 } else if (p.encrypt == '1') {
-                    url = decodeURIComponent(p.url);
+                    url = decodeURIComponent(raw);
                 } else {
-                    url = p.url;
+                    url = raw;
+                }
+            }
+            // url_next 备用 (连播下一集)
+            if (p.url_next) {
+                let rn = p.url_next;
+                if (p.encrypt == '2') {
+                    urlNext = decodeURIComponent(base64decode(rn));
+                } else if (p.encrypt == '1') {
+                    urlNext = decodeURIComponent(rn);
+                } else {
+                    urlNext = rn;
                 }
             }
         } catch (e) {}
@@ -242,7 +263,55 @@ async function play(flag, id, flags) {
         let m2 = html.match(/https?:\/\/[^"'\s<>]+?\.m3u8[^"'\s<>]*/);
         if (m2) url = m2[0];
     }
-    return JSON.stringify({ parse: 0, url: url, header: 'User-Agent=' + UA });
+    if (!url && urlNext) url = urlNext;
+    // ===== 快速探测: 当前线路 m3u8 不可达时, 自动换同剧其他线路 =====
+    if (url) {
+        let ok = await probeUrl(url);
+        if (!ok) {
+            // 从当前播放页找同剧其他 sid 的 vodplay 链接 (选集列表)
+            let sidRe = /\/vodplay\/(\d+)-(\d+)-(\d+)\.html/g;
+            let sids = {}, sm;
+            while ((sm = sidRe.exec(html)) !== null) {
+                if (!sids[sm[2]]) sids[sm[2]] = 1;
+            }
+            let curSid = (id.match(/-(\d+)-\d+\.html/) || [])[1] || '';
+            for (let sid in sids) {
+                if (sid === curSid) continue;
+                let altHtml = await getHtml(host + '/vodplay/' + id.replace(/-\d+-\d+\.html/, '-' + sid + '-1.html'));
+                let am = altHtml.match(/player_aaaa=(\{[\s\S]*?\})<\/script>/);
+                if (am) {
+                    try {
+                        let ap = JSON.parse(am[1]);
+                        let aurl = ap.url || '';
+                        if (aurl) {
+                            if (ap.encrypt == '2') aurl = decodeURIComponent(base64decode(aurl));
+                            else if (ap.encrypt == '1') aurl = decodeURIComponent(aurl);
+                        }
+                        if (aurl && await probeUrl(aurl)) {
+                            url = aurl;
+                            break;
+                        }
+                    } catch (e) {}
+                }
+            }
+        }
+    }
+    // 带完整 header (UA + Referer), 防分片防盗链导致卡顿
+    let header = 'User-Agent=' + UA + '&Referer=' + host + '/';
+    return JSON.stringify({ parse: 0, url: url, header: header });
+}
+
+// 快速探测 m3u8 可访问性 (3秒超时, 只读前几字节)
+async function probeUrl(u) {
+    try {
+        let res = await req(u, {
+            headers: { 'User-Agent': UA, 'Referer': host + '/' },
+            timeout: 3
+        });
+        return !!(res && res.content && res.content.length > 0);
+    } catch (e) {
+        return false;
+    }
 }
 
 // 导出标准接口对象
