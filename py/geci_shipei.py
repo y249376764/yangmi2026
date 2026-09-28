@@ -18,6 +18,13 @@ try:
 except Exception:
     HAS_REQ = False
 
+try:
+    from base.spider import Spider
+except Exception:
+    class Spider:
+        def __init__(self):
+            pass
+
 UA_PC = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 UA_MOBILE = "Mozilla/5.0 (Linux; Android 13; Mi 10 Pro Build/TKQ1.221114.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/97.0.4692.98 Mobile Safari/537.36"
 
@@ -693,95 +700,141 @@ def _play_url(platform, song_id, quality="128k", extra=None, name=""):
     return ""
 
 
-class Spider(object):
-    """歌词适配 · TVBox Python 蜘蛛"""
+# ==================== TVBox 蜘蛛接口 (老式 CSP 标准, 参照 juhe_music.py) ====================
 
-    def init(self):
-        return json.dumps({"key": "geci_shipei", "name": "歌词适配", "api": "", "searchable": 1, "quickSearch": 0,
-                           "filterable": 0, "type": 3}, ensure_ascii=False)
+def _entry(vod_id, name, pic, remark="", desc=""):
+    """构造 TVBox vod 条目"""
+    return {
+        "vod_id": vod_id,
+        "vod_name": name,
+        "vod_pic": pic or "",
+        "vod_remarks": remark,
+        "vod_content": desc,
+        "type_name": "音乐",
+    }
 
-    def homeContent(self, filter_=False):
-        """首页: 四平台分类 + 首页推荐热歌 (合并返回, 否则主页空白)"""
+
+def _make_vod_id(plat, song_id, extra, name):
+    """生成携带平台+ID+extra的 vod_id"""
+    return "%s|%s|128k|%s|%s" % (plat, song_id,
+                                 urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
+                                 urllib.parse.quote(name or ""))
+
+
+def _build_extra(it):
+    return {"pic": it.get("pic") or "", "album": it.get("album") or "",
+            "singer": it.get("singer") or "", "mid": it.get("songId"),
+            "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
+            "mediaMid": it.get("strMediaMid") or ""}
+
+
+def _items_to_vods(items, plat, plat_tag):
+    vods = []
+    for it in items:
+        extra = _build_extra(it)
+        vid = _make_vod_id(plat, it["songId"], extra, it.get("name") or "")
+        name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
+        vods.append(_entry(vid, name, it.get("pic") or "",
+                           remark="[%s] %s" % (plat_tag, it.get("duration") or ""),
+                           desc="%s《%s》 %s" % (plat_tag, it.get("album") or "", it.get("duration") or "")))
+    return vods
+
+
+class Spider(Spider):
+    """歌词适配 · TVBox py 音乐源 (老式 CSP 接口)"""
+
+    def getName(self):
+        return "歌词适配"
+
+    def init(self, extend=""):
+        self.header = {"User-Agent": "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36"}
+
+    def isVideoFormat(self, url):
+        return False
+
+    def manualVideoCheck(self):
+        pass
+
+    def homeContent(self, filter):
+        """首页: 四平台分类"""
         classes = [
             {"type_id": "wy", "type_name": "网易云热榜"},
             {"type_id": "kg", "type_name": "酷狗TOP500"},
             {"type_id": "kw", "type_name": "酷我热歌榜"},
             {"type_id": "qq", "type_name": "QQ音乐热歌"},
         ]
-        # 首页推荐: 网易云热歌榜前20首
-        vod_list = []
-        try:
-            for it in rank_wy(1)[:20]:
-                extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
-                         "singer": it.get("singer") or "", "mid": it.get("songId"),
-                         "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
-                         "mediaMid": ""}
-                vod_id = "wy|%s|128k|%s|%s" % (it["songId"],
-                                               urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
-                                               urllib.parse.quote(it.get("name") or ""))
-                name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
-                vod_list.append(_entry(vod_id, name, it.get("pic") or "",
-                                       remark="[网易云] %s" % (it.get("duration") or ""),
-                                       desc="网易云《%s》 %s" % (it.get("album") or "", it.get("duration") or "")))
-        except Exception:
-            pass
-        result = {"class": classes, "filters": {}, "list": vod_list}
-        return json.dumps(result, ensure_ascii=False)
+        return {"class": classes, "filters": {}}
 
-    def category(self, tid, pg, filter_=False, ext=""):
-        """分类页: 返回该平台热歌榜 (不再空白)"""
-        results = []
+    def homeVideoContent(self):
+        """首页推荐: 网易云热歌榜前20首"""
+        try:
+            items = rank_wy(1)[:20]
+            return {"list": _items_to_vods(items, "wy", "网易云")}
+        except Exception:
+            return {"list": []}
+
+    def categoryContent(self, tid, pg, filter, extend):
+        """分类页: 返回该平台热歌榜"""
         try:
             pg = int(pg) or 1
             if tid == "wy":
                 items = rank_wy(pg)
+                tag = "网易云"
             elif tid == "kg":
                 items = rank_kg(pg)
+                tag = "酷狗"
             elif tid == "kw":
                 items = rank_kw(pg)
+                tag = "酷我"
             elif tid == "qq":
-                items = rank_wy(pg)  # QQ 热歌暂用网易云榜 (播放走qq线路)
+                items = rank_wy(pg)  # QQ 热歌暂用网易云榜
+                tag = "QQ音乐"
             else:
                 items = []
-            for it in items:
-                extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
-                         "singer": it.get("singer") or "", "mid": it.get("songId"),
-                         "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
-                         "mediaMid": ""}
-                vod_id = "%s|%s|128k|%s|%s" % (tid, it["songId"],
-                                               urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
-                                               urllib.parse.quote(it.get("name") or ""))
-                name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
-                results.append(_entry(vod_id, name, it.get("pic") or "",
-                                      remark="[%s] %s" % (tid, it.get("duration") or ""),
-                                      desc="%s《%s》 %s" % (tid, it.get("album") or "", it.get("duration") or "")))
+                tag = tid
+            return {"list": _items_to_vods(items, tid, tag)}
         except Exception:
-            pass
-        pagecount = 8 if tid == "wy" else 20
-        return json.dumps({"list": results, "page": pg, "pagecount": pagecount,
-                           "limit": 30, "total": len(results)}, ensure_ascii=False)
+            return {"list": []}
+
+    def searchContent(self, key, quick, pg='1'):
+        """四平台搜索"""
+        vods = []
+        for plat, func, tag in [("wy", search_wy, "网易云"), ("kg", search_kg, "酷狗"),
+                                ("kw", search_kw, "酷我"), ("qq", search_qq, "QQ音乐")]:
+            try:
+                items = func(key, int(pg))
+                vods += _items_to_vods(items, plat, tag)
+            except Exception:
+                continue
+        # 去重
+        seen = set()
+        dedup = []
+        for v in vods:
+            k = v["vod_name"]
+            if k not in seen:
+                seen.add(k)
+                dedup.append(v)
+        return {"list": dedup}
 
     def detailContent(self, ids):
-        """详情: 用合音聚合解析出可播放地址"""
+        """详情: 用合音聚合解析出可播放地址 (音乐源详情=播放)"""
         try:
-            vod_id = ids[0]
-            # vod_id 格式: plat|songId|quality|extraJson|name
-            parts = vod_id.split("|")
+            vid = str(ids[0]) if isinstance(ids, (list, tuple)) else str(ids)
+            parts = vid.split("|")
             plat = parts[0]
-            sid = parts[1] if len(parts) > 1 else vod_id
+            sid = parts[1] if len(parts) > 1 else vid
             quality = parts[2] if len(parts) > 2 else "128k"
             extra = json.loads(urllib.parse.unquote(parts[3])) if len(parts) > 3 and parts[3] else {}
             name = urllib.parse.unquote(parts[4]) if len(parts) > 4 else ""
             # 依次尝试音质
             urls = []
-            # qq 搜索结果若为纯数字(降级兜底)走网易云线路; 真实 QQ mid(字母数字)走 vkeys/QQvkey/长青海棠
             play_plat = "wy" if (plat == "qq" and sid.isdigit()) else plat
             for q in ([quality, "320k", "flac"] if quality != "flac" else [quality]):
                 u = _play_url(play_plat, sid, q, extra, name)
                 if u:
                     urls.append(u)
             play_url = urls[0] if urls else ""
-            # 附带歌词 (供播放器滚动)
+            # 附带歌词
             lrc = ""
             try:
                 if plat == "wy":
@@ -795,55 +848,29 @@ class Spider(object):
             except Exception:
                 lrc = ""
             vod = {
-                "vod_id": vod_id,
+                "vod_id": vid,
                 "vod_name": name,
                 "vod_pic": extra.get("pic") or "",
                 "vod_play_from": "歌词适配",
                 "vod_play_url": "播放$" + play_url,
                 "vod_content": (extra.get("album") or "") + " - " + (extra.get("singer") or "") + "\n\n" + lrc,
             }
-            return json.dumps({"list": [vod]}, ensure_ascii=False)
+            return {"list": [vod]}
         except Exception:
-            return json.dumps({"list": []}, ensure_ascii=False)
+            return {"list": []}
 
-    def playerContent(self, ids, flag):
-        """播放: 返回直链"""
-        return json.dumps({"url": "", "parse": 0, "header": ""}, ensure_ascii=False)
+    def playerContent(self, flag, id, vipFlags=None):
+        """播放: 直链已在详情解析好, 剥掉'播放$'前缀返回"""
+        try:
+            u = id
+            if u.startswith("播放$"):
+                u = u[3:]
+            if u.startswith("$"):
+                u = u[1:]
+            return {"parse": 0, "url": u, "header": {}}
+        except Exception:
+            return {"parse": 0, "url": id, "header": {}}
 
-    def searchContent(self, key, quick=False, pg=1):
-        """四平台搜索 (wy/kg/kw/qq 全部真实搜索)"""
-        results = []
-        for plat in ["wy", "kg", "kw", "qq"]:
-            try:
-                if plat == "wy":
-                    items = search_wy(key, pg)
-                elif plat == "kg":
-                    items = search_kg(key, pg)
-                elif plat == "kw":
-                    items = search_kw(key, pg)
-                else:
-                    items = search_qq(key, pg)
-                for it in items:
-                    extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
-                             "singer": it.get("singer") or "", "mid": it.get("songId"),
-                             "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
-                             "mediaMid": it.get("strMediaMid") or ""}
-                    vod_id = "%s|%s|128k|%s|%s" % (plat, it["songId"],
-                                                   urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
-                                                   urllib.parse.quote(it.get("name") or ""))
-                    name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
-                    plat_tag = {"wy": "网易云", "kg": "酷狗", "kw": "酷我", "qq": "QQ音乐"}.get(plat, plat)
-                    results.append(_entry(vod_id, name, it.get("pic") or "",
-                                          remark="[%s] %s" % (plat_tag, it.get("duration") or ""),
-                                          desc="%s《%s》 %s" % (plat_tag, it.get("album") or "", it.get("duration") or "")))
-            except Exception:
-                continue
-        # 去重
-        seen = set()
-        dedup = []
-        for r in results:
-            k = r["vod_name"]
-            if k not in seen:
-                seen.add(k)
-                dedup.append(r)
-        return json.dumps({"list": dedup, "total": len(dedup)}, ensure_ascii=False)
+    def localProxy(self, param):
+        return []
+
