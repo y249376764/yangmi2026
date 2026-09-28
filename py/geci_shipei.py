@@ -597,6 +597,80 @@ def lyric_qq(songmid):
         return ""
 
 
+# ==================== 平台热门/榜单 ====================
+
+def rank_wy(page=1):
+    """网易云热歌榜"""
+    results = []
+    try:
+        url = "https://music.163.com/api/playlist/detail?id=3778678"
+        resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "https://music.163.com"}, timeout=8)
+        d = json.loads(resp)
+        tracks = ((d.get("result") or {}).get("tracks")) or []
+        # 分页 (每页30)
+        start = (page - 1) * 30
+        for t in tracks[start:start + 30]:
+            name = t.get("name") or ""
+            singer = "&".join([a.get("name", "") for a in (t.get("artists") or [])]) or ""
+            al = t.get("album") or {}
+            pic = "https://p2.music.126.net/" + (al.get("picId") and (str(al["picId"]) + ".jpg") or "") if al.get("picId") else ""
+            results.append({
+                "name": name, "singer": singer, "duration": hms(t.get("duration")),
+                "songId": str(t.get("id")), "album": al.get("name") or "",
+                "pic": pic or (al.get("artist") or {}).get("img1v1Url") or "",
+                "platform": "wy", "qualitys": [],
+            })
+    except Exception:
+        pass
+    return results
+
+
+def rank_kg(page=1):
+    """酷狗 TOP500"""
+    results = []
+    try:
+        url = "http://mobilecdnbj.kugou.com/api/v3/rank/song?rankid=8888&page=%s&pagesize=30&platid=4" % page
+        resp = http_get(url, headers={"User-Agent": "Android712-AndroidPhone-10518-18-0-NetMusic-wifi"}, timeout=8)
+        d = json.loads(resp)
+        for s in ((d.get("data") or {}).get("info") or []):
+            results.append({
+                "name": s.get("songname") or "", "singer": s.get("singername") or "",
+                "duration": hms((s.get("duration") or 0) * 1000),
+                "songId": (s.get("hash") or "").upper(),
+                "album": s.get("album_name") or "",
+                "pic": s.get("album_sizable_cover") or "",
+                "platform": "kg", "qualitys": [],
+            })
+    except Exception:
+        pass
+    return results
+
+
+def rank_kw(page=1):
+    """酷我热歌榜 (kbangserver 老接口免签名)"""
+    results = []
+    try:
+        pn = page - 1
+        url = ("http://kbangserver.kuwo.cn/ksong.s?from=pc&fmt=json&pn=%s&rn=30&type=bang"
+               "&data=content&id=16&show_copyright_off=0&pcmp4=1&isbang=1" % pn)
+        resp = http_get(url, headers={"User-Agent": UA_PC, "Referer": "http://www.kuwo.cn/"}, timeout=8)
+        d = json.loads(resp)
+        for s in (d.get("musiclist") or []):
+            rid = str(s.get("id") or "")
+            results.append({
+                "name": s.get("name") or "",
+                "singer": s.get("artist") or "",
+                "duration": "",
+                "songId": rid,
+                "album": s.get("album") or "",
+                "pic": "",
+                "platform": "kw", "qualitys": [],
+            })
+    except Exception:
+        pass
+    return results
+
+
 # ==================== TVBox 蜘蛛接口 ====================
 
 def _entry(vod_id, name, pic, remark="", desc=""):
@@ -627,19 +701,48 @@ class Spider(object):
                            "filterable": 0, "type": 3}, ensure_ascii=False)
 
     def homeContent(self, filter_=False):
-        """首页: 四平台分类"""
+        """首页: 四平台分类 (点进去是该平台热歌榜)"""
         classes = [
-            {"type_id": "wy", "type_name": "网易云"},
-            {"type_id": "kg", "type_name": "酷狗"},
-            {"type_id": "kw", "type_name": "酷我"},
-            {"type_id": "qq", "type_name": "QQ音乐"},
+            {"type_id": "wy", "type_name": "网易云热榜"},
+            {"type_id": "kg", "type_name": "酷狗TOP500"},
+            {"type_id": "kw", "type_name": "酷我热歌榜"},
+            {"type_id": "qq", "type_name": "QQ音乐热歌"},
         ]
         result = {"class": classes, "filters": {}}
         return json.dumps(result, ensure_ascii=False)
 
     def category(self, tid, pg, filter_=False, ext=""):
-        """分类页: 返回平台热歌 (简化: 返回空, 提示用搜索)"""
-        return json.dumps({"list": [], "page": int(pg), "pagecount": 1, "limit": 30, "total": 0}, ensure_ascii=False)
+        """分类页: 返回该平台热歌榜 (不再空白)"""
+        results = []
+        try:
+            pg = int(pg) or 1
+            if tid == "wy":
+                items = rank_wy(pg)
+            elif tid == "kg":
+                items = rank_kg(pg)
+            elif tid == "kw":
+                items = rank_kw(pg)
+            elif tid == "qq":
+                items = rank_wy(pg)  # QQ 热歌暂用网易云榜 (播放走qq线路)
+            else:
+                items = []
+            for it in items:
+                extra = {"pic": it.get("pic") or "", "album": it.get("album") or "",
+                         "singer": it.get("singer") or "", "mid": it.get("songId"),
+                         "hash": it.get("songId"), "albumId": "", "rid": it.get("songId"),
+                         "mediaMid": ""}
+                vod_id = "%s|%s|128k|%s|%s" % (tid, it["songId"],
+                                               urllib.parse.quote(json.dumps(extra, ensure_ascii=False)),
+                                               urllib.parse.quote(it.get("name") or ""))
+                name = "%s - %s" % (it.get("name") or "", it.get("singer") or "")
+                results.append(_entry(vod_id, name, it.get("pic") or "",
+                                      remark="[%s] %s" % (tid, it.get("duration") or ""),
+                                      desc="%s《%s》 %s" % (tid, it.get("album") or "", it.get("duration") or "")))
+        except Exception:
+            pass
+        pagecount = 8 if tid == "wy" else 20
+        return json.dumps({"list": results, "page": pg, "pagecount": pagecount,
+                           "limit": 30, "total": len(results)}, ensure_ascii=False)
 
     def detailContent(self, ids):
         """详情: 用合音聚合解析出可播放地址"""
