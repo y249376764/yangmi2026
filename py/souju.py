@@ -391,6 +391,25 @@ class Spider(Spider):
             'vod_remarks': str(remark),
         }
 
+    # ============ 标准 WebHomeTV 方法 ============
+    def getName(self):
+        return ''
+
+    def isVideoFormat(self, url):
+        return url.startswith('http') and ('.m3u8' in url or '.mp4' in url)
+
+    def manualVideoCheck(self):
+        pass
+
+    def gethost(self):
+        return self.cur_host
+
+    def localProxy(self, param):
+        return ''
+
+    def liveContent(self, url):
+        return {}
+
     def init(self, extend=''):
         return ''
 
