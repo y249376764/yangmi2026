@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 import datetime, html, json, re, struct, time, zlib, requests
 from base.spider import Spider as BaseSpider
-from bs4 import BeautifulSoup
+
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    # 环境无 bs4 时用正则降级（后续解析会走非bs4分支）
+    BeautifulSoup = None
 
 SITES, TAG, UA = ['https://www.cd-zj.com', 'https://maihaolian.com', "https://zzztool.com"], "枫叶4K", "Mozilla/5.0 (Linux; Android 15; Pixel 9) AppleWebKit/537.36 Chrome/150.0.0.0 Mobile"
 SITE = SITES[0]
