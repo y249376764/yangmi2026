@@ -65,25 +65,33 @@ class Spider(_BaseSpider):
                            "AppleWebKit/537.36 (KHTML, like Gecko) "
                            "Chrome/150.0.0.0 Safari/537.36"),
         }
-        # 直链解析站（kptv 后端已不稳定，仅作快速尝试；命中即直链播放）
-        self.parse_api = "https://jx.kptv.us/?url="
+        # 直链解析站（kptv 域名已死 2026-09-29，直接停用避免每次播放白等超时）
+        self.parse_api = ""
         # 88lin 官方接口池（https://go.88lin.eu.org/vip/ 页面内置，2026-09-29 实测）
         # 全部为浏览器端 JS/WASM 解析，纯 HTTP 取不到直链，
         # 由壳子 WebView 打开解析页完成播放 —— 这是当前唯一通用方案。
-        # 顺序即页面接口1-8：七七云 / 闲鱼云 / TXNP / 七哥 / fongmi / 冰豆 / PlayerJY / HLS
+        # 顺序 = 实测响应速度排序（2026-09-29 腾讯源秒回）：PlayerJY/夜幕/m3u8tv-jx/七哥202617/七七/闲鱼/ckplayer 优先
+        # 播放时会自动轮换：失败/超时自动换下一个接口，避免卡死
         self.parse_sites = [
+            "https://jx.playerjy.com/?url=",
+            "https://yemu.xyz/?url=",
+            "https://jx.m3u8.tv/jx/jx.php?url=",
+            "https://jx.202617.xyz/tv.php?url=",
             "https://jx.77flv.cc/?url=",
             "https://jx.xymp4.cc/?url=",
-            "https://bfq.txnp.cn/player?url=",
-            "https://jx.202617.xyz/tv.php?url=",
-            "https://json.fongmi.cc/web?url=",
+            "https://www.ckplayer.vip/jiexi/?url=",
             "https://bd.jx.cn/?url=",
-            "https://jx.playerjy.com/?url=",
+            "https://www.pangujiexi.com/jiexi/?url=",
+            "https://jx.yparse.com/index.php?url=",
+            "https://bfq.txnp.cn/player?url=",
+            "https://bfzyplayer.com/player/?url=",
+            "https://jx.wujinkk.com/dplayer/?url=",
+            "https://www.8090g.cn/?url=",
+            "https://json.ovvo.pro/jx.php?url=",
+            "https://json.fongmi.cc/web?url=",
             "https://jx.hls.one/?url=",
-            # 原脚本接口（保留兜底）
             "https://jx.xmflv.com/?url=",
             "https://jx.2s0.cn/?url=",
-            "https://jx.m3u8.tv/jiexi/?url=",
             "https://www.daga.cc/vip1/?url=",
             "https://jx.xmflv.cc/?url=",
         ]
@@ -173,7 +181,7 @@ class Spider(_BaseSpider):
             ]
 
             type_filter = {
-                "key": "class",
+                "key": "t",
                 "name": "类型",
                 "value": [
                     {"n": "全部", "v": ""},
@@ -186,21 +194,37 @@ class Spider(_BaseSpider):
                     {"n": "短剧", "v": "7"},
                 ],
             }
-            year_filter = {
-                "key": "year",
-                "name": "年份",
+            # 细分类型筛选（接口用 class= 参数支持中文类型，实测有数据）
+            # 电影:动作片/喜剧片/爱情片/科幻片/恐怖片/剧情片/战争片
+            # 剧集:国产剧/香港剧/韩国剧/欧美剧/台湾剧/日本剧/泰国剧
+            # 动漫:国产动漫/日韩动漫/欧美动漫
+            class_filter = {
+                "key": "class",
+                "name": "细分",
                 "value": [
                     {"n": "全部", "v": ""},
-                    {"n": "2026", "v": "2026"},
-                    {"n": "2025", "v": "2025"},
-                    {"n": "2024", "v": "2024"},
-                    {"n": "2023", "v": "2023"},
-                    {"n": "2022", "v": "2022"},
+                    {"n": "动作片", "v": "动作片"},
+                    {"n": "喜剧片", "v": "喜剧片"},
+                    {"n": "爱情片", "v": "爱情片"},
+                    {"n": "科幻片", "v": "科幻片"},
+                    {"n": "恐怖片", "v": "恐怖片"},
+                    {"n": "剧情片", "v": "剧情片"},
+                    {"n": "战争片", "v": "战争片"},
+                    {"n": "国产剧", "v": "国产剧"},
+                    {"n": "香港剧", "v": "香港剧"},
+                    {"n": "韩国剧", "v": "韩国剧"},
+                    {"n": "欧美剧", "v": "欧美剧"},
+                    {"n": "台湾剧", "v": "台湾剧"},
+                    {"n": "日本剧", "v": "日本剧"},
+                    {"n": "泰国剧", "v": "泰国剧"},
+                    {"n": "国产动漫", "v": "国产动漫"},
+                    {"n": "日韩动漫", "v": "日韩动漫"},
+                    {"n": "欧美动漫", "v": "欧美动漫"},
                 ],
             }
             filters = {}
             for c in classes:
-                filters[c["type_id"]] = [type_filter, year_filter]
+                filters[c["type_id"]] = [type_filter, class_filter]
 
             result = {"class": classes, "list": []}
             if filter:
@@ -232,10 +256,13 @@ class Spider(_BaseSpider):
             page = 1
 
         params = ["from=" + key, "ac=detail", "limit=24", "pg=" + str(page)]
-        t = extend.get("class") or "2"
+        # 大类型走 t 参数（电视剧/电影/动漫/综艺/少儿/纪录片/短剧，数值 1-7）
+        t = extend.get("t") or "2"
         params.append("t=" + t)
-        if extend.get("year"):
-            params.append("year=" + _enc(extend["year"]))
+        # 细分类型走 class 参数（动作片/恐怖片/国产剧/欧美动漫 等，中文，实测支持）
+        sub = extend.get("class")
+        if sub:
+            params.append("class=" + _enc(sub))
 
         url = self.host + "/api.php/provide/vod/?" + "&".join(params)
         _log("api category url ->", url)
@@ -363,13 +390,8 @@ class Spider(_BaseSpider):
                 return {"parse": 1, "url": self.custom_jx + id,
                         "header": dict(self.header), "playUrl": ""}
 
-            # 2) 尝试直链解析（kptv，快速失败；命中即直链播放体验最佳）
-            play_url = self._parse_video_url(id)
-            if play_url:
-                return {"parse": 0, "url": play_url,
-                        "header": dict(self.header), "playUrl": ""}
-
-            # 3) WebView 解析站兜底：壳子用内置浏览器打开解析站播放
+            # 2) WebView 解析站：按实测响应速度排序，自动轮换。
+            #    优先取当前接口；若上次接口失败过则换下一个，避免卡死。
             web_url = self._webview_jx(id)
             if web_url:
                 return {"parse": 1, "url": web_url,
@@ -380,11 +402,27 @@ class Spider(_BaseSpider):
                 "playUrl": ""}
 
     def _webview_jx(self, video_url):
-        """取第一个可用的 WebView 解析站地址。"""
-        for site in (getattr(self, "parse_sites", None) or []):
-            if site:
-                return site + video_url
-        return ""
+        """取 WebView 解析站地址，失败自动轮换下一个接口。"""
+        sites = getattr(self, "parse_sites", None) or []
+        if not sites:
+            return ""
+        # 当前接口索引（记录在实例上，失败时 +1 轮换）
+        idx = getattr(self, "_jx_idx", 0)
+        if idx >= len(sites):
+            idx = 0
+        site = sites[idx]
+        self._jx_idx = idx + 1  # 下次自动用下一个接口
+        _log("WebView解析站[%d/%d]: %s" % (idx + 1, len(sites), site))
+        return site + video_url
+
+    def _mark_jx_fail(self):
+        """标记当前接口失败，下次播放自动跳过。"""
+        idx = getattr(self, "_jx_idx", 0)
+        # 若已轮换到尾则从头开始
+        sites = getattr(self, "parse_sites", None) or []
+        if idx >= len(sites):
+            self._jx_idx = 0
+        _log("解析接口自动切换 -> 下一个")
 
     def _is_direct(self, url):
         s = str(url)
