@@ -787,12 +787,13 @@
     },
     {
       "key": "py_tengaiyou",
-      "name": "腾爱优聚合[py]",
+      "name": "🎬腾爱优聚合[py]",
       "api": "./py/tengaiyou.py",
       "type": 3,
       "searchable": 1,
       "quickSearch": 1,
-      "filterable": 1
+      "filterable": 1,
+      "order_num": 1
     }
   ],
   "lives": [
