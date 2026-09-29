@@ -97,7 +97,7 @@ class Spider(_BaseSpider):
         ]
         # 用户自定义解析站（extend 传入时优先使用）
         self.custom_jx = self._parse_extend(extend)
-        self.timeout = 10
+        self.timeout = 8
         if _HAS_REQUESTS:
             self.session = _requests.Session()
             self.session.headers.update(self.header)
@@ -137,27 +137,30 @@ class Spider(_BaseSpider):
     # 网络请求
     # ------------------------------------------------------------------
     def _http_get(self, url):
-        """GET 请求，返回文本；失败返回空字符串。"""
-        try:
-            if _HAS_REQUESTS:
-                sess = getattr(self, "session", None) or _requests
-                r = sess.get(url, timeout=getattr(self, "timeout", 15),
-                             verify=False)
-                r.encoding = "utf-8"
-                return r.text
-            # 降级 urllib
-            import urllib.request
-            req = urllib.request.Request(url, headers=self.header)
-            with urllib.request.urlopen(req,
-                                        timeout=getattr(self, "timeout", 15)) as resp:
-                data = resp.read()
-                try:
-                    return data.decode("utf-8")
-                except Exception:  # noqa: BLE001
-                    return data.decode("latin-1")
-        except Exception as exc:  # noqa: BLE001
-            _log("myfetch err ", exc)
-            return ""
+        """GET 请求，返回文本；失败返回空字符串。带超时+重试一次（源站偶发慢）。"""
+        timeout = getattr(self, "timeout", 8)
+        for attempt in range(2):
+            try:
+                if _HAS_REQUESTS:
+                    sess = getattr(self, "session", None) or _requests
+                    r = sess.get(url, timeout=timeout, verify=False)
+                    r.encoding = "utf-8"
+                    return r.text
+                # 降级 urllib
+                import urllib.request
+                req = urllib.request.Request(url, headers=self.header)
+                with urllib.request.urlopen(req, timeout=timeout) as resp:
+                    data = resp.read()
+                    try:
+                        return data.decode("utf-8")
+                    except Exception:  # noqa: BLE001
+                        return data.decode("latin-1")
+            except Exception as exc:  # noqa: BLE001
+                if attempt == 0:
+                    _log("myfetch retry:", exc)
+                else:
+                    _log("myfetch err ", exc)
+        return ""
 
     def _get_json(self, url):
         """GET 并解析 JSON。"""
@@ -180,11 +183,13 @@ class Spider(_BaseSpider):
                 {"type_id": "5", "type_pid": "0", "type_name": "B站"},
             ]
 
+            # 大类型筛选（t 参数真实有效：1电影/2连续剧/3综艺/4动漫/5少儿/6纪录片/7短剧）
+            # 注：源站接口不支持"动作片/恐怖片"等细分类型筛选（class/tid/type 等参数实测均不过滤），
+            #     所以只保留大类型一排，去掉无效的细分筛选和"全部"按钮
             type_filter = {
                 "key": "t",
                 "name": "类型",
                 "value": [
-                    {"n": "全部", "v": ""},
                     {"n": "电视剧", "v": "2"},
                     {"n": "电影", "v": "1"},
                     {"n": "动漫", "v": "4"},
@@ -194,37 +199,9 @@ class Spider(_BaseSpider):
                     {"n": "短剧", "v": "7"},
                 ],
             }
-            # 细分类型筛选（接口用 class= 参数支持中文类型，实测有数据）
-            # 电影:动作片/喜剧片/爱情片/科幻片/恐怖片/剧情片/战争片
-            # 剧集:国产剧/香港剧/韩国剧/欧美剧/台湾剧/日本剧/泰国剧
-            # 动漫:国产动漫/日韩动漫/欧美动漫
-            class_filter = {
-                "key": "class",
-                "name": "细分",
-                "value": [
-                    {"n": "全部", "v": ""},
-                    {"n": "动作片", "v": "动作片"},
-                    {"n": "喜剧片", "v": "喜剧片"},
-                    {"n": "爱情片", "v": "爱情片"},
-                    {"n": "科幻片", "v": "科幻片"},
-                    {"n": "恐怖片", "v": "恐怖片"},
-                    {"n": "剧情片", "v": "剧情片"},
-                    {"n": "战争片", "v": "战争片"},
-                    {"n": "国产剧", "v": "国产剧"},
-                    {"n": "香港剧", "v": "香港剧"},
-                    {"n": "韩国剧", "v": "韩国剧"},
-                    {"n": "欧美剧", "v": "欧美剧"},
-                    {"n": "台湾剧", "v": "台湾剧"},
-                    {"n": "日本剧", "v": "日本剧"},
-                    {"n": "泰国剧", "v": "泰国剧"},
-                    {"n": "国产动漫", "v": "国产动漫"},
-                    {"n": "日韩动漫", "v": "日韩动漫"},
-                    {"n": "欧美动漫", "v": "欧美动漫"},
-                ],
-            }
             filters = {}
             for c in classes:
-                filters[c["type_id"]] = [type_filter, class_filter]
+                filters[c["type_id"]] = [type_filter]
 
             result = {"class": classes, "list": []}
             if filter:
@@ -255,14 +232,12 @@ class Spider(_BaseSpider):
         except Exception:  # noqa: BLE001
             page = 1
 
-        params = ["from=" + key, "ac=detail", "limit=24", "pg=" + str(page)]
+        params = ["from=" + key, "ac=detail", "limit=20", "pg=" + str(page)]
         # 大类型走 t 参数（电视剧/电影/动漫/综艺/少儿/纪录片/短剧，数值 1-7）
+        # 源站接口实测：class/tid/type/cat 等细分参数均不过滤（返回同全部），
+        # 所以只支持大类型 t 筛选，不再传无效的 class 参数
         t = extend.get("t") or "2"
         params.append("t=" + t)
-        # 细分类型走 class 参数（动作片/恐怖片/国产剧/欧美动漫 等，中文，实测支持）
-        sub = extend.get("class")
-        if sub:
-            params.append("class=" + _enc(sub))
 
         url = self.host + "/api.php/provide/vod/?" + "&".join(params)
         _log("api category url ->", url)
