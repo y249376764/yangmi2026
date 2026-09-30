@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>影视仓库 · 口令入口</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    color: #eee;
+  }
+  .card {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 42px 38px;
+    width: 380px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  h1 { font-size: 22px; text-align: center; margin-bottom: 8px; }
+  .sub { text-align: center; font-size: 13px; color: #aaa; margin-bottom: 28px; }
+  .input-wrap { display: flex; gap: 10px; margin-bottom: 14px; }
+  input {
+    flex: 1; padding: 12px 14px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3);
+    color: #fff; font-size: 15px; letter-spacing: 2px; text-align: center;
+    outline: none;
+  }
+  input:focus { border-color: #6c63ff; }
+  button {
+    padding: 12px 20px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, #6c63ff, #4834d4);
+    color: #fff; font-size: 15px; cursor: pointer; font-weight: 600;
+  }
+  button:hover { opacity: 0.9; }
+  .msg { text-align: center; font-size: 13px; min-height: 20px; margin-top: 10px; }
+  .msg.err { color: #ff6b6b; }
+  .msg.ok { color: #51cf66; }
+  .links { display: none; margin-top: 18px; }
+  .links.show { display: block; }
+  .link-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,0.07); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 10px; font-size: 14px;
+  }
+  .link-item .name { font-weight: 600; }
+  .link-item .desc { color: #999; font-size: 12px; margin-top: 2px; }
+  .link-item a {
+    color: #6c63ff; text-decoration: none; font-size: 13px; white-space: nowrap;
+    border: 1px solid #6c63ff; padding: 5px 12px; border-radius: 8px;
+  }
+  .link-item a:hover { background: #6c63ff; color: #fff; }
+  .tip { text-align: center; font-size: 11px; color: #666; margin-top: 16px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🎬 影视仓库</h1>
+  <div class="sub">输入口令解锁配置链接</div>
+  <div class="input-wrap">
+    <input type="password" id="key" placeholder="请输入口令" autocomplete="off">
+    <button onclick="unlock()">进入</button>
+  </div>
+  <div class="msg" id="msg"></div>
+  <div class="links" id="links">
+    <div class="link-item">
+      <div><div class="name">📺 影视配置</div><div class="desc">49个影视源 + 短剧</div></div>
+      <a href="https://raw.githubusercontent.com/y249376764/yangmi2026/main/tvbox.json" target="_blank">打开</a>
+    </div>
+    <div class="link-item">
+      <div><div class="name">🌀 骚零影视</div><div class="desc">23个影视/动漫/网盘搜</div></div>
+      <a href="https://raw.githubusercontent.com/y249376764/yangmi2026/main/tvbox_saoling.json" target="_blank">打开</a>
+    </div>
+    <div class="link-item">
+      <div><div class="name">📚 听书配置</div><div class="desc">6个听书源</div></div>
+      <a href="https://raw.githubusercontent.com/y249376764/yangmi2026/main/tingshu.json" target="_blank">打开</a>
+    </div>
+    <div class="link-item">
+      <div><div class="name">📡 直播配置</div><div class="desc">6个直播源</div></div>
+      <a href="https://raw.githubusercontent.com/y249376764/yangmi2026/main/live.json" target="_blank">打开</a>
+    </div>
+  </div>
+  <div class="tip">口令仅用于查看链接<br>配置链接本身仍为公开 raw 地址</div>
+</div>
+
+<script>
+// ===== 口令配置 =====
+// 修改这里即可更换口令（纯前端校验，防随手转发用）
+var SECRET = "heimo2026";
+
+function unlock() {
+  var key = document.getElementById("key").value.trim();
+  var msg = document.getElementById("msg");
+  var links = document.getElementById("links");
+  if (key === SECRET) {
+    msg.className = "msg ok";
+    msg.textContent = "✅ 口令正确";
+    links.classList.add("show");
+    localStorage.setItem("hk_ok", "1");
+  } else {
+    msg.className = "msg err";
+    msg.textContent = "❌ 口令错误";
+    links.classList.remove("show");
+  }
+}
+
+// 已通过则直接显示
+window.onload = function() {
+  if (localStorage.getItem("hk_ok") === "1") {
+    document.getElementById("links").classList.add("show");
+    document.getElementById("msg").className = "msg ok";
+    document.getElementById("msg").textContent = "✅ 已解锁";
+  }
+};
+</script>
+</body>
+</html>
