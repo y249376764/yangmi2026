@@ -1,50 +1,28 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-09-30 10:44:54 UTC
+> 自动生成时间: 2026-09-30 10:54:00 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **91**
-- 有异常站点数: **32**
+- 有异常站点数: **10**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-09-30 10:45:58 UTC
+- 巡检时间: 2026-09-30 10:54:56 UTC
 
 ## ⚠️ 异常站点
 
 | 配置文件 | 站点 | 类型 | 目标 | 结果 |
 |---|---|---|---|---|
-| tvbox.json | 🌾农民｜蓝光秒播 | 3 | https://vip.wwgz.cn:5200 | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🐦金蝉丨蓝光秒播 | 3 | https://daen-1256234123.cos.ap-shanghai.myqcloud.com/Mu | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
-| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:⚠️ HTTP 404 |
-| tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
-| tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
-| tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:⚠️ HTTP 403 |
-| tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:⚠️ HTTP 403 |
-| tvbox_2.json | 📅┆知年┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🎶┆弦歌┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌸┆兰芷┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💎┆怀瑾┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌺┆疏影┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💫┆惊鸿┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | ✨┆昭华┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | ❄️┆枕霜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💧┆清沅┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🎞️┆观澜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌿┆孟葭┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🕯️┆长明┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🏞️┆寻川┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌱┆南枝┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🍃┆沐辞┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
+| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
-| tvbox_py.json | 袋鼠影视[py] | 3 | https://dsystv.com | ext域名:⚠️ HTTP 403 |
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tvbox_py.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
 | tvbox_py.json | 四圈 | 采集 | 1 | https://pg.fenwe078.cf/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tingshu_2.json | 📻┆六月┆有声 | 3 | https://app.365ting.com | ext域名:⚠️ HTTP 500 |
+| tingshu_2.json | 📻┆六月┆有声 | 3 | https://app.365ting.com | ext域名:❌ HTTP 500 |
 | short.json | 果果 • 短剧 | 3 | https://www.mochadj.com/i/{cateId}-{catePg}.html | ext域名:❌ 超时/无法连接 |
 
 ## 📋 全部站点
@@ -52,7 +30,7 @@
 | 配置文件 | 站点 | 类型 | 目标 | 结果 |
 |---|---|---|---|---|
 | tvbox.json | 🌼韩圈｜蓝光韩剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🌾农民｜蓝光秒播 | 3 | https://vip.wwgz.cn:5200 | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 🌾农民｜蓝光秒播 | 3 | https://vip.wwgz.cn:5200 | ext域名:✅ 200 (body 435B) |
 | tvbox.json | 🌞热播｜蓝光秒播 | 3 | http://v.rbotv.cn | ext域名:✅ 200 (body 3B) |
 | tvbox.json | 🎈看剧AI丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox.json | 🛸北斗丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -67,7 +45,7 @@
 | tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🧿爱看｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:⚠️ HTTP 404 |
+| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 👀一起看丨蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox.json | 🎥1905｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -90,8 +68,8 @@
 | tvbox.json | U酷资源┃刺桐 | 1 | https://api.ukuapi88.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 光速资源┃刺桐 | 1 | https://api.guangsuapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 虎牙资源┃刺桐 | 1 | https://www.huyaapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
-| tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
+| tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
 | tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
@@ -101,8 +79,8 @@
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🎬奈飞工厂｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:⚠️ HTTP 403 |
-| tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:⚠️ HTTP 403 |
+| tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:🟡 403(可能反爬/需UA) |
+| tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 🫐┆三六┆影视 | 3 | https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/36 | ext域名:✅ 200 (body 2048B) |
 | tvbox_2.json | 🍵┆茶寮┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
 | tvbox_2.json | 🌳┆栖桐┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
@@ -114,21 +92,21 @@
 | tvbox_2.json | 🌲┆松庭┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
 | tvbox_2.json | 🪁┆纸鸢┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
 | tvbox_2.json | 🖋️┆墨砚┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
-| tvbox_2.json | 📅┆知年┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🎶┆弦歌┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌸┆兰芷┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💎┆怀瑾┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌺┆疏影┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💫┆惊鸿┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | ✨┆昭华┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | ❄️┆枕霜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 💧┆清沅┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🎞️┆观澜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌿┆孟葭┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🕯️┆长明┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🏞️┆寻川┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🌱┆南枝┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
-| tvbox_2.json | 🍃┆沐辞┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:⚠️ HTTP 400 |
+| tvbox_2.json | 📅┆知年┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🎶┆弦歌┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🌸┆兰芷┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 💎┆怀瑾┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🌺┆疏影┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 💫┆惊鸿┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | ✨┆昭华┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | ❄️┆枕霜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 💧┆清沅┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🎞️┆观澜┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🌿┆孟葭┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🕯️┆长明┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🏞️┆寻川┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🌱┆南枝┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
+| tvbox_2.json | 🍃┆沐辞┆APP | 3 | https://max.moyu666666.top/appun.php | ext域名:🟠 400(可能需参数/签名) |
 | tvbox_2.json | 🏭┆厂长┆影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_2.json | 🍉┆瓜子┆影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -141,7 +119,7 @@
 | tvbox_py.json | LIBVIO[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 可可追剧[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 布布追剧[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox_py.json | 袋鼠影视[py] | 3 | https://dsystv.com | ext域名:⚠️ HTTP 403 |
+| tvbox_py.json | 袋鼠影视[py] | 3 | https://dsystv.com | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_py.json | 奇优影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 云朵影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 多多影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -167,7 +145,7 @@
 | tvbox_py.json | ikun | 采集 | 1 | https://ikunzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 暴風 | 采集 | 1 | https://bfzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 旺旺 | 采集 | 1 | https://api.wwzy.tv/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:⚠️ HTTP 403 |
+| tvbox_py.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
 | tvbox_py.json | 四圈 | 采集 | 1 | https://pg.fenwe078.cf/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 茅台 | 采集 | 1 | https://mtzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 大师兄影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -182,7 +160,7 @@
 | tingshu.json | 📕博看丨听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tingshu_2.json | 📻┆六月┆有声 | 3 | https://app.365ting.com | ext域名:⚠️ HTTP 500 |
+| tingshu_2.json | 📻┆六月┆有声 | 3 | https://app.365ting.com | ext域名:❌ HTTP 500 |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
