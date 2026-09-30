@@ -1,0 +1,203 @@
+{
+  "spider": "./saoling.jar",
+  "sites": [
+    {
+      "key": "立播",
+      "name": "📺立播｜蓝光秒播",
+      "type": 3,
+      "api": "csp_Libvio",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "在线",
+      "name": "▶️在线｜秒播",
+      "type": 3,
+      "api": "csp_Zxzj",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "低端",
+      "name": "🎬低端｜动漫影视",
+      "type": 3,
+      "api": "csp_Ddrk",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "奥特",
+      "name": "🏝奥特｜影视",
+      "type": 3,
+      "api": "csp_Auete",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "原创",
+      "name": "👒原创｜影视",
+      "type": 3,
+      "api": "csp_YCyz",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "厂长2",
+      "name": "📔厂长｜影视",
+      "type": 3,
+      "api": "csp_NewCz",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "苹果",
+      "name": "🍎苹果｜影视",
+      "type": 3,
+      "api": "csp_LiteApple",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "腐剧",
+      "name": "💘腐剧｜影视",
+      "type": 3,
+      "api": "csp_AppYsV2",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "播客",
+      "name": "🦊播客｜多线",
+      "type": 3,
+      "api": "csp_AppSx",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "糯米",
+      "name": "🍓糯米｜秒播",
+      "type": 3,
+      "api": "csp_Nmyswv",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "巴士动漫",
+      "name": "🚌巴士动漫",
+      "type": 3,
+      "api": "csp_Dm84",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "异界动漫",
+      "name": "🪐异界动漫",
+      "type": 3,
+      "api": "csp_Ysj",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "日本动漫",
+      "name": "⛩日本动漫",
+      "type": 3,
+      "api": "csp_Anime1",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "小米盘",
+      "name": "🥣小米网盘搜",
+      "type": 3,
+      "api": "csp_MIPanSo",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "抠搜",
+      "name": "🍄抠抠网盘搜",
+      "type": 3,
+      "api": "csp_KkSs",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "优汐",
+      "name": "🌈优汐网盘搜",
+      "type": 3,
+      "api": "csp_UuSs",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "易搜",
+      "name": "🦋易搜网盘",
+      "type": 3,
+      "api": "csp_YiSo",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "搜搜",
+      "name": "🔍搜搜网盘",
+      "type": 3,
+      "api": "csp_PanSso",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "一盘",
+      "name": "🐌一盘网盘",
+      "type": 3,
+      "api": "csp_YpanSo",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "新6V",
+      "name": "🧲新6V磁力",
+      "type": 3,
+      "api": "csp_SixV",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "玩偶",
+      "name": "👽玩偶哥(网盘)",
+      "type": 3,
+      "api": "csp_WoGG",
+      "searchable": 1,
+      "quickSearch": 1
+    },
+    {
+      "key": "一直播",
+      "name": "🎮一直播LIVE",
+      "type": 3,
+      "api": "csp_Alllive",
+      "searchable": 0,
+      "quickSearch": 0
+    },
+    {
+      "key": "豆瓣推",
+      "name": "🎯豆瓣推荐",
+      "type": 3,
+      "api": "csp_DouDou",
+      "searchable": 0,
+      "quickSearch": 0
+    }
+  ],
+  "lives": [
+    {
+      "name": "骚零IPV4",
+      "type": 0,
+      "url": "https://play.iptv365.org/%E9%AA%9A%E9%9B%B6/lives/IPV4.txt",
+      "epg": ""
+    },
+    {
+      "name": "骚零IPV6",
+      "type": 0,
+      "url": "https://play.iptv365.org/%E9%AA%9A%E9%9B%B6/lives/IPV6.txt",
+      "epg": ""
+    }
+  ]
+}
