@@ -2,18 +2,6 @@
   "spider": "./1.jar",
   "sites": [
     {
-      "key": "TingBook",
-      "name": "📻┆六月┆有声⚠️失效",
-      "type": 3,
-      "api": "csp_TingBook",
-      "searchable": 1,
-      "indexs": 0,
-      "ext": "https://app.365ting.com",
-      "style": {
-        "type": "list"
-      }
-    },
-    {
       "key": "TingBookJinXia",
       "name": "🎙️┆堇夏┆有声",
       "type": 3,
