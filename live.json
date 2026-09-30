@@ -1,1 +1,42 @@
-{"spider": "./9527.jar", "lives": [{"name": "整合直播(分组线路)", "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_final.txt", "type": 0}], "sites": [], "parses": []}
+{
+  "spider": "./9527.jar",
+  "lives": [
+    {
+      "name": "整合直播(分组线路)",
+      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_final.txt",
+      "type": 0
+    },
+    {
+      "name": "综合直播",
+      "type": 0,
+      "url": "http://193.123.86.190:14888/TV/iptv.php",
+      "epg": ""
+    },
+    {
+      "name": "范明明直播",
+      "type": 0,
+      "url": "https://nos.netease.com/ysf/3d75a78a0fc7ede372c03598d6d10367.m3u",
+      "epg": ""
+    },
+    {
+      "name": "虎牙一起看",
+      "type": 0,
+      "url": "https://sub.ottiptv.cc/huyayqk.m3u",
+      "epg": ""
+    },
+    {
+      "name": "斗鱼一起看",
+      "type": 0,
+      "url": "https://sub.ottiptv.cc/douyuyqk.m3u",
+      "epg": ""
+    },
+    {
+      "name": "YY轮播",
+      "type": 0,
+      "url": "https://sub.ottiptv.cc/yylunbo.m3u",
+      "epg": ""
+    }
+  ],
+  "sites": [],
+  "parses": []
+}
