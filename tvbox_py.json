@@ -681,7 +681,7 @@
     },
     {
       "key": "四个圈",
-      "name": "四圈 | 采集",
+      "name": "四圈 | 采集⚠️失效",
       "type": 1,
       "api": "https://pg.fenwe078.cf/api.php/provide/vod/",
       "quickSearch": 1,
