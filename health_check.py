@@ -34,7 +34,7 @@ SKIP_PATTERNS = [
 
 def fetch(url, timeout=TIMEOUT):
     req = urllib.request.Request(url, headers={
-        "User-Agent": "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
         "Accept": "*/*",
     })
     try:
@@ -79,7 +79,11 @@ def probe(url):
     status, final_url, body_len = result
     if status == 200:
         return f"✅ 200 (body {body_len}B)"
-    return f"⚠️ HTTP {status}"
+    if status == 403:
+        return f"🟡 403(可能反爬/需UA)"
+    if status == 400:
+        return f"🟠 400(可能需参数/签名)"
+    return f"❌ HTTP {status}"
 
 
 def scan_py_js_domains():
