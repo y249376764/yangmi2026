@@ -188,12 +188,6 @@
   ],
   "lives": [
     {
-      "name": "骚零IPV4",
-      "type": 0,
-      "url": "https://play.iptv365.org/%E9%AA%9A%E9%9B%B6/lives/IPV4.txt",
-      "epg": ""
-    },
-    {
       "name": "骚零IPV6",
       "type": 0,
       "url": "https://play.iptv365.org/%E9%AA%9A%E9%9B%B6/lives/IPV6.txt",
