@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-09-30 14:15:07 UTC
+> 自动生成时间: 2026-09-30 14:18:27 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **73**
-- 有异常站点数: **8**
+- 有异常站点数: **7**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-09-30 14:16:06 UTC
+- 巡检时间: 2026-09-30 14:19:29 UTC
 
 ## ⚠️ 异常站点
 
@@ -20,7 +20,6 @@
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | short.json | 果果 • 短剧 | 3 | https://www.mochadj.com/i/{cateId}-{catePg}.html | ext域名:❌ 超时/无法连接 |
 
 ## 📋 全部站点
@@ -141,7 +140,7 @@
 | tvbox_py.json | 索尼 | 采集  | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 量子 | 采集 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 非凡 | 采集 | 1 | https://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 金鹰 | 采集 | 1 | https://jyzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 速播 | 采集 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 樱花 | 采集 | 1 | https://m3u8.apiyhzy.com/api.php/provide/vod/at/xml/ | api脚本:✅ 200 (body 2048B) |
