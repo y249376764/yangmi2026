@@ -112,21 +112,6 @@
       }
     },
     {
-      "key": "怀桑",
-      "name": "🐦金蝉丨蓝光秒播⚠️失效",
-      "type": 3,
-      "api": "csp_AppQi",
-      "searchable": 1,
-      "changeable": 1,
-      "ext": {
-        "site": "https://daen-1256234123.cos.ap-shanghai.myqcloud.com/MuQi/mqxhqj.txt",
-        "dataKey": "kj37zs29q22jk96t",
-        "dataIv": "kj37zs29q22jk96t",
-        "init": "initV122",
-        "ua": "okhttp/3.10.0"
-      }
-    },
-    {
       "key": "天堂",
       "name": "🏵️天堂｜蓝光秒播",
       "type": 3,
