@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-09-30 11:32:12 UTC
+> 自动生成时间: 2026-09-30 14:15:07 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **73**
-- 有异常站点数: **9**
+- 有异常站点数: **8**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-09-30 11:33:12 UTC
+- 巡检时间: 2026-09-30 14:16:06 UTC
 
 ## ⚠️ 异常站点
 
@@ -17,7 +17,6 @@
 | tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
-| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
@@ -68,7 +67,7 @@
 | tvbox.json | 虎牙资源┃刺桐 | 1 | https://www.huyaapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
 | tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
-| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -77,6 +76,29 @@
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🎬奈飞工厂｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 📺立播｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | ▶️在线｜秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎬低端｜动漫影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🏝奥特｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 👒原创｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 📔厂长｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🍎苹果｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 💘腐剧｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🦊播客｜多线 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🍓糯米｜秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🚌巴士动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🪐异界动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | ⛩日本动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🥣小米网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🍄抠抠网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🌈优汐网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🦋易搜网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🔍搜搜网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🐌一盘网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🧲新6V磁力 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 👽玩偶哥(网盘) | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎮一直播LIVE | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎯豆瓣推荐 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 🫐┆三六┆影视 | 3 | https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/36 | ext域名:✅ 200 (body 2048B) |
