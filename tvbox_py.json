@@ -516,7 +516,7 @@
     },
     {
       "key": "电影天堂",
-      "name": "天堂 | 采集",
+      "name": "天堂 | 采集⚠️待核实",
       "type": 1,
       "api": "http://caiji.dyttzyapi.com/api.php/provide/vod/",
       "searchable": 1,
