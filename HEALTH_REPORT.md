@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-09-30 11:09:12 UTC
+> 自动生成时间: 2026-09-30 11:10:56 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **90**
-- 有异常站点数: **9**
+- 探测站点数: **88**
+- 有异常站点数: **7**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-09-30 11:10:03 UTC
+- 巡检时间: 2026-09-30 11:11:46 UTC
 
 ## ⚠️ 异常站点
 
@@ -20,8 +20,6 @@
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tvbox_py.json | 四圈 | 采集⚠️失效 | 1 | https://pg.fenwe078.cf/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tingshu_2.json | 📻┆六月┆有声⚠️失效 | 3 | https://app.365ting.com | ext域名:❌ HTTP 500 |
 | short.json | 果果 • 短剧 | 3 | https://www.mochadj.com/i/{cateId}-{catePg}.html | ext域名:❌ 超时/无法连接 |
 
 ## 📋 全部站点
@@ -144,7 +142,6 @@
 | tvbox_py.json | 暴風 | 采集 | 1 | https://bfzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 旺旺 | 采集 | 1 | https://api.wwzy.tv/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
-| tvbox_py.json | 四圈 | 采集⚠️失效 | 1 | https://pg.fenwe078.cf/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 茅台 | 采集 | 1 | https://mtzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 大师兄影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 饭搭子影视[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -158,7 +155,6 @@
 | tingshu.json | 📕博看丨听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tingshu_2.json | 📻┆六月┆有声⚠️失效 | 3 | https://app.365ting.com | ext域名:❌ HTTP 500 |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
