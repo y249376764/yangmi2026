@@ -35,6 +35,12 @@
       "type": 0,
       "url": "https://sub.ottiptv.cc/yylunbo.m3u",
       "epg": ""
+    },
+    {
+      "name": "河南电信酒店(39台)",
+      "type": 0,
+      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_henan_jiudian.txt",
+      "epg": ""
     }
   ],
   "sites": [],
