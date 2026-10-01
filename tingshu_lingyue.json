@@ -1,7 +1,7 @@
 {
-  "version": 2026100121,
+  "version": 2026100122,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://paste.c-net.org/DictateKafka",
-  "update_msg": "聆阅源v21：酷我分类改为声阅14分类(玄幻奇幻等，tingshu filter接口)",
+  "download_url": "https://paste.c-net.org/BoastAdapt",
+  "update_msg": "聆阅源v22：修复酷我分类albumId数字解析(optString)，声阅同款三接口",
   "support_url": ""
 }
