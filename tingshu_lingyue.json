@@ -1,7 +1,7 @@
 {
-  "version": 2026100107,
+  "version": 2026100109,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v8：修复懒人播放解析（getPlayPath方括号URL编码%5B%5D），听友等8站正常",
+  "update_msg": "聆阅源v9：懒人播放改用AudioUrlJsoupExtractor(移动UA)+jsoup，修复播放解析",
   "support_url": ""
 }
