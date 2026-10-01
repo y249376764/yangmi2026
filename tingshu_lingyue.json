@@ -1,7 +1,7 @@
 {
-  "version": 2026100106,
+  "version": 2026100107,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v4：修复分类空白+合并9站。下载走 jsdelivr CDN（国内最稳，jar以.zip后缀存放）",
+  "update_msg": "聆阅源v8：修复懒人播放解析（getPlayPath方括号URL编码%5B%5D），听友等8站正常",
   "support_url": ""
 }
