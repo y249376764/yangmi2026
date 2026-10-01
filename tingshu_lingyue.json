@@ -1,7 +1,7 @@
 {
-  "version": 2026100110,
+  "version": 2026100111,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v10：懒人播放用CustomExtractor(Fuel带UA/Referer/X-Requested-With)",
+  "update_msg": "聆阅源v11：懒人播放改tingshu8中转直链(免登录) + 新增酷我听书(聆阅后端kuwo-search/episodes/play全链路)",
   "support_url": ""
 }
