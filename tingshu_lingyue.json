@@ -1,7 +1,7 @@
 {
-  "version": 2026100102,
+  "version": 2026100103,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://ghproxy.net/https://raw.githubusercontent.com/y249376764/yangmi2026/main/sources_by_lingyue.jar",
-  "update_msg": "聆阅逆向听书源：懒人听书官方接口，章节全量m4a直链，免登录无广告。下载失败请检查网络或手动放jar",
+  "update_msg": "聆阅源v3：修复分类空白，合并听友FM/听书15/ting74/ting78/22ting/i275/乐听8/月听吧 共9站",
   "support_url": ""
 }
