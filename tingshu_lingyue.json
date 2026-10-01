@@ -1,7 +1,7 @@
 {
-  "version": 2026100113,
+  "version": 2026100114,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/sources_by_lingyue.jar",
-  "update_msg": "聆阅源v13：新增书音FM+喜马拉雅+一夜幻听+哔哩哔哩，懒人+酷我+wenge12站",
+  "update_msg": "聆阅源v14：新增书音FM+喜马拉雅+一夜幻听+哔哩哔哩，懒人+酷我+wenge12站(下载源改ghproxy修复jsdelivr 403)",
   "support_url": ""
 }
