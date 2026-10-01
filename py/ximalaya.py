@@ -293,11 +293,11 @@ class Spider(BaseSpider):
         return {"list": [vod]}
 
     # ------------------------------------------------------------
-    # 播放: baseInfo 取直链
+    # 播放: 取最终可播直链(跟随302, 返回CDN最终地址)
     # ------------------------------------------------------------
     def playerContent(self, flag, id, vipFlags=None):
         track_id = str(id)
-        # 尝试1: baseInfo 接口拿直链
+        # 尝试1: baseInfo 接口拿直链(redirect链接)
         url = (f"https://mobile.ximalaya.com/v1/track/baseInfo"
                f"?device=iPhone&trackId={track_id}")
         d = self._get_json(url, android=True, referer="https://m.ximalaya.com/")
@@ -310,18 +310,44 @@ class Spider(BaseSpider):
                         or d.get("playPathAacv224")
                         or "")
             if play_url:
-                return {"parse": 0, "url": play_url, "header": {"User-Agent": self.UA_ANDROID}}
-        # 尝试2: tracks/{id}.json 老接口(免费声音常有效)
+                final_url = self._follow_redirect(play_url)
+                if final_url:
+                    return {"parse": 0, "url": self._to_https(final_url)}
+        # 尝试2: tracks/{id}.json 老接口(免费声音常有效, 直接CDN直链)
         r = self._get(f"https://m.ximalaya.com/tracks/{track_id}.json", android=True, referer="https://m.ximalaya.com/")
         if r is not None:
             try:
                 tj = r.json()
                 p64 = tj.get("play_path_64") or tj.get("play_path_32") or tj.get("play_path") or ""
                 if p64:
-                    return {"parse": 0, "url": p64, "header": {"User-Agent": self.UA_ANDROID}}
+                    return {"parse": 0, "url": self._to_https(p64)}
             except Exception:
                 pass
         return {"parse": 0, "url": ""}
+
+    def _to_https(self, url):
+        """http 转 https (CDN 均支持 https)"""
+        if url and url.startswith("http://"):
+            return "https://" + url[7:]
+        return url
+
+    def _follow_redirect(self, url, retries=3):
+        """跟随302跳转, 返回最终CDN直链; 失败返回原url"""
+        for _ in range(retries):
+            try:
+                r = requests.get(url, headers={"User-Agent": self.UA_ANDROID},
+                                 timeout=self.timeout, allow_redirects=False)
+                if r.status_code in (301, 302, 303, 307, 308):
+                    loc = r.headers.get("Location")
+                    if loc:
+                        url = loc
+                        continue
+                if r.status_code == 200:
+                    return url
+                return url
+            except Exception:
+                break
+        return url
 
     def localProxy(self, param=""):
         return {}
