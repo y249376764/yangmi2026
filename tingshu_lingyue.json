@@ -1,7 +1,7 @@
 {
-  "version": 2026100103,
+  "version": 2026100104,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://ghproxy.net/https://raw.githubusercontent.com/y249376764/yangmi2026/main/sources_by_lingyue.jar",
-  "update_msg": "聆阅源v3：修复分类空白，合并听友FM/听书15/ting74/ting78/22ting/i275/乐听8/月听吧 共9站",
+  "update_msg": "聆阅源v4：修复分类空白（getResourceList官方接口），含聆阅·懒人+听友FM+听书15/ting74/ting78/22ting/i275/乐听8/月听吧 共9站",
   "support_url": ""
 }
