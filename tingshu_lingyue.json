@@ -1,7 +1,7 @@
 {
-  "version": 2026100118,
+  "version": 2026100119,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://paste.c-net.org/SubmitJonah",
-  "update_msg": "聆阅源v18：回v13好用版+只换酷我重试，哔哩/听友/一夜幻听全保留",
+  "download_url": "https://paste.c-net.org/AvengerTension",
+  "update_msg": "聆阅源v19：酷我改官方接口(声阅同款mobi.s签名播放+search.kuwo.cn章节)，删除appmiaoda后端",
   "support_url": ""
 }
