@@ -1,7 +1,7 @@
 {
-  "version": 2026100111,
+  "version": 2026100112,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v11：懒人播放改tingshu8中转直链(免登录) + 新增酷我听书(聆阅后端kuwo-search/episodes/play全链路)",
+  "update_msg": "聆阅源v12：懒人tingshu8中转+酷我听书+保留原wenge全部12站(听友FM/听书15/ting74/ting78/22ting/70听书/i275/乐听8/月听吧/全民听书/欢听/听神马)",
   "support_url": ""
 }
