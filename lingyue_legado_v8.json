@@ -49,5 +49,54 @@
       "kind": "$.categories[0]",
       "note": "@js:var r=JSON.parse(result);'评分'+r.rating+' | '+r.listeners"
     }
+  },
+  {
+    "bookSourceName": "聆阅·酷我听书",
+    "bookSourceGroup": "听书",
+    "bookSourceUrl": "https://www.kuwo.cn",
+    "bookSourceType": 1,
+    "bookSourceComment": "聆阅逆向源：酷我听书。搜索/章节/播放直链，免登录无广告",
+    "enabled": true,
+    "weight": 0,
+    "loginUrl": "",
+    "loginUi": "",
+    "loginCheckJs": "",
+    "header": "{}",
+    "searchUrl": "@js:\n'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword='+encodeURIComponent(key||'')+'&page='+(Number(page||1)||1)",
+    "exploreUrl": "[{\"title\":\"📚 有声书\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=有声小说&page=<1,2,3,4,5>\"},{\"title\":\"📖 热门\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=热门&page=<1,2,3,4,5>\"},{\"title\":\"🎧 评书\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=评书&page=<1,2,3,4,5>\"},{\"title\":\"👶 儿童\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=儿童故事&page=<1,2,3,4,5>\"},{\"title\":\"📜 历史\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=历史&page=<1,2,3,4,5>\"},{\"title\":\"💤 助眠\",\"url\":\"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword=助眠&page=<1,2,3,4,5>\"}]",
+    "ruleSearch": {
+      "bookList": "$.books",
+      "name": "$.title@js:result.split('|')[0]",
+      "author": "$.author",
+      "coverUrl": "$.cover",
+      "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-episodes?albumId='+result",
+      "intro": "$.description",
+      "kind": "$.categories[0]",
+      "note": "@js:var r=JSON.parse(result);r.totalDuration/60+'分钟'"
+    },
+    "ruleBookInfo": {
+      "name": "$.title@js:result.split('|')[0]",
+      "author": "$.author",
+      "coverUrl": "$.cover",
+      "intro": "$.description"
+    },
+    "ruleToc": {
+      "chapterList": "$.chapters",
+      "chapterName": "$.title",
+      "chapterUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-play?rid='+result",
+      "nextTocUrl": ""
+    },
+    "ruleContent": {
+      "content": "$.url"
+    },
+    "ruleExplore": {
+      "bookList": "$.books",
+      "name": "$.title@js:result.split('|')[0]",
+      "author": "$.author",
+      "coverUrl": "$.cover",
+      "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-episodes?albumId='+result",
+      "intro": "$.description",
+      "kind": "$.categories[0]"
+    }
   }
 ]
