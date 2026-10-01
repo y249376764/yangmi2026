@@ -1,7 +1,7 @@
 {
-  "version": 2026100105,
+  "version": 2026100106,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/sources_by_lingyue.jar",
-  "update_msg": "聆阅源v4：修复分类空白+合并9站。下载链接已换 gh-proxy.com（更稳定国内可达）",
+  "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
+  "update_msg": "聆阅源v4：修复分类空白+合并9站。下载走 jsdelivr CDN（国内最稳，jar以.zip后缀存放）",
   "support_url": ""
 }
