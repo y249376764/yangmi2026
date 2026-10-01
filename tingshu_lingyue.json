@@ -1,7 +1,7 @@
 {
-  "version": 2026100112,
+  "version": 2026100113,
   "entry_package": "sources_by_lingyue",
   "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v12：懒人tingshu8中转+酷我听书+保留原wenge全部12站(听友FM/听书15/ting74/ting78/22ting/70听书/i275/乐听8/月听吧/全民听书/欢听/听神马)",
+  "update_msg": "聆阅源v13：新增书音FM(ecmsapi签名直链)+喜马拉雅(小爱听书)+一夜幻听(22ting)+哔哩哔哩，懒人tingshu8中转+酷我kuwo后端，wenge12站保留",
   "support_url": ""
 }
