@@ -1,7 +1,7 @@
 {
   "version": 2026100113,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/sources_by_lingyue.zip",
-  "update_msg": "聆阅源v13：新增书音FM(ecmsapi签名直链)+喜马拉雅(小爱听书)+一夜幻听(22ting)+哔哩哔哩，懒人tingshu8中转+酷我kuwo后端，wenge12站保留",
+  "download_url": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/sources_by_lingyue.jar",
+  "update_msg": "聆阅源v13：新增书音FM+喜马拉雅+一夜幻听+哔哩哔哩，懒人+酷我+wenge12站",
   "support_url": ""
 }
