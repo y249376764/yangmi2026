@@ -1,7 +1,7 @@
 {
-  "version": 2026100115,
+  "version": 2026100116,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://paste.c-net.org/SamuelsTargeted",
-  "update_msg": "聆阅源v15：18站全量(懒人+酷我+书音FM+喜马拉雅+一夜幻听+哔哩哔哩+wenge12站)，下载源修复",
+  "download_url": "https://paste.c-net.org/WhippedThreats",
+  "update_msg": "聆阅源v16：酷我听书修复(自动重试防并发超限空白)，18站全量",
   "support_url": ""
 }
