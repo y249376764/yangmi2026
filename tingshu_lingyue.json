@@ -1,7 +1,7 @@
 {
-  "version": 2026100120,
+  "version": 2026100121,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://paste.c-net.org/CrampsEncoded",
-  "update_msg": "聆阅源v20：酷我分类改回baby filter接口(修复一直加载)+官方mobi.s播放",
+  "download_url": "https://paste.c-net.org/DictateKafka",
+  "update_msg": "聆阅源v21：酷我分类改为声阅14分类(玄幻奇幻等，tingshu filter接口)",
   "support_url": ""
 }
