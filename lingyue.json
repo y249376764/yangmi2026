@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/jar/sources_by_lingyue.jar",
-  "update_msg": "聆阅逆向听书源：懒人听书+酷我听书 双源聚合（搜索/分类/章节直链）",
+  "download_url": "https://ghproxy.net/https://raw.githubusercontent.com/y249376764/yangmi2026/main/jar/sources_by_lingyue.jar",
+  "update_msg": "聆阅逆向听书源 v2：懒人听书+酷我听书 双源聚合（搜索/分类/章节直链）",
   "support_url": ""
 }
