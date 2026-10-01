@@ -1,7 +1,7 @@
 {
-  "version": 2026100116,
+  "version": 2026100117,
   "entry_package": "sources_by_lingyue",
-  "download_url": "https://paste.c-net.org/WhippedThreats",
-  "update_msg": "聆阅源v16：酷我听书修复(自动重试防并发超限空白)，18站全量",
+  "download_url": "https://paste.c-net.org/HarshPitched",
+  "update_msg": "聆阅源v17：修复懒人/书音类丢失(空白)，酷我重试，18站全量",
   "support_url": ""
 }
