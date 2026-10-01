@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-09-30 14:18:27 UTC
+> 自动生成时间: 2026-10-01 00:05:57 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **73**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-09-30 14:19:29 UTC
+- 巡检时间: 2026-10-01 00:06:36 UTC
 
 ## ⚠️ 异常站点
 
@@ -75,29 +75,6 @@
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🎬奈飞工厂｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 📺立播｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | ▶️在线｜秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🎬低端｜动漫影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🏝奥特｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 👒原创｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 📔厂长｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🍎苹果｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 💘腐剧｜影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🦊播客｜多线 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🍓糯米｜秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🚌巴士动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🪐异界动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | ⛩日本动漫 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🥣小米网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🍄抠抠网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🌈优汐网盘搜 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🦋易搜网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🔍搜搜网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🐌一盘网盘 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🧲新6V磁力 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 👽玩偶哥(网盘) | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🎮一直播LIVE | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 🎯豆瓣推荐 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 🫐┆三六┆影视 | 3 | https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/36 | ext域名:✅ 200 (body 2048B) |
@@ -144,7 +121,7 @@
 | tvbox_py.json | 金鹰 | 采集 | 1 | https://jyzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 速播 | 采集 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 樱花 | 采集 | 1 | https://m3u8.apiyhzy.com/api.php/provide/vod/at/xml/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 黑木耳 | 采集 | 1 | https://json02.heimuer.xyz/api.php/provide/vod/ | api脚本:✅ 200 (body 2000B) |
+| tvbox_py.json | 黑木耳 | 采集 | 1 | https://json02.heimuer.xyz/api.php/provide/vod/ | api脚本:✅ 200 (body 1986B) |
 | tvbox_py.json | 天堂 | 采集 | 1 | http://caiji.dyttzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | ikun | 采集 | 1 | https://ikunzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 暴風 | 采集 | 1 | https://bfzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
