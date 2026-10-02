@@ -1,5 +1,5 @@
 {
-  "desc": "MusicFree 聚合音源(QQ+咪咕实测可用, 官方源附加)",
+  "desc": "MusicFree 聚合音源(QQ+咪咕+bilibili)",
   "plugins": [
     {
       "name": "QQ音乐",
@@ -12,24 +12,9 @@
       "version": "0.1"
     },
     {
-      "name": "猫耳FM",
-      "url": "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/maoerfm/index.js",
-      "version": "0.1.4"
-    },
-    {
       "name": "bilibili",
       "url": "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/bilibili/index.js",
       "version": "0.2.3"
-    },
-    {
-      "name": "快手",
-      "url": "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/kuaishou/index.js",
-      "version": "0.0.2"
-    },
-    {
-      "name": "音悦台",
-      "url": "https://gitee.com/maotoumao/MusicFreePlugins/raw/v0.1/dist/yinyuetai/index.js",
-      "version": "0.0.1"
     }
   ]
 }
