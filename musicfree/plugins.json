@@ -3,12 +3,12 @@
   "plugins": [
     {
       "name": "QQ音乐",
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/musicfree/qq.js",
+      "url": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/musicfree/qq.js",
       "version": "0.0.1"
     },
     {
       "name": "温mg咪咕",
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/musicfree/wmg.js",
+      "url": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/musicfree/wmg.js",
       "version": "0.1"
     },
     {
