@@ -643,7 +643,7 @@ class Spider(BaseSpider):
             {"type_id": "36", "type_name": "广播剧"},
             {"type_id": "21", "type_name": "相声小品"},
         ]
-        # 首页推荐（失败不影响分类）
+        # 首页推荐（失败时用热门书兜底）
         lst = []
         try:
             self._load_cfg()
@@ -654,6 +654,13 @@ class Spider(BaseSpider):
             lst = [self._map_book(it) for it in items if it.get("id")]
         except Exception:
             pass
+        if not lst:
+            # 网络失败兜底: 热门书
+            lst = [
+                {"vod_id": "3879657962", "vod_name": "三体(1-3部)", "vod_pic": "https://file.tingyou8.vip/pic/5DD07C7E68BF50C.jpg", "vod_remarks": "261集"},
+                {"vod_id": "9783312385", "vod_name": "剑来", "vod_pic": "https://file.tingyou8.vip/pic/I7I0081G467902.gif", "vod_remarks": "5329集"},
+                {"vod_id": "3015025554", "vod_name": "第九特区丨头陀渊演播丨搞笑热血都市丨伪戒", "vod_pic": "https://file.tingyou8.vip/pic/fe83cb91b0b2bb5872f6809df1700381.jpeg", "vod_remarks": "2813集"},
+            ]
         return {"class": cls_, "list": lst, "filters": {}}
 
     def categoryContent(self, tid, pg, filter=False, extend=""):
