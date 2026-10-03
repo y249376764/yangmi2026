@@ -36,7 +36,7 @@
       "key": "juhemusic",
       "name": "🎵聚合音乐丨网易+酷我",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/juhe_music.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juhe_music.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -45,7 +45,7 @@
       "key": "lxconverter",
       "name": "🔌洛雪转换器丨插件导入",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/lx_converter.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lx_converter.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
