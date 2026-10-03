@@ -98,7 +98,7 @@
       "key": "ting365",
       "name": "🎧365听书｜有声书",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0a30e123f3b8439410dd3d516854a6c42de1/py/ting365.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c85961c1f7d5c36e0eaff56847100cbb8374e/py/ting365.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
