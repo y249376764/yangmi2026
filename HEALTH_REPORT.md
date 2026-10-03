@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 04:15:10 UTC
+> 自动生成时间: 2026-10-03 04:19:07 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **77**
 - 有异常站点数: **9**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 04:15:55 UTC
+- 巡检时间: 2026-10-03 04:20:01 UTC
 
 ## ⚠️ 异常站点
 
@@ -178,6 +178,7 @@
 - **juok3.py**: juok3.top jx.202617.xyz jx.xmflv.com www.iqiyi.com
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: json.hgeuz.cn tingyou.fm
+- **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
 - **souju_360.py**: api.so.360kan.com api.web.360kan.com bpz1.app bpz1.top bpz10.app
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
