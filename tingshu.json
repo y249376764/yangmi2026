@@ -93,14 +93,6 @@
       "searchable": 1,
       "quickSearch": 1,
       "changeable": 0
-    },
-    {
-      "key": "testspider",
-      "name": "🧪测试蜘蛛｜固定数据",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/test_spider.py",
-      "searchable": 1,
-      "quickSearch": 1
     }
   ],
   "parses": [],
