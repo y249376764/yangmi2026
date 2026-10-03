@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 05:58:10 UTC
+> 自动生成时间: 2026-10-03 06:38:22 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **76**
+- 探测站点数: **78**
 - 有异常站点数: **9**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 05:58:55 UTC
+- 巡检时间: 2026-10-03 06:39:13 UTC
 
 ## ⚠️ 异常站点
 
@@ -145,6 +145,8 @@
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧365听书｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧哔哩听书｜B站有声 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0 | api脚本:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -171,6 +173,7 @@
 - **tiantang.py**: dsystv.com
 - **dsystv.py**: dsystv.com
 - **tengaiyou.py**: bd.jx.cn bfq.txnp.cn bfzyplayer.com cj.tianwe.cn go.88lin.eu.org
+- **bilibili_ts.py**: api.bilibili.com i0.hdslb.com www.bilibili.com
 - **huavod.py**: huavod.com
 - **pianku4k.py**: 4k01.pianku.online bd.jx.cn bfq.txnp.cn jx.2s0.cn jx.77flv.cc
 - **juhe_music.py**: antiserver.kuwo.cn app.c.nf.migu.cn c.y.qq.com dl.stream.qqmusic.qq.com img.sakula.com
@@ -193,6 +196,7 @@
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
 - **qiyoudy.py**: www.baidu.com www.qiyoudy2.com
 - **lx_converter.py**: antiserver.kuwo.cn img1.kuwo.cn music.163.com search.kuwo.cn www.kuwo.cn
+- **ting365.py**: app.365ting.com
 - **zuiying.py**: zhuiying8.cc
 - **wangfei.py**: www.wangfei.tv
 - **dashixiong.py**: t.me www.dsxys8.com
