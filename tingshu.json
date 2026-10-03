@@ -93,6 +93,24 @@
       "searchable": 1,
       "quickSearch": 1,
       "changeable": 0
+    },
+    {
+      "key": "ting365",
+      "name": "🎧365听书｜有声书",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0a30e123f3b8439410dd3d516854a6c42de1/py/ting365.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "bilibili",
+      "name": "🎧哔哩听书｜B站有声",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0a30e123f3b8439410dd3d516854a6c42de1/py/bilibili_ts.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "parses": [],
