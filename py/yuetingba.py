@@ -52,12 +52,17 @@ class Spider(BaseSpider):
     TOKEN_TTL = 600
     timeout = 12
 
-    # 首页分类（站点无分类接口，用固定热门分类占位，走搜索）
+    # 站点真实分类（/book/{分类id}/{页码}）
     CLASSES = [
-        {"type_id": "hot", "type_name": "热门"},
-        {"type_id": "story", "type_name": "小说"},
-        {"type_id": "ping", "type_name": "评书"},
-        {"type_id": "child", "type_name": "儿童"},
+        {"type_id": "1", "type_name": "玄幻"},
+        {"type_id": "4", "type_name": "都市"},
+        {"type_id": "2", "type_name": "历史"},
+        {"type_id": "6", "type_name": "名著"},
+        {"type_id": "7", "type_name": "女频"},
+        {"type_id": "5", "type_name": "科幻"},
+        {"type_id": "3", "type_name": "武侠"},
+        {"type_id": "a", "type_name": "评书"},
+        {"type_id": "8", "type_name": "社科"},
     ]
 
     # ---------------- AES-CBC 自实现 ----------------
@@ -329,11 +334,49 @@ class Spider(BaseSpider):
 
     # ---------------- 分类内容 ----------------
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        # 站点无分类接口，分类统一展示首页推荐（不同页取不同切片）
-        vods = self._home_list()
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
-        start = (page - 1) * 20
-        return {"list": vods[start:start+20], "page": page, "pagecount": 1}
+        vods = self._category_list(str(tid), page)
+        return {"list": vods, "page": page, "pagecount": self._cat_pages.get(str(tid), 1)}
+
+    _cat_pages = {}
+
+    def _category_list(self, tid, page):
+        """解析分类页 /book/{tid}/{page}"""
+        url = f"{self.BASE}/book/{tid}/{page}"
+        html = self._get_text(url)
+        out = []
+        if not html:
+            return out
+        # 总页数
+        pages = re.findall(r'href="/book/' + re.escape(tid) + r'/(\d+)"', html)
+        if pages:
+            try:
+                self._cat_pages[str(tid)] = max(int(p) for p in pages)
+            except Exception:
+                pass
+        # 书籍条目
+        re_item = re.compile(r'<a target="_blank" href="/book/detail/([^/]+)/[0-9]+"[^>]*>([^<]+)</a>')
+        seen = set()
+        for m in re_item.finditer(html):
+            bid = m.group(1).strip()
+            name = m.group(2).strip()
+            if bid in seen or not name:
+                continue
+            seen.add(bid)
+            pic = ""
+            ctx = html[max(0, m.start()-600):m.start()]
+            img_m = re.search(r'<img[^>]+src="([^"]*)"[^>]*>', ctx)
+            if img_m:
+                pic = img_m.group(1)
+                if pic.startswith("/"):
+                    pic = self.BASE + pic
+            out.append({
+                "vod_id": bid,
+                "vod_name": name,
+                "vod_pic": pic,
+                "vod_remarks": "",
+            })
+        return out
 
     def _search_list(self, kw, page):
         from urllib.parse import quote
@@ -385,25 +428,15 @@ class Spider(BaseSpider):
         # 集数
         total_m = re.search(r'集\s*数[\s\S]*?text-desc-content[^>]*>(\d+)', html)
         total_count = int(total_m.group(1)) if total_m else 0
-        # 章节（200/页，串行拉全）
+        # 章节（第一页 200 集，避免超大播放串卡播放器；超过的用"/1"标记分页）
         ch_re = re.compile(r'id="item_([a-f0-9\-]+)"[^>]*class="ting-list-content-item"[\s\S]*?title="([^"]+)"')
         eps = []
-        pages_html = {}
-        pages_html[0] = html
-        skip = 200
-        while skip < total_count:
-            h2 = self._get_text(f"{self.BASE}/book/detail/{vid}/{skip}")
-            if not h2:
-                break
-            pages_html[skip] = h2
-            skip += 200
-        for k in sorted(pages_html.keys()):
-            for m in ch_re.finditer(pages_html[k]):
-                eps.append(f"{m.group(2)}${m.group(1)}")
+        for m in ch_re.finditer(html):
+            eps.append(f"{m.group(2)}${m.group(1)}")
         if eps:
             vod["vod_play_from"] = "悦听吧"
             vod["vod_play_url"] = "#".join(eps)
-            vod["vod_remarks"] = f"{len(eps)}集"
+            vod["vod_remarks"] = f"{total_count}集" if total_count else f"{len(eps)}集"
         return {"list": [vod]}
 
     # ---------------- 播放 ----------------
