@@ -42,7 +42,7 @@ except ImportError:
 class Spider(BaseSpider):
     HOME = "https://www.bilibili.com"
     API = "https://api.bilibili.com"
-    UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    UA = "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
     timeout = 15
     SEARCH_GAP = 1.2  # B站风控: 搜索间隔
 
@@ -137,15 +137,21 @@ class Spider(BaseSpider):
         if self._cookies.get("buvid3") and self._cookies.get("buvid4"):
             return
         try:
+            # 预热1: 首页种 buvid3/b_nut
             r = s.get(self.HOME + "/", timeout=12)
             for c in s.cookies:
                 self._cookies[c.name] = c.value
+            # 预热2: finger/spi 补 buvid4(缺了详情接口必 412)
             if not self._cookies.get("buvid4"):
                 r2 = s.get(self.API + "/x/frontend/finger/spi", timeout=12)
                 j = r2.json()
                 if j.get("code") == 0 and j.get("data"):
                     self._cookies["buvid3"] = j["data"].get("b_3") or self._cookies.get("buvid3")
                     self._cookies["buvid4"] = j["data"].get("b_4") or ""
+            # 预热3: nav 拿 wbi 密钥 + 更多 cookie
+            r3 = s.get(self.API + "/x/web-interface/nav", timeout=12)
+            for c in s.cookies:
+                self._cookies[c.name] = c.value
         except Exception:
             pass
 
@@ -239,28 +245,40 @@ class Spider(BaseSpider):
         return s
 
     def _search_raw(self, keyword, page=1, page_size=20):
-        self._throttle(self.SEARCH_GAP)  # 搜索专用间隔
+        # 免签名搜索接口 + 移动UA: 不触发 v_voucher 风控(实测连续搜索稳定)
+        self._throttle(0.3)
         query = {
             "search_type": "video", "keyword": keyword, "page": str(page),
-            "page_size": str(page_size), "platform": "pc", "web_location": "1430654",
+            "page_size": str(page_size),
         }
-        body = self._api_get("/x/web-interface/wbi/search/type", query, use_wbi=True)
-        results = (body.get("data") or {}).get("result") or []
-        total = (body.get("data") or {}).get("numResults") or 0
-        out = []
-        for m in results:
-            if not m or not m.get("bvid") or not m.get("aid"):
-                continue
-            if not self._is_valid(m):
-                continue
-            out.append({
-                "vod_id": m["bvid"],
-                "vod_name": self._strip(m.get("title")),
-                "vod_pic": self._normalize_pic(m.get("pic")),
-                "vod_remarks": m.get("duration") or "",
-                "vod_content": self._strip(m.get("description") or ""),
-            })
-        return out, total
+        try:
+            r = self._sess().get(self.API + "/x/web-interface/search/type", params=query,
+                                 timeout=self.timeout,
+                                 headers={"Referer": "https://search.bilibili.com/"})
+            if r.status_code != 200:
+                return [], 0
+            j = r.json()
+            if j.get("code") != 0:
+                return [], 0
+            data = j.get("data") or {}
+            results = data.get("result") or []
+            total = data.get("numResults") or 0
+            out = []
+            for m in results:
+                if not m or not m.get("bvid") or not m.get("aid"):
+                    continue
+                if not self._is_valid(m):
+                    continue
+                out.append({
+                    "vod_id": m["bvid"],
+                    "vod_name": self._strip(m.get("title")),
+                    "vod_pic": self._normalize_pic(m.get("pic")),
+                    "vod_remarks": m.get("duration") or "",
+                    "vod_content": self._strip(m.get("description") or ""),
+                })
+            return out, total
+        except Exception:
+            return [], 0
 
     def homeContent(self, filter=False):
         # 首页固定热门书(永不为空) + 尝试实时推荐(失败保留固定)
@@ -354,21 +372,14 @@ class Spider(BaseSpider):
         return {"list": [vod]}
 
     def searchContent(self, key, quick, pg="1"):
+        # 一次搜索到底(去掉补搜, 降低B站风控概率; 补搜的第二次搜索在用户环境极易被限)
         page = int(pg or 1)
         lst = []
         total = 0
         try:
+            self._ensure_cookies()
             r, total = self._search_raw(key, page, 20)
             lst = r
-            # 结果太少补搜一轮
-            if len(lst) < 6:
-                time.sleep(1.2)
-                r2, _ = self._search_raw(key + " 有声小说", 1, 20)
-                seen = {v["vod_id"] for v in lst}
-                for v in r2:
-                    if v["vod_id"] not in seen:
-                        seen.add(v["vod_id"])
-                        lst.append(v)
         except Exception:
             pass
         pagecount = max(1, (total + 19) // 20) if total else 1
