@@ -294,8 +294,7 @@ class Spider(BaseSpider):
 
     # ---------- Spider 接口 ----------
     def homeContent(self, filter=False):
-        self._load_cfg()
-        # 分类（来自 filters）
+        # 分类硬编码兜底（不依赖网络）
         cls_ = [
             {"type_id": "46", "type_name": "玄幻奇幻"},
             {"type_id": "11", "type_name": "武侠小说"},
@@ -309,9 +308,10 @@ class Spider(BaseSpider):
             {"type_id": "36", "type_name": "广播剧"},
             {"type_id": "21", "type_name": "相声小品"},
         ]
-        # 首页推荐
+        # 首页推荐（失败不影响分类）
         lst = []
         try:
+            self._load_cfg()
             pools = self._pools.get("homepage", {})
             primary = pools.get("primary", "https://json.hgeuz.cn/tyfm/json_v1/homepage")
             d = self._api_get(primary)
@@ -322,9 +322,9 @@ class Spider(BaseSpider):
         return {"class": cls_, "list": lst, "filters": {}}
 
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        self._load_cfg()
         lst = []
         try:
+            self._load_cfg()
             d = self._api_get(f"{self.BASE}/api/category_page?type={tid}&page={pg}")
             items = d.get("data") or d.get("list") or d.get("results") or []
             lst = [self._map_book(it) for it in items if it.get("id")]
@@ -333,13 +333,13 @@ class Spider(BaseSpider):
         return {"list": lst}
 
     def detailContent(self, ids):
-        self._load_cfg()
         vod_id = ids[0] if ids else ""
         self._last_album_id = vod_id  # 供 playerContent 使用
         vod = {"vod_id": vod_id, "vod_name": "", "vod_pic": "", "type_name": "听书",
                "vod_content": "", "vod_play_from": "听友FM", "vod_play_url": ""}
         play_urls = []
         try:
+            self._load_cfg()
             # 专辑详情（封面/书名）
             try:
                 pools = self._pools.get("album_detail", {})
@@ -382,9 +382,9 @@ class Spider(BaseSpider):
         return {"list": [vod]}
 
     def searchContent(self, key, quick, pg="1"):
-        self._load_cfg()
         lst = []
         try:
+            self._load_cfg()
             d = self._api_post("/api/search", {"keyword": key, "page": int(pg) if pg else 1})
             items = d.get("results") or d.get("list") or d.get("data") or []
             lst = [self._map_book(it) for it in items if it.get("id")]
