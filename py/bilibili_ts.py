@@ -214,22 +214,17 @@ class Spider(BaseSpider):
             sec = sec * 60 + (int(p) if p.isdigit() else 0)
         return sec
 
-    def _is_audiobook(self, m):
+    def _is_valid(self, m):
+        # 哔哩全能源: 只去掉明显噪音, 其余(听书/音乐/演唱会/MV/合集)全保留
         title = self._strip(m.get("title"))
         meta = str(m.get("description") or "") + " " + str(m.get("tag") or "")
         if any(h in (title + " " + meta) for h in self.NOISE_HINTS):
             return False
+        # 排除超短视频(纯短视频/切片, <3分钟 且不含听书关键词)
         sec = self._parse_duration(m.get("duration"))
-        # 放宽: 标题/简介含听书关键词(不管时长) 或 时长超30分钟 都算
-        if any(h in title for h in self.AUDIO_HINTS):
-            return True
-        if any(h in meta for h in self.AUDIO_HINTS):
-            return True
-        if sec >= 1800:
-            return True
-        if str(m.get("typeid")) == "195" and sec >= 600:
-            return True
-        return False
+        if sec < 180 and not any(h in title for h in self.AUDIO_HINTS):
+            return False
+        return True
 
     def _normalize_pic(self, p):
         s = str(p or "")
@@ -256,7 +251,7 @@ class Spider(BaseSpider):
         for m in results:
             if not m or not m.get("bvid") or not m.get("aid"):
                 continue
-            if not self._is_audiobook(m):
+            if not self._is_valid(m):
                 continue
             out.append({
                 "vod_id": m["bvid"],
@@ -304,7 +299,7 @@ class Spider(BaseSpider):
     def detailContent(self, ids):
         bvid = str(ids[0]) if ids else ""
         vod = {"vod_id": bvid, "vod_name": "", "vod_pic": "", "type_name": "听书",
-               "vod_content": "", "vod_play_from": "哔哩听书", "vod_play_url": ""}
+               "vod_content": "", "vod_play_from": "哔哩全能", "vod_play_url": ""}
         play_urls = []
         seen = set()
         try:
@@ -413,7 +408,7 @@ class Spider(BaseSpider):
         return {"list": []}
 
     def getName(self):
-        return "哔哩听书"
+        return "哔哩全能"
 
     def isVideoFormat(self, url):
         return False
