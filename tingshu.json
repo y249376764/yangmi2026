@@ -107,7 +107,7 @@
       "key": "bilibiliv2",
       "name": "🎧哔哩全能v2｜听书+音乐",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@94998e4aa67e/py/bilibili_ts.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@4600d78a6e301cb30865f1a85ff8e5a47d15ce0d/py/bilibili_ts.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
