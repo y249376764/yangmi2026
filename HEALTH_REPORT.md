@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 08:16:39 UTC
+> 自动生成时间: 2026-10-03 08:18:29 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **79**
-- 有异常站点数: **10**
+- 探测站点数: **78**
+- 有异常站点数: **11**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 08:17:32 UTC
+- 巡检时间: 2026-10-03 08:19:12 UTC
 
 ## ⚠️ 异常站点
 
@@ -23,6 +23,7 @@
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 速播 | 采集 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tingshu_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu_2.json' |
 | short.json | 果果 • 短剧 | 3 | https://www.mochadj.com/i/{cateId}-{catePg}.html | ext域名:❌ 超时/无法连接 |
 
 ## 📋 全部站点
@@ -149,8 +150,6 @@
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧哔哩全能v2｜听书+音乐 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@4600d | api脚本:✅ 200 (body 2048B) |
-| tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
-| tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🍁枫叶丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶裤硪丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
