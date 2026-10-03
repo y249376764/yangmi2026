@@ -220,11 +220,14 @@ class Spider(BaseSpider):
         if any(h in (title + " " + meta) for h in self.NOISE_HINTS):
             return False
         sec = self._parse_duration(m.get("duration"))
-        if any(h in title for h in self.AUDIO_HINTS) and sec >= 300:
+        # 放宽: 标题/简介含听书关键词(不管时长) 或 时长超30分钟 都算
+        if any(h in title for h in self.AUDIO_HINTS):
+            return True
+        if any(h in meta for h in self.AUDIO_HINTS):
+            return True
+        if sec >= 1800:
             return True
         if str(m.get("typeid")) == "195" and sec >= 600:
-            return True
-        if any(h in meta for h in self.AUDIO_HINTS) and sec >= 1800:
             return True
         return False
 
@@ -303,16 +306,54 @@ class Spider(BaseSpider):
         vod = {"vod_id": bvid, "vod_name": "", "vod_pic": "", "type_name": "听书",
                "vod_content": "", "vod_play_from": "哔哩听书", "vod_play_url": ""}
         play_urls = []
+        seen = set()
         try:
-            body = self._api_get("/x/player/pagelist", {"bvid": bvid})
-            pages = body.get("data") or []
-            if pages:
+            # 先用 view 拿详情(含 ugc_season 合集)
+            self._ensure_cookies()
+            s = self._sess()
+            ck = "; ".join(f"{k}={v}" for k, v in self._cookies.items())
+            headers = {"Referer": f"https://www.bilibili.com/video/{bvid}"}
+            if ck:
+                headers["Cookie"] = ck
+            r = s.get(self.API + "/x/web-interface/view", params={"bvid": bvid}, timeout=self.timeout, headers=headers)
+            if r.status_code == 200:
+                j = r.json()
+                if j.get("code") == 0:
+                    data = j.get("data") or {}
+                    vod["vod_name"] = data.get("title") or vod["vod_name"]
+                    vod["vod_pic"] = data.get("pic") or vod["vod_pic"]
+                    vod["vod_content"] = data.get("desc") or vod["vod_content"]
+                    # 合集章节(ugc_season.sections[].episodes[])
+                    ugc = data.get("ugc_season") or {}
+                    for sec in (ugc.get("sections") or []):
+                        sec_title = sec.get("title") or ""
+                        for ep in (sec.get("episodes") or []):
+                            ep_title = ep.get("title") or ""
+                            full = f"{sec_title}·{ep_title}" if sec_title else ep_title
+                            aid = ep.get("aid")
+                            cid = ep.get("cid")
+                            if aid and cid and cid not in seen:
+                                seen.add(cid)
+                                play_urls.append(f"{full}${aid}_{cid}")
+                    # 分P章节(pages[])
+                    for p in (data.get("pages") or []):
+                        cid = p.get("cid")
+                        if cid and cid not in seen:
+                            seen.add(cid)
+                            play_urls.append(f"{p.get('part') or ('第' + str(p.get('page')) + '话')}${bvid}_{cid}")
+        except Exception:
+            pass
+        # 兜底: pagelist
+        if not play_urls:
+            try:
+                body = self._api_get("/x/player/pagelist", {"bvid": bvid})
+                pages = body.get("data") or []
                 for c in pages:
                     if not c.get("cid"):
                         continue
                     play_urls.append(f"{c.get('part') or ('第' + str(c.get('page')) + '话')}${bvid}_{c.get('cid')}")
-        except Exception:
-            pass
+            except Exception:
+                pass
         if play_urls:
             vod["vod_play_url"] = "#".join(play_urls)
         return {"list": [vod]}
