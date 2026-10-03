@@ -1,29 +1,31 @@
 # -*- coding: utf-8 -*-
 """
-哔哩有声 蜘蛛版 (bilibili_audio.py)
+哔哩有声 蜘蛛版 (bilibili_audio.py) v2
 ------------------------------------
-照搬海阔视界"哔哩有声"规则 (home_rule_v2), 2026-10-03 实现:
+站点: https://www.bilibili.com
+底层 B站 Web API:
+  搜索   /x/web-interface/wbi/search/type   (WBI 签名 + cookie 预热, 官方全量搜索)
+  详情   /x/web-interface/view/detail       (免签名)
+  音频   /x/player/playurl                  (免签名, DASH 纯音频流)
 
-  * 搜索/分类  GET https://api.bilibili.com/x/web-interface/wbi/search/type
-               ?search_type=video&keyword={kw}&page={p}&page_size=20
-               (实测无需 WBI 签名, code 0 正常返回)
-  * 详情      GET https://api.bilibili.com/x/web-interface/view/detail
-               ?bvid={bvid}&p=1&platform=h5
-               -> data.View: { title, pic, desc, aid, pages[] }
-  * 播放      GET https://api.bilibili.com/x/player/playurl
-               ?avid={aid}&cid={cid}&qn=16&fnval=16&fnver=0&fourk=1
-               (不能带 platform=html5, 会禁掉 dash) -> data.dash.audio[].baseUrl
-
-全部走音频播放器: B站音视频分离(dash), 纯音频流远小于 mux mp4 (大合集 1.59GB 视频
-              -> 295MB 音频, 快 5 倍)。2 条音频线路: 高清音频(最高码率) / 流畅音频(最低码率)。
-              每集 id 格式 "part$aid$$cid$${1|0}"。无 dash 音频时 fallback durl 视频流。
+v2 搜索修复 (2026-10-03):
+  1. 搜索链路升级为 WBI 签名 + cookie 预热 (与 bilibili_ts.py 验证过的方案一致)
+     - 预热: 首页种 buvid3/b_nut -> finger/spi 补 buvid4 -> nav 拿 wbi 密钥+更多cookie
+     - 搜索: /x/web-interface/wbi/search/type + wts/w_rid 签名, 免 v_voucher 风控
+  2. v_voucher 风控检测: 返回空 result 且带 v_voucher 字段时自动重试一次
+  3. 会话复用: 同一个 Session 保持 cookie, 避免每次裸请求
+  4. 官方全量: 官方搜索接口直接返回全部结果(不做过滤), 单页 20 条 = B站官方硬限制,
+     翻页 pagecount 用官方 numResults 真实计算
+  5. 播放不变: 纯音频 dash 流(最快最省流量), 2 线路(高清/流畅)
 
 分类: 有声小说 / 有声漫画 / 广播剧 / 经典老歌 / 音乐推荐 (搜索词即分类)
-说明: B 站音频类内容多为视频封面音轨, 直链为 mp4, 播放器可直接播放。
 """
 import re
 import json
+import time
+import hashlib
 import requests
+import urllib.parse
 
 try:
     from base.spider import Spider as BaseSpider
@@ -44,10 +46,19 @@ except ImportError:
 
 
 class Spider(BaseSpider):
+    HOME = "https://www.bilibili.com"
     API = "https://api.bilibili.com"
     UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
           "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-    timeout = 12
+    timeout = 15
+    SEARCH_GAP = 1.2  # B站风控: 搜索间隔
+
+    MIXIN_KEY_ENC_TAB = [
+        46,47,18,2,53,8,23,32,15,50,10,31,58,3,45,35,27,43,5,49,
+        33,9,42,19,29,28,14,39,12,38,41,13,37,48,7,16,24,55,40,61,
+        26,17,0,1,60,51,30,4,22,25,54,21,56,59,6,63,57,62,11,36,
+        20,34,44,52,
+    ]
 
     CLASSES = [
         {"type_id": "有声小说", "type_name": "有声小说"},
@@ -57,10 +68,107 @@ class Spider(BaseSpider):
         {"type_id": "音乐推荐", "type_name": "音乐推荐"},
     ]
 
-    def _get(self, url, referer="https://www.bilibili.com/"):
-        h = {"User-Agent": self.UA, "Referer": referer}
+    def __init__(self):
+        self._cookies = {}
+        self._wbi = None
+        self._day = ""
+        self._session = None
+        self._last_search_at = 0
+
+    def _sess(self):
+        if self._session is None:
+            self._session = requests.Session()
+            self._session.headers.update({"User-Agent": self.UA, "Referer": self.HOME + "/"})
+        return self._session
+
+    def _throttle(self, gap=0.4):
+        t = time.time()
+        d = t - self._last_search_at
+        if d < gap:
+            time.sleep(gap - d)
+        self._last_search_at = time.time()
+
+    # ---------------- cookie 预热 (免风控关键) ----------------
+    def _ensure_cookies(self):
+        s = self._sess()
+        if self._cookies.get("buvid3") and self._cookies.get("buvid4"):
+            return
         try:
-            r = requests.get(url, headers=h, timeout=self.timeout)
+            # 预热1: 首页种 buvid3/b_nut
+            r = s.get(self.HOME + "/", timeout=12)
+            for c in s.cookies:
+                self._cookies[c.name] = c.value
+            # 预热2: finger/spi 补 buvid4 (缺了详情接口必 412)
+            if not self._cookies.get("buvid4"):
+                r2 = s.get(self.API + "/x/frontend/finger/spi", timeout=12)
+                j = r2.json()
+                if j.get("code") == 0 and j.get("data"):
+                    self._cookies["buvid3"] = j["data"].get("b_3") or self._cookies.get("buvid3")
+                    self._cookies["buvid4"] = j["data"].get("b_4") or ""
+            # 预热3: nav 拿 wbi 密钥 + 更多 cookie
+            r3 = s.get(self.API + "/x/web-interface/nav", timeout=12)
+            for c in s.cookies:
+                self._cookies[c.name] = c.value
+        except Exception:
+            pass
+
+    def _ensure_wbi(self):
+        today = time.strftime("%Y-%m-%d")
+        if self._wbi and self._day == today:
+            return self._wbi
+        try:
+            r = self._sess().get(self.API + "/x/web-interface/nav", timeout=12)
+            j = r.json()
+            img = j.get("data", {}).get("wbi_img", {})
+            img_key = img["img_url"].split("/")[-1].split(".")[0]
+            sub_key = img["sub_url"].split("/")[-1].split(".")[0]
+            self._wbi = (img_key, sub_key)
+            self._day = today
+            return self._wbi
+        except Exception:
+            return None
+
+    def _wbi_sign(self, params, keys):
+        if not keys:
+            return params
+        mixin = "".join((keys[0] + keys[1])[i] for i in self.MIXIN_KEY_ENC_TAB)
+        params["wts"] = str(int(time.time()))
+        arr = [f"{k}={urllib.parse.quote(str(params[k]), safe='')}" for k in sorted(params.keys()) if params[k] is not None]
+        params["w_rid"] = hashlib.md5(("&".join(arr) + mixin).encode()).hexdigest()
+        return params
+
+    def _api_get(self, path, params, use_wbi=False, referer="https://www.bilibili.com/"):
+        self._ensure_cookies()
+        if use_wbi:
+            keys = self._ensure_wbi()
+            params = self._wbi_sign(params, keys)
+        s = self._sess()
+        headers = {"Referer": referer}
+        ck = "; ".join(f"{k}={v}" for k, v in self._cookies.items())
+        if ck:
+            headers["Cookie"] = ck
+        for attempt in range(3):
+            if attempt > 0:
+                time.sleep(1.2)
+            self._throttle(0.3)
+            try:
+                r = s.get(self.API + path, params=params, timeout=self.timeout, headers=headers)
+                if r.status_code != 200:
+                    continue
+                j = r.json()
+                code = j.get("code")
+                if code != 0:
+                    if code in (-412, -352):
+                        continue
+                    return {}
+                return j
+            except Exception:
+                continue
+        return {}
+
+    def _get(self, url, referer="https://www.bilibili.com/"):
+        try:
+            r = requests.get(url, headers={"User-Agent": self.UA, "Referer": referer}, timeout=self.timeout)
             if r.status_code == 200:
                 return r
         except Exception:
@@ -83,13 +191,27 @@ class Spider(BaseSpider):
             return ''
         return re.sub(r'<em class="keyword">', '', s).replace('</em>', '').strip()
 
-    # ---------------- 搜索/分类 ----------------
-    def _search_list(self, kw, page):
-        from urllib.parse import quote
-        url = (f"{self.API}/x/web-interface/wbi/search/type"
-               f"?search_type=video&keyword={quote(kw)}&page={page}&page_size=20")
-        j = self._get_json(url)
-        res = j.get("data", {}).get("result") or []
+    # ---------------- 搜索/分类 (官方全量) ----------------
+    def _search_list(self, kw, page, page_size=20):
+        """官方 WBI 签名搜索接口, 全量返回不过滤"""
+        self._throttle(self.SEARCH_GAP)
+        query = {
+            "search_type": "video", "keyword": str(kw),
+            "page": str(page), "page_size": str(page_size),
+        }
+        j = self._api_get("/x/web-interface/wbi/search/type", query, use_wbi=True,
+                          referer="https://search.bilibili.com/")
+        data = j.get("data") or {}
+        res = data.get("result") or []
+        total = data.get("numResults") or 0
+        # v_voucher 风控: 无 result 且带 v_voucher 字段, 重试一次
+        if not res and data.get("v_voucher"):
+            time.sleep(2.0)
+            j = self._api_get("/x/web-interface/wbi/search/type", query, use_wbi=True,
+                              referer="https://search.bilibili.com/")
+            data = j.get("data") or {}
+            res = data.get("result") or []
+            total = data.get("numResults") or 0
         out = []
         for it in res:
             if not isinstance(it, dict):
@@ -113,7 +235,7 @@ class Spider(BaseSpider):
                 "vod_actor": it.get("author") or "",
                 "vod_director": "",
             })
-        return out
+        return out, total
 
     # ---------------- 详情 ----------------
     def detailContent(self, ids):
@@ -211,9 +333,12 @@ class Spider(BaseSpider):
 
     def homeContent(self, filter):
         vods = []
+        seen = set()
         for kw in ["有声小说", "有声漫画", "广播剧", "经典老歌"]:
-            for it in self._search_list(kw, 1)[:8]:
-                if it and it["vod_id"] not in [v["vod_id"] for v in vods]:
+            items, _ = self._search_list(kw, 1)
+            for it in items[:8]:
+                if it and it["vod_id"] not in seen:
+                    seen.add(it["vod_id"])
                     vods.append(it)
             if len(vods) >= 32:
                 break
@@ -222,19 +347,35 @@ class Spider(BaseSpider):
     def homeVideoContent(self):
         vods = []
         for kw in ["有声小说", "广播剧"]:
-            vods.extend(self._search_list(kw, 1)[:8])
+            items, _ = self._search_list(kw, 1)
+            vods.extend(items[:8])
         return {"list": vods}
 
     def categoryContent(self, tid, pg="1", filter=False, extend=""):
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
-        return {"list": self._search_list(str(tid), page), "page": page, "pagecount": page + 1}
+        lst, total = self._search_list(str(tid), page)
+        pagecount = max(1, (total + 19) // 20) if total else page + 1
+        return {"list": lst, "page": page, "pagecount": pagecount, "limit": 20, "total": total}
 
     def searchContent(self, key, quick, pg="1"):
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
-        return {"list": self._search_list(str(key), page)}
+        lst, total = self._search_list(str(key), page)
+        pagecount = max(1, (total + 19) // 20) if total else 1
+        return {"list": lst, "page": page, "pagecount": pagecount, "limit": 20, "total": total}
 
     def localProxy(self, param=""):
         return {}
 
     def destroy(self):
         pass
+
+
+if __name__ == "__main__":
+    import sys
+    sp = Spider()
+    sp.init("")
+    kw = sys.argv[1] if len(sys.argv) > 1 else "三体 有声小说"
+    r = sp.searchContent(kw, False, "1")
+    print(f"搜索 [{kw}]: {len(r['list'])} 条 | pagecount={r['pagecount']} | total={r['total']}")
+    for v in r["list"][:5]:
+        print(f"  {v['vod_name'][:36]} | {v['vod_remarks']} | {v['vod_id']}")
