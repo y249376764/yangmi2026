@@ -1,214 +1,401 @@
 {
-  "spider": "./1.jar",
+  "spider": "./9527.jar",
   "sites": [
     {
-      "key": "zhiqiu",
-      "name": "☘️┆听风┆知秋",
+      "key": "韩圈",
+      "name": "🌼韩圈｜蓝光韩剧",
       "type": 3,
-      "api": "csp_zhiqiu",
-      "searchable": 1,
-      "ext": "http://www.y456y.com/api//2026/zhiqiu.php"
+      "api": "csp_Hxq"
     },
     {
-      "key": "fishhxq",
-      "name": "💃┆韩圈┆影视",
+      "key": "农民影视",
+      "name": "🌾农民｜蓝光秒播",
       "type": 3,
-      "api": "csp_FishHxq",
-      "searchable": 1,
-      "ext": "http://www.y456y.com/api//2026/fishhxq.php"
+      "api": "csp_Wwys",
+      "ext": "https://vip.wwgz.cn:5200"
     },
     {
-      "key": "Kan360",
-      "name": "🫐┆三六┆影视",
+      "key": "热播影视",
+      "name": "🌞热播｜蓝光秒播",
       "type": 3,
-      "api": "csp_Kan360",
-      "searchable": 1,
-      "filterable": 1,
-      "ext": {
-        "filter": "https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/360.json",
-        "fishjx": [
-          "https://jx.xmflv.com/?url="
-        ]
-      }
-    },
-    {
-      "key": "茶寮",
-      "name": "🍵┆茶寮┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "chaliao"
-      }
-    },
-    {
-      "key": "栖桐",
-      "name": "🌳┆栖桐┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "qitong"
-      }
-    },
-    {
-      "key": "锦书",
-      "name": "✉️┆锦书┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "jinshu"
-      }
-    },
-    {
-      "key": "棋枰",
-      "name": "♟️┆棋枰┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "qiping"
-      }
-    },
-    {
-      "key": "竹隐",
-      "name": "🎋┆竹隐┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "zhuyin"
-      }
-    },
-    {
-      "key": "玉阶",
-      "name": "🏛️┆玉阶┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "yujie"
-      }
-    },
-    {
-      "key": "香篆",
-      "name": "🪔┆香篆┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "xiangzhu"
-      }
-    },
-    {
-      "key": "松庭",
-      "name": "🌲┆松庭┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "songting"
-      }
-    },
-    {
-      "key": "纸鸢",
-      "name": "🪁┆纸鸢┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "zhiyuan"
-      }
-    },
-    {
-      "key": "墨砚",
-      "name": "🖋️┆墨砚┆APP",
-      "type": 3,
-      "api": "csp_NiuLai",
-      "searchable": 1,
-      "filterable": 1,
-      "changeable": 0,
-      "ext": {
-        "php": "https://max.moyu666666.top/niulai.php",
-        "site": "moyan"
-      }
-    },
-    {
-      "key": "CZ",
-      "name": "🏭┆厂长┆影视",
-      "type": 3,
-      "api": "csp_CZ",
+      "api": "csp_AppRJ",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0,
       "ext": {
-        "cookie": "",
-        "username": "",
-        "password": "",
-        "site": [
-          "https://www.4kcz.com",
-          "https://www.cz4k.com",
-          "https://cz01.tv",
-          "https://cz01.vip",
-          "https://www.czzy.site",
-          "https://czzy.top"
-        ]
+        "url": "http://v.rbotv.cn"
       }
     },
     {
-      "key": "wencai",
-      "name": "✏️┆文才┆影视",
+      "key": "搜剧AI",
+      "name": "🎈看剧AI丨蓝光秒播",
+      "api": "csp_SouJu",
       "type": 3,
-      "api": "csp_WenCai",
       "searchable": 1,
-      "ext": "https://www.tjrongze.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.jiabaide.cn"
+      "quickSearch": 1,
+      "filterable": 0
     },
     {
-      "key": "Guazi",
-      "name": "🍉┆瓜子┆影视",
+      "key": "北斗",
+      "name": "🛸北斗丨蓝光秒播",
+      "api": "csp_Bdjmcc",
       "type": 3,
-      "api": "csp_Guazi",
-      "searchable": 1
+      "searchable": 0,
+      "quickSearch": 0,
+      "filterable": 1
     },
     {
-      "key": "tiantang",
-      "name": "👼┆天堂┆影视",
+      "key": "厂长",
+      "name": "🏪厂长｜蓝光影视",
       "type": 3,
-      "api": "./py/tiantang.py",
+      "api": "csp_Czsapp",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": "https://cz01.vip"
+    },
+    {
+      "key": "咕噜",
+      "name": "🐧咕噜丨蓝光秒播",
+      "type": 3,
+      "api": "csp_Gulu",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "布布",
+      "name": "🦊布布丨蓝光秒播",
+      "type": 3,
+      "api": "csp_YunDuo",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "host": "https://323433ssdfd.top",
+        "finger": "WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2",
+        "aid": "com.web.player",
+        "sk": "WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1",
+        "client": "8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a",
+        "sign": "ddtvf65f3a83d6d9ad6f"
+      }
+    },
+    {
+      "key": "半日99",
+      "name": "🥰胖妞丨蓝光秒播",
+      "type": 3,
+      "api": "csp_App99",
+      "ext": {
+        "host": "http://103.217.190.91:19987/app/bn",
+        "appkey": "24d625a8a29b4700a1a294c6f3b29e2c",
+        "versionName": "3.5.8",
+        "name": "半日闲",
+        "package": "com.yf.lelian",
+        "buildNumber": "2001",
+        "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
+      }
+    },
+    {
+      "key": "猴影视",
+      "name": "🐵猴哥丨蓝光秒播",
+      "type": 3,
+      "api": "csp_App3Q",
+      "ext": {
+        "host": "https://45.150.167.18:8000",
+        "finger": "SF-A962FEC75DA28D7514F2A16580334272A78AC0A8429F10C94F47C1BAFC876E3F",
+        "updateId": "43c1ef69-3748-aaeb-317f-c621c77653ee",
+        "deviceBrand": "vivo",
+        "deviceModel": "V2309A",
+        "pkg": "com.damahou.tv",
+        "sk": "SK-woniu-thanks",
+        "ver": "1"
+      }
+    },
+    {
+      "key": "天堂",
+      "name": "🏵️天堂｜蓝光秒播",
+      "type": 3,
+      "api": "csp_AppDrama",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "appName": "电影天堂",
+        "publicKey": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCduNEnfxGaLuQRk5ABzXHhPV43zi00sCHjLo8BYc+Wi6xXm2b4v0i28Sq4WlNCKhseft9fz8kO/qLr6/022o1RcuOU7e4GFL3U9WnNODwRBYSYWd+K8nqpI/tAUDmZEBGRWqjrc7x6aMl3A+xpnWkLbPCLsuhbuuUE3tv09oeOpwIDAQAB",
+        "dataKey": "D2KREWRIBVNAUJJYEDL4VFHOY2Q0PQ==",
+        "dataIv": "OC1A06E197EF10CF3F6058CA7A803B5E",
+        "pkg": "com.dytiantang.one",
+        "host": "",
+        "site": "https://dyttandroid04-1372779881.cos.ap-shanghai.myqcloud.com/app_dyttandroid.txt",
+        "version": "3.0.0.7",
+        "decrypt": "0"
+      }
+    },
+    {
+      "key": "独播影视",
+      "name": "🧿独播｜蓝光秒播",
+      "type": 3,
+      "api": "csp_Duboku"
+    },
+    {
+      "key": "金牌影视",
+      "name": "🧿金牌｜蓝光秒播",
+      "type": 3,
+      "api": "csp_Jpys",
+      "ext": "https://m.610pkea.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.sizhengxt.com,https://m.jiabaide.cn"
+    },
+    {
+      "key": "魔方",
+      "name": "💠魔方丨蓝光秒播",
+      "type": 3,
+      "api": "csp_AppGet",
+      "searchable": 1,
+      "changeable": 1,
+      "ext": {
+        "url": "https://www.douy32mf.top",
+        "dataKey": "1234567887654321",
+        "dataIv": "1234567887654321"
+      }
+    },
+    {
+      "key": "爱看机器人",
+      "name": "🧿爱看｜蓝光秒播",
+      "type": 3,
+      "api": "csp_Ikanbot",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "天堂1",
+      "name": "🎬电影天堂丨蓝光",
+      "type": 3,
+      "api": "csp_AppYsV2",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "playerType": 2,
+      "ext": "http://39.105.18.5:5565/api.php/app/"
+    },
+    {
+      "key": "一起",
+      "name": "👀一起看丨蓝光影视",
+      "type": 3,
+      "api": "csp_AppYQK",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "永乐影视",
+      "name": "🎡永乐｜蓝光影视",
+      "type": 3,
+      "api": "csp_XBPQ",
+      "ext": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/XBPQ/永乐影视.json"
+    },
+    {
+      "key": "1905",
+      "name": "🎥1905｜蓝光秒播",
+      "type": 3,
+      "api": "csp_Web1905",
       "searchable": 1,
       "quickSearch": 0,
-      "filterable": 1,
-      "ext": ""
+      "filterable": 0
+    },
+    {
+      "key": "哔哩视频",
+      "name": "🅱️哔哩｜影视资源",
+      "type": 3,
+      "api": "csp_BiliYS",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 1.433
+      },
+      "ext": {
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+      }
+    },
+    {
+      "key": "猫眼资源",
+      "name": "猫眼资源┃刺桐",
+      "api": "https://api.maoyanapi.top/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "牛牛资源",
+      "name": "牛牛资源┃刺桐",
+      "api": "https://api.niuniuzy.me/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "丫丫资源",
+      "name": "丫丫资源┃刺桐",
+      "api": "https://cj.yayazy.net/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "茅台资源",
+      "name": "茅台资源┃刺桐",
+      "api": "https://caiji.maotaizy.cc/api.php/provide/vod/from/mtm3u8/at/josn/",
+      "type": 1
+    },
+    {
+      "key": "豪华资源",
+      "name": "豪华资源┃刺桐",
+      "api": "https://hhzyapi.com/api.php/provide/vod",
+      "type": 1
+    },
+    {
+      "key": "极速资源",
+      "name": "极速资源┃刺桐",
+      "api": "https://jszyapi.com/api.php/provide/vod",
+      "type": 1
+    },
+    {
+      "key": "豆瓣资源",
+      "name": "豆瓣资源┃刺桐",
+      "api": "https://caiji.dbzy5.com/api.php/provide/vod/at/josn/",
+      "type": 1
+    },
+    {
+      "key": "索尼资源",
+      "name": "索尼资源┃刺桐",
+      "api": "https://suoniapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "OK资源",
+      "name": "OK资源┃刺桐",
+      "api": "https://api.okzyw.net/api.php/provide/vod/?ac=list",
+      "type": 1
+    },
+    {
+      "key": "非凡资源",
+      "name": "非凡资源┃刺桐",
+      "api": "http://cj.ffzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "量子资源",
+      "name": "量子资源┃刺桐",
+      "api": "https://cj.lziapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "暴风影视",
+      "name": "暴风影视┃刺桐",
+      "api": "https://bfzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "鸭鸭资源",
+      "name": "鸭鸭资源┃刺桐",
+      "api": "https://cj.yayazy.net/api.php/provide/vod/?ac=list",
+      "type": 1
+    },
+    {
+      "key": "闪电资源",
+      "name": "闪电资源┃刺桐",
+      "api": "http://sdzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "樱花资源",
+      "name": "樱花资源┃刺桐",
+      "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "U酷资源",
+      "name": "U酷资源┃刺桐",
+      "api": "https://api.ukuapi88.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "光速资源",
+      "name": "光速资源┃刺桐",
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "虎牙资源",
+      "name": "虎牙资源┃刺桐",
+      "api": "https://www.huyaapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "百度资源",
+      "name": "百度资源┃刺桐",
+      "api": "https://api.apibdzy.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "飘零影院",
+      "name": "飘零影院┃刺桐",
+      "api": "https://p2100.net/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "无尽资源",
+      "name": "无尽资源┃刺桐",
+      "api": "https://api.wujinapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "速博资源",
+      "name": "速博资源┃刺桐",
+      "api": "https://subocaiji.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "最大资源",
+      "name": "最大资源┃刺桐",
+      "api": "https://api.zuidapi.com/api.php/provide/vod/from/zuidam3u8/",
+      "type": 1
+    },
+    {
+      "key": "爱奇艺资源",
+      "name": "爱奇艺资源┃刺桐",
+      "api": "https://iqiyizyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "影剧资源",
+      "name": "影剧资源┃刺桐",
+      "api": "https://caiji.maotaizy.cc/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "火狐资源",
+      "name": "火狐资源┃刺桐",
+      "api": "https://hhzyapi.com/api.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "新浪资源",
+      "name": "新浪资源┃刺桐",
+      "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "建安资源",
+      "name": "建安资源┃刺桐",
+      "api": "http://154.219.117.232:9981/jacloudapi.php/provide/vod/",
+      "type": 1
+    },
+    {
+      "key": "netflixgc",
+      "name": "🎬奈飞工厂｜蓝光影视",
+      "type": 3,
+      "api": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/js/netflixgc.js",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
   ],
-  "parses": [],
-  "lives": []
+  "parses": []
 }
