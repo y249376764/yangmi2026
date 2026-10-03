@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 11:43:14 UTC
+> 自动生成时间: 2026-10-03 23:35:32 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-03 11:43:14 UTC
+- 巡检时间: 2026-10-03 23:35:32 UTC
 
 ## ⚠️ 异常站点
 
@@ -61,7 +61,7 @@
 - **maple.py**: fgsrg.hzqingshan.com maihaolian.com www.cd-zj.com www.vip1949.com www.zzztool.com
 - **souju.py**: bpz1.app bpz1.top bpz10.app bpz10.top bpz2.app
 - **libvio.py**: libvio.host libviobd.com www.libvio.to
-- **bilibili_audio.py**: api.bilibili.com www.bilibili.com
+- **bilibili_audio.py**: api.bilibili.com search.bilibili.com www.bilibili.com
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
 - **qiyoudy.py**: www.baidu.com www.qiyoudy2.com
 - **lx_converter.py**: antiserver.kuwo.cn img1.kuwo.cn music.163.com search.kuwo.cn www.kuwo.cn
