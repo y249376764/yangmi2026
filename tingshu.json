@@ -67,7 +67,7 @@
       "key": "ting8",
       "name": "📖听书吧｜有声小说",
       "type": 3,
-      "api": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/js/ting8.js",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/ting8.js",
       "searchable": 0,
       "quickSearch": 0,
       "changeable": 0,
