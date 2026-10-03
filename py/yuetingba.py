@@ -450,19 +450,25 @@ class Spider(BaseSpider):
 
     # ---------------- 播放 ----------------
     def playerContent(self, flag, id, vipFlags=None):
-        # id 形如: bookId$$chapterId
+        # WebHomeTV 播放时 id = 详情页 vod_play_url 里 $ 后面的部分（chapterId）
+        # 兼容两种传参: "bookId$$chapterId" 或 仅 "chapterId"
         parts = str(id).split("$$")
-        book_id = parts[0] if len(parts) > 0 else ""
-        chapter_id = parts[1] if len(parts) > 1 else ""
-        if not book_id or not chapter_id:
+        chapter_id = parts[-1] if parts else ""
+        book_id = parts[0] if len(parts) > 1 else ""
+        if not chapter_id:
             return {"parse": 0, "url": ""}
-        # 章节信息
+        # 章节信息（含 bookId）
         info = self._get_text(f"{self.BASE}/api/app/docs-listen/{chapter_id}/ting-with-efi")
         try:
             meta = json.loads(info)
         except Exception:
             return {"parse": 0, "url": ""}
         if not meta or not meta.get("efi"):
+            return {"parse": 0, "url": ""}
+        # 若只传了 chapterId，从接口返回里取 bookId
+        if not book_id:
+            book_id = str(meta.get("bookId", ""))
+        if not book_id:
             return {"parse": 0, "url": ""}
         # 详情页 assl/py
         html = self._get_text(f"{self.BASE}/book/detail/{book_id}/0")
