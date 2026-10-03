@@ -495,7 +495,10 @@ class Spider(BaseSpider):
                     path = f"/myfiles/host/listen/booksdir/{py}_{book_id}/{fname}"
                 expire = int(time.time()) + self.TOKEN_TTL
                 token = hashlib.md5(f"{fname}|{expire}|{self.SK}".encode()).hexdigest()
-                urls.append(f"{base}{path}?token={token}&expire={expire}")
+                # URL 编码：中文/特殊字符做 percent-encoding，播放器才能正确解析
+                from urllib.parse import quote
+                quoted_path = quote(path, safe="/%")
+                urls.append(f"{base}{quoted_path}?token={token}&expire={expire}")
             except Exception:
                 continue
         if not urls:
