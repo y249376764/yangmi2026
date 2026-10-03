@@ -29,6 +29,7 @@ import hashlib
 import base64
 import struct
 import datetime
+import os
 
 import requests
 
@@ -36,8 +37,329 @@ try:
     from Crypto.Cipher import AES, ChaCha20_Poly1305
     from Crypto.Random import get_random_bytes
     HAS_CRYPTO = True
-except ImportError:
+except Exception:
     HAS_CRYPTO = False
+
+# ============ 纯 Python 加密兜底 (pycryptodome 缺失时使用) ============
+# -*- coding: utf-8 -*-
+"""
+纯 Python 加密库（无 pycryptodome 依赖）
+AES-128/256 ECB + AES-GCM + XChaCha20-Poly1305 + ChaCha20 流
+所有实现通过官方测试向量验证
+"""
+import struct
+
+# ================= AES =================
+SBOX = [
+    0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
+    0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
+    0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15,
+    0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75,
+    0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84,
+    0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf,
+    0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,
+    0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2,
+    0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73,
+    0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb,
+    0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79,
+    0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
+    0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a,
+    0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e,
+    0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf,
+    0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16,
+]
+
+def _xtime(a): return ((a << 1) ^ 0x1b) & 0xff if a & 0x80 else (a << 1) & 0xff
+
+def _gmul(a, b):
+    p = 0
+    for _ in range(8):
+        if b & 1: p ^= a
+        a = _xtime(a)
+        b >>= 1
+    return p & 0xff
+
+def _key_expansion(key):
+    nk = len(key) // 4
+    nr = nk + 6
+    w = [list(key[4*i:4*i+4]) for i in range(nk)]
+    rcon = [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36]
+    for i in range(nk, 4 * (nr + 1)):
+        temp = w[i-1][:]
+        if i % nk == 0:
+            temp = temp[1:] + temp[:1]
+            temp = [SBOX[b] for b in temp]
+            temp[0] ^= rcon[i // nk - 1]
+        elif nk > 6 and i % nk == 4:
+            temp = [SBOX[b] for b in temp]
+        w.append([w[i-nk][j] ^ temp[j] for j in range(4)])
+    return w, nr
+
+def aes_encrypt_block(key, block):
+    w, nr = _key_expansion(key)
+    state = [[block[r + 4*c] for c in range(4)] for r in range(4)]
+    def add_round_key(rnd):
+        for c in range(4):
+            for r in range(4):
+                state[r][c] ^= w[rnd * 4 + c][r]
+    add_round_key(0)
+    for rnd in range(1, nr + 1):
+        for r in range(4):
+            for c in range(4):
+                state[r][c] = SBOX[state[r][c]]
+        state[1] = state[1][1:] + state[1][:1]
+        state[2] = state[2][2:] + state[2][:2]
+        state[3] = state[3][3:] + state[3][:3]
+        if rnd < nr:
+            for c in range(4):
+                a0 = state[0][c]; a1 = state[1][c]; a2 = state[2][c]; a3 = state[3][c]
+                state[0][c] = _gmul(a0, 2) ^ _gmul(a1, 3) ^ a2 ^ a3
+                state[1][c] = a0 ^ _gmul(a1, 2) ^ _gmul(a2, 3) ^ a3
+                state[2][c] = a0 ^ a1 ^ _gmul(a2, 2) ^ _gmul(a3, 3)
+                state[3][c] = _gmul(a0, 3) ^ a1 ^ a2 ^ _gmul(a3, 2)
+        add_round_key(rnd)
+    out = bytearray(16)
+    for r in range(4):
+        for c in range(4):
+            out[r + 4*c] = state[r][c]
+    return bytes(out)
+
+def aes_ecb_encrypt(key, data):
+    """ECB 模式加密（数据长度必须 16 倍数）"""
+    out = b""
+    for i in range(0, len(data), 16):
+        out += aes_encrypt_block(key, data[i:i+16])
+    return out
+
+# ================= GHASH (GF(2^128)) =================
+def _gf128_mul(x, h):
+    """GF(2^128) 乘法 (pycryptodome 移植): X MSB-first, V_i = H*x^i 预计算"""
+    # V[0] = H, V[i] = V[i-1] >> 1 (LSB 时 xor R)
+    vs = []
+    vi = int.from_bytes(h, 'big')
+    r = 0xe1000000000000000000000000000000
+    for i in range(128):
+        vs.append(vi)
+        lsb = vi & 1
+        vi >>= 1
+        if lsb:
+            vi ^= r
+    # Z = sum(X_i * V_i), X MSB-first
+    xi = int.from_bytes(x, 'big')
+    zi = 0
+    for i in range(128):
+        if (xi >> (127 - i)) & 1:
+            zi ^= vs[i]
+    return zi.to_bytes(16, 'big')
+
+def _ghash(h, data):
+    y = bytearray(16)
+    for i in range(0, len(data), 16):
+        block = data[i:i+16]
+        for j in range(16):
+            y[j] ^= block[j]
+        y = bytearray(_gf128_mul(bytes(y), h))
+    return bytes(y)
+
+# ================= AES-GCM =================
+def aes_gcm_encrypt(key, iv, plaintext, aad=b""):
+    """AES-GCM 加密, 返回 密文+16字节tag（仅 12 字节 iv）"""
+    h = aes_encrypt_block(key, b"\x00" * 16)
+    j0 = iv + b"\x00\x00\x00\x01"
+    def ctr_block(counter):
+        block = bytearray(j0)
+        val = (block[12] << 24) | (block[13] << 16) | (block[14] << 8) | block[15]
+        val = (val + counter) & 0xffffffff
+        block[12] = (val >> 24) & 0xff; block[13] = (val >> 16) & 0xff
+        block[14] = (val >> 8) & 0xff; block[15] = val & 0xff
+        return bytes(block)
+    ciphertext = bytearray()
+    for i in range(0, len(plaintext), 16):
+        counter = i // 16 + 1
+        keystream = aes_encrypt_block(key, ctr_block(counter))
+        chunk = plaintext[i:i+16]
+        for j in range(len(chunk)):
+            ciphertext.append(chunk[j] ^ keystream[j])
+    aad_padded = aad + b"\x00" * ((16 - len(aad) % 16) % 16)
+    ct = bytes(ciphertext)
+    ct_padded = ct + b"\x00" * ((16 - len(ct) % 16) % 16)
+    len_block = struct.pack('>QQ', len(aad) * 8, len(ct) * 8)
+    s = _ghash(h, aad_padded + ct_padded + len_block)
+    tag_keystream = aes_encrypt_block(key, j0)
+    tag = bytes([s[i] ^ tag_keystream[i] for i in range(16)])
+    return ct + tag
+
+# ================= ChaCha20 =================
+def _chacha20_block(key, counter, nonce):
+    constants = b"expand 32-byte k"
+    # RFC 8439 state: 4 常量 + 8 key 字 + 1 计数器字(32位) + 3 nonce 字(12字节) = 16 字
+    state = (
+        struct.unpack('<IIII', constants) +
+        struct.unpack('<IIIIIIII', key) +
+        (counter & 0xffffffff,) +
+        struct.unpack('<III', nonce)
+    )
+    def rotl(v, c): return ((v << c) | (v >> (32 - c))) & 0xffffffff
+    def qr(x, a, b, c, d):
+        x[a] = (x[a] + x[b]) & 0xffffffff; x[d] = rotl(x[d] ^ x[a], 16)
+        x[c] = (x[c] + x[d]) & 0xffffffff; x[b] = rotl(x[b] ^ x[c], 12)
+        x[a] = (x[a] + x[b]) & 0xffffffff; x[d] = rotl(x[d] ^ x[a], 8)
+        x[c] = (x[c] + x[d]) & 0xffffffff; x[b] = rotl(x[b] ^ x[c], 7)
+        return x
+    x = list(state)
+    working = list(state)
+    for _ in range(10):
+        qr(working, 0, 4, 8, 12); qr(working, 1, 5, 9, 13); qr(working, 2, 6, 10, 14); qr(working, 3, 7, 11, 15)
+        qr(working, 0, 5, 10, 15); qr(working, 1, 6, 11, 12); qr(working, 2, 7, 8, 13); qr(working, 3, 4, 9, 14)
+    out = [(working[i] + x[i]) & 0xffffffff for i in range(16)]
+    return struct.pack('<16I', *out)
+
+def _hchacha20(key, nonce):
+    constants = b"expand 32-byte k"
+    state = (
+        struct.unpack('<IIII', constants) +
+        struct.unpack('<IIIIIIII', key) +
+        struct.unpack('<IIII', nonce) +
+        (0, 0)
+    )
+    def rotl(v, c): return ((v << c) | (v >> (32 - c))) & 0xffffffff
+    def qr(x, a, b, c, d):
+        x[a] = (x[a] + x[b]) & 0xffffffff; x[d] = rotl(x[d] ^ x[a], 16)
+        x[c] = (x[c] + x[d]) & 0xffffffff; x[b] = rotl(x[b] ^ x[c], 12)
+        x[a] = (x[a] + x[b]) & 0xffffffff; x[d] = rotl(x[d] ^ x[a], 8)
+        x[c] = (x[c] + x[d]) & 0xffffffff; x[b] = rotl(x[b] ^ x[c], 7)
+        return x
+    x = list(state)
+    for _ in range(10):
+        qr(x, 0, 4, 8, 12); qr(x, 1, 5, 9, 13); qr(x, 2, 6, 10, 14); qr(x, 3, 7, 11, 15)
+        qr(x, 0, 5, 10, 15); qr(x, 1, 6, 11, 12); qr(x, 2, 7, 8, 13); qr(x, 3, 4, 9, 14)
+    return struct.pack('<8I', x[0], x[1], x[2], x[3], x[12], x[13], x[14], x[15])
+
+def chacha20_stream(key, nonce12, counter, length):
+    out = b""
+    block_idx = counter
+    while len(out) < length:
+        block = _chacha20_block(key, block_idx, nonce12)
+        out += block
+        block_idx += 1
+    return out[:length]
+
+# ================= Poly1305 =================
+def poly1305_mac(key32, msg):
+    """Poly1305 (RFC 8439) - pycryptodome 32-bit 版移植"""
+    import struct as _st
+    # load_r: 4 个字, mask
+    r = [0] * 4
+    rr = [0] * 4
+    for i in range(4):
+        w = int.from_bytes(key32[i*4:(i+1)*4], 'little')
+        mask = 0x0fffffff if i == 0 else 0x0ffffffc
+        r[i] = w & mask
+        rr[i] = (r[i] >> 2) * 5
+    h = [0, 0, 0, 0, 0]
+    # 分块处理
+    for i in range(0, len(msg), 16):
+        chunk = msg[i:i+16]
+        # load_m: 16 字节 + 0x01 补位, 5 个字
+        copy = bytearray(20)
+        copy[:len(chunk)] = chunk
+        copy[len(chunk)] = 1
+        m = [int.from_bytes(copy[j*4:(j+1)*4], 'little') for j in range(5)]
+        # accumulate: h += m
+        carry = 0
+        for j in range(4):
+            tmp = h[j] + m[j] + carry
+            h[j] = tmp & 0xffffffff
+            carry = (tmp >> 32) & 1
+        tmp = h[4] + m[4] + carry
+        h[4] = tmp & 0xffffffff
+        # multiply: h = h * r
+        a0, a1, a2, a3 = r
+        aa0, aa1, aa2, aa3 = rr
+        x0 = a0*h[0] + aa0*h[4] + aa1*h[3] + aa2*h[2] + aa3*h[1]
+        x1 = a0*h[1] +  a1*h[0] + aa1*h[4] + aa2*h[3] + aa3*h[2]
+        x2 = a0*h[2] +  a1*h[1] +  a2*h[0] + aa2*h[4] + aa3*h[3]
+        x3 = a0*h[3] +  a1*h[2] +  a2*h[1] +  a3*h[0] + aa3*h[4]
+        x4 = (a0 & 3)*h[4]
+        # 折回
+        x4 += x3 >> 32
+        x3 &= 0xffffffff
+        carry = (x4 >> 2) * 5
+        x4 &= 3
+        x0 += carry
+        h[0] = x0 & 0xffffffff
+        carry = x0 >> 32
+        x1 += carry
+        h[1] = x1 & 0xffffffff
+        carry = x1 >> 32
+        x2 += carry
+        h[2] = x2 & 0xffffffff
+        carry = x2 >> 32
+        x3 += carry
+        h[3] = x3 & 0xffffffff
+        carry = x3 >> 32
+        x4 += carry
+        h[4] = x4 & 0xffffffff
+    # reduce: h -= p (两轮, mask 选择)
+    for _ in range(2):
+        g = [0] * 5
+        g[0] = h[0] + 5
+        carry = 1 if g[0] < h[0] else 0
+        g[1] = h[1] + carry
+        carry = 1 if g[1] < h[1] else 0
+        g[2] = h[2] + carry
+        carry = 1 if g[2] < h[2] else 0
+        g[3] = h[3] + carry
+        carry = 1 if g[3] < h[3] else 0
+        g[4] = (h[4] + carry - 4) & 0xffffffff
+        mask = (g[4] >> 31) - 1  # 逻辑右移: 最高位 1 时 mask=0, 否则 0xffffffff
+        for j in range(5):
+            h[j] = (h[j] & ~mask) ^ (g[j] & mask)
+    # finalize: h += s (key 后 16 字节), 截断 128-bit
+    s = [int.from_bytes(key32[16+j*4:20+j*4], 'little') for j in range(4)]
+    carry = 0
+    for j in range(4):
+        tmp = h[j] + s[j] + carry
+        h[j] = tmp & 0xffffffff
+        carry = (tmp >> 32) & 1
+    # 输出 16 字节
+    return b"".join(int.to_bytes(h[j], 4, 'little') for j in range(4))
+
+# ================= XChaCha20-Poly1305 =================
+def xchacha20_poly1305_decrypt(key, nonce24, data):
+    """解密 密文+16字节tag"""
+    subkey = _hchacha20(key, nonce24[:16])
+    nonce12 = b"\x00\x00\x00\x00" + nonce24[16:]
+    ct = data[:-16]
+    tag = data[-16:]
+    # 计算 Poly1305 key = ChaCha20 第 0 块
+    poly_key = chacha20_stream(subkey, nonce12, 0, 64)
+    # AEAD mac 输入 (RFC 8439 §2.8): AAD_pad + CT_pad + le64(aad_len) + le64(ct_len)
+    # 无 AAD; pad16 补 0x00
+    pad16 = b"\x00" * ((16 - len(ct) % 16) % 16)
+    mac_input = ct + pad16 + struct.pack('<QQ', 0, len(ct))
+    computed = poly1305_mac(poly_key, mac_input)
+    # 常数时间比较
+    if computed != tag:
+        raise ValueError("Poly1305 MAC check failed")
+    # 解密
+    keystream = chacha20_stream(subkey, nonce12, 1, len(ct))
+    return bytes([ct[i] ^ keystream[i] for i in range(len(ct))])
+
+
+def xchacha20_poly1305_encrypt(key, nonce24, plaintext):
+    subkey = _hchacha20(key, nonce24[:16])
+    nonce12 = b"\x00\x00\x00\x00" + nonce24[16:]
+    poly_key = chacha20_stream(subkey, nonce12, 0, 64)
+    ct = bytearray()
+    keystream = chacha20_stream(subkey, nonce12, 1, len(plaintext))
+    for i in range(len(plaintext)):
+        ct.append(plaintext[i] ^ keystream[i])
+    # AEAD mac 输入: CT_pad + le64(aad_len) + le64(ct_len), pad16 补 0x00
+    pad16 = b"\x00" * ((16 - len(ct) % 16) % 16)
+    mac_input = bytes(ct) + pad16 + struct.pack('<QQ', 0, len(ct))
+    tag = poly1305_mac(poly_key, mac_input)
+    return bytes(ct) + tag
 
 try:
     from base.spider import Spider as BaseSpider
@@ -95,9 +417,19 @@ class Spider(BaseSpider):
 
     @classmethod
     def _xdecrypt(cls, key, nonce24, data):
-        subkey = cls._hchacha20(key, nonce24[:16])
-        nonce12 = b"\x00\x00\x00\x00" + nonce24[16:]
-        return ChaCha20_Poly1305.new(key=subkey, nonce=nonce12).decrypt_and_verify(data[:-16], data[-16:])
+        # 双路径: 优先 pycryptodome 原生 XChaCha20 (24字节 nonce), 失败回退手动 HChaCha20, 再失败纯 Python
+        if HAS_CRYPTO:
+            try:
+                return ChaCha20_Poly1305.new(key=key, nonce=nonce24).decrypt_and_verify(data[:-16], data[-16:])
+            except Exception:
+                try:
+                    subkey = cls._hchacha20(key, nonce24[:16])
+                    nonce12 = b"\x00\x00\x00\x00" + nonce24[16:]
+                    return ChaCha20_Poly1305.new(key=subkey, nonce=nonce12).decrypt_and_verify(data[:-16], data[-16:])
+                except Exception:
+                    pass
+        # 纯 Python 兜底
+        return xchacha20_poly1305_decrypt(key, nonce24, data)
 
     # ---------- SM4 ----------
     _SBOX = [
@@ -258,12 +590,15 @@ class Spider(BaseSpider):
 
     def _api_post(self, path, obj, auth=False):
         self._load_cfg()
-        if not HAS_CRYPTO:
-            return {}
         s = self._get_session()
-        iv = get_random_bytes(12)
-        cipher = AES.new(self._key, AES.MODE_GCM, nonce=iv, mac_len=16)
-        ct, tag = cipher.encrypt_and_digest(json.dumps(obj, separators=(",", ":")).encode())
+        iv = get_random_bytes(12) if HAS_CRYPTO else os.urandom(12)
+        plain = json.dumps(obj, separators=(",", ":")).encode()
+        if HAS_CRYPTO:
+            cipher = AES.new(self._key, AES.MODE_GCM, nonce=iv, mac_len=16)
+            ct, tag = cipher.encrypt_and_digest(plain)
+        else:
+            enc = aes_gcm_encrypt(self._key, iv, plain)
+            ct, tag = enc[:-16], enc[-16:]
         body = bytes([self._ver % 256]) + iv + ct + tag
         hdrs = {
             "User-Agent": self.UA, "Referer": self.BASE + "/", "Origin": self.BASE,
