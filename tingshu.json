@@ -107,7 +107,7 @@
       "key": "bilibili",
       "name": "🎧哔哩听书｜B站有声",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b5aa0a30e123f3b8439410dd3d516854a6c42de1/py/bilibili_ts.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@7449e9b064b0b95b78b63214a244cb5347057cff/py/bilibili_ts.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
