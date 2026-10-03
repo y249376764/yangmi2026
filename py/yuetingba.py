@@ -428,15 +428,25 @@ class Spider(BaseSpider):
         # 集数
         total_m = re.search(r'集\s*数[\s\S]*?text-desc-content[^>]*>(\d+)', html)
         total_count = int(total_m.group(1)) if total_m else 0
-        # 章节（第一页 200 集，避免超大播放串卡播放器；超过的用"/1"标记分页）
+        # 章节（全量拉取，避免集数不全；站点 200/页）
         ch_re = re.compile(r'id="item_([a-f0-9\-]+)"[^>]*class="ting-list-content-item"[\s\S]*?title="([^"]+)"')
         eps = []
-        for m in ch_re.finditer(html):
-            eps.append(f"{m.group(2)}${m.group(1)}")
+        pages_html = {}
+        pages_html[0] = html
+        skip = 200
+        while skip < total_count:
+            h2 = self._get_text(f"{self.BASE}/book/detail/{vid}/{skip}")
+            if not h2:
+                break
+            pages_html[skip] = h2
+            skip += 200
+        for k in sorted(pages_html.keys()):
+            for m in ch_re.finditer(pages_html[k]):
+                eps.append(f"{m.group(2)}${m.group(1)}")
         if eps:
             vod["vod_play_from"] = "悦听吧"
             vod["vod_play_url"] = "#".join(eps)
-            vod["vod_remarks"] = f"{total_count}集" if total_count else f"{len(eps)}集"
+            vod["vod_remarks"] = f"{len(eps)}集"
         return {"list": [vod]}
 
     # ---------------- 播放 ----------------
