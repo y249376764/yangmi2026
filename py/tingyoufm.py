@@ -520,16 +520,13 @@ class Spider(BaseSpider):
         self._session = None
 
     def _get_session(self):
-        if self._session is None:
-            self._session = requests.Session()
-        return self._session
+        return None  # 不使用 Session, 每次独立请求
 
     def _load_cfg(self):
         if self._key is not None:
             return
-        s = self._get_session()
-        r = s.get(self.BASE + "/api/payload", timeout=self.timeout,
-                  headers={"User-Agent": self.UA})
+        r = requests.get(self.BASE + "/api/payload", timeout=self.timeout,
+                         headers={"User-Agent": self.UA})
         pj = r.json()
         cfg = pj.get("payload") or {}
         self._key = bytes.fromhex(cfg["key"])
@@ -581,8 +578,7 @@ class Spider(BaseSpider):
 
     def _api_get(self, url):
         self._load_cfg()
-        s = self._get_session()
-        resp = s.get(url, timeout=self.timeout, headers={
+        resp = requests.get(url, timeout=self.timeout, headers={
             "User-Agent": self.UA, "Referer": self.BASE + "/",
             "Accept": "*/*", "X-Payload-Version": str(self._ver),
         })
@@ -590,7 +586,6 @@ class Spider(BaseSpider):
 
     def _api_post(self, path, obj, auth=False):
         self._load_cfg()
-        s = self._get_session()
         iv = get_random_bytes(12) if HAS_CRYPTO else os.urandom(12)
         plain = json.dumps(obj, separators=(",", ":")).encode()
         if HAS_CRYPTO:
@@ -607,7 +602,7 @@ class Spider(BaseSpider):
         }
         if auth and self._token:
             hdrs["Authorization"] = "Bearer " + self._token
-        resp = s.post(self.BASE + path, data=body.hex(), timeout=self.timeout, headers=hdrs)
+        resp = requests.post(self.BASE + path, data=body.hex(), timeout=self.timeout, headers=hdrs)
         return self._decrypt_env(resp.text)
 
     def _ensure_token(self):
