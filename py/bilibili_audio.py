@@ -11,8 +11,8 @@
                ?bvid={bvid}&p=1&platform=h5
                -> data.View: { title, pic, desc, aid, pages[] }
   * 播放      GET https://api.bilibili.com/x/player/playurl
-               ?avid={aid}&cid={cid}&qn=16&type=mp4&platform=html5
-               -> data.durl[0].url  (B站官方CDN mp4直链)
+               ?avid={aid}&cid={cid}&qn=64&fnval=16&type=mp4&platform=html5
+               -> data.durl[0].url  (B站官方CDN mp4直链, 720P)
 
 分类: 有声小说 / 有声漫画 / 广播剧 / 经典老歌 / 音乐推荐 (搜索词即分类)
 说明: B 站音频类内容多为视频封面音轨, 直链为 mp4, 播放器可直接播放。
@@ -147,7 +147,7 @@ class Spider(BaseSpider):
         aid = aid_part.split("$")[-1] if aid_part else ""  # 取 $ 后真正的 aid
         if not cid or not aid:
             return {"parse": 0, "url": ""}
-        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn=16&type=mp4&platform=html5")
+        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn=64&fnval=16&fnver=0&type=mp4&platform=html5")
         durl = j.get("data", {}).get("durl") or []
         if not durl:
             # 音频内容尝试 dash/flac? 用 durl 即可
