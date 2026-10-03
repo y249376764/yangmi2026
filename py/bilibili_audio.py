@@ -11,8 +11,11 @@
                ?bvid={bvid}&p=1&platform=h5
                -> data.View: { title, pic, desc, aid, pages[] }
   * 播放      GET https://api.bilibili.com/x/player/playurl
-               ?avid={aid}&cid={cid}&qn=64&fnval=16&type=mp4&platform=html5
-               -> data.durl[0].url  (B站官方CDN mp4直链, 720P)
+               ?avid={aid}&cid={cid}&qn={64|32|16}&fnval=16&type=mp4&platform=html5
+               -> data.durl[0].url  (B站官方CDN mp4直链)
+
+清晰度多线路: 720P(qn=64) / 480P(qn=32) / 360P(qn=16), 详情页 $$$ 分隔三线路,
+              每集 id 格式 "part$aid$$cid$$qn", 播放时按 qn 取对应清晰度。
 
 分类: 有声小说 / 有声漫画 / 广播剧 / 经典老歌 / 音乐推荐 (搜索词即分类)
 说明: B 站音频类内容多为视频封面音轨, 直链为 mp4, 播放器可直接播放。
@@ -126,36 +129,52 @@ class Spider(BaseSpider):
         }
         aid = view.get("aid")
         pages = view.get("pages") or []
-        eps = []
-        for p in pages:
-            cid = p.get("cid")
-            part = p.get("part") or f"P{p.get('page', '')}"
-            if cid is not None and part:
-                eps.append(f"{part}${aid}$${cid}")
-        if eps:
-            vod["vod_play_from"] = "哔哩"
-            vod["vod_play_url"] = "#".join(eps)
-            vod["vod_remarks"] = f"{len(eps)}P"
+        if not aid or not pages:
+            return {"list": [vod]}
+        # 3 条清晰度线路: 720P / 480P / 360P (qn=64/32/16)
+        lines = [("720P", 64), ("480P", 32), ("360P", 16)]
+        froms, urls = [], []
+        for line_name, qn in lines:
+            eps = []
+            for p in pages:
+                cid = p.get("cid")
+                part = p.get("part") or f"P{p.get('page', '')}"
+                if cid is not None and part:
+                    # 每集 id 携带 qn, 播放时直接换清晰度
+                    eps.append(f"{part}${aid}$${cid}$${qn}")
+            if eps:
+                froms.append(line_name)
+                urls.append("#".join(eps))
+        if froms:
+            vod["vod_play_from"] = "$$$".join(froms)
+            vod["vod_play_url"] = "$$$".join(urls)
+            vod["vod_remarks"] = f"{len(pages)}P · {len(froms)}线路"
         return {"list": [vod]}
 
     # ---------------- 播放 ----------------
     def playerContent(self, flag, ids, vipFlags=None):
-        # id 格式: "part$aid$$cid" (detail 里拼的)
+        # id 格式: "part$aid$$cid$$qn" (detail 里拼的)
         parts = str(ids).split("$$")
-        cid = parts[-1] if parts else ""
-        aid_part = parts[0] if len(parts) > 1 else ""
-        aid = aid_part.split("$")[-1] if aid_part else ""  # 取 $ 后真正的 aid
+        qn = 64  # 默认 720P
+        if len(parts) >= 3:
+            try:
+                qn = int(parts[2])
+            except Exception:
+                qn = 64
+        cid = parts[1] if len(parts) > 1 else ""
+        aid_part = parts[0] if parts else ""
+        aid = aid_part.split("$")[-1] if aid_part else ""
         if not cid or not aid:
             return {"parse": 0, "url": ""}
-        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn=64&fnval=16&fnver=0&type=mp4&platform=html5")
+        # 播放接口: qn=64(720P)/32(480P)/16(360P), fnval=16 保证取到对应清晰度
+        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn={qn}&fnval=16&fnver=0&type=mp4&platform=html5")
         durl = j.get("data", {}).get("durl") or []
         if not durl:
-            # 音频内容尝试 dash/flac? 用 durl 即可
             return {"parse": 0, "url": ""}
         url = durl[0].get("url", "")
         if not url:
             return {"parse": 0, "url": ""}
-        return {"parse": 0, "url": url, "flag": "哔哩有声",
+        return {"parse": 0, "url": url, "flag": flag or "哔哩有声",
                 "format": "video/mp4",
                 "header": {"User-Agent": self.UA, "Referer": "https://www.bilibili.com/"}}
 
