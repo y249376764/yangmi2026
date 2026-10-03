@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 06:53:00 UTC
+> 自动生成时间: 2026-10-03 06:58:26 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **78**
 - 有异常站点数: **9**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 06:53:59 UTC
+- 巡检时间: 2026-10-03 06:59:20 UTC
 
 ## ⚠️ 异常站点
 
@@ -145,7 +145,7 @@
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
-| tingshu.json | 🎧365听书｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧哔哩听书｜B站有声 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@7449e | api脚本:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
