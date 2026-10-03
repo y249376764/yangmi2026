@@ -105,9 +105,9 @@
     },
     {
       "key": "bilibili",
-      "name": "🎧哔哩听书｜B站有声",
+      "name": "🎧哔哩全能｜听书+音乐",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@aa0b44bc05fd7f547f3b403ce1411b9676227e61/py/bilibili_ts.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@94998e4aa67e472036a2092958ccf78e584d0780/py/bilibili_ts.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
