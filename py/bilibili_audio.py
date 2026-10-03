@@ -14,8 +14,9 @@
                ?avid={aid}&cid={cid}&qn={64|32|16}&fnval=16&type=mp4&platform=html5
                -> data.durl[0].url  (B站官方CDN mp4直链)
 
-清晰度多线路: 720P(qn=64) / 480P(qn=32) / 360P(qn=16), 详情页 $$$ 分隔三线路,
+清晰度多线路: 480P(qn=32,默认) / 720P(qn=64) / 360P(qn=16), 详情页 $$$ 分隔三线路,
               每集 id 格式 "part$aid$$cid$$qn", 播放时按 qn 取对应清晰度。
+              全部走视频播放器 (video/mp4)。
 
 分类: 有声小说 / 有声漫画 / 广播剧 / 经典老歌 / 音乐推荐 (搜索词即分类)
 说明: B 站音频类内容多为视频封面音轨, 直链为 mp4, 播放器可直接播放。
@@ -131,8 +132,8 @@ class Spider(BaseSpider):
         pages = view.get("pages") or []
         if not aid or not pages:
             return {"list": [vod]}
-        # 3 条清晰度线路: 720P / 480P / 360P (qn=64/32/16)
-        lines = [("720P", 64), ("480P", 32), ("360P", 16)]
+        # 3 条清晰度线路: 480P(默认) / 720P / 360P (qn=32/64/16)
+        lines = [("480P", 32), ("720P", 64), ("360P", 16)]
         froms, urls = [], []
         for line_name, qn in lines:
             eps = []
@@ -155,7 +156,7 @@ class Spider(BaseSpider):
     def playerContent(self, flag, ids, vipFlags=None):
         # id 格式: "part$aid$$cid$$qn" (detail 里拼的)
         parts = str(ids).split("$$")
-        qn = 64  # 默认 720P
+        qn = 32  # 默认 480P
         if len(parts) >= 3:
             try:
                 qn = int(parts[2])
