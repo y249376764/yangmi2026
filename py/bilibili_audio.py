@@ -11,12 +11,12 @@
                ?bvid={bvid}&p=1&platform=h5
                -> data.View: { title, pic, desc, aid, pages[] }
   * 播放      GET https://api.bilibili.com/x/player/playurl
-               ?avid={aid}&cid={cid}&qn={64|32|16}&fnval=16&type=mp4&platform=html5
-               -> data.durl[0].url  (B站官方CDN mp4直链)
+               ?avid={aid}&cid={cid}&qn=16&fnval=16&fnver=0&fourk=1
+               (不能带 platform=html5, 会禁掉 dash) -> data.dash.audio[].baseUrl
 
-清晰度多线路: 480P(qn=32,默认) / 720P(qn=64) / 360P(qn=16), 详情页 $$$ 分隔三线路,
-              每集 id 格式 "part$aid$$cid$$qn", 播放时按 qn 取对应清晰度。
-              全部走视频播放器 (video/mp4)。
+全部走音频播放器: B站音视频分离(dash), 纯音频流远小于 mux mp4 (大合集 1.59GB 视频
+              -> 295MB 音频, 快 5 倍)。2 条音频线路: 高清音频(最高码率) / 流畅音频(最低码率)。
+              每集 id 格式 "part$aid$$cid$${1|0}"。无 dash 音频时 fallback durl 视频流。
 
 分类: 有声小说 / 有声漫画 / 广播剧 / 经典老歌 / 音乐推荐 (搜索词即分类)
 说明: B 站音频类内容多为视频封面音轨, 直链为 mp4, 播放器可直接播放。
@@ -132,8 +132,8 @@ class Spider(BaseSpider):
         pages = view.get("pages") or []
         if not aid or not pages:
             return {"list": [vod]}
-        # 3 条清晰度线路: 480P(默认) / 720P / 360P (qn=32/64/16)
-        lines = [("480P", 32), ("720P", 64), ("360P", 16)]
+        # 2 条音频线路: 高清音频(最高码率) / 流畅音频(最低码率, 最省流量)
+        lines = [("高清音频", 1), ("流畅音频", 0)]
         froms, urls = [], []
         for line_name, qn in lines:
             eps = []
@@ -154,30 +154,47 @@ class Spider(BaseSpider):
 
     # ---------------- 播放 ----------------
     def playerContent(self, flag, ids, vipFlags=None):
-        # id 格式: "part$aid$$cid$$qn" (detail 里拼的)
+        # id 格式: "part$aid$$cid$${策略}"  (1=高清音频最高码率, 0=流畅音频最低码率)
         parts = str(ids).split("$$")
-        qn = 32  # 默认 480P
+        mode = 1  # 默认高清音频
         if len(parts) >= 3:
             try:
-                qn = int(parts[2])
+                mode = int(parts[2])
             except Exception:
-                qn = 64
+                mode = 1
         cid = parts[1] if len(parts) > 1 else ""
         aid_part = parts[0] if parts else ""
         aid = aid_part.split("$")[-1] if aid_part else ""
         if not cid or not aid:
             return {"parse": 0, "url": ""}
-        # 播放接口: qn=64(720P)/32(480P)/16(360P), fnval=16 保证取到对应清晰度
-        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn={qn}&fnval=16&fnver=0&type=mp4&platform=html5")
-        durl = j.get("data", {}).get("durl") or []
-        if not durl:
-            return {"parse": 0, "url": ""}
-        url = durl[0].get("url", "")
-        if not url:
-            return {"parse": 0, "url": ""}
-        return {"parse": 0, "url": url, "flag": flag or "哔哩有声",
-                "format": "video/mp4",
-                "header": {"User-Agent": self.UA, "Referer": "https://www.bilibili.com/"}}
+        # 全部走音频: 请求 dash (fnval=16) 拿纯音频流, 文件小加载快
+        # 大合集视频 1.59GB mux mp4 -> 295MB 音频流, 快 5 倍
+        j = self._get_json(f"{self.API}/x/player/playurl?avid={aid}&cid={cid}&qn=16&fnval=16&fnver=0&fourk=1")
+        data = j.get("data", {}) or {}
+        dash = data.get("dash") or {}
+        audio = dash.get("audio") or []
+        if audio:
+            # 高清=最高码率, 流畅=最低码率 (B站音频多为 30216/30232/30280)
+            if mode == 0:
+                pick = min(audio, key=lambda a: a.get("bandwidth") or 0)
+            else:
+                pick = max(audio, key=lambda a: a.get("bandwidth") or 0)
+            url = pick.get("baseUrl") or pick.get("base_url") or ""
+            if not url and len(audio) > 1:
+                url = audio[1].get("baseUrl", "")
+            if url:
+                return {"parse": 0, "url": url, "flag": flag or "哔哩有声",
+                        "format": "audio/mp4",
+                        "header": {"User-Agent": self.UA, "Referer": "https://www.bilibili.com/"}}
+        # fallback: 无 dash 音频则用 durl 视频流(视频播放器)
+        durl = data.get("durl") or []
+        if durl:
+            url = durl[0].get("url", "")
+            if url:
+                return {"parse": 0, "url": url, "flag": flag or "哔哩有声",
+                        "format": "video/mp4",
+                        "header": {"User-Agent": self.UA, "Referer": "https://www.bilibili.com/"}}
+        return {"parse": 0, "url": ""}
 
     # ---------------- 标准接口 ----------------
     def init(self, extend=""):
