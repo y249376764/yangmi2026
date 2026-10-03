@@ -3,22 +3,21 @@
 听友FM 听书蜘蛛版 (tingyoufm.py)
 --------------------------------
 站点: https://tingyou.fm
-提取自 Timbre .jdr 接口源 (tingyoufm.js v1.0.2), 2026-10-03 实测:
+接口协议 (2026-10-03 实测):
 
-  * 配置     GET /api/payload                    -> { key(64hex), version, staticRoutePools }
-  * 分类     GET {pool}/filters                  -> 分类/排序/状态
-  * 分类页   GET /api/category_page?type={id}&page={pg} (加密响应) -> 书籍列表
-  * 首页     GET {pool}/homepage                 -> recommends/recent_updates
-  * 搜索     POST /api/search (AES-256-GCM 加密请求体) -> 书籍列表
-  * 章节     GET {pool}/album_chapters/{bookId}  -> 全量章节
-  * 播放     POST /api/guest (SM4 dfp 指纹 Cookie) -> auth_token
-             POST /api/play_token (Bearer auth)  -> play_url 直链 (audio/mpeg)
+  配置     GET /api/payload                -> { key(64hex), version, staticRoutePools }
+  分类页   GET /api/category_page?type={id}&page={pg}   (加密响应)
+  首页     GET {pool}/homepage             -> recommends/recent_updates (加密响应)
+  搜索     POST /api/search (AES-256-GCM 加密请求体)    (加密响应)
+  章节     GET {pool}/album_chapters/{bookId} -> 全量章节 (加密响应)
+  播放     POST /api/guest (SM4 dfp 指纹 Cookie) -> auth_token
+           POST /api/play_token (Bearer auth) -> play_url 直链 (audio/mpeg)
 
-加密协议:
-  * 请求体: hex( [1字节版本][12字节IV][AES-256-GCM 密文||tag] )
-  * 响应:   { "payload": hex([1字节版本][24字节nonce][XChaCha20-Poly1305 密文+16tag]) }
-            version==2 时密文整段反转
-  * dfp 指纹: SM4-ECB(PKCS#7, base64) 设备指纹, 密钥 = SHA256("fa317cd29b|东八区YYYYMMDD") 前32hex
+加密:
+  请求体: hex( [1字节版本][12字节IV][AES-256-GCM 密文||tag] )
+  响应:   { "payload": hex([1字节版本][24字节nonce][XChaCha20-Poly1305 密文+16tag]) }
+          version==2 时密文整段反转
+  dfp:    SM4-ECB(PKCS#7) 设备指纹, 密钥 = SHA256("fa317cd29b|东八区YYYYMMDD") 前32hex
 
 依赖: requests + pycryptodome (默影视 requirements 已含)
 """
@@ -29,7 +28,6 @@ import hashlib
 import base64
 import struct
 import datetime
-import os
 
 import requests
 
@@ -62,9 +60,41 @@ class Spider(BaseSpider):
     BASE = "https://tingyou.fm"
     UA = ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
           "(KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36")
-    timeout = 15
+    timeout = 12
 
-    # ---------- XChaCha20-Poly1305 ----------
+    # 分类硬编码（不依赖网络, 保证首页永远有分类）
+    CLASSES = [
+        {"type_id": "46", "type_name": "玄幻奇幻"},
+        {"type_id": "11", "type_name": "武侠小说"},
+        {"type_id": "19", "type_name": "言情通俗"},
+        {"type_id": "14", "type_name": "恐怖惊悚"},
+        {"type_id": "17", "type_name": "官场商战"},
+        {"type_id": "15", "type_name": "历史军事"},
+        {"type_id": "1", "type_name": "评书·单田芳"},
+        {"type_id": "2", "type_name": "评书·刘兰芳"},
+        {"type_id": "4", "type_name": "评书·袁阔成"},
+        {"type_id": "36", "type_name": "广播剧"},
+        {"type_id": "21", "type_name": "相声小品"},
+    ]
+
+    # 热门书兜底（网络失败时显示）
+    HOT_BOOKS = [
+        {"vod_id": "3879657962", "vod_name": "三体(1-3部)", "vod_pic": "https://file.tingyou8.vip/pic/5DD07C7E68BF50C.jpg", "vod_remarks": "261集"},
+        {"vod_id": "9783312385", "vod_name": "剑来", "vod_pic": "https://file.tingyou8.vip/pic/I7I0081G467902.gif", "vod_remarks": "5329集"},
+        {"vod_id": "3015025554", "vod_name": "第九特区丨头陀渊演播丨搞笑热血都市丨伪戒", "vod_pic": "https://file.tingyou8.vip/pic/fe83cb91b0b2bb5872f6809df1700381.jpeg", "vod_remarks": "2813集"},
+    ]
+
+    def __init__(self):
+        self._key = None
+        self._ver = 1
+        self._pools = {}
+        self._dfp = None
+        self._token = None
+
+    def init(self, extend=''):
+        pass
+
+    # ---------- HChaCha20 (XChaCha20 子密钥派生) ----------
     @staticmethod
     def _rotl(v, c):
         return ((v << c) | (v >> (32 - c))) & 0xffffffff
@@ -96,7 +126,7 @@ class Spider(BaseSpider):
 
     @classmethod
     def _xdecrypt(cls, key, nonce24, data):
-        # pycryptodome XChaCha20 (24字节 nonce), 失败回退手动 HChaCha20
+        # 优先 pycryptodome 原生 XChaCha20 (24字节 nonce), 回退手动 HChaCha20
         try:
             return ChaCha20_Poly1305.new(key=key, nonce=nonce24).decrypt_and_verify(data[:-16], data[-16:])
         except Exception:
@@ -104,7 +134,7 @@ class Spider(BaseSpider):
             nonce12 = b"\x00\x00\x00\x00" + nonce24[16:]
             return ChaCha20_Poly1305.new(key=subkey, nonce=nonce12).decrypt_and_verify(data[:-16], data[-16:])
 
-    # ---------- SM4 ----------
+    # ---------- SM4-ECB (dfp 指纹) ----------
     _SBOX = [
         0xd6,0x90,0xe9,0xfe,0xcc,0xe1,0x3d,0xb7,0x16,0xb6,0x14,0xc2,0x28,0xfb,0x2c,0x05,
         0x2b,0x67,0x9a,0x76,0x2a,0xbe,0x04,0xc3,0xaa,0x44,0x13,0x26,0x49,0x86,0x06,0x99,
@@ -154,8 +184,7 @@ class Spider(BaseSpider):
         cls._init_ck()
         K = [0] * 36
         for i in range(4):
-            K[i] = ((key_bytes[i*4] & 0xff) << 24) | ((key_bytes[i*4+1] & 0xff) << 16) | \
-                   ((key_bytes[i*4+2] & 0xff) << 8) | (key_bytes[i*4+3] & 0xff)
+            K[i] = ((key_bytes[i*4] & 0xff) << 24) | ((key_bytes[i*4+1] & 0xff) << 16) | ((key_bytes[i*4+2] & 0xff) << 8) | (key_bytes[i*4+3] & 0xff)
         K[0] ^= cls._FK[0]; K[1] ^= cls._FK[1]; K[2] ^= cls._FK[2]; K[3] ^= cls._FK[3]
         rk = [0] * 32
         for i in range(32):
@@ -163,8 +192,7 @@ class Spider(BaseSpider):
             rk[i] = K[i+4]
         X = [0] * 36
         for i in range(4):
-            X[i] = ((block[i*4] & 0xff) << 24) | ((block[i*4+1] & 0xff) << 16) | \
-                   ((block[i*4+2] & 0xff) << 8) | (block[i*4+3] & 0xff)
+            X[i] = ((block[i*4] & 0xff) << 24) | ((block[i*4+1] & 0xff) << 16) | ((block[i*4+2] & 0xff) << 8) | (block[i*4+3] & 0xff)
         for i in range(32):
             X[i+4] = X[i] ^ cls._sm4_t_enc((X[i+1] ^ X[i+2] ^ X[i+3] ^ rk[i]) & 0xffffffff)
         out = bytearray(16)
@@ -183,18 +211,7 @@ class Spider(BaseSpider):
             out += cls._sm4_block(key_bytes, data[i:i+16])
         return out
 
-    # ---------- 站点接口 ----------
-    def __init__(self):
-        self._key = None
-        self._ver = 1
-        self._pools = {}
-        self._dfp = None
-        self._token = None
-        self._session = None
-
-    def _get_session(self):
-        return None  # 不使用 Session, 每次独立请求
-
+    # ---------- 接口请求 ----------
     def _load_cfg(self):
         if self._key is not None:
             return
@@ -209,7 +226,6 @@ class Spider(BaseSpider):
     def _gen_dfp(self):
         if self._dfp:
             return self._dfp
-        # 东八区 YYYYMMDD
         dt = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(hours=8)
         tf = dt.strftime("%Y%m%d")
         sm4_key = bytes.fromhex(hashlib.sha256(f"fa317cd29b|{tf}".encode()).hexdigest()[:32])
@@ -222,7 +238,6 @@ class Spider(BaseSpider):
             "Asia/Shanghai",
         ])
         blob = base64.b64encode(self._sm4_ecb_encrypt(seed.encode(), sm4_key)).decode()
-        # YYYYMMDD 转 36 进制
         ts36 = ""
         n = int(tf)
         digits = "0123456789abcdefghijklmnopqrstuvwxyz"
@@ -236,7 +251,10 @@ class Spider(BaseSpider):
         return self._dfp
 
     def _decrypt_env(self, text):
-        env = json.loads(text)
+        try:
+            env = json.loads(text)
+        except Exception:
+            return {}
         if isinstance(env, dict) and env.get("payload"):
             raw = bytes.fromhex(env["payload"])
             if not raw:
@@ -246,37 +264,43 @@ class Spider(BaseSpider):
             ct = raw[25:]
             if v == 2:
                 ct = ct[::-1]
-            return json.loads(self._xdecrypt(self._key, nonce, ct))
+            try:
+                return json.loads(self._xdecrypt(self._key, nonce, ct))
+            except Exception:
+                return {}
         return env
 
     def _api_get(self, url):
-        self._load_cfg()
-        resp = requests.get(url, timeout=self.timeout, headers={
-            "User-Agent": self.UA, "Referer": self.BASE + "/",
-            "Accept": "*/*", "X-Payload-Version": str(self._ver),
-        })
-        return self._decrypt_env(resp.text)
+        try:
+            self._load_cfg()
+            resp = requests.get(url, timeout=self.timeout, headers={
+                "User-Agent": self.UA, "Referer": self.BASE + "/",
+                "Accept": "*/*", "X-Payload-Version": str(self._ver),
+            })
+            return self._decrypt_env(resp.text)
+        except Exception:
+            return {}
 
     def _api_post(self, path, obj, auth=False):
-        self._load_cfg()
-        iv = get_random_bytes(12) if HAS_CRYPTO else os.urandom(12)
-        plain = json.dumps(obj, separators=(",", ":")).encode()
-        if HAS_CRYPTO:
+        try:
+            self._load_cfg()
+            if not HAS_CRYPTO:
+                return {}
+            iv = get_random_bytes(12)
             cipher = AES.new(self._key, AES.MODE_GCM, nonce=iv, mac_len=16)
-            ct, tag = cipher.encrypt_and_digest(plain)
-        else:
-            enc = aes_gcm_encrypt(self._key, iv, plain)
-            ct, tag = enc[:-16], enc[-16:]
-        body = bytes([self._ver % 256]) + iv + ct + tag
-        hdrs = {
-            "User-Agent": self.UA, "Referer": self.BASE + "/", "Origin": self.BASE,
-            "Accept": "*/*", "Content-Type": "text/plain",
-            "X-Payload-Version": str(self._ver), "Cookie": self._gen_dfp(),
-        }
-        if auth and self._token:
-            hdrs["Authorization"] = "Bearer " + self._token
-        resp = requests.post(self.BASE + path, data=body.hex(), timeout=self.timeout, headers=hdrs)
-        return self._decrypt_env(resp.text)
+            ct, tag = cipher.encrypt_and_digest(json.dumps(obj, separators=(",", ":")).encode())
+            body = bytes([self._ver % 256]) + iv + ct + tag
+            hdrs = {
+                "User-Agent": self.UA, "Referer": self.BASE + "/", "Origin": self.BASE,
+                "Accept": "*/*", "Content-Type": "text/plain",
+                "X-Payload-Version": str(self._ver), "Cookie": self._gen_dfp(),
+            }
+            if auth and self._token:
+                hdrs["Authorization"] = "Bearer " + self._token
+            resp = requests.post(self.BASE + path, data=body.hex(), timeout=self.timeout, headers=hdrs)
+            return self._decrypt_env(resp.text)
+        except Exception:
+            return {}
 
     def _ensure_token(self):
         if self._token:
@@ -285,33 +309,17 @@ class Spider(BaseSpider):
         self._token = data.get("auth_token") or data.get("token")
         return self._token
 
-    # ---------- 映射 ----------
+    # ---------- 数据映射 ----------
     def _map_book(self, item):
         return {
             "vod_id": str(item.get("id")),
             "vod_name": item.get("title") or item.get("album_title") or "",
             "vod_pic": item.get("cover_url") or item.get("cover") or "",
             "vod_remarks": f"{item.get('count', '')}集" if item.get("count") else "",
-            "vod_year": "",
         }
 
     # ---------- Spider 接口 ----------
     def homeContent(self, filter=False):
-        # 分类硬编码兜底（不依赖网络）
-        cls_ = [
-            {"type_id": "46", "type_name": "玄幻奇幻"},
-            {"type_id": "11", "type_name": "武侠小说"},
-            {"type_id": "19", "type_name": "言情通俗"},
-            {"type_id": "14", "type_name": "恐怖惊悚"},
-            {"type_id": "17", "type_name": "官场商战"},
-            {"type_id": "15", "type_name": "历史军事"},
-            {"type_id": "1", "type_name": "评书·单田芳"},
-            {"type_id": "2", "type_name": "评书·刘兰芳"},
-            {"type_id": "4", "type_name": "评书·袁阔成"},
-            {"type_id": "36", "type_name": "广播剧"},
-            {"type_id": "21", "type_name": "相声小品"},
-        ]
-        # 首页推荐（失败时用热门书兜底 + 诊断信息）
         lst = []
         err = ""
         try:
@@ -322,15 +330,13 @@ class Spider(BaseSpider):
             items = d.get("recommends") or d.get("recent_updates") or []
             lst = [self._map_book(it) for it in items if it.get("id")]
         except Exception as e:
-            err = str(e)[:50]
+            err = str(e)[:40]
         if not lst:
-            # 网络失败兜底: 热门书
-            lst = [
-                {"vod_id": "3879657962", "vod_name": "三体(1-3部)" + ("|" + err if err else ""), "vod_pic": "https://file.tingyou8.vip/pic/5DD07C7E68BF50C.jpg", "vod_remarks": "261集"},
-                {"vod_id": "9783312385", "vod_name": "剑来", "vod_pic": "https://file.tingyou8.vip/pic/I7I0081G467902.gif", "vod_remarks": "5329集"},
-                {"vod_id": "3015025554", "vod_name": "第九特区丨头陀渊演播丨搞笑热血都市丨伪戒", "vod_pic": "https://file.tingyou8.vip/pic/fe83cb91b0b2bb5872f6809df1700381.jpeg", "vod_remarks": "2813集"},
-            ]
-        return {"class": cls_, "list": lst, "filters": {}}
+            lst = list(self.HOT_BOOKS)
+            if err:
+                lst[0] = dict(lst[0])
+                lst[0]["vod_name"] = lst[0]["vod_name"] + "|" + err
+        return {"class": self.CLASSES, "list": lst, "filters": {}}
 
     def categoryContent(self, tid, pg, filter=False, extend=""):
         lst = []
@@ -345,13 +351,12 @@ class Spider(BaseSpider):
 
     def detailContent(self, ids):
         vod_id = ids[0] if ids else ""
-        self._last_album_id = vod_id  # 供 playerContent 使用
+        self._last_album_id = vod_id
         vod = {"vod_id": vod_id, "vod_name": "", "vod_pic": "", "type_name": "听书",
                "vod_content": "", "vod_play_from": "听友FM", "vod_play_url": ""}
         play_urls = []
         try:
             self._load_cfg()
-            # 专辑详情（封面/书名）
             try:
                 pools = self._pools.get("album_detail", {})
                 ad_primary = pools.get("primary", "https://json.hgeuz.cn/tyfm/json_v1/album_info")
@@ -360,17 +365,12 @@ class Spider(BaseSpider):
                     vod["vod_name"] = ad.get("title") or vod["vod_name"]
                     vod["vod_pic"] = ad.get("cover_url") or vod["vod_pic"]
                     vod["vod_content"] = ad.get("description") or vod["vod_content"]
-                    if ad.get("author"):
-                        vod["vod_actor"] = ad["author"]
             except Exception:
                 pass
-            # 章节池
             pools = self._pools.get("chapters_list", {})
             primary = pools.get("primary", "https://json.hgeuz.cn/tyfm/json_v1/album_chapters")
             backups = pools.get("backups", [])
-            attempts = [primary + "/" + vod_id] + \
-                       [u.rstrip("/") + "/" + vod_id for u in backups] + \
-                       [self.BASE + "/api/chapters_list/" + vod_id]
+            attempts = [primary + "/" + vod_id] +                        [u.rstrip("/") + "/" + vod_id for u in backups] +                        [self.BASE + "/api/chapters_list/" + vod_id]
             chs = []
             for url in attempts:
                 try:
@@ -404,21 +404,9 @@ class Spider(BaseSpider):
         return {"list": lst}
 
     def playerContent(self, flag, id, vipFlags=None):
-        self._load_cfg()
         try:
-            # id = 章节序号（detailContent 里 $ 后是 index）
+            self._load_cfg()
             chapter_idx = int(id)
-            # 需要 album_id：从 vod_id 拿不到，但 WebHomeTV 只传 chapterId
-            # 用 play 接口需要 album_id —— 先试通过章节索引反查
-            # 简化：WebHomeTV 传的 id 是详情页 $ 后的部分 = chapter index
-            # 但我们没有 album_id！需要从别处拿 —— 用 search 反查或 detail 缓存
-            # 方案：把 album_id 编码进 play_url 的 flag 里？不行。
-            # 实际: detailContent 返回 "集数名$index"，播放时 WebHomeTV 只传 index。
-            # 解决：在 playerContent 里没有 album_id，需要重新搜索或用 ext 参数。
-            # 用站点搜索书名反查？太重。用 detailContent 的 vod_id 缓存？
-            # —— 最佳: detailContent 里 vod_play_url 用 "name$albumId.index"？WebHomeTV 会把 . 后当 id?
-            # 参考悦听吧: 它把 bookId 存到 self 缓存，播放时用 chapterId 查 bookId
-            # 这里同样: 用 self._last_book_id 缓存
             album_id = getattr(self, "_last_album_id", None)
             if not album_id:
                 return {"parse": 0, "url": ""}
@@ -426,8 +414,7 @@ class Spider(BaseSpider):
             data = self._api_post("/api/play_token",
                                   {"album_id": int(album_id), "chapter_idx": chapter_idx},
                                   auth=True)
-            url = data.get("play_url") or data.get("url") or \
-                (data.get("data") or {}).get("play_url")
+            url = data.get("play_url") or data.get("url") or                 (data.get("data") or {}).get("play_url")
             if url:
                 return {"parse": 0, "url": url,
                         "header": json.dumps({"User-Agent": self.UA, "Referer": self.BASE + "/"})}
@@ -435,8 +422,11 @@ class Spider(BaseSpider):
             pass
         return {"parse": 0, "url": ""}
 
-    def localProxy(self, param=""):
-        return {}
+    def homeVideoContent(self):
+        return {"list": []}
+
+    def getName(self):
+        return "听友FM"
 
     def isVideoFormat(self, url):
         return False
@@ -444,35 +434,19 @@ class Spider(BaseSpider):
     def manualVideoCheck(self):
         return False
 
+    def localProxy(self, param=""):
+        return {}
+
     def destroy(self):
-        if self._session:
-            try:
-                self._session.close()
-            except Exception:
-                pass
+        pass
 
 
 if __name__ == "__main__":
     sp = Spider()
     sp.init("")
-    print("=== homeContent ===")
     h = sp.homeContent()
-    print(f"分类: {[c['type_name'] for c in h['class']]}")
-    print(f"推荐: {[(v['vod_name'][:20], v['vod_remarks']) for v in h['list'][:3]]}")
-    print("\n=== categoryContent (玄幻奇幻) ===")
-    c = sp.categoryContent("46", "1")
-    print(f"列表: {[(v['vod_name'][:20], v['vod_remarks']) for v in c['list'][:3]]}")
-    print("\n=== searchContent (三体) ===")
+    print(f"首页: {len(h['class'])} 分类, {len(h['list'])} 推荐")
+    for v in h["list"][:3]:
+        print(f"  {v['vod_name'][:20]} | {v['vod_remarks']}")
     s = sp.searchContent("三体", True)
-    print(f"结果: {[(v['vod_name'][:25], v['vod_remarks']) for v in s['list'][:3]]}")
-    if s["list"]:
-        book = s["list"][0]
-        sp._last_album_id = book["vod_id"]
-        print(f"\n=== detailContent ({book['vod_name'][:15]}) ===")
-        d = sp.detailContent([book["vod_id"]])
-        vod = d["list"][0]
-        urls = vod["vod_play_url"].split("#")
-        print(f"集数: {len(urls)} | 前3: {urls[:3]}")
-        print(f"\n=== playerContent (第1集) ===")
-        p = sp.playerContent("听友FM", "1")
-        print(f"播放: {str(p)[:150]}")
+    print(f"搜索: {len(s['list'])} 条")
