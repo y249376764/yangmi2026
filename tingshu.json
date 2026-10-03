@@ -1,1 +1,33 @@
-{"spider": "./9527.jar", "sites": [], "parses": [], "lives": []}
+{
+  "spider": "./9527.jar",
+  "sites": [
+    {
+      "key": "TingBookJinXia",
+      "name": "🎙️┆堇夏┆有声",
+      "type": 3,
+      "api": "csp_TingBookJinXia",
+      "searchable": 1,
+      "filterable": 1,
+      "indexs": 0,
+      "ext": "https://m.ting15.com",
+      "style": {
+        "type": "list"
+      },
+      "jar": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/1.jar"
+    },
+    {
+      "key": "TingYou",
+      "name": "🎧┆听友┆有声",
+      "type": 3,
+      "api": "csp_TingYou",
+      "searchable": 1,
+      "indexs": 0,
+      "style": {
+        "type": "list"
+      },
+      "jar": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/1.jar"
+    }
+  ],
+  "parses": [],
+  "lives": []
+}
