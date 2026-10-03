@@ -97,7 +97,7 @@
       "style": {
         "type": "list"
       },
-      "jar": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/1.jar"
+      "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/1.jar"
     },
     {
       "key": "TingYou",
@@ -109,7 +109,7 @@
       "style": {
         "type": "list"
       },
-      "jar": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/1.jar"
+      "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/1.jar"
     }
   ],
   "parses": [],
