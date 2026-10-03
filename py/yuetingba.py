@@ -231,36 +231,24 @@ class Spider(BaseSpider):
             self._b64(self.ASSL_KEY_B64), self._b64(self.ASSL_IV_B64), self._b64(raw))
         return json.loads(txt)
 
-    def _select_server(self, servers, book_id):
+    def _order_servers(self, servers, book_id):
+        """排序服务器列表：国内免费服务器优先（36.5.86.148 合肥电信），
+        再按专属匹配和 Ratio 权重排，保证播放器能拿到多个可用的备选。"""
         pool = [s for s in servers
                 if str(s.get("AsType")) == "1" and str(s.get("Type")) == "A"]
         if not pool:
-            return None
+            return []
         parts = str(book_id).split("-")
         suffix = parts[4] if len(parts) > 4 else str(book_id)
-        dedicated = [s for s in pool
-                     if s.get("BookIds") and suffix in str(s.get("BookIds"))]
-        if dedicated:
-            pool = dedicated
-        if len(pool) == 1:
-            return pool[0]
-        candidates = [s for s in pool if int(s.get("Ratio") or 0) > 0]
-        if not dedicated:
-            free = [s for s in candidates if not str(s.get("BookIds") or "").strip()]
-            candidates = free
-        if not candidates:
-            candidates = pool
-        total = sum(int(s.get("Ratio") or 0) for s in candidates)
-        if total <= 0:
-            return candidates[0]
-        import random
-        r = random.randint(1, total)
-        acc = 0
-        for s in candidates:
-            acc += int(s.get("Ratio") or 0)
-            if r <= acc:
-                return s
-        return candidates[-1]
+        # 国内服务器优先（36.5.86.148 合肥电信，用户在国内连这个最快）
+        domestic = [s for s in pool if str(s.get("Value")).startswith("36.")]
+        others = [s for s in pool if not str(s.get("Value")).startswith("36.")]
+        # 专属匹配的放前面（内容可能只在专属服务器）
+        def rank(slist):
+            ded = [s for s in slist if s.get("BookIds") and suffix in str(s.get("BookIds"))]
+            free = [s for s in slist if s not in ded]
+            return ded + sorted(free, key=lambda s: int(s.get("Ratio") or 0), reverse=True)
+        return rank(domestic) + rank(others)
 
     def _chapter_path(self, ting_id, creation_time, efi):
         tid = str(ting_id).replace("-", "")
@@ -305,19 +293,24 @@ class Spider(BaseSpider):
         out = []
         if not html:
             return out
-        # 首页推荐: href="/book/detail/{id}/0">书名</a>
-        re_item = re.compile(r'href="/book/detail/([^/]+)/0"[^>]*>([^<]+)</a>')
+        # 首页推荐: section-box-list-item 条目块（封面 img + 标题 a）
+        re_item = re.compile(r'<div class="col-md-[4612]+ col-xs-12 section-box-list-item">([\s\S]*?)(?=<div class="col-md-[4612]+ col-xs-12 section-box-list-item">|</div>\s*</div>\s*</div>)')
         seen = set()
         for m in re_item.finditer(html):
-            bid = m.group(1).strip()
-            name = m.group(2).strip()
-            if bid in seen or not name:
+            item = m.group(1)
+            id_m = re.search(r'href="/book/detail/([^/]+)/', item)
+            if not id_m:
+                continue
+            bid = id_m.group(1).strip()
+            if bid in seen:
                 continue
             seen.add(bid)
-            # 找封面
+            # 书名：标题 a 文本
+            title_m = re.search(r'box-list-item-text-title[^>]*>\s*<a[^>]*>([^<]+)</a>', item)
+            name = title_m.group(1).strip() if title_m else bid
+            # 封面：条目块内第一个 img
+            img_m = re.search(r'<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>', item)
             pic = ""
-            ctx = html[max(0, m.start()-600):m.start()]
-            img_m = re.search(r'<img[^>]+src="([^"]*)"[^>]*>', ctx)
             if img_m:
                 pic = img_m.group(1)
                 if pic.startswith("/"):
@@ -354,18 +347,24 @@ class Spider(BaseSpider):
                 self._cat_pages[str(tid)] = max(int(p) for p in pages)
             except Exception:
                 pass
-        # 书籍条目
-        re_item = re.compile(r'<a target="_blank" href="/book/detail/([^/]+)/[0-9]+"[^>]*>([^<]+)</a>')
+        # 书籍条目（封面 + 标题，用条目块整体匹配）
+        re_item = re.compile(r'<div class="col-md-12 col-xs-12 section-box-list-item">([\s\S]*?)(?=<div class="col-md-12 col-xs-12 section-box-list-item">|</div>\s*</div>\s*</div>)')
         seen = set()
         for m in re_item.finditer(html):
-            bid = m.group(1).strip()
-            name = m.group(2).strip()
-            if bid in seen or not name:
+            item = m.group(1)
+            id_m = re.search(r'href="/book/detail/([^/]+)/', item)
+            if not id_m:
+                continue
+            bid = id_m.group(1).strip()
+            if bid in seen:
                 continue
             seen.add(bid)
+            # 书名：标题 a 文本
+            title_m = re.search(r'box-list-item-text-title[^>]*>\s*<a[^>]*>([^<]+)</a>', item)
+            name = title_m.group(1).strip() if title_m else bid
+            # 封面：条目块内第一个 img
+            img_m = re.search(r'<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>', item)
             pic = ""
-            ctx = html[max(0, m.start()-600):m.start()]
-            img_m = re.search(r'<img[^>]+src="([^"]*)"[^>]*>', ctx)
             if img_m:
                 pic = img_m.group(1)
                 if pic.startswith("/"):
@@ -394,7 +393,7 @@ class Spider(BaseSpider):
             title_m = re.search(r'box-list-item-text-title[\s\S]*?href="[^"]*">([^<]+)</a>', item)
             if not title_m:
                 continue
-            img_m = re.search(r'<img\s+src="([^"]*)"', item)
+            img_m = re.search(r'<img\s+src=[\'"]([^\'"]*)[\'"]', item)
             anchor_m = re.search(r'type=3&name=[^"]*">([^<]*)</a>', item)
             desc_m = re.search(r'box-list-item-text-intro[^>]*>([^<]*)', item)
             img = img_m.group(1) if img_m else ""
@@ -473,25 +472,41 @@ class Spider(BaseSpider):
             return {"parse": 0, "url": ""}
         py = py_m.group(1) if py_m else ""
         servers = self._audio_servers(assl_m.group(1))
-        server = self._select_server(servers, book_id)
-        if not server:
+        # 按 Ratio 权重选主服务器 + 其余按序做备选
+        ordered = self._order_servers(servers, book_id)
+        if not ordered:
             return {"parse": 0, "url": ""}
-        base = f"{server['Scheme']}://{server['Value']}:{server['Port']}"
-        path = self._chapter_path(meta.get("id"), meta.get("creationTime"), meta.get("efi"))
-        fname = path.split("/")[-1]
-        name = str(server.get("Name", ""))
-        if name.endswith("_p"):
-            path = f"/{py}_{book_id}/{fname}"
-        elif name.endswith("_b"):
-            path = f"/myfiles/host/listen/booksdir/{py}_{book_id}/{fname}"
-        expire = int(time.time()) + self.TOKEN_TTL
-        token = hashlib.md5(f"{fname}|{expire}|{self.SK}".encode()).hexdigest()
-        final_url = f"{base}{path}?token={token}&expire={expire}"
-        return {
+        urls = []
+        for server in ordered[:4]:
+            try:
+                base = f"{server['Scheme']}://{server['Value']}:{server['Port']}"
+                path = self._chapter_path(meta.get("id"), meta.get("creationTime"), meta.get("efi"))
+                fname = path.split("/")[-1]
+                name = str(server.get("Name", ""))
+                if name.endswith("_p"):
+                    path = f"/{py}_{book_id}/{fname}"
+                elif name.endswith("_b"):
+                    path = f"/myfiles/host/listen/booksdir/{py}_{book_id}/{fname}"
+                expire = int(time.time()) + self.TOKEN_TTL
+                token = hashlib.md5(f"{fname}|{expire}|{self.SK}".encode()).hexdigest()
+                urls.append(f"{base}{path}?token={token}&expire={expire}")
+            except Exception:
+                continue
+        if not urls:
+            return {"parse": 0, "url": ""}
+        # 多服务器地址打包成数组 [显示名1, 地址1, ...]，播放器自动尝试备选
+        url_list = []
+        for i, u in enumerate(urls):
+            url_list.append(f"服务器{i+1}")
+            url_list.append(u)
+        result = {
             "parse": 0,
-            "url": final_url,
+            "url": url_list if len(urls) > 1 else urls[0],
+            "format": "audio/mpeg",
             "header": {"Referer": self.BASE + "/", "User-Agent": self.UA},
+            "flag": "悦听吧",
         }
+        return result
 
     def localProxy(self, param=""):
         return {}
