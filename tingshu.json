@@ -86,30 +86,13 @@
       "changeable": 0
     },
     {
-      "key": "TingBookJinXia",
-      "name": "🎙️┆堇夏┆有声",
+      "key": "tingyou",
+      "name": "🎧听友FM｜有声书",
       "type": 3,
-      "api": "csp_TingBookJinXia",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tingyoufm.py",
       "searchable": 1,
-      "filterable": 1,
-      "indexs": 0,
-      "ext": "https://m.ting15.com",
-      "style": {
-        "type": "list"
-      },
-      "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/1.jar"
-    },
-    {
-      "key": "TingYou",
-      "name": "🎧┆听友┆有声",
-      "type": 3,
-      "api": "csp_TingYou",
-      "searchable": 1,
-      "indexs": 0,
-      "style": {
-        "type": "list"
-      },
-      "jar": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/1.jar"
+      "quickSearch": 1,
+      "changeable": 0
     }
   ],
   "parses": [],
