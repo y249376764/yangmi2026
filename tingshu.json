@@ -89,7 +89,7 @@
       "key": "tingyou",
       "name": "🎧听友FM｜有声书",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@9470cddb9b46157c8deda0c6192d23294de9e66b/py/tingyoufm.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c3460f80c35382b58bf909450dc13c55bf4600/py/tingyoufm.py",
       "searchable": 1,
       "quickSearch": 1,
       "changeable": 0
