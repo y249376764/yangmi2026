@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 00:05:43 UTC
+> 自动生成时间: 2026-10-03 00:58:37 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **73**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 00:06:28 UTC
+- 巡检时间: 2026-10-03 00:59:13 UTC
 
 ## ⚠️ 异常站点
 
@@ -141,6 +141,7 @@
 | tingshu.json | 📕博看丨听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📗悦听吧｜听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -176,6 +177,7 @@
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
 - **fandazi.py**: fdzys.net
+- **yuetingba.py**: www.yuetingba.cn
 - **文才影视.py**: www.jiabaide.cn
 - **aigua.py**: aigua1.com aigua8.com sf1-cdn-tos.huoshanstatic.com vres.wbadl.cn
 - **juzong.py**: www.juzong01.me
