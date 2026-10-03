@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 03:58:05 UTC
+> 自动生成时间: 2026-10-03 04:15:10 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **76**
+- 探测站点数: **77**
 - 有异常站点数: **9**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 03:59:01 UTC
+- 巡检时间: 2026-10-03 04:15:55 UTC
 
 ## ⚠️ 异常站点
 
@@ -145,6 +145,7 @@
 | tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🧪测试蜘蛛｜固定数据 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 1989B) |
 | tingshu_2.json | 🎙️┆堇夏┆有声 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu_2.json | 🎧┆听友┆有声 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -187,6 +188,7 @@
 - **juzong.py**: www.juzong01.me
 - **hongguo.py**: api5-normal-sinfonlineb.fqnovel.com hongguoduanju.com novel.snssdk.com
 - **maple.py**: fgsrg.hzqingshan.com maihaolian.com www.cd-zj.com www.vip1949.com www.zzztool.com
+- **test_spider.py**: www.tingyou.fm
 - **souju.py**: bpz1.app bpz1.top bpz10.app bpz10.top bpz2.app
 - **libvio.py**: libvio.host libviobd.com www.libvio.to
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
