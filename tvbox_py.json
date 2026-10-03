@@ -765,6 +765,15 @@
       "quickSearch": 1,
       "filterable": 1,
       "order_num": 1
+    },
+    {
+      "key": "py_mifeng",
+      "name": "🐝电影蜜蜂[py]｜茶杯狐",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@74a4196c/py/dianyingmifeng.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "lives": [
