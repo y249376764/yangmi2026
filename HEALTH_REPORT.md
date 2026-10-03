@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 07:17:22 UTC
+> 自动生成时间: 2026-10-03 08:16:39 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **78**
-- 有异常站点数: **9**
+- 探测站点数: **79**
+- 有异常站点数: **10**
 - 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 07:18:17 UTC
+- 巡检时间: 2026-10-03 08:17:32 UTC
 
 ## ⚠️ 异常站点
 
@@ -17,6 +17,7 @@
 | tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
+| tvbox.json | 猫眼资源┃刺桐 | 1 | https://api.maoyanapi.top/api.php/provide/vod/ | api脚本:❌ HTTP 500 |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://www.hkybqufgh.com,https://www.sizhengxt.com,htt | ext域名:❌ 超时/无法连接 |
@@ -48,7 +49,7 @@
 | tvbox.json | 🎡永乐｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox.json | 🎥1905｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox.json | 🅱️哔哩｜影视资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tvbox.json | 猫眼资源┃刺桐 | 1 | https://api.maoyanapi.top/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 猫眼资源┃刺桐 | 1 | https://api.maoyanapi.top/api.php/provide/vod/ | api脚本:❌ HTTP 500 |
 | tvbox.json | 牛牛资源┃刺桐 | 1 | https://api.niuniuzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 丫丫资源┃刺桐 | 1 | https://cj.yayazy.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 茅台资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/from/mtm3 | api脚本:✅ 200 (body 2048B) |
@@ -136,6 +137,7 @@
 | tvbox_py.json | 搜剧AI[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 网飞[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_py.json | 🎬腾爱优聚合[py] | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox_py.json | 🐝电影蜜蜂[py]｜茶杯狐 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@00114 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧喜马拉雅｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📻蜻蜓｜FM频道 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📢世界｜听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -171,6 +173,7 @@
 - **荐片.js**: api.ztcgi.com img.jianpian.com
 - **ximalaya.py**: fdfs.xmcdn.com imagev2.xmcdn.com m.ximalaya.com mobile.ximalaya.com mobwsa.ximalaya.com
 - **tiantang.py**: dsystv.com
+- **dianyingmifeng.py**: www.meituuan.com
 - **dsystv.py**: dsystv.com
 - **tengaiyou.py**: bd.jx.cn bfq.txnp.cn bfzyplayer.com cj.tianwe.cn go.88lin.eu.org
 - **bilibili_ts.py**: api.bilibili.com i0.hdslb.com search.bilibili.com www.bilibili.com
