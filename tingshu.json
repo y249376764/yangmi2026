@@ -95,10 +95,10 @@
       "changeable": 0
     },
     {
-      "key": "ting365",
-      "name": "🎧365听书｜有声书",
+      "key": "ting365v2",
+      "name": "🎧365听书v2｜有声书",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c85961c1f7d5c36e0eaff56847100cbb8374e/py/ting365.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c85961c1f/py/ting365.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
