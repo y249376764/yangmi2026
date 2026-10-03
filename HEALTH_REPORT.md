@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-03 08:24:42 UTC
+> 自动生成时间: 2026-10-03 08:28:18 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **45**
+- 探测站点数: **49**
 - 有异常站点数: **9**
-- 跳过本地/代理目标数: 11
-- 巡检时间: 2026-10-03 08:25:14 UTC
+- 跳过本地/代理目标数: 7
+- 巡检时间: 2026-10-03 08:28:46 UTC
 
 ## ⚠️ 异常站点
 
@@ -37,7 +37,7 @@
 | tvbox_2.json | 🐧咕噜丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | 🦊布布丨蓝光秒播 | 3 | https://323433ssdfd.top | ext域名:✅ 200 (body 1959B) |
 | tvbox_2.json | 🥰胖妞丨蓝光秒播 | 3 | http://103.217.190.91:19987/app/bn | ext域名:✅ 200 (body 64B) |
-| tvbox_2.json | 🐵猴哥丨蓝光秒播 | 3 | https://45.150.167.18:8000 | ext域名:🟡 403(可能反爬/需UA) |
+| tvbox_2.json | 🐵猴哥丨蓝光秒播 | 3 | https://45.150.167.18:8000 | ext域名:✅ 200 (body 596B) |
 | tvbox_2.json | 🏵️天堂｜蓝光秒播 | 3 | https://dyttandroid04-1372779881.cos.ap-shanghai.myqclo | ext域名:✅ 200 (body 65B) |
 | tvbox_2.json | 🧿独播｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
@@ -76,14 +76,14 @@
 | tvbox_2.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_2.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_2.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_2.json | 🎬奈飞工厂｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox_2.json | 🎬奈飞工厂｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧喜马拉雅｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📻蜻蜓｜FM频道 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📢世界｜听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📚jin夏丨听书资源 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
 | tingshu.json | 📕博看丨听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| tingshu.json | 📖听书吧｜有声小说 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📖听书吧｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
@@ -92,8 +92,8 @@
 | music.json | 🍁枫叶丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶裤硪丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | music.json | 🎶听海丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| music.json | 🎵聚合音乐丨网易+酷我 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
-| music.json | 🔌洛雪转换器丨插件导入 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| music.json | 🎵聚合音乐丨网易+酷我 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| music.json | 🔌洛雪转换器丨插件导入 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | short.json | 七猫 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | short.json | 河马 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | short.json | 围观 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
