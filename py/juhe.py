@@ -243,49 +243,70 @@ class Spider(Spider):
         parts = ids.split("|", 1)
         name0 = parts[0] if parts else ""
         rid = parts[1] if len(parts) > 1 else ids
-        api = self._api.get(name0)
-        if not api:
-            # 找不到来源站, 试全站
-            for n, a in self._api.items():
-                d = self._detail(a, rid)
-                if d and d.get("list"):
-                    name0, api = n, a
-                    break
-        if not api:
-            return {"list": [{"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}]}
-        data = self._detail(api, rid)
-        if not data or not data.get("list"):
-            return {"list": [{"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}]}
-        item = data["list"][0]
-        vod = {
-            "vod_id": ids,
-            "vod_name": str(item.get("vod_name", "")),
-            "vod_pic": str(item.get("vod_pic", "")),
-            "vod_actor": str(item.get("vod_actor", "")),
-            "vod_director": str(item.get("vod_director", "")),
-            "vod_content": str(item.get("vod_content", "")),
-            "vod_year": str(item.get("vod_year", "")),
-            "vod_remarks": str(item.get("vod_remarks", "")),
-        }
-        # 该站的全部线路(vod_play_from 多线路, vod_play_url 对应组)
-        pf = str(item.get("vod_play_from", "") or "线路")
-        pu = str(item.get("vod_play_url", "") or "")
-        raw_froms = [x.strip() for x in re.split(r"[,\s]+", pf.replace("$$$", ",")) if x.strip()]
-        raw_urls = [x.strip() for x in pu.split("$$$") if x.strip()]
-        if len(raw_urls) == 1 and len(raw_froms) > 1:
-            raw_urls = [raw_urls[0]] * len(raw_froms)
+        # 并发查所有站(聚合价值: 来源站没直链, 其他站可能有)
+        jobs = []
+        for name, api in self._api.items():
+            jobs.append((name, (lambda a, r: (lambda: self._detail(a, r)))(api, rid)))
+        res = self._multi(jobs)
+        vod = None
         plays_from, plays_url = [], []
-        for i, u in enumerate(raw_urls):
-            if not u:
+        for name in [n for n, _ in SOURCES]:
+            data = res.get(name)
+            if not data or not data.get("list"):
                 continue
-            lname = (raw_froms[i] if i < len(raw_froms) else "线路") or "线路"
-            lname = re.sub(r"[\s\[\]（）()]+", "", lname) or "线路"
-            # 线路名 = 站名-线路名
-            plays_from.append(f"{name0}-{lname}")
-            plays_url.append(u)
+            item = data["list"][0]
+            if vod is None:
+                vod = {
+                    "vod_id": ids,
+                    "vod_name": str(item.get("vod_name", "")),
+                    "vod_pic": str(item.get("vod_pic", "")),
+                    "vod_actor": str(item.get("vod_actor", "")),
+                    "vod_director": str(item.get("vod_director", "")),
+                    "vod_content": str(item.get("vod_content", "")),
+                    "vod_year": str(item.get("vod_year", "")),
+                    "vod_remarks": str(item.get("vod_remarks", "")),
+                }
+            pf = str(item.get("vod_play_from", "") or "线路")
+            pu = str(item.get("vod_play_url", "") or "")
+            if not pu:
+                continue
+            raw_froms = [x.strip() for x in re.split(r"[,\s]+", pf.replace("$$$", ",")) if x.strip()]
+            raw_urls = [x.strip() for x in pu.split("$$$") if x.strip()]
+            if len(raw_urls) == 1 and len(raw_froms) > 1:
+                raw_urls = [raw_urls[0]] * len(raw_froms)
+            for i, u in enumerate(raw_urls):
+                if not u:
+                    continue
+                # 只保留直链线路(过滤分享页/播放页/跳转页, 防跳源)
+                ep0 = u.split("#")[0]
+                epu0 = ep0.split("$")[-1] if "$" in ep0 else ep0
+                if not self._is_direct(epu0):
+                    continue
+                lname = (raw_froms[i] if i < len(raw_froms) else "线路") or "线路"
+                lname = re.sub(r"[\s\[\]（）()]+", "", lname) or "线路"
+                plays_from.append(f"{name}-{lname}")
+                plays_url.append(u)
+        if vod is None:
+            vod = {"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}
         vod["vod_play_from"] = ",".join(plays_from)
         vod["vod_play_url"] = "$$$".join(plays_url)
         return {"list": [vod]}
+
+    def _is_direct(self, u):
+        """判断是否为可直链播放地址(m3u8/mp4/flv/ts), 排除网页/分享/跳转页"""
+        low = str(u).lower()
+        if not low.startswith("http"):
+            return False
+        # 直链特征
+        if ".m3u8" in low or ".mp4" in low or ".flv" in low or ".ts" in low:
+            return True
+        # 常见播放页/分享页特征 -> 排除
+        if "/share/" in low or "/vodplay/" in low or "/play/" in low or "/player/" in low:
+            return False
+        if low.endswith(".html") or low.endswith(".php"):
+            return False
+        # 无扩展名长地址, 可能是直链也可能是页, 保守按直链给(播放器能嗅探)
+        return True
 
     def _detail(self, api, rid):
         url = api + ("&" if "?" in api else "?") + "ac=videolist&ids=" + str(rid)
@@ -296,13 +317,17 @@ class Spider(Spider):
 
     # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags):
-        # id 是具体播放地址
-        url = str(id or "")
+        # id 是具体播放地址(集数$url格式)
+        raw = str(id or "")
+        epu = raw
+        if "$" in epu:
+            epu = epu.split("$", 1)[1]
+        url = epu.strip()
         low = url.lower()
+        # 直链 -> 直接播
         if url.startswith("http") and (".m3u8" in low or ".mp4" in low or ".flv" in low or ".ts" in low or "m3u8" in low):
             return {"parse": 0, "url": url, "header": {"User-Agent": UA}}
-        # 网页播放页 -> 尝试通用解析
+        # 非直链(网页/分享页): 返回原址让播放器嗅探, 不跳解析站(防跳源)
         if url.startswith("http"):
-            jx = self._jxs[0] + urllib.parse.quote(url, safe="")
-            return {"parse": 1, "url": jx, "header": {"User-Agent": UA}}
+            return {"parse": 0, "url": url, "header": {"User-Agent": UA}}
         return {"parse": 0, "url": url}
