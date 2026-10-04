@@ -191,7 +191,7 @@
       "name": "🎡永乐｜蓝光影视",
       "type": 3,
       "api": "csp_XBPQ",
-      "ext": "https://wget.la/raw.githubusercontent.com/tushen6/Tomorrow/master/XBPQ/永乐影视.json"
+      "ext": "https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBPQ/永乐影视.json"
     },
     {
       "key": "1905",
