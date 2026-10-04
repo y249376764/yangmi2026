@@ -317,17 +317,23 @@ class Spider(Spider):
 
     # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags):
-        # id 是具体播放地址(集数$url格式)
+        # id = 集数$url 或纯 url; flag = "站名-线路名" 可拆出站名取 Referer
         raw = str(id or "")
         epu = raw
         if "$" in epu:
             epu = epu.split("$", 1)[1]
         url = epu.strip()
         low = url.lower()
-        # 直链 -> 直接播
+        # 从 flag 拆站名
+        site = (str(flag or "").split("-")[0]).strip()
+        referer = self._api.get(site, "").split("/api")[0] + "/" if site in self._api else ""
+        header = {"User-Agent": UA}
+        if referer:
+            header["Referer"] = referer
+        # 直链 -> parse:0 直接播 + header(JSON字符串, 默影视规范)
         if url.startswith("http") and (".m3u8" in low or ".mp4" in low or ".flv" in low or ".ts" in low or "m3u8" in low):
-            return {"parse": 0, "url": url, "header": {"User-Agent": UA}}
-        # 非直链(网页/分享页): 返回原址让播放器嗅探, 不跳解析站(防跳源)
+            return {"parse": 0, "url": url, "header": json.dumps(header)}
+        # 非直链(网页播放页): parse:1 让App内置解析 + header(不跳外部jx站)
         if url.startswith("http"):
-            return {"parse": 0, "url": url, "header": {"User-Agent": UA}}
+            return {"parse": 1, "url": url, "header": json.dumps(header)}
         return {"parse": 0, "url": url}
