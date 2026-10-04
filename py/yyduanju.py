@@ -170,10 +170,10 @@ class Spider(BaseSpider):
             "vod_pic": meta.get("pic") or "",
             "vod_remarks": "🔥{} · 共{}集".format(meta.get("watch", "0"), len(eps)) if eps else ("🔥" + meta.get("watch", "0")),
             "vod_content": meta.get("intro") or "",
-            "vod_play_from": "YY短剧",
+            "vod_play_from": "YY短剧v2",
             "vod_play_url": "$$".join("%s#%s" % (i, u) for i, u in eps),
         }
-        return [vod]
+        return {"list": [vod]}
 
     def _fetch_all_episodes(self, pid):
         """循环拉全集: 每页30集, seq游标推进"""
@@ -235,10 +235,10 @@ class Spider(BaseSpider):
                 raw = r.read().decode("utf-8", errors="ignore")
             resp = json.loads(raw)
         except Exception:
-            return []
+            return {"list": []}
         playlet = (resp.get("response") or {}).get("playlet") or {}
         docs = playlet.get("docs") or []
-        return [self._build_vod(x) for x in docs if x.get("pid")]
+        return {"list": [self._build_vod(x) for x in docs if x.get("pid")]}
 
     # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags=None):
