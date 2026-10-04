@@ -254,15 +254,23 @@ class Spider(BaseSpider):
             {"type_id": "kw", "type_pid": "0", "type_name": "酷我"},
             {"type_id": "qq", "type_pid": "0", "type_name": "QQ音乐"},
         ]
-        # 歌单标签筛选器 (语种/风格/场景/情感/主题 全部标签)
-        cat_values = [{"n": "推荐", "v": ""}]
-        for cid in range(5):
-            for t in _CAT_TAGS.get(cid, []):
-                cat_values.append({"n": t, "v": t})
-        cat_filter = {"key": "cat", "name": "歌单分类", "value": cat_values}
+        # 歌单标签筛选器: 按维度分 5 行 (每行独立滑动, 不用一个超长列表)
+        dim_filters = [
+            ("cat0", "语种", _CAT_TAGS.get(0, [])),
+            ("cat1", "风格", _CAT_TAGS.get(1, [])),
+            ("cat2", "场景", _CAT_TAGS.get(2, [])),
+            ("cat3", "情感", _CAT_TAGS.get(3, [])),
+            ("cat4", "主题", _CAT_TAGS.get(4, [])),
+        ]
         filters = {}
         for c in classes:
-            filters[c["type_id"]] = [cat_filter]
+            fl = []
+            for key, name, tags in dim_filters:
+                vals = [{"n": "全部", "v": ""}]
+                for t in tags:
+                    vals.append({"n": t, "v": t})
+                fl.append({"key": key, "name": name, "value": vals})
+            filters[c["type_id"]] = fl
         result = {"class": classes, "list": []}
         if filter:
             result["filters"] = filters
@@ -280,7 +288,13 @@ class Spider(BaseSpider):
             except Exception:
                 extend = {}
         extend = extend or {}
-        tag = str(extend.get("cat") or "").strip()
+        # 多行筛选: cat0语种/cat1风格/cat2场景/cat3情感/cat4主题, 取第一个非空
+        tag = ""
+        for k in ("cat0", "cat1", "cat2", "cat3", "cat4", "cat"):
+            v = str(extend.get(k) or "").strip()
+            if v:
+                tag = v
+                break
         if tid == "wy":
             # 网易云: 标签歌单 / 推荐歌单
             if tag:
