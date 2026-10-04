@@ -391,7 +391,7 @@
       "key": "netflixgc",
       "name": "🎬奈飞工厂｜蓝光影视",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/netflixgc.js",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/js/netflixgc.js",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
