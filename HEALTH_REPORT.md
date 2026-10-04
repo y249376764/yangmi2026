@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 08:36:34 UTC
+> 自动生成时间: 2026-10-04 08:52:17 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 08:36:34 UTC
+- 巡检时间: 2026-10-04 08:52:17 UTC
 
 ## ⚠️ 异常站点
 
@@ -58,6 +58,7 @@
 - **fandazi.py**: fdzys.net
 - **yuetingba.py**: www.yuetingba.cn
 - **文才影视.py**: www.jiabaide.cn
+- **youtube_spider.py**: i.ytimg.com www.youtube.com
 - **aigua.py**: aigua1.com aigua8.com sf1-cdn-tos.huoshanstatic.com vres.wbadl.cn
 - **ting39.py**: www.ting39.com
 - **juzong.py**: www.juzong01.me
