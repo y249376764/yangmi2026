@@ -1,0 +1,49 @@
+{
+ "bookSourceName": "聆阅·酷我听书",
+ "bookSourceGroup": "听书",
+ "bookSourceUrl": "https://kuwo.cn",
+ "bookSourceType": 1,
+ "bookSourceComment": "聆阅逆向源：酷我听书精选。发现页12分类+搜索分页，章节mp3直链（服务端限100集），免登录无广告。NG修复版：目录加载修复",
+ "enabled": true,
+ "weight": 0,
+ "loginUrl": "",
+ "loginUi": "",
+ "loginCheckJs": "",
+ "header": "{}",
+ "searchUrl": "@js:\n'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-search?keyword='+encodeURIComponent(key||'')+'&page='+(Number(page||1)||1)",
+ "exploreUrl": "[{\"title\": \"都市传说\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1546\"}, {\"title\": \"玄幻奇幻\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1548\"}, {\"title\": \"武侠仙侠\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1549\"}, {\"title\": \"悬疑推理\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1550\"}, {\"title\": \"历史军事\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1551\"}, {\"title\": \"穿越架空\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1553\"}, {\"title\": \"青春校园\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1554\"}, {\"title\": \"相声\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1217\"}, {\"title\": \"评书\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1219\"}, {\"title\": \"白噪音\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1662\"}, {\"title\": \"ASMR\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1663\"}, {\"title\": \"诗词歌赋\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-albums?classifyId=1354\"}]",
+ "ruleSearch": {
+  "bookList": "$.books",
+  "name": "$.title@js:result.split('|')[0]",
+  "author": "$.author",
+  "coverUrl": "$.cover",
+  "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-episodes?albumId='+result",
+  "intro": "$.description",
+  "kind": "$.categories[0]",
+  "note": "@js:var r=JSON.parse(result);'评分'+r.rating+' | '+r.listeners"
+ },
+ "ruleExplore": {
+  "bookList": "$.books",
+  "name": "$.title@js:result.split('|')[0]",
+  "author": "$.author",
+  "coverUrl": "$.cover",
+  "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-episodes?albumId='+result",
+  "intro": "$.description",
+  "kind": "$.categories[0]",
+  "note": "@js:var r=JSON.parse(result);'评分'+r.rating+' | '+r.listeners"
+ },
+ "ruleToc": {
+  "chapterList": "@js:\n(function(){\n  var d = JSON.parse(result);\n  var arr = d.chapters || [];\n  var out = [];\n  var seen = {};\n  for (var i=0;i<arr.length;i++){\n    var it = arr[i] || {};\n    var id = String(it.id || '');\n    if (!id || seen[id]) continue;\n    seen[id] = 1;\n    out.push({\n      name: it.title || '',\n      url: id\n    });\n  }\n  return out;\n})()",
+  "chapterName": "name",
+  "chapterUrl": "url@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/kuwo-play?rid='+result",
+  "nextTocUrl": ""
+ },
+ "ruleContent": {
+  "content": "$.url"
+ },
+ "respondTime": 180000,
+ "customOrder": 0,
+ "enabledCookieJar": false,
+ "enabledExplore": true,
+ "lastUpdateTime": 1791109000000
+}
