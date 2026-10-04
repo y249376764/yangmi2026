@@ -25,14 +25,18 @@ class Spider(Spider):
         self.hl = "zh-CN"
         self.gl = "US"
 
-        # 代理: extend 可传 proxy=xxx
+        # 代理: extend 传 proxy=xxx 优先 > 环境变量 > 常见端口列表尝试
         self.proxy = None
         if extend:
             m = re.search(r"proxy=([^\s,]+)", extend)
             if m:
                 self.proxy = m.group(1)
         if not self.proxy:
-            self.proxy = "socks5://127.0.0.1:7897"
+            import os as _os
+            self.proxy = _os.environ.get("http_proxy") or _os.environ.get("HTTP_PROXY") or ""
+        if not self.proxy:
+            # 常见 Clash/代理端口, 逐个试
+            self._try_proxy_ports()
 
         self.session = requests.Session()
         self.session.headers.update({
@@ -41,8 +45,15 @@ class Spider(Spider):
             "Origin": self.YT,
             "Referer": self.YT + "/",
         })
+        # 代理: socks 可能缺 PySocks, 兼容处理
+        self.proxy_ok = False
         if self.proxy:
-            self.session.proxies = {"http": self.proxy, "https": self.proxy}
+            try:
+                self.session.proxies = {"http": self.proxy, "https": self.proxy}
+                self.proxy_ok = True
+                self._log_early("使用代理: " + self.proxy)
+            except Exception:
+                self.proxy_ok = False
 
         self.ytcfg = {"key": "", "visitor": "", "ts": 0}
 
@@ -56,6 +67,28 @@ class Spider(Spider):
             "连续剧": "shows",
             "综艺": "ent",
         }
+
+    def _try_proxy_ports(self):
+        """尝试常见代理端口 (http), 找到能连的就用"""
+        ports = [7890, 7897, 1080, 10808, 8080, 8888, 2080, 10809, 8081]
+        for p in ports:
+            proxy = f"http://127.0.0.1:{p}"
+            try:
+                import socket as _s
+                _s.create_connection(("127.0.0.1", p), timeout=0.5)
+                self.proxy = proxy
+                self._log_early(f"代理端口 {p} 可用, 使用 {proxy}")
+                return
+            except Exception:
+                continue
+        self.proxy = ""
+        self._log_early("未发现本机代理端口, 使用直连 (需全局代理/TUN 才可访问 YouTube)")
+
+    def _log_early(self, msg):
+        try:
+            print(f"[YouTube] {msg}")
+        except Exception:
+            pass
 
     # ---------- 抓 ytcfg (key + visitorData) ----------
     def _load_ytcfg(self):
@@ -100,6 +133,12 @@ class Spider(Spider):
             self.ytcfg["key"] = self.KEY_FALLBACK
         return bool(self.ytcfg["key"])
 
+    def _log(self, msg):
+        try:
+            print(f"[YouTube] {msg}")
+        except Exception:
+            pass
+
     # ---------- innertube 请求 ----------
     def _innertube(self, endpoint, body, timeout=15):
         self._load_ytcfg()
@@ -120,8 +159,10 @@ class Spider(Spider):
             r = self.session.post(url, json=payload, timeout=timeout)
             if r.status_code == 200:
                 return r.json()
+            self._log(f"innertube {endpoint} HTTP {r.status_code}")
             return None
-        except Exception:
+        except Exception as e:
+            self._log(f"innertube {endpoint} 请求失败: {type(e).__name__}: {str(e)[:100]}")
             return None
 
     # ---------- 列表解析 (browse/search 通用) ----------
@@ -205,8 +246,11 @@ class Spider(Spider):
             j = self._innertube("browse", {"browseId": "FEwhat_to_watch"})
             if j:
                 vod_list = self._parse_videos(j)
-        except Exception:
-            pass
+                self._log(f"首页推荐解析到 {len(vod_list)} 个")
+            else:
+                self._log("首页 browse 返回空 (检查代理/KEY)")
+        except Exception as e:
+            self._log(f"首页异常: {e}")
         return {"class": classes, "list": vod_list[:24], "filters": {}}
 
     def homeVideoContent(self):
