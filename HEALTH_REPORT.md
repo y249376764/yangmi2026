@@ -1,31 +1,172 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 12:32:22 UTC
+> 自动生成时间: 2026-10-04 13:08:02 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **0**
-- 有异常站点数: **7**
-- 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 12:32:22 UTC
+- 探测站点数: **111**
+- 有异常站点数: **12**
+- 跳过本地/代理目标数: 7
+- 巡检时间: 2026-10-04 13:09:04 UTC
 
 ## ⚠️ 异常站点
 
 | 配置文件 | 站点 | 类型 | 目标 | 结果 |
 |---|---|---|---|---|
-| tvbox.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tvbox.json' |
-| tvbox_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tvbox_2.json' |
-| tvbox_py.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tvbox_py.json' |
-| tingshu.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu.json' |
+| tvbox.json | 🌞热播｜蓝光秒播 | 3 | http://v.rbotv.cn | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
+| tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
+| tvbox_py.json | 荐片[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
+| tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tingshu_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu_2.json' |
-| music.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'music.json' |
-| short.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'short.json' |
 
 ## 📋 全部站点
 
 | 配置文件 | 站点 | 类型 | 目标 | 结果 |
 |---|---|---|---|---|
+| tvbox.json | 🌼韩圈｜蓝光韩剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🌾农民｜蓝光秒播 | 3 | https://vip.wwgz.cn:5200 | ext域名:✅ 200 (body 435B) |
+| tvbox.json | 🌞热播｜蓝光秒播 | 3 | http://v.rbotv.cn | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 🎈看剧AI丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🛸北斗丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🏪厂长｜蓝光影视 | 3 | https://cz01.vip | ext域名:✅ 200 (body 2048B) |
+| tvbox.json | 🐧咕噜丨蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🦊布布丨蓝光秒播 | 3 | https://323433ssdfd.top | ext域名:✅ 200 (body 1959B) |
+| tvbox.json | 🥰胖妞丨蓝光秒播 | 3 | http://103.217.190.91:19987/app/bn | ext域名:✅ 200 (body 64B) |
+| tvbox.json | 🐵猴哥丨蓝光秒播 | 3 | https://45.150.167.18:8000 | ext域名:✅ 200 (body 596B) |
+| tvbox.json | 🏵️天堂｜蓝光秒播 | 3 | https://dyttandroid04-1372779881.cos.ap-shanghai.myqclo | ext域名:✅ 200 (body 65B) |
+| tvbox.json | 🧿独播｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🧿金牌｜蓝光秒播 | 3 | https://m.610pkea.com,https://y2s52n7.com,https://m.hky | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 🧿爱看｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
+| tvbox.json | 👀一起看丨蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎡永乐｜蓝光影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🎥1905｜蓝光秒播 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 🅱️哔哩｜影视资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox.json | 猫眼资源┃刺桐 | 1 | https://api.maoyanapi.top/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 牛牛资源┃刺桐 | 1 | https://api.niuniuzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 丫丫资源┃刺桐 | 1 | https://cj.yayazy.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 茅台资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/from/mtm3 | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 豪华资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 极速资源┃刺桐 | 1 | https://jszyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 豆瓣资源┃刺桐 | 1 | https://caiji.dbzy5.com/api.php/provide/vod/at/josn/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 索尼资源┃刺桐 | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | OK资源┃刺桐 | 1 | https://api.okzyw.net/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 非凡资源┃刺桐 | 1 | http://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 量子资源┃刺桐 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 暴风影视┃刺桐 | 1 | https://bfzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 鸭鸭资源┃刺桐 | 1 | https://cj.yayazy.net/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 闪电资源┃刺桐 | 1 | http://sdzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 樱花资源┃刺桐 | 1 | https://m3u8.apiyhzy.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | U酷资源┃刺桐 | 1 | https://api.ukuapi88.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 光速资源┃刺桐 | 1 | https://api.guangsuapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 虎牙资源┃刺桐 | 1 | https://www.huyaapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 影剧资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🎬奈飞工厂｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:🟡 403(可能反爬/需UA) |
+| tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:🟡 403(可能反爬/需UA) |
+| tvbox_2.json | 🫐┆三六┆影视 | 3 | https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/36 | ext域名:✅ 200 (body 2048B) |
+| tvbox_2.json | 🍵┆茶寮┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🌳┆栖桐┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | ✉️┆锦书┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | ♟️┆棋枰┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🎋┆竹隐┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🏛️┆玉阶┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🪔┆香篆┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🌲┆松庭┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🪁┆纸鸢┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🖋️┆墨砚┆APP | 3 | https://max.moyu666666.top/niulai.php | ext域名:✅ 200 (body 106B) |
+| tvbox_2.json | 🏭┆厂长┆影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
+| tvbox_2.json | 🍉┆瓜子┆影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tvbox_2.json | 👼┆天堂┆影视 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 豆瓣[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 枫叶[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 剧踪[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 红果[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 片库[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | LIBVIO[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 可可追剧[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 布布追剧[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 袋鼠影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B); ext域名:🟡 403(可能反爬/需UA) |
+| tvbox_py.json | 奇优影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 云朵影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 多多影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 剧OK[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 荐片[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | apple[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 爱瓜TV[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
+| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 索尼 | 采集  | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 量子 | 采集 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 非凡 | 采集 | 1 | https://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 金鹰 | 采集 | 1 | https://jyzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 速播 | 采集 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 樱花 | 采集 | 1 | https://m3u8.apiyhzy.com/api.php/provide/vod/at/xml/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 黑木耳 | 采集 | 1 | https://json02.heimuer.xyz/api.php/provide/vod/ | api脚本:✅ 200 (body 2000B) |
+| tvbox_py.json | 天堂 | 采集 | 1 | http://caiji.dyttzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | ikun | 采集 | 1 | https://ikunzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 暴風 | 采集 | 1 | https://bfzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 旺旺 | 采集 | 1 | https://api.wwzy.tv/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox_py.json | 茅台 | 采集 | 1 | https://mtzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 大师兄影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 饭搭子影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 追影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 搜剧AI[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 网飞[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 🎬腾爱优聚合[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 🐝电影蜜蜂[py]｜茶杯狐 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@00114 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧喜马拉雅｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 📻蜻蜓｜FM频道 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📢世界｜听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📚jin夏丨听书资源 | 3 | https://m.ting15.com | ext域名:✅ 200 (body 2048B) |
+| tingshu.json | 📕博看丨听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| tingshu.json | 📖听书吧｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎙幻听网｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@5c0aa | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧酷我听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@17181 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧哔哩有声｜音频直连 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@afff2 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 📚易听书网v2｜听书资源 |  | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@3617a | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 📻懒人听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f820c | api脚本:✅ 200 (body 2048B) |
+| music.json | 🎶爱听｜音乐歌曲 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| music.json | 🍁枫叶丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| music.json | 🎶裤硪丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| music.json | 🎶听海丨音乐合集 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| music.json | 🎵歌词适配v8丨歌单 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@20c73 | api脚本:✅ 200 (body 2048B) |
+| short.json | 七猫 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| short.json | 河马 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| short.json | 围观 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| short.json | 好看 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| short.json | 星芽 • 短剧 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
+| short.json | 果果v2 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@79c5c | api脚本:✅ 200 (body 2048B) |
+| short.json | YY短剧v4 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ab121 | api脚本:✅ 200 (body 2048B) |
 
 ## 🔍 js/py 源码内含域名(供参考)
 
