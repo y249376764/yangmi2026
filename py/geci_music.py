@@ -247,11 +247,10 @@ class Spider(BaseSpider):
         return self.homeContent(extend)
 
     def homeContent(self, filter=False):
-        """分类: 推荐 + 全部二级标签平铺 (语种/风格/场景/情感/主题 标签混合一行横滑)"""
+        """一级分类: 推荐 + 语种/风格/场景/情感/主题 (6个, 平台按钮有位置)"""
         cats = [{"type_id": "recommend", "type_name": "推荐"}]
-        for cid in range(5):
-            for t in _CAT_TAGS.get(cid, []):
-                cats.append({"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t})
+        for cid, cname in [(0, "语种"), (1, "风格"), (2, "场景"), (3, "情感"), (4, "主题")]:
+            cats.append({"type_id": "cat_%d" % cid, "type_name": cname})
         return {"class": cats, "filters": {}}
 
     def homeVodContent(self, page=1, filter=False):
@@ -259,15 +258,12 @@ class Spider(BaseSpider):
 
     # ---------- 分类 (二级=歌单标签, 内容=歌单列表) ----------
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        # 一级维度 cat_N → 二级标签(class) + 默认标签歌单(list) 同一屏
+        # 一级维度 cat_N → 二级分类列表 (class), 不带歌单 (二级位置)
         if re.match(r"^cat_\d+$", tid):
             cid = int(tid[4:])
             tags = _CAT_TAGS.get(cid, [])
             sub = [{"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t} for t in tags]
-            # 默认显示第一个标签的歌单 (如 语种→华语)
-            default_tag = tags[0] if tags else ""
-            pl = self._playlists_by_tag(default_tag, "1")
-            return {"class": sub, "list": pl["list"], "page": pl["page"], "pagecount": pl["pagecount"]}
+            return {"class": sub, "list": [], "page": 1, "pagecount": 1}
         # 二级标签 tag_N_xxx → 歌单列表
         if tid.startswith("tag_"):
             parts = tid.split("_", 2)
@@ -330,13 +326,28 @@ class Spider(BaseSpider):
         return {"list": []}
 
     def _playlist_songs(self, pid, vid):
-        """歌单歌曲列表 (小图+文字: 歌名+歌手)"""
+        """歌单歌曲列表 (全量! trackIds + song/detail 分批拉)"""
         d = _json("https://music.163.com/api/v6/playlist/detail?id=%s" % pid, ref="https://music.163.com/")
-        tracks = ((d or {}).get("playlist") or {}).get("tracks") or []
-        # 名称/图/描述
         pl = (d or {}).get("playlist") or {}
         name = str(pl.get("name") or "歌单")
         pic = str(pl.get("coverImgUrl") or "").replace("{size}", "400")
+        # 全量 trackIds (接口只返回前10首 tracks, 但 trackIds 是全量)
+        track_ids = []
+        for t in (pl.get("trackIds") or []):
+            tid = str(t.get("id") or "")
+            if tid:
+                track_ids.append(tid)
+        # 分批 song/detail 拉全量歌曲信息 (每批100)
+        tracks = []
+        for i in range(0, len(track_ids), 100):
+            batch = track_ids[i:i+100]
+            try:
+                d2 = _json("https://music.163.com/api/v3/song/detail?c=%s" % urllib.parse.quote(
+                    json.dumps([{"id": int(x)} for x in batch], ensure_ascii=False)),
+                    ref="https://music.163.com/")
+                tracks.extend((d2 or {}).get("songs") or [])
+            except Exception:
+                pass
         eps = []
         seen = set()
         for t in tracks:
@@ -351,7 +362,7 @@ class Spider(BaseSpider):
             "vod_id": vid,
             "vod_name": name,
             "vod_pic": pic,
-            "vod_remarks": str(pl.get("trackCount") or len(tracks)) + "首",
+            "vod_remarks": str(pl.get("trackCount") or len(track_ids)) + "首",
             "vod_content": str(pl.get("description") or ""),
             "vod_play_from": "歌词适配",
             "vod_play_url": "#".join(eps) if eps else "",
@@ -477,8 +488,9 @@ class Spider(BaseSpider):
         return "歌词适配v2"
 
     def getCategory(self):
-        cats = [{"type_id": "recommend", "type_name": "推荐"}]
-        for cid in range(5):
-            for t in _CAT_TAGS.get(cid, []):
-                cats.append({"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t})
-        return cats
+        return [{"type_id": "recommend", "type_name": "推荐"},
+                {"type_id": "cat_0", "type_name": "语种"},
+                {"type_id": "cat_1", "type_name": "风格"},
+                {"type_id": "cat_2", "type_name": "场景"},
+                {"type_id": "cat_3", "type_name": "情感"},
+                {"type_id": "cat_4", "type_name": "主题"}]
