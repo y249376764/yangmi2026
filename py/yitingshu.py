@@ -125,7 +125,13 @@ class Spider(Spider):
 
     def homeContent(self, filter=False):
         classes = [{"type_id": v, "type_name": k} for k, v in self.class_map.items()]
-        return {"class": classes}
+        # 首页推荐
+        vod_list = []
+        try:
+            vod_list = self.homeVideoContent().get("list", [])
+        except Exception:
+            vod_list = []
+        return {"class": classes, "list": vod_list, "filters": {}}
 
     def homeVideoContent(self):
         """首页推荐: 各分类第一页前几条"""
