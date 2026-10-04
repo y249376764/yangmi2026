@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 03:03:01 UTC
+> 自动生成时间: 2026-10-04 03:07:20 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 03:03:01 UTC
+- 巡检时间: 2026-10-04 03:07:20 UTC
 
 ## ⚠️ 异常站点
 
@@ -39,6 +39,7 @@
 - **dianyingmifeng.py**: www.meituuan.com
 - **dsystv.py**: dsystv.com
 - **tengaiyou.py**: bd.jx.cn bfq.txnp.cn bfzyplayer.com cj.tianwe.cn go.88lin.eu.org
+- **geci_music.py**: interface.music.163.com interface3.music.163.com m.kugou.com music.163.com musicserver.haitangw.cc
 - **bilibili_ts.py**: api.bilibili.com i0.hdslb.com search.bilibili.com www.bilibili.com
 - **huavod.py**: huavod.com
 - **pianku4k.py**: 4k01.pianku.online bd.jx.cn bfq.txnp.cn jx.2s0.cn jx.77flv.cc
