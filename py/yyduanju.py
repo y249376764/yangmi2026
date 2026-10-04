@@ -242,9 +242,10 @@ class Spider(BaseSpider):
 
     # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags=None):
-        """id 是 播放地址(mp4直链), 直接返回"""
-        url = str(id or "")
-        return {"parse": 0, "jx": 0, "url": url, "header": {"User-Agent": YY_UA, "Referer": API_HOST + "/"}}
+        """id 是 播放地址(mp4直链), 直接返回 parse:0 交给播放器"""
+        url = str(id or "").strip()
+        # mp4 直链无需任何鉴权头, header 留空避免干扰部分播放器
+        return {"parse": 0, "jx": 0, "playUrl": "", "url": url, "header": {}}
 
     def isVideoFormat(self, url):
         return bool(re.search(r"\.(?:mp4|m3u8|flv|mkv|ts|webm)(?:$|\?)", str(url or ""), re.I))
