@@ -170,15 +170,16 @@ class Spider(BaseSpider):
             "vod_pic": meta.get("pic") or "",
             "vod_remarks": "🔥{} · 共{}集".format(meta.get("watch", "0"), len(eps)) if eps else ("🔥" + meta.get("watch", "0")),
             "vod_content": meta.get("intro") or "",
-            "vod_play_from": "YY短剧v2",
+            "vod_play_from": "YY短剧v3",
             "vod_play_url": "$$".join("%s#%s" % (i, u) for i, u in eps),
         }
         return {"list": [vod]}
 
     def _fetch_all_episodes(self, pid):
-        """循环拉全集: 每页30集, seq游标推进"""
-        eps = []          # [(seq_str, url)]
-        seen = set()      # 去重 seq
+        """循环拉全集: 每页30集, seq游标推进. 只返回 (seq, token) 占位,
+        真实 mp4 URL 在 playerContent 点播时现拉(避免 auth_key 过期)"""
+        eps = []
+        seen = set()
         seq = 1
         guard = 0
         while guard < 20:
@@ -202,18 +203,16 @@ class Spider(BaseSpider):
                 max_seq = max(max_seq, s)
                 if s in seen:
                     continue
-                url = str(v.get("videoUrl") or "").strip()
-                if not url:
+                if not v.get("videoUrl"):
                     continue
                 seen.add(s)
-                eps.append((str(s), url))
+                eps.append((str(s), "%s:%d" % (pid, s)))
                 added = True
             if not data.get("hasNextPage") or not added:
                 break
-            # 游标推进到下一页起点
             seq = max_seq + 1
             time.sleep(0.3)
-        # 按集数排序
+
         def _k(e):
             try:
                 return int(e[0])
@@ -242,10 +241,36 @@ class Spider(BaseSpider):
 
     # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags=None):
-        """id 是 播放地址(mp4直链), 直接返回 parse:0 交给播放器"""
-        url = str(id or "").strip()
-        # mp4 直链无需任何鉴权头, header 留空避免干扰部分播放器
-        return {"parse": 0, "jx": 0, "playUrl": "", "url": url, "header": {}}
+        """id 可能是: 1) mp4直链(兼容) 2) pid:seq token → 现拉新鲜URL防auth_key过期"""
+        raw = str(id or "").strip()
+        if raw.startswith("http"):
+            return {"parse": 0, "jx": 0, "playUrl": "", "url": raw, "header": {}}
+        m = re.match(r"^(\d+):(\d+)$", raw)
+        if m:
+            pid, seq = m.group(1), m.group(2)
+            url = self._resolve_episode_url(pid, seq)
+            if url:
+                return {"parse": 0, "jx": 0, "playUrl": "", "url": url, "header": {}}
+        return {"parse": 0, "jx": 0, "playUrl": "", "url": raw, "header": {}}
+
+    def _resolve_episode_url(self, pid, seq):
+        """现拉单集 mp4 直链 (video-list 接口, 带目标 seq)"""
+        d = self._get_json(API_HOST + "/playlet/video-list",
+                           {"pid": pid, "direct": "1", "pageSize": "30",
+                            "recommend": "false", "seq": str(seq)}, timeout=20)
+        if not d or not d.get("data"):
+            return ""
+        vs = d.get("data", {}).get("videos") or []
+        for v in vs:
+            if str(v.get("seq")) == str(seq):
+                u = str(v.get("videoUrl") or "").strip()
+                if u:
+                    return u
+        for v in vs:
+            u = str(v.get("videoUrl") or "").strip()
+            if u:
+                return u
+        return ""
 
     def isVideoFormat(self, url):
         return bool(re.search(r"\.(?:mp4|m3u8|flv|mkv|ts|webm)(?:$|\?)", str(url or ""), re.I))
