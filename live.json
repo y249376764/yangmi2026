@@ -43,9 +43,15 @@
       "epg": ""
     },
     {
-      "name": "精选直播(实测可用)",
+      "name": "精选直播Ⅰ(65频道)",
       "type": 0,
       "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_selected.txt",
+      "epg": ""
+    },
+    {
+      "name": "精选直播Ⅱ(1189频道)",
+      "type": 0,
+      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_extra.txt",
       "epg": ""
     }
   ],
