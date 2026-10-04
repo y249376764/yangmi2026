@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 12:11:00 UTC
+> 自动生成时间: 2026-10-04 12:32:22 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 12:11:00 UTC
+- 巡检时间: 2026-10-04 12:32:22 UTC
 
 ## ⚠️ 异常站点
 
@@ -77,3 +77,4 @@
 - **dashixiong.py**: t.me www.dsxys8.com
 - **douban.py**: api.douban.com frodo.douban.com servicewechat.com
 - **duoduo.py**: duoduosdf12223234334.top
+- **lanrentingshu_v2.py**: backend.appmiaoda.com www.tingshu8.top
