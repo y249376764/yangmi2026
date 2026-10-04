@@ -440,12 +440,24 @@ class Spider(BaseSpider):
                 "vod_play_url": "#".join(eps) if eps else "",
             }
             return {"list": [vod]}
-        # 单曲 (搜索/歌单歌曲点播)
+        # 单曲 (搜索/歌单歌曲点播) - vid 格式: {tag}_{rid}[_{b64歌名}]
         if vid.startswith(("wy_", "kg_", "kw_", "qq_")):
-            tag, rid = vid.split("_", 1)
+            parts = vid.split("_")
+            tag = parts[0]
+            rid = parts[1]
+            # 解析 b64 歌名 (如果有)
+            sname = ""
+            if len(parts) > 2:
+                try:
+                    import base64 as _b64
+                    _pad = parts[2] + "=" * (-len(parts[2]) % 4)
+                    sname = _b64.urlsafe_b64decode(_pad).decode("utf-8", "ignore")
+                except Exception:
+                    sname = ""
             vod = {
                 "vod_id": vid,
-                "vod_name": "歌曲",
+                "vod_name": sname or "歌曲",
+                "vod_pic": "",
                 "vod_play_from": "歌词适配",
                 "vod_play_url": "播放$%s:%s" % (tag, rid),
             }
@@ -563,8 +575,10 @@ class Spider(BaseSpider):
                 seen.add(name)
                 arts = ", ".join(a.get("name", "") for a in (s.get("artists") or [])[:2])
                 al = s.get("album") or {}
+                import base64 as _b64
+                _nb = _b64.urlsafe_b64encode(name.encode()).decode().rstrip("=")
                 vods.append({
-                    "vod_id": "wy_" + sid,
+                    "vod_id": "wy_%s_%s" % (sid, _nb),
                     "vod_name": name,
                     "vod_pic": str(al.get("picUrl") or "").replace("{size}", "200"),
                     "vod_remarks": arts or "网易云",
@@ -579,8 +593,10 @@ class Spider(BaseSpider):
                 if name in seen:
                     continue
                 seen.add(name)
+                import base64 as _b64
+                _nb = _b64.urlsafe_b64encode(name.encode()).decode().rstrip("=")
                 vods.append({
-                    "vod_id": "kg_" + str(s.get("FileHash") or ""),
+                    "vod_id": "kg_%s_%s" % (s.get("FileHash") or "", _nb),
                     "vod_name": name,
                     "vod_pic": str(s.get("Image") or "").replace("{size}", "200"),
                     "vod_remarks": str(s.get("SingerName") or "") or "酷狗",
@@ -600,6 +616,9 @@ class Spider(BaseSpider):
             tag, rid = rid.split(":", 1)
         elif "_" in rid and rid.split("_")[0] in ("wy", "kg", "kw", "qq"):
             tag, rid = rid.split("_", 1)
+            # 去掉可能附带的 b64 歌名后缀
+            if "_" in rid:
+                rid = rid.split("_")[0]
         source_map = {"wy": "wy", "kg": "kg", "kw": "kw", "qq": "qq"}
         source = source_map.get(tag, tag)
         url = ""
