@@ -170,8 +170,8 @@ class Spider(BaseSpider):
             "vod_pic": meta.get("pic") or "",
             "vod_remarks": "🔥{} · 共{}集".format(meta.get("watch", "0"), len(eps)) if eps else ("🔥" + meta.get("watch", "0")),
             "vod_content": meta.get("intro") or "",
-            "vod_play_from": "YY短剧v3",
-            "vod_play_url": "$$".join("%s#%s" % (i, u) for i, u in eps),
+            "vod_play_from": "YY短剧v4",
+            "vod_play_url": "#".join("第%s集$%s" % (i, u) for i, u in eps),
         }
         return {"list": [vod]}
 
