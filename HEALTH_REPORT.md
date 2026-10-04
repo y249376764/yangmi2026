@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 01:11:10 UTC
+> 自动生成时间: 2026-10-04 01:28:33 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 01:11:10 UTC
+- 巡检时间: 2026-10-04 01:28:33 UTC
 
 ## ⚠️ 异常站点
 
@@ -50,6 +50,7 @@
 - **kuwo_tingshu.py**: antiserver.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
 - **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
 - **souju_360.py**: api.so.360kan.com api.web.360kan.com bpz1.app bpz1.top bpz10.app
+- **guoguo_spider.py**: www.mochadj.com
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
 - **fandazi.py**: fdzys.net
