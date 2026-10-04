@@ -247,11 +247,11 @@ class Spider(BaseSpider):
         return self.homeContent(extend)
 
     def homeContent(self, filter=False):
-        """一级分类: 推荐/语种/风格/场景/情感/主题 (二级=网易云歌单标签)"""
+        """分类: 推荐 + 全部二级标签平铺 (语种/风格/场景/情感/主题 标签混合一行横滑)"""
         cats = [{"type_id": "recommend", "type_name": "推荐"}]
-        # 语种/风格/场景/情感/主题 (固定维度)
-        for cid, cname in [(0, "语种"), (1, "风格"), (2, "场景"), (3, "情感"), (4, "主题")]:
-            cats.append({"type_id": "cat_%d" % cid, "type_name": cname})
+        for cid in range(5):
+            for t in _CAT_TAGS.get(cid, []):
+                cats.append({"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t})
         return {"class": cats, "filters": {}}
 
     def homeVodContent(self, page=1, filter=False):
@@ -259,12 +259,15 @@ class Spider(BaseSpider):
 
     # ---------- 分类 (二级=歌单标签, 内容=歌单列表) ----------
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        # 一级维度 cat_N → 返回二级分类列表
+        # 一级维度 cat_N → 二级标签(class) + 默认标签歌单(list) 同一屏
         if re.match(r"^cat_\d+$", tid):
             cid = int(tid[4:])
             tags = _CAT_TAGS.get(cid, [])
             sub = [{"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t} for t in tags]
-            return {"class": sub, "list": [], "page": 1, "pagecount": 1}
+            # 默认显示第一个标签的歌单 (如 语种→华语)
+            default_tag = tags[0] if tags else ""
+            pl = self._playlists_by_tag(default_tag, "1")
+            return {"class": sub, "list": pl["list"], "page": pl["page"], "pagecount": pl["pagecount"]}
         # 二级标签 tag_N_xxx → 歌单列表
         if tid.startswith("tag_"):
             parts = tid.split("_", 2)
@@ -474,9 +477,8 @@ class Spider(BaseSpider):
         return "歌词适配v2"
 
     def getCategory(self):
-        return [{"type_id": "recommend", "type_name": "推荐"},
-                {"type_id": "cat_0", "type_name": "语种"},
-                {"type_id": "cat_1", "type_name": "风格"},
-                {"type_id": "cat_2", "type_name": "场景"},
-                {"type_id": "cat_3", "type_name": "情感"},
-                {"type_id": "cat_4", "type_name": "主题"}]
+        cats = [{"type_id": "recommend", "type_name": "推荐"}]
+        for cid in range(5):
+            for t in _CAT_TAGS.get(cid, []):
+                cats.append({"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t})
+        return cats
