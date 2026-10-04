@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 08:52:17 UTC
+> 自动生成时间: 2026-10-04 12:11:00 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **0**
 - 有异常站点数: **7**
 - 跳过本地/代理目标数: 0
-- 巡检时间: 2026-10-04 08:52:17 UTC
+- 巡检时间: 2026-10-04 12:11:00 UTC
 
 ## ⚠️ 异常站点
 
@@ -46,6 +46,7 @@
 - **pianku4k.py**: 4k01.pianku.online bd.jx.cn bfq.txnp.cn jx.2s0.cn jx.77flv.cc
 - **juhe_music.py**: antiserver.kuwo.cn app.c.nf.migu.cn c.y.qq.com dl.stream.qqmusic.qq.com img.sakula.com
 - **juok3.py**: juok3.top jx.202617.xyz jx.xmflv.com www.iqiyi.com
+- **lanrentingshu.py**: backend.appmiaoda.com www.tingshu8.top
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: file.tingyou8.vip json.hgeuz.cn tingyou.fm
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
