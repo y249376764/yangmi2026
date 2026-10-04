@@ -240,50 +240,49 @@ class Spider(Spider):
     # ---------- 详情(多线路=多站) ----------
     def detailContent(self, ids):
         # ids = "站名|原始id"
-        name0, rid = (ids.split("|", 1) + [""])[:2]
-        jobs = []
-        for name, api in self._api.items():
-            jobs.append((name, (lambda a, r: (lambda: self._detail(a, r)))(api, rid)))
-        res = self._multi(jobs)
-        # 收集各站详情
-        plays_from = []
-        plays_url = []
-        vod = None
-        for name in [n for n, _ in SOURCES]:
-            data = res.get(name)
-            if not data or not data.get("list"):
+        parts = ids.split("|", 1)
+        name0 = parts[0] if parts else ""
+        rid = parts[1] if len(parts) > 1 else ids
+        api = self._api.get(name0)
+        if not api:
+            # 找不到来源站, 试全站
+            for n, a in self._api.items():
+                d = self._detail(a, rid)
+                if d and d.get("list"):
+                    name0, api = n, a
+                    break
+        if not api:
+            return {"list": [{"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}]}
+        data = self._detail(api, rid)
+        if not data or not data.get("list"):
+            return {"list": [{"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}]}
+        item = data["list"][0]
+        vod = {
+            "vod_id": ids,
+            "vod_name": str(item.get("vod_name", "")),
+            "vod_pic": str(item.get("vod_pic", "")),
+            "vod_actor": str(item.get("vod_actor", "")),
+            "vod_director": str(item.get("vod_director", "")),
+            "vod_content": str(item.get("vod_content", "")),
+            "vod_year": str(item.get("vod_year", "")),
+            "vod_remarks": str(item.get("vod_remarks", "")),
+        }
+        # 该站的全部线路(vod_play_from 多线路, vod_play_url 对应组)
+        pf = str(item.get("vod_play_from", "") or "线路")
+        pu = str(item.get("vod_play_url", "") or "")
+        raw_froms = [x.strip() for x in re.split(r"[,\s]+", pf.replace("$$$", ",")) if x.strip()]
+        raw_urls = [x.strip() for x in pu.split("$$$") if x.strip()]
+        if len(raw_urls) == 1 and len(raw_froms) > 1:
+            raw_urls = [raw_urls[0]] * len(raw_froms)
+        plays_from, plays_url = [], []
+        for i, u in enumerate(raw_urls):
+            if not u:
                 continue
-            item = data["list"][0]
-            if vod is None:
-                vod = {
-                    "vod_id": ids,
-                    "vod_name": str(item.get("vod_name", "")),
-                    "vod_pic": str(item.get("vod_pic", "")),
-                    "vod_actor": str(item.get("vod_actor", "")),
-                    "vod_director": str(item.get("vod_director", "")),
-                    "vod_content": str(item.get("vod_content", "")),
-                    "vod_year": str(item.get("vod_year", "")),
-                    "vod_remarks": str(item.get("vod_remarks", "")),
-                }
-            pf = item.get("vod_play_from", "") or "线路"
-            pu = item.get("vod_play_url", "") or ""
-            if not pu:
-                continue
-            # 播放源可能多线路: vod_play_from 用 $$$ 或 , 分隔, vod_play_url 对应组用 $$$ 分隔
-            # 每个线路组内, 集数用 # 分隔: "第01集$url#第02集$url"
-            raw_froms = [x.strip() for x in re.split(r"[,\s]+", str(pf).replace("$$$", ",")) if x.strip()]
-            raw_urls = [x.strip() for x in str(pu).split("$$$") if x.strip()]
-            if len(raw_urls) == 1 and len(raw_froms) > 1:
-                # 单组url多线路名(少见): 复制url组
-                raw_urls = [raw_urls[0]] * len(raw_froms)
-            for i, u in enumerate(raw_urls):
-                lname = (raw_froms[i] if i < len(raw_froms) else "线路") or "线路"
-                lname = re.sub(r"[\s\[\]（）()]+", "", lname) or "线路"
-                # 线路名=站名-线路名(用户要求线路名带站名)
-                plays_from.append(f"{name}-{lname}")
-                plays_url.append(u)
-        if vod is None:
-            vod = {"vod_id": ids, "vod_name": "", "vod_pic": "", "vod_actor": "", "vod_director": "", "vod_content": "", "vod_year": "", "vod_remarks": ""}
+            lname = (raw_froms[i] if i < len(raw_froms) else "线路") or "线路"
+            lname = re.sub(r"[\s\[\]（）()]+", "", lname) or "线路"
+            # 线路名 = 站名-线路名
+            plays_from.append(f"{name0}-{lname}")
+            plays_url.append(u)
         vod["vod_play_from"] = ",".join(plays_from)
         vod["vod_play_url"] = "$$$".join(plays_url)
         return {"list": [vod]}
