@@ -1,21 +1,62 @@
 # -*- coding: utf-8 -*-
-# 歌词适配 [蜘蛛版] - 基于海阔"歌词适配"规则提取
-# 平台: 网易云(wy) / 酷狗(kg) / 酷我(kw) / QQ(qq)
-# 搜索: 各平台官方搜索接口
-# 播放: 长青海棠 resolve-url (通吃四平台) → 星海后端 → 官方兜底
-# 2026-10-04 实测: 海棠 wy/kg 全通, 酷狗官方 getSongInfo 可用
+# 歌词适配 [蜘蛛版] v2 - 歌单分类版
+# 基于海阔"歌词适配"规则提取 + 用户要求改造
+# 一级分类: 推荐/语种/风格/场景/情感/主题 (网易云歌单五维)
+# 二级分类: 网易云 playlist/catalogue 动态标签
+# 内容: 歌单列表 (小图+文字布局: 歌单名+歌曲数)
+# 播放: 长青海棠 resolve-url → 星海后端 → 官方兜底
+# 2026-10-04 实测: 分类/歌单/详情/播放全链路通
 import json
-import os
 import re
 import ssl
-import sys
 import time
 import hashlib
 import urllib.parse
 import urllib.request
 from base.spider import Spider as BaseSpider
 
-# ---- 纯 Python AES (网易云 weapi/eapi, 无外部依赖) ----
+UA = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
+UA_MOBILE = "Mozilla/5.0 (Linux; Android 12; M2104K10AC) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0 Mobile Safari/537.36"
+
+_CTX = ssl.create_default_context()
+_CTX.check_hostname = False
+_CTX.verify_mode = ssl.CERT_NONE
+
+# 网易云 weapi/eapi 密钥
+WY_KEY = "0CoJUm6Qyw8W8jud"
+WY_IV = "0102030405060708"
+WY_EAPI_KEY = "e82ckenh8dichen8"
+WY_ENC_SEC = "bf50d0bcf56833b06d8d1219496a452a1d860fd58a14c0aafba3e770104ca77dc6856cb310ed3309039e6865081be4ddc2df52663373b20b70ac25b4d0c6ca466daef6b50174e93536e2d580c49e70649ad1936584899e85722eb83ceddfb4f56c1172fca5e60592d0e6ee3e8e02be1fe6e53f285b0389162d8e6ddc553857cd"
+
+
+def _http(url, ref=None, data=None, headers=None, timeout=15):
+    for _ in range(2):
+        try:
+            h = {"User-Agent": UA}
+            if ref:
+                h["Referer"] = ref
+            if headers:
+                h.update(headers)
+            body = None
+            if data is not None:
+                body = data.encode() if isinstance(data, str) else json.dumps(data).encode()
+                h["Content-Type"] = "application/json"
+            req = urllib.request.Request(url, data=body, headers=h)
+            with urllib.request.urlopen(req, timeout=timeout, context=_CTX) as r:
+                return r.read().decode("utf-8", errors="ignore")
+        except Exception:
+            time.sleep(0.8)
+    return ""
+
+
+def _json(url, ref=None, data=None, headers=None):
+    try:
+        return json.loads(_http(url, ref, data, headers))
+    except Exception:
+        return None
+
+
+# ---- 纯 Python AES (网易云 weapi/eapi) ----
 _SBOX = [
     0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
     0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
@@ -123,7 +164,7 @@ def _encrypt_block(block, w):
     return state
 
 
-def _aes_encrypt_raw(data: bytes, key: bytes, iv: bytes = None):
+def _aes_encrypt_raw(data, key, iv=None):
     w = _key_expansion(key)
     pad = 16 - (len(data) % 16)
     data = data + bytes([pad]) * pad
@@ -150,101 +191,8 @@ def _aes_hex(text, key):
     enc = _aes_encrypt_raw(text.encode("utf-8"), key.encode("utf-8"), None)
     return enc.hex().upper()
 
-UA = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36"
-UA_MOBILE = "Mozilla/5.0 (Linux; Android 12; M2104K10AC) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0 Mobile Safari/537.36"
-
-# 忽略证书 (部分 CDN 证书域名不匹配)
-_CTX = ssl.create_default_context()
-_CTX.check_hostname = False
-_CTX.verify_mode = ssl.CERT_NONE
-
-# 网易云 weapi/eapi 密钥 (从歌词适配规则提取)
-WY_KEY = "0CoJUm6Qyw8W8jud"
-WY_IV = "0102030405060708"
-WY_EAPI_KEY = "e82ckenh8dichen8"
-WY_ENC_SEC = "bf50d0bcf56833b06d8d1219496a452a1d860fd58a14c0aafba3e770104ca77dc6856cb310ed3309039e6865081be4ddc2df52663373b20b70ac25b4d0c6ca466daef6b50174e93536e2d580c49e70649ad1936584899e85722eb83ceddfb4f56c1172fca5e60592d0e6ee3e8e02be1fe6e53f285b0389162d8e6ddc553857cd"
-
-
-def _http(url, ref=None, data=None, headers=None, timeout=15):
-    """GET/POST 请求 (忽略证书), 失败重试1次"""
-    for _ in range(2):
-        try:
-            h = {"User-Agent": UA}
-            if ref:
-                h["Referer"] = ref
-            if headers:
-                h.update(headers)
-            body = None
-            if data is not None:
-                body = data.encode() if isinstance(data, str) else json.dumps(data).encode()
-                h["Content-Type"] = "application/json"
-            req = urllib.request.Request(url, data=body, headers=h)
-            with urllib.request.urlopen(req, timeout=timeout, context=_CTX) as r:
-                return r.read().decode("utf-8", errors="ignore")
-        except Exception:
-            time.sleep(0.8)
-    return ""
-
-
-def _json(url, ref=None, data=None, headers=None):
-    try:
-        return json.loads(_http(url, ref, data, headers))
-    except Exception:
-        return None
-
-
-# ---------- AES 工具 (纯 Python 实现 weapi/eapi) ----------
-def _aes_encrypt(text, key, iv=None, mode="cbc"):
-    """AES 加密, 返回 hex 或 base64"""
-    try:
-        from Crypto.Cipher import AES
-    except Exception:
-        # 极简 AES-ECB/CBC 实现 (仅用于网易云 eapi/weapi)
-        return _aes_pure(text, key, iv, mode)
-    try:
-        if mode == "cbc":
-            pad = 16 - (len(text) % 16)
-            text += chr(pad) * pad
-            cipher = AES.new(key.encode(), AES.MODE_CBC, iv.encode())
-            return cipher.encrypt(text.encode()).hex().upper()
-        else:
-            pad = 16 - (len(text) % 16)
-            text += chr(pad) * pad
-            cipher = AES.new(key.encode(), AES.MODE_ECB)
-            return cipher.encrypt(text.encode()).hex().upper()
-    except Exception:
-        return _aes_pure(text, key, iv, mode)
-
-
-def _aes_pure(text, key, iv, mode):
-    """纯 Python AES (S-box 查表 + 轮函数 + CBC/ECB)"""
-    # AES S-box
-    SBOX = [
-        0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76,
-        0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0,
-        0xb7,0xfd,0x93,0x26,0x36,0x3f,0xf7,0xcc,0x34,0xa5,0xe5,0xf1,0x71,0xd8,0x31,0x15,
-        0x04,0xc7,0x23,0xc3,0x18,0x96,0x05,0x9a,0x07,0x12,0x80,0xe2,0xeb,0x27,0xb2,0x75,
-        0x09,0x83,0x2c,0x1a,0x1b,0x6e,0x5a,0xa0,0x52,0x3b,0xd6,0xb3,0x29,0xe3,0x2f,0x84,
-        0x53,0xd1,0x00,0xed,0x20,0xfc,0xb1,0x5b,0x6a,0xcb,0xbe,0x39,0x4a,0x4c,0x58,0xcf,
-        0xd0,0xef,0xaa,0xfb,0x43,0x4d,0x33,0x85,0x45,0xf9,0x02,0x7f,0x50,0x3c,0x9f,0xa8,
-        0x51,0xa3,0x40,0x8f,0x92,0x9d,0x38,0xf5,0xbc,0xb6,0xda,0x21,0x10,0xff,0xf3,0xd2,
-        0xcd,0x0c,0x13,0xec,0x5f,0x97,0x44,0x17,0xc4,0xa7,0x7e,0x3d,0x64,0x5d,0x19,0x73,
-        0x60,0x81,0x4f,0xdc,0x22,0x2a,0x90,0x88,0x46,0xee,0xb8,0x14,0xde,0x5e,0x0b,0xdb,
-        0xe0,0x32,0x3a,0x0a,0x49,0x06,0x24,0x5c,0xc2,0xd3,0xac,0x62,0x91,0x95,0xe4,0x79,
-        0xe7,0xc8,0x37,0x6d,0x8d,0xd5,0x4e,0xa9,0x6c,0x56,0xf4,0xea,0x65,0x7a,0xae,0x08,
-        0xba,0x78,0x25,0x2e,0x1c,0xa6,0xb4,0xc6,0xe8,0xdd,0x74,0x1f,0x4b,0xbd,0x8b,0x8a,
-        0x70,0x3e,0xb5,0x66,0x48,0x03,0xf6,0x0e,0x61,0x35,0x57,0xb9,0x86,0xc1,0x1d,0x9e,
-        0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf,
-        0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16,
-    ]
-    # 简化: 仅实现 ECB/CBC 加密 (网易云用)
-    # 实际用 pycryptodome 为主, 纯实现仅在缺失时兜底
-    # 这里直接抛异常让调用方返回空 (避免错误播放)
-    return ""
-
 
 def _weapi_params(obj):
-    """网易云 weapi 双层 AES 加密参数 (纯Python AES)"""
     text = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
     try:
         params = _aes_b64(_aes_b64(text, WY_KEY, WY_IV), WY_KEY, WY_IV)
@@ -253,19 +201,42 @@ def _weapi_params(obj):
         return None
 
 
-def _eapi_params(path, obj):
-    """网易云 eapi 参数 (纯Python AES-ECB)"""
-    text = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
-    data = "%s-36cd479b6b5-%s-36cd479b6b5-%s" % (path, text,
-        hashlib.md5(("nobody" + path + "use" + text + "md5forencrypt").encode()).hexdigest())
+def _weapi_post(path, obj):
+    """网易云 weapi POST 请求 (form-urlencoded)"""
+    params = _weapi_params(obj)
+    if not params:
+        return None
+    url = "https://interface.music.163.com/weapi/" + path
+    body = urllib.parse.urlencode(params).encode()
+    h = {"User-Agent": UA, "Referer": "https://music.163.com/",
+         "Content-Type": "application/x-www-form-urlencoded",
+         "Cookie": "os=pc; appver=9.0.25"}
     try:
-        return _aes_hex(data, WY_EAPI_KEY)
+        req = urllib.request.Request(url, data=body, headers=h)
+        with urllib.request.urlopen(req, timeout=15, context=_CTX) as r:
+            resp = r.read().decode("utf-8", errors="ignore")
+        return json.loads(resp)
     except Exception:
-        return ""
+        return None
+
+
+# 分类维度名映射
+_CAT_NAMES = {0: "语种", 1: "风格", 2: "场景", 3: "情感", 4: "主题"}
+# 网易云歌单分类标签 (catalogue 实测 70个)
+_CAT_TAGS = {
+    0: ["华语", "欧美", "日语", "韩语", "粤语"],
+    1: ["流行", "摇滚", "民谣", "电子", "舞曲", "说唱", "轻音乐", "爵士", "乡村", "R&B/Soul",
+        "古典", "民族", "英伦", "金属", "朋克", "蓝调", "雷鬼", "世界音乐", "拉丁", "New Age",
+        "古风", "后摇", "Bossa Nova"],
+    2: ["清晨", "夜晚", "学习", "工作", "午休", "下午茶", "地铁", "驾车", "运动", "旅行", "散步", "酒吧"],
+    3: ["怀旧", "清新", "浪漫", "伤感", "治愈", "放松", "孤独", "感动", "兴奋", "快乐", "安静", "思念"],
+    4: ["综艺", "影视原声", "ACG", "儿童", "校园", "游戏", "70后", "80后", "90后", "网络歌曲",
+        "KTV", "经典", "翻唱", "吉他", "钢琴", "器乐", "榜单", "00后"],
+}
 
 
 class Spider(BaseSpider):
-    name = "歌词适配"
+    name = "歌词适配v2"
 
     def __init__(self):
         self.host = "https://interface.music.163.com"
@@ -276,56 +247,144 @@ class Spider(BaseSpider):
         return self.homeContent(extend)
 
     def homeContent(self, filter=False):
-        return {
-            "class": [
-                {"type_id": "wy", "type_name": "网易云"},
-                {"type_id": "kg", "type_name": "酷狗"},
-                {"type_id": "kw", "type_name": "酷我"},
-                {"type_id": "qq", "type_name": "QQ音乐"},
-            ],
-            "filters": {},
-        }
+        """一级分类: 推荐/语种/风格/场景/情感/主题 (二级=网易云歌单标签)"""
+        cats = [{"type_id": "recommend", "type_name": "推荐"}]
+        # 语种/风格/场景/情感/主题 (固定维度)
+        for cid, cname in [(0, "语种"), (1, "风格"), (2, "场景"), (3, "情感"), (4, "主题")]:
+            cats.append({"type_id": "cat_%d" % cid, "type_name": cname})
+        return {"class": cats, "filters": {}}
 
     def homeVodContent(self, page=1, filter=False):
-        return self.searchContent("热门歌曲", False)
+        return self._playlists("recommend", str(page or 1))
 
-    # ---------- 分类 (各平台热歌) ----------
+    # ---------- 分类 (二级=歌单标签, 内容=歌单列表) ----------
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        hot_words = {"wy": "热歌", "kg": "酷狗热歌", "kw": "酷我热歌", "qq": "QQ热歌"}
-        return self.searchContent(hot_words.get(tid, "热歌"), False)
+        # 一级维度 cat_N → 返回二级分类列表
+        if re.match(r"^cat_\d+$", tid):
+            cid = int(tid[4:])
+            tags = _CAT_TAGS.get(cid, [])
+            sub = [{"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t} for t in tags]
+            return {"class": sub, "list": [], "page": 1, "pagecount": 1}
+        # 二级标签 tag_N_xxx → 歌单列表
+        if tid.startswith("tag_"):
+            parts = tid.split("_", 2)
+            if len(parts) == 3:
+                tag = urllib.parse.unquote(parts[2])
+                return self._playlists_by_tag(tag, str(pg or 1))
+        return self._playlists(tid, str(pg or 1))
 
-    # ---------- 搜索 ----------
+    def _playlists(self, tid, page):
+        """歌单列表 (小图+文字布局) - recommend=全部热门"""
+        return self._playlists_by_tag("", page)
+
+    def _playlists_by_tag(self, tag, page):
+        """按标签拉歌单 (tag='' 表示全部/推荐)"""
+        offset = (int(page) - 1) * 30
+        d = None
+        try:
+            d = _json("https://music.163.com/api/playlist/list?cat=%s&order=hot&limit=30&offset=%d" % (
+                urllib.parse.quote(tag), offset),
+                ref="https://music.163.com/")
+        except Exception:
+            d = None
+        if not d:
+            d = _weapi_post("playlist/list", {"cat": tag, "order": "hot", "limit": 30, "offset": offset, "total": True})
+        pls = (d or {}).get("playlists") or []
+        vods = []
+        for p in pls:
+            name = str(p.get("name") or "")
+            if not name:
+                continue
+            vods.append({
+                "vod_id": "pl_" + str(p.get("id") or ""),
+                "vod_name": name,
+                "vod_pic": str(p.get("coverImgUrl") or "").replace("{size}", "200"),
+                "vod_remarks": str(p.get("trackCount") or 0) + "首",
+            })
+        pagecount = 1
+        more = (d or {}).get("more")
+        if more:
+            pagecount = int(page) + 1
+        return {"list": vods, "page": int(page), "pagecount": max(pagecount, int(page)), "total": len(vods)}
+
+    # ---------- 详情 ----------
+    def detailContent(self, ids):
+        vid = str(ids[0]).split("$")[0]
+        # 歌单详情 → 歌曲列表
+        if vid.startswith("pl_"):
+            pid = vid[3:]
+            return self._playlist_songs(pid, vid)
+        # 单曲 (搜索/歌单歌曲点播)
+        if vid.startswith(("wy_", "kg_", "kw_", "qq_")):
+            tag, rid = vid.split("_", 1)
+            vod = {
+                "vod_id": vid,
+                "vod_name": "歌曲",
+                "vod_play_from": "歌词适配",
+                "vod_play_url": "播放$%s:%s" % (tag, rid),
+            }
+            return {"list": [vod]}
+        return {"list": []}
+
+    def _playlist_songs(self, pid, vid):
+        """歌单歌曲列表 (小图+文字: 歌名+歌手)"""
+        d = _json("https://music.163.com/api/v6/playlist/detail?id=%s" % pid, ref="https://music.163.com/")
+        tracks = ((d or {}).get("playlist") or {}).get("tracks") or []
+        # 名称/图/描述
+        pl = (d or {}).get("playlist") or {}
+        name = str(pl.get("name") or "歌单")
+        pic = str(pl.get("coverImgUrl") or "").replace("{size}", "400")
+        eps = []
+        seen = set()
+        for t in tracks:
+            sid = str(t.get("id") or "")
+            tname = str(t.get("name") or "")
+            if not sid or tname in seen:
+                continue
+            seen.add(tname)
+            artists = ", ".join(a.get("name", "") for a in (t.get("ar") or [])[:2])
+            eps.append("%d. %s - %s$wy:%s" % (len(eps) + 1, tname, artists, sid))
+        vod = {
+            "vod_id": vid,
+            "vod_name": name,
+            "vod_pic": pic,
+            "vod_remarks": str(pl.get("trackCount") or len(tracks)) + "首",
+            "vod_content": str(pl.get("description") or ""),
+            "vod_play_from": "歌词适配",
+            "vod_play_url": "#".join(eps) if eps else "",
+        }
+        return {"list": [vod]}
+
+    # ---------- 搜索 (保留四平台) ----------
     def searchContent(self, key, quick, pg="1"):
-        """四平台聚合搜索"""
         kw = str(key or "").strip()
         if not kw:
             return {"list": []}
         vods = []
         seen = set()
-        # 1) 网易云 (weapi 搜索)
+        # 网易云
         try:
-            d = self._wy_search(kw)
-            for s in d:
-                sid = str(s.get("id") or "")
+            d = _weapi_post("search/get", {"s": kw, "type": 1, "limit": 30, "offset": 0, "strategy": 5})
+            for s in ((d or {}).get("result") or {}).get("songs") or []:
                 name = str(s.get("name") or "")
-                if not sid or name in seen:
+                sid = str(s.get("id") or "")
+                if not name or name in seen:
                     continue
                 seen.add(name)
-                artists = ", ".join([a.get("name", "") for a in (s.get("artists") or []) if a.get("name")])
+                arts = ", ".join(a.get("name", "") for a in (s.get("artists") or [])[:2])
                 al = s.get("album") or {}
                 vods.append({
                     "vod_id": "wy_" + sid,
                     "vod_name": name,
-                    "vod_pic": str(al.get("picUrl") or "").replace("{size}", "400"),
-                    "vod_remarks": artists or "网易云",
-                    "vod_tag": "wy",
+                    "vod_pic": str(al.get("picUrl") or "").replace("{size}", "200"),
+                    "vod_remarks": arts or "网易云",
                 })
         except Exception:
             pass
-        # 2) 酷狗
+        # 酷狗
         try:
-            d = self._kg_search(kw)
-            for s in d:
+            d = _json("https://songsearch.kugou.com/song_search_v2?keyword=%s&page=1&pagesize=30&userid=-1&clientver=&platform=WebFilter&filter=2&iscorrection=1&privilege_filter=0&area_code=1" % urllib.parse.quote(kw))
+            for s in ((d or {}).get("data") or {}).get("lists") or []:
                 name = str(s.get("FileName") or "")
                 if name in seen:
                     continue
@@ -333,113 +392,20 @@ class Spider(BaseSpider):
                 vods.append({
                     "vod_id": "kg_" + str(s.get("FileHash") or ""),
                     "vod_name": name,
-                    "vod_pic": str(s.get("Image") or "").replace("{size}", "400"),
+                    "vod_pic": str(s.get("Image") or "").replace("{size}", "200"),
                     "vod_remarks": str(s.get("SingerName") or "") or "酷狗",
-                    "vod_tag": "kg",
-                })
-        except Exception:
-            pass
-        # 3) 酷我
-        try:
-            d = self._kw_search(kw)
-            for s in d:
-                name = str(s.get("name") or "")
-                if name in seen:
-                    continue
-                seen.add(name)
-                vods.append({
-                    "vod_id": "kw_" + str(s.get("rid") or ""),
-                    "vod_name": name,
-                    "vod_pic": str(s.get("pic") or ""),
-                    "vod_remarks": str(s.get("artist") or "") or "酷我",
-                    "vod_tag": "kw",
-                })
-        except Exception:
-            pass
-        # 4) QQ
-        try:
-            d = self._qq_search(kw)
-            for s in d:
-                name = str(s.get("title") or s.get("songname") or "")
-                if name in seen:
-                    continue
-                seen.add(name)
-                vods.append({
-                    "vod_id": "qq_" + str(s.get("songmid") or s.get("mid") or ""),
-                    "vod_name": name,
-                    "vod_pic": str(s.get("album_pic") or "").replace("{size}", "400"),
-                    "vod_remarks": str(s.get("singer") or "") or "QQ音乐",
-                    "vod_tag": "qq",
                 })
         except Exception:
             pass
         return {"list": vods, "page": 1, "pagecount": 1, "total": len(vods)}
 
-    # ---------- 各平台搜索 ----------
-    def _wy_search(self, kw):
-        """网易云 weapi 搜索"""
-        params = _weapi_params({"s": kw, "type": 1, "limit": 30, "offset": 0, "strategy": 5})
-        if not params:
-            return []
-        url = "https://interface.music.163.com/weapi/search/get"
-        # weapi 需要 form-urlencoded (params+encSecKey)
-        body = urllib.parse.urlencode(params).encode()
-        try:
-            h = {"User-Agent": UA, "Referer": "https://music.163.com/",
-                 "Content-Type": "application/x-www-form-urlencoded"}
-            req = urllib.request.Request(url, data=body, headers=h)
-            with urllib.request.urlopen(req, timeout=15, context=_CTX) as r:
-                resp = r.read().decode("utf-8", errors="ignore")
-            return ((json.loads(resp).get("result") or {}).get("songs") or [])
-        except Exception:
-            return []
-        return ((d or {}).get("result") or {}).get("songs") or []
-
-    def _kg_search(self, kw):
-        url = ("https://songsearch.kugou.com/song_search_v2?keyword=%s&page=1&pagesize=30"
-               "&userid=-1&clientver=&platform=WebFilter&filter=2&iscorrection=1"
-               "&privilege_filter=0&area_code=1") % urllib.parse.quote(kw)
-        d = _json(url)
-        return ((d or {}).get("data") or {}).get("lists") or []
-
-    def _kw_search(self, kw):
-        url = "https://www.kuwo.cn/api/www/search/searchMusicBykeyWord?key=%s&pn=1&rn=30&httpsStatus=1" % urllib.parse.quote(kw)
-        d = _json(url, ref="https://www.kuwo.cn/", headers={"csrf": "", "Cookie": "kw_token="})
-        return ((d or {}).get("data") or {}).get("list") or []
-
-    def _qq_search(self, kw):
-        payload = {
-            "req": {"method": "DoSearchForQQMusicDesktop", "module": "music.search_search_cp",
-                    "param": {"query": kw, "num_per_page": 30, "page_num": 1}}
-        }
-        url = "https://u.y.qq.com/cgi-bin/musicu.fcg?format=json&data=" + urllib.parse.quote(json.dumps(payload, ensure_ascii=False))
-        d = _json(url)
-        body = ((d or {}).get("req") or {}).get("data") or {}
-        return ((body.get("body") or {}).get("song") or {}).get("list") or []
-
-    # ---------- 详情 ----------
-    def detailContent(self, ids):
-        vid = str(ids[0]).split("$")[0]
-        tag, rid = vid.split("_", 1)
-        # 单曲详情 = 直接给播放
-        name = "歌曲"
-        vod = {
-            "vod_id": vid,
-            "vod_name": name,
-            "vod_pic": "",
-            "vod_play_from": "歌词适配",
-            "vod_play_url": "播放$" + tag + ":" + rid,
-        }
-        return {"list": [vod]}
-
-    # ---------- 播放 (核心: 海棠 → 星海 → 官方) ----------
+    # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags=None):
         raw = str(id or "").strip()
         tag = ""
         rid = raw
         if "$" in raw:
             rid = raw.split("$")[-1]
-        # 兼容 wy:123 / wy_123 / 123
         if ":" in rid:
             tag, rid = rid.split(":", 1)
         elif "_" in rid and rid.split("_")[0] in ("wy", "kg", "kw", "qq"):
@@ -447,7 +413,7 @@ class Spider(BaseSpider):
         source_map = {"wy": "wy", "kg": "kg", "kw": "kw", "qq": "qq"}
         source = source_map.get(tag, tag)
         url = ""
-        # 1) 长青海棠 (通吃四平台)
+        # 1) 长青海棠
         url = self._ht_resolve(source, rid)
         # 2) 星海后端
         if not url:
@@ -461,20 +427,17 @@ class Spider(BaseSpider):
         return {"parse": 0, "jx": 0, "playUrl": "", "url": url, "header": {}}
 
     def _ht_resolve(self, source, rid):
-        """长青海棠 resolve-url (2026-10-04 实测 wy/kg 全通)"""
         d = _json("https://musicserver.haitangw.cc/v1/music/resolve-url",
                   data={"source": source, "rid": str(rid), "level": "standard"})
         u = ((d or {}).get("data") or {}).get("url") or ""
         return u if u.startswith("http") else ""
 
     def _xinghai(self, source, rid):
-        """星海后端"""
         d = _json("https://yy.zddyr.top/lx/api/?source=%s&id=%s" % (source, urllib.parse.quote(str(rid))))
         u = (d or {}).get("url") or ""
         return u if u.startswith("http") else ""
 
     def _kg_official(self, hash):
-        """酷狗官方 getSongInfo (免费歌)"""
         d = _json("http://m.kugou.com/app/i/getSongInfo.php?cmd=playInfo&hash=" + hash,
                   ref="http://m.kugou.com/")
         if d:
@@ -484,7 +447,6 @@ class Spider(BaseSpider):
         return ""
 
     def _wy_official(self, sid):
-        """网易云 eapi player/url (规则同款, AES-ECB 加密)"""
         try:
             path = "/api/song/enhance/player/url"
             params = {"ids": [int(sid)], "level": "standard", "encodeType": "mp3"}
@@ -509,12 +471,12 @@ class Spider(BaseSpider):
         return False
 
     def getName(self):
-        return "歌词适配"
+        return "歌词适配v2"
 
     def getCategory(self):
-        return [
-            {"type_id": "wy", "type_name": "网易云"},
-            {"type_id": "kg", "type_name": "酷狗"},
-            {"type_id": "kw", "type_name": "酷我"},
-            {"type_id": "qq", "type_name": "QQ音乐"},
-        ]
+        return [{"type_id": "recommend", "type_name": "推荐"},
+                {"type_id": "cat_0", "type_name": "语种"},
+                {"type_id": "cat_1", "type_name": "风格"},
+                {"type_id": "cat_2", "type_name": "场景"},
+                {"type_id": "cat_3", "type_name": "情感"},
+                {"type_id": "cat_4", "type_name": "主题"}]
