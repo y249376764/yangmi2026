@@ -1,9 +1,9 @@
 {
-  "spider": "./9527.jar",
+  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
   "lives": [
     {
       "name": "整合直播(分组线路)",
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_final.txt",
+      "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/live_final.txt",
       "type": 0
     },
     {
@@ -39,19 +39,19 @@
     {
       "name": "河南电信酒店(39台)",
       "type": 0,
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_henan_jiudian.txt",
+      "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/live_henan_jiudian.txt",
       "epg": ""
     },
     {
       "name": "精选直播Ⅰ(65频道)",
       "type": 0,
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_selected.txt",
+      "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/live_selected.txt",
       "epg": ""
     },
     {
       "name": "精选直播Ⅱ(1189频道)",
       "type": 0,
-      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_extra.txt",
+      "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/live_extra.txt",
       "epg": ""
     }
   ],
