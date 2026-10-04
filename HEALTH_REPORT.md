@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-04 14:20:36 UTC
+> 自动生成时间: 2026-10-04 14:27:57 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **113**
 - 有异常站点数: **13**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-04 14:21:17 UTC
+- 巡检时间: 2026-10-04 14:28:52 UTC
 
 ## ⚠️ 异常站点
 
@@ -98,7 +98,7 @@
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_2.json | 🍉┆瓜子┆影视 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tvbox_2.json | 👼┆天堂┆影视 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 🎯自研聚合｜16站秒播 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@56461 | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 🎯自研聚合｜16站秒播 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ac43b | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 豆瓣[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 枫叶[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 剧踪[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
