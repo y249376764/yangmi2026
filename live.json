@@ -41,6 +41,12 @@
       "type": 0,
       "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_henan_jiudian.txt",
       "epg": ""
+    },
+    {
+      "name": "精选直播(实测可用)",
+      "type": 0,
+      "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/live_selected.txt",
+      "epg": ""
     }
   ],
   "sites": [],
