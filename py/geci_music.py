@@ -222,6 +222,16 @@ def _weapi_post(path, obj):
 
 # 分类维度名映射
 _CAT_NAMES = {0: "语种", 1: "风格", 2: "场景", 3: "情感", 4: "主题"}
+# 酷狗歌单分类标签 (getSpecial 实测 6组82个)
+_KG_TAGS = {
+    "主题": ["精选", "经典", "网络", "DJ热碟", "情歌对唱", "游戏", "舞曲", "KTV", "直播", "欧美"],
+    "语种": ["国语", "英语", "粤语", "日语", "韩语", "闽南语", "小语种", "法语"],
+    "风格": ["流行", "古风", "电子", "民谣", "摇滚", "嘻哈", "后摇", "中国风", "爵士", "民乐", "纯音乐"],
+    "年代": ["70后", "80后", "90后", "00后"],
+    "心情": ["怀旧", "伤感", "安静", "兴奋", "轻松", "治愈", "快乐", "甜蜜", "浪漫"],
+    "场景": ["学习", "工作", "通勤", "运动", "校园", "旅途", "咖啡厅", "店铺", "清晨", "夜晚"],
+}
+
 # 网易云歌单分类标签 (catalogue 实测 70个)
 _CAT_TAGS = {
     0: ["华语", "欧美", "日语", "韩语", "粤语"],
@@ -254,23 +264,29 @@ class Spider(BaseSpider):
             {"type_id": "kw", "type_pid": "0", "type_name": "酷我"},
             {"type_id": "qq", "type_pid": "0", "type_name": "QQ音乐"},
         ]
-        # 歌单标签筛选器: 按维度分 5 行 (每行独立滑动, 不用一个超长列表)
-        dim_filters = [
-            ("cat0", "语种", _CAT_TAGS.get(0, [])),
-            ("cat1", "风格", _CAT_TAGS.get(1, [])),
-            ("cat2", "场景", _CAT_TAGS.get(2, [])),
-            ("cat3", "情感", _CAT_TAGS.get(3, [])),
-            ("cat4", "主题", _CAT_TAGS.get(4, [])),
-        ]
-        filters = {}
-        for c in classes:
+        # 筛选器: 网易云5行 / 酷狗6行 / 酷我QQ无(热歌)
+        def _fl(key_prefix, dims):
             fl = []
-            for key, name, tags in dim_filters:
+            for name, tags in dims:
                 vals = [{"n": "全部", "v": ""}]
                 for t in tags:
                     vals.append({"n": t, "v": t})
-                fl.append({"key": key, "name": name, "value": vals})
-            filters[c["type_id"]] = fl
+                fl.append({"key": key_prefix + "_" + name, "name": name, "value": vals})
+            return fl
+        wy_fl = _fl("wy", [("语种", _CAT_TAGS.get(0, [])), ("风格", _CAT_TAGS.get(1, [])),
+                           ("场景", _CAT_TAGS.get(2, [])), ("情感", _CAT_TAGS.get(3, [])),
+                           ("主题", _CAT_TAGS.get(4, []))])
+        kg_fl = _fl("kg", [("主题", _KG_TAGS.get("主题", [])), ("语种", _KG_TAGS.get("语种", [])),
+                           ("风格", _KG_TAGS.get("风格", [])), ("年代", _KG_TAGS.get("年代", [])),
+                           ("心情", _KG_TAGS.get("心情", [])), ("场景", _KG_TAGS.get("场景", []))])
+        filters = {}
+        for c in classes:
+            if c["type_id"] == "wy":
+                filters["wy"] = wy_fl
+            elif c["type_id"] == "kg":
+                filters["kg"] = kg_fl
+            else:
+                filters[c["type_id"]] = []
         result = {"class": classes, "list": []}
         if filter:
             result["filters"] = filters
@@ -288,22 +304,32 @@ class Spider(BaseSpider):
             except Exception:
                 extend = {}
         extend = extend or {}
-        # 多行筛选: cat0语种/cat1风格/cat2场景/cat3情感/cat4主题, 取第一个非空
+        # 多行筛选: 取第一个非空 (key 形如 wy_语种 / kg_主题 / cat0)
         tag = ""
-        for k in ("cat0", "cat1", "cat2", "cat3", "cat4", "cat"):
-            v = str(extend.get(k) or "").strip()
-            if v:
-                tag = v
+        for k, v in extend.items():
+            if str(v or "").strip() and k != "t":
+                tag = str(v).strip()
                 break
         if tid == "wy":
-            # 网易云: 标签歌单 / 推荐歌单
             if tag:
                 return self._playlists_by_tag(tag, str(pg or 1))
             return self._playlists_by_tag("", str(pg or 1))
-        # 酷狗/酷我/QQ: 热歌搜索 (无歌单接口)
-        hot_words = {"kg": "酷狗热歌", "kw": "酷我热歌", "qq": "QQ热歌"}
-        kw = tag if tag else hot_words.get(tid, "热歌")
-        return self.searchContent(kw, False, pg or "1")
+        if tid == "kg":
+            # 酷狗歌单: 标签歌单 / 推荐
+            return self._kg_playlists(tag, str(pg or 1))
+        # 酷我/QQ: 本平台搜索 (接口沙箱风控时自动回落聚合)
+        if tid in ("kw", "qq"):
+            hot = "酷我热歌" if tid == "kw" else "QQ热歌"
+            kw = tag if tag else hot
+            if tid == "kw":
+                r = self._kw_only(kw, pg or "1")
+            else:
+                r = self._qq_only(kw, pg or "1")
+            if r.get("list"):
+                return r
+            # 回落: 聚合搜索 (带本平台关键词)
+            return self.searchContent(kw, False, pg or "1")
+        return self.searchContent(tag or "热歌", False, pg or "1")
 
     def _playlists(self, tid, page):
         """歌单列表 (小图+文字布局) - recommend=全部热门"""
@@ -339,6 +365,54 @@ class Spider(BaseSpider):
             pagecount = int(page) + 1
         return {"list": vods, "page": int(page), "pagecount": max(pagecount, int(page)), "total": len(vods)}
 
+    def _kw_only(self, kw, pg):
+        """酷我本平台搜索 (搜索结果用 kw_ 前缀, 播放走海棠kw)"""
+        page = str(pg or 1)
+        url = "https://www.kuwo.cn/api/www/search/searchMusicBykeyWord?key=%s&pn=%s&rn=30&httpsStatus=1" % (
+            urllib.parse.quote(kw), page)
+        d = _json(url, ref="https://www.kuwo.cn/", headers={"csrf": "", "Cookie": "kw_token="})
+        rows = ((d or {}).get("data") or {}).get("list") or []
+        vods = []
+        for s in rows:
+            name = str(s.get("name") or "")
+            rid = str(s.get("rid") or "")
+            if not name or not rid:
+                continue
+            vods.append({
+                "vod_id": "kw_" + rid,
+                "vod_name": name,
+                "vod_pic": str(s.get("pic") or ""),
+                "vod_remarks": str(s.get("artist") or "") or "酷我",
+            })
+        return {"list": vods, "page": int(page), "pagecount": 1, "total": len(vods)}
+
+    def _qq_only(self, kw, pg):
+        """QQ本平台搜索 (musicu.fcg, 播放走海棠qq)"""
+        page = str(pg or 1)
+        payload = {
+            "req": {"method": "DoSearchForQQMusicDesktop", "module": "music.search_search_cp",
+                    "param": {"query": kw, "num_per_page": 30, "page_num": int(page)}}
+        }
+        url = "https://u.y.qq.com/cgi-bin/musicu.fcg?format=json&data=" + urllib.parse.quote(
+            json.dumps(payload, ensure_ascii=False))
+        d = _json(url, ref="https://y.qq.com/")
+        body = ((d or {}).get("req") or {}).get("data") or {}
+        rows = ((body.get("body") or {}).get("song") or {}).get("list") or []
+        vods = []
+        for s in rows:
+            mid = str(s.get("songmid") or s.get("mid") or "")
+            name = str(s.get("title") or s.get("songname") or "")
+            if not name or not mid:
+                continue
+            singer = ", ".join(x.get("name", "") for x in (s.get("singer") or [])[:2])
+            vods.append({
+                "vod_id": "qq_" + mid,
+                "vod_name": name,
+                "vod_pic": str(s.get("album_pic") or "").replace("{size}", "200"),
+                "vod_remarks": singer or "QQ音乐",
+            })
+        return {"list": vods, "page": int(page), "pagecount": 1, "total": len(vods)}
+
     # ---------- 详情 ----------
     def detailContent(self, ids):
         vid = str(ids[0]).split("$")[0]
@@ -346,6 +420,26 @@ class Spider(BaseSpider):
         if vid.startswith("pl_"):
             pid = vid[3:]
             return self._playlist_songs(pid, vid)
+        # 酷狗歌单详情
+        if vid.startswith("kgpl_"):
+            eps = self._kg_playlist_songs(vid)
+            # 歌单名/图从 vid 解析
+            parts = vid.split("_", 1)
+            sid = parts[1].split("_")[0] if len(parts) > 1 else ""
+            name = ""
+            try:
+                name = urllib.parse.unquote(parts[1].split("_", 2)[1]) if len(parts) > 1 and len(parts[1].split("_")) > 1 else ""
+            except Exception:
+                name = ""
+            vod = {
+                "vod_id": vid,
+                "vod_name": name or "酷狗歌单",
+                "vod_pic": "",
+                "vod_remarks": str(len(eps)) + "首",
+                "vod_play_from": "歌词适配",
+                "vod_play_url": "#".join(eps) if eps else "",
+            }
+            return {"list": [vod]}
         # 单曲 (搜索/歌单歌曲点播)
         if vid.startswith(("wy_", "kg_", "kw_", "qq_")):
             tag, rid = vid.split("_", 1)
@@ -357,6 +451,55 @@ class Spider(BaseSpider):
             }
             return {"list": [vod]}
         return {"list": []}
+
+    def _kg_playlists(self, tag, page):
+        """酷狗歌单列表 (c=标签, p=页)"""
+        url = "http://www2.kugou.kugou.com/yueku/v9/special/getSpecial?is_ajax=1&cdn=cdn&t=5&c=%s&p=%s" % (
+            urllib.parse.quote(tag), page)
+        d = _json(url)
+        specials = (d or {}).get("special_db") or []
+        vods = []
+        for sp in specials:
+            name = str(sp.get("specialname") or "")
+            if not name:
+                continue
+            sid = str(sp.get("specialid") or "")
+            name_enc = urllib.parse.quote(name)
+            nick_enc = urllib.parse.quote(str(sp.get("nickname") or ""))
+            intro_enc = urllib.parse.quote(str(sp.get("intro") or ""))
+            total = str(sp.get("total_play_count") or "0")
+            vid = "kgpl_%s_%s_%s_%s_%s" % (sid, name_enc, nick_enc, total, intro_enc)
+            vods.append({
+                "vod_id": vid,
+                "vod_name": name,
+                "vod_pic": str(sp.get("img") or "").replace("{size}", "200"),
+                "vod_remarks": str(sp.get("nickname") or "") or "酷狗歌单",
+            })
+        return {"list": vods, "page": int(page), "pagecount": 9999, "total": len(vods)}
+
+    def _kg_playlist_songs(self, vid):
+        """酷狗歌单歌曲 (全量, special/song 接口)"""
+        parts = vid.split("_", 1)
+        if len(parts) < 2:
+            return []
+        sid = parts[1].split("_")[0]
+        songs = []
+        for pg in (1, 2, 3):
+            d = _json("http://mobilecdnbj.kugou.com/api/v5/special/song?specialid=%s&page=%d&pagesize=100&area_code=1&plat=0&version=9108" % (sid, pg))
+            infos = ((d or {}).get("data") or {}).get("info") or []
+            if not infos:
+                break
+            songs.extend(infos)
+        eps = []
+        seen = set()
+        for s in songs:
+            h = str(s.get("hash") or "")
+            name = str(s.get("filename") or s.get("name") or "")
+            if not h or name in seen:
+                continue
+            seen.add(name)
+            eps.append("%d. %s$kg:%s" % (len(eps) + 1, name, h))
+        return eps
 
     def _playlist_songs(self, pid, vid):
         """歌单歌曲列表 (全量! trackIds + song/detail 分批拉)"""
