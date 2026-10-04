@@ -1,0 +1,47 @@
+{
+ "bookSourceName": "聆阅·懒人听书",
+ "bookSourceGroup": "听书",
+ "bookSourceUrl": "https://www.lrts.me",
+ "bookSourceType": 1,
+ "bookSourceComment": "聆阅逆向源：懒人听书。发现12分类+搜索分页，章节经tingshu8中转取m4a直链。目录稳定版：chapterList改为@js返回数组对象+429容错",
+ "enabled": true,
+ "weight": 0,
+ "loginUrl": "",
+ "loginUi": "",
+ "loginCheckJs": "",
+ "header": "{\"Referer\":\"http://www.tingshu8.top/\"}",
+ "searchUrl": "@js:\n'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-search?name='+encodeURIComponent(key||'')+'&page='+(Number(page||1)||1)",
+ "exploreUrl": "[{\"title\": \"推荐\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-home\"}, {\"title\": \"有声小说\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=1\"}, {\"title\": \"儿童\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=2\"}, {\"title\": \"评书\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=3\"}, {\"title\": \"相声\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=4\"}, {\"title\": \"历史\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=5\"}, {\"title\": \"广播剧\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=6\"}, {\"title\": \"国学\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=7\"}, {\"title\": \"财经\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=8\"}, {\"title\": \"英语\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=9\"}, {\"title\": \"健康\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=10\"}, {\"title\": \"音乐\", \"url\": \"https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-category?categoryId=11\"}]",
+ "ruleSearch": {
+  "bookList": "$.books",
+  "name": "$.title",
+  "author": "$.author",
+  "coverUrl": "$.cover",
+  "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-book?bookId='+result",
+  "intro": "$.intro",
+  "kind": "$.category"
+ },
+ "ruleExplore": {
+  "bookList": "$.books",
+  "name": "$.title",
+  "author": "$.author",
+  "coverUrl": "$.cover",
+  "bookUrl": "$.id@js:'https://backend.appmiaoda.com/projects/supabase345057433544081408/functions/v1/lrts-book?bookId='+result",
+  "intro": "$.intro",
+  "kind": "$.category"
+ },
+ "ruleToc": {
+  "chapterList": "@js:\n(function(){\n  var out = [];\n  try {\n    var d = JSON.parse(result);\n    var arr = d.chapters || [];\n    for (var i=0;i<arr.length;i++){\n      var it = arr[i] || {};\n      var id = String(it.id || '');\n      if (!id) continue;\n      out.push({\n        name: it.title || '',\n        url: id\n      });\n    }\n  } catch(e) {\n    out = [];\n  }\n  return out;\n})()",
+  "chapterName": "name",
+  "chapterUrl": "url@js:'http://www.tingshu8.top/yuan1/lrts.php?id='+result",
+  "nextTocUrl": ""
+ },
+ "ruleContent": {
+  "content": "$.data.url"
+ },
+ "respondTime": 180000,
+ "customOrder": 0,
+ "enabledCookieJar": false,
+ "enabledExplore": true,
+ "lastUpdateTime": 1791109000000
+}
