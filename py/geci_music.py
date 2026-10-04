@@ -247,30 +247,49 @@ class Spider(BaseSpider):
         return self.homeContent(extend)
 
     def homeContent(self, filter=False):
-        """一级分类: 推荐 + 语种/风格/场景/情感/主题 (6个, 平台按钮有位置)"""
-        cats = [{"type_id": "recommend", "type_name": "推荐"}]
-        for cid, cname in [(0, "语种"), (1, "风格"), (2, "场景"), (3, "情感"), (4, "主题")]:
-            cats.append({"type_id": "cat_%d" % cid, "type_name": cname})
-        return {"class": cats, "filters": {}}
+        """顶部一排=4平台按钮; 歌单标签=筛选器(filters)"""
+        classes = [
+            {"type_id": "wy", "type_pid": "0", "type_name": "网易云"},
+            {"type_id": "kg", "type_pid": "0", "type_name": "酷狗"},
+            {"type_id": "kw", "type_pid": "0", "type_name": "酷我"},
+            {"type_id": "qq", "type_pid": "0", "type_name": "QQ音乐"},
+        ]
+        # 歌单标签筛选器 (语种/风格/场景/情感/主题 全部标签)
+        cat_values = [{"n": "推荐", "v": ""}]
+        for cid in range(5):
+            for t in _CAT_TAGS.get(cid, []):
+                cat_values.append({"n": t, "v": t})
+        cat_filter = {"key": "cat", "name": "歌单分类", "value": cat_values}
+        filters = {}
+        for c in classes:
+            filters[c["type_id"]] = [cat_filter]
+        result = {"class": classes, "list": []}
+        if filter:
+            result["filters"] = filters
+        return result
 
     def homeVodContent(self, page=1, filter=False):
         return self._playlists("recommend", str(page or 1))
 
     # ---------- 分类 (二级=歌单标签, 内容=歌单列表) ----------
     def categoryContent(self, tid, pg, filter=False, extend=""):
-        # 一级维度 cat_N → 二级分类列表 (class), 不带歌单 (二级位置)
-        if re.match(r"^cat_\d+$", tid):
-            cid = int(tid[4:])
-            tags = _CAT_TAGS.get(cid, [])
-            sub = [{"type_id": "tag_%d_%s" % (cid, urllib.parse.quote(t)), "type_name": t} for t in tags]
-            return {"class": sub, "list": [], "page": 1, "pagecount": 1}
-        # 二级标签 tag_N_xxx → 歌单列表
-        if tid.startswith("tag_"):
-            parts = tid.split("_", 2)
-            if len(parts) == 3:
-                tag = urllib.parse.unquote(parts[2])
+        """tid=平台(wy/kg/kw/qq), extend.cat=歌单标签"""
+        if isinstance(extend, str):
+            try:
+                extend = json.loads(extend) if extend else {}
+            except Exception:
+                extend = {}
+        extend = extend or {}
+        tag = str(extend.get("cat") or "").strip()
+        if tid == "wy":
+            # 网易云: 标签歌单 / 推荐歌单
+            if tag:
                 return self._playlists_by_tag(tag, str(pg or 1))
-        return self._playlists(tid, str(pg or 1))
+            return self._playlists_by_tag("", str(pg or 1))
+        # 酷狗/酷我/QQ: 热歌搜索 (无歌单接口)
+        hot_words = {"kg": "酷狗热歌", "kw": "酷我热歌", "qq": "QQ热歌"}
+        kw = tag if tag else hot_words.get(tid, "热歌")
+        return self.searchContent(kw, False, pg or "1")
 
     def _playlists(self, tid, page):
         """歌单列表 (小图+文字布局) - recommend=全部热门"""
@@ -488,9 +507,7 @@ class Spider(BaseSpider):
         return "歌词适配v2"
 
     def getCategory(self):
-        return [{"type_id": "recommend", "type_name": "推荐"},
-                {"type_id": "cat_0", "type_name": "语种"},
-                {"type_id": "cat_1", "type_name": "风格"},
-                {"type_id": "cat_2", "type_name": "场景"},
-                {"type_id": "cat_3", "type_name": "情感"},
-                {"type_id": "cat_4", "type_name": "主题"}]
+        return [{"type_id": "wy", "type_pid": "0", "type_name": "网易云"},
+                {"type_id": "kg", "type_pid": "0", "type_name": "酷狗"},
+                {"type_id": "kw", "type_pid": "0", "type_name": "酷我"},
+                {"type_id": "qq", "type_pid": "0", "type_name": "QQ音乐"}]
