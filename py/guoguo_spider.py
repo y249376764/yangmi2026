@@ -27,7 +27,7 @@ def _strip(s):
 
 
 class Spider(BaseSpider):
-    name = "果果短剧"
+    name = "果果短剧v2"
 
     def __init__(self):
         self.host = HOST
@@ -130,7 +130,7 @@ class Spider(BaseSpider):
             "vod_name": name or "短剧",
             "vod_pic": self._abs(pic, self.host),
             "vod_content": intro,
-            "vod_play_from": "果果直链",
+            "vod_play_from": "果果直链v2",
             "vod_play_url": m3u8 or play_full,
         }
         return {"list": [vod]}
@@ -157,7 +157,7 @@ class Spider(BaseSpider):
         return False
 
     def getName(self):
-        return "果果短剧"
+        return "果果短剧v2"
 
     def getCategory(self):
         return [{"type_id": c, "type_name": n} for c, n in CATS]
