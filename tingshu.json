@@ -117,7 +117,7 @@
             "key": "kuwotingshu",
             "name": "🎧酷我听书｜有声小说",
             "type": 3,
-            "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@aebfc3f98eb9e55ebe3316d632fb72d343c26ab0/py/kuwo_tingshu.py",
+            "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ff35dd848e20cc80dac70739dc01836345ff35b5/py/kuwo_tingshu.py",
             "searchable": 1,
             "quickSearch": 1,
             "filterable": 0,
