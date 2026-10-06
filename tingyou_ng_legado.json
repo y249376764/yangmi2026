@@ -1,7 +1,7 @@
 {
  "bookSourceComment": "听友FM 听书·阅读NG书源 v1 (2026-10-06 新H5协议)\n站点: https://tingyou.fm\n更多资源请到网站: https://navpage-2026.surge.sh/\n\n接口: GET category/album/chapters, POST search/play\n直链播放, 多域名自动切换",
  "bookSourceGroup": "🎧 听书",
- "bookSourceName": "🎧听友FM·阅读v1.7",
+ "bookSourceName": "🎧听友FM·阅读v1.8",
  "bookSourceType": 1,
  "bookSourceUrl": "https://tingyou.fm",
  "bookUrlPattern": "",
@@ -23,7 +23,7 @@
   "tocUrl": "@js:\n(function(){\n  var s = String(result || '');\n  var m = s.match(/\"id\"\\s*:\\s*(\\d+)/);\n  if(!m) return '';\n  return 'https://laopaoaappi.oobyvy.vip/api/h5/listening/chapters/' + m[1];\n})()"
  },
  "ruleContent": {
-  "content": "@js:\n(function(){\n  var m = String(java.ruleUrl || '').match(/album\\/(\\d+)\\?chapter_idx=(\\d+)/);\n  if(!m) return '';\n  var albumId = m[1], idx = m[2];\n  var body = '{\"album_id\":\"' + albumId + '\",\"chapter_idx\":' + idx + '}';\n  // 纯 ASCII base64 编码\n  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';\n  var b64 = '';\n  for (var i = 0; i < body.length; i += 3) {\n    var c1 = body.charCodeAt(i), c2 = i+1<body.length ? body.charCodeAt(i+1) : 0, c3 = i+2<body.length ? body.charCodeAt(i+2) : 0;\n    var e1 = c1 >> 2, e2 = ((c1 & 3) << 4) | (c2 >> 4), e3 = ((c2 & 15) << 2) | (c3 >> 6), e4 = c3 & 63;\n    b64 += chars.charAt(e1) + chars.charAt(e2) + (i+1<body.length ? chars.charAt(e3) : '=') + (i+2<body.length ? chars.charAt(e4) : '=');\n  }\n  var hdrs = JSON.stringify({'Content-Type': 'application/json', 'Origin': 'https://tingyou.fm', 'Referer': 'https://tingyou.fm/listening'});\n  var resp = java.postBase64Body('https://laopaoaappi.oobyvy.vip/api/h5/listening/play', b64, hdrs);\n  try{\n    var j = JSON.parse(resp);\n    return j.play_url || '';\n  }catch(e){ return ''; }\n})()"
+  "content": "$.play_url"
  },
  "ruleExplore": {
   "author": "@js:result.author||result.teller||''",
@@ -49,7 +49,7 @@
   "wordCount": ""
  },
  "ruleToc": {
-  "chapterList": "@js:\n(function(){\n  try{ book.type = 32; }catch(e){}\n  var d = null;\n  if (typeof result === 'string') { try{ d = JSON.parse(result); }catch(e){} }\n  else { d = result; }\n  if (!d) return [];\n  var chs = d.chapters || [];\n  var out = [];\n  for (var i=0;i<chs.length;i++){\n    var c = chs[i];\n    var idx = c.index || (i+1);\n    out.push({\n      name: c.title || ('第' + idx + '集'),\n      url: 'https://laopaoaappi.oobyvy.vip/api/h5/listening/album/' + (d.id||'') + '?chapter_idx=' + idx,\n      isVolume: false\n    });\n  }\n  return out;\n})()",
+  "chapterList": "@js:\n(function(){\n  try{ book.type = 32; }catch(e){}\n  var d = null;\n  if (typeof result === 'string') { try{ d = JSON.parse(result); }catch(e){} }\n  else { d = result; }\n  if (!d) return [];\n  var chs = d.chapters || [];\n  var out = [];\n  for (var i=0;i<chs.length;i++){\n    var c = chs[i];\n    var idx = c.index || (i+1);\n    var albumId = String(d.id || '');\n    var u = 'https://laopaoaappi.oobyvy.vip/api/h5/listening/play,{\"method\":\"POST\",\"body\":\"album_id=' + albumId + '&chapter_idx=' + idx + '\",\"headerMap\":{\"Origin\":\"https://tingyou.fm\",\"Referer\":\"https://tingyou.fm/listening\"}}';\n    out.push({\n      name: c.title || ('第' + idx + '集'),\n      url: u,\n      isVolume: false\n    });\n  }\n  return out;\n})()",
   "chapterName": "name",
   "chapterUrl": "url",
   "isVolume": "isVolume",
