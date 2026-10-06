@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-06 04:30:12 UTC
+> 自动生成时间: 2026-10-06 05:41:07 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **112**
-- 有异常站点数: **15**
+- 有异常站点数: **14**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-06 04:31:07 UTC
+- 巡检时间: 2026-10-06 05:41:45 UTC
 
 ## ⚠️ 异常站点
 
@@ -19,7 +19,6 @@
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBP | ext域名:❌ 超时/无法连接 |
-| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 荐片[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
@@ -27,7 +26,7 @@
 | tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
-| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tingshu.json | 🎧酷我听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@aebfc | api脚本:❌ HTTP 404 |
 | tingshu_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu_2.json' |
 
 ## 📋 全部站点
@@ -74,7 +73,7 @@
 | tvbox.json | 虎牙资源┃刺桐 | 1 | https://www.huyaapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 百度资源┃刺桐 | 1 | https://api.apibdzy.com/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
 | tvbox.json | 飘零影院┃刺桐 | 1 | https://p2100.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
-| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -125,7 +124,7 @@
 | tvbox_py.json | 索尼 | 采集  | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 量子 | 采集 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 非凡 | 采集 | 1 | https://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 金鹰 | 采集 | 1 | https://jyzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 速播 | 采集 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 樱花 | 采集 | 1 | https://m3u8.apiyhzy.com/api.php/provide/vod/at/xml/ | api脚本:✅ 200 (body 2048B) |
@@ -154,7 +153,7 @@
 | tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎙幻听网｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@5c0aa | api脚本:✅ 200 (body 2048B) |
-| tingshu.json | 🎧酷我听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@17181 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧酷我听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@aebfc | api脚本:❌ HTTP 404 |
 | tingshu.json | 🎧哔哩有声｜音频直连 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@afff2 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📚易听书网v2｜听书资源 |  | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@3617a | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📻懒人听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f820c | api脚本:✅ 200 (body 2048B) |
@@ -194,7 +193,7 @@
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: file.tingyou8.vip json.hgeuz.cn tingyou.fm
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
-- **kuwo_tingshu.py**: antiserver.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
+- **kuwo_tingshu.py**: antiserver.kuwo.cn mobi.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
 - **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
 - **souju_360.py**: api.so.360kan.com api.web.360kan.com bpz1.app bpz1.top bpz10.app
 - **guoguo_spider.py**: www.mochadj.com
