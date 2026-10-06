@@ -1,14 +1,14 @@
 {
  "bookSourceComment": "听友FM 听书·阅读NG书源 v1 (2026-10-06 新H5协议)\n站点: https://tingyou.fm\n更多资源请到网站: https://navpage-2026.surge.sh/\n\n接口: GET category/album/chapters, POST search/play\n直链播放, 多域名自动切换",
  "bookSourceGroup": "🎧 听书",
- "bookSourceName": "🎧听友FM·阅读v1.5",
+ "bookSourceName": "🎧听友FM·阅读v1.6",
  "bookSourceType": 1,
  "bookSourceUrl": "https://tingyou.fm",
  "bookUrlPattern": "",
  "customOrder": 0,
  "enabled": true,
  "enabledExplore": true,
- "exploreUrl": "[{\"title\": \"🏠 首页\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"📖 有声小说\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🌌 玄幻奇幻\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=46&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"⚔️ 武侠小说\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=11&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"💕 言情通俗\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=19&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"👻 恐怖惊悚\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=14&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🏛️ 官场商战\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=17&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"⚔️ 历史军事\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=15&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🕵️ 刑侦反腐\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=16&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"📚 有声文学\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=10&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🎭 广播剧\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=36&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🎙️ 评书\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?category=1&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}]",
+ "exploreUrl": "[{\"title\": \"🏠 首页\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"📖 有声小说\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?category=2&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🎙️ 评书\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?category=1&sort=comprehensive&page={{page}}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}]",
  "header": "{\"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36\", \"Referer\": \"https://tingyou.fm/listening\", \"Origin\": \"https://tingyou.fm\", \"Accept\": \"application/json, text/plain, */*\"}",
  "lastUpdateTime": 1791288700000,
  "loginUrl": "",
@@ -20,7 +20,7 @@
   "intro": "$.synopsis",
   "kind": "$.type",
   "lastChapter": "",
-  "tocUrl": "@js:'https://laopaoaappi.oobyvy.vip/api/h5/listening/chapters/' + result.id"
+  "tocUrl": "@js:\n(function(){\n  var s = String(result || '');\n  var m = s.match(/\"id\"\\s*:\\s*(\\d+)/);\n  if(!m) return '';\n  return 'https://laopaoaappi.oobyvy.vip/api/h5/listening/chapters/' + m[1];\n})()"
  },
  "ruleContent": {
   "content": "@js:\n(function(){\n  var m = String(java.ruleUrl || '').match(/album\\/(\\d+)\\?chapter_idx=(\\d+)/);\n  if(!m) return '';\n  var albumId = m[1], idx = m[2];\n  var resp = java.ajax('https://laopaoaappi.oobyvy.vip/api/h5/listening/play', {\n    method: 'POST',\n    body: JSON.stringify({album_id: albumId, chapter_idx: parseInt(idx)}),\n    headers: {'Content-Type': 'application/json', 'Origin': 'https://tingyou.fm', 'Referer': 'https://tingyou.fm/listening'}\n  });\n  try{\n    var j = JSON.parse(resp);\n    return j.play_url || '';\n  }catch(e){ return ''; }\n})()"
