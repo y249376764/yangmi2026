@@ -402,17 +402,8 @@ class Spider(BaseSpider):
         chapter_id = parts[-1].strip() if parts else ""
         if not chapter_id:
             return {"parse": 0, "url": ""}
-        # 首选 antiserver 干净直链
-        for fmt in ["mp3", "mp4", "aph"]:
-            u = f"{self.ANTI_HOST}/anti.s?type=convert_url&rid={chapter_id}&format={fmt}&response=url"
-            r = self._get(u)
-            if r:
-                txt = r.text.strip().replace("\n", "").replace("\r", "").replace(" ", "")
-                if txt.startswith("http"):
-                    return {"parse": 0, "url": txt, "format": "audio/mpeg",
-                            "header": {"User-Agent": self.UA, "Referer": "https://tingshu.kuwo.cn/"},
-                            "flag": self.MNAME}
-        # 兜底: 签名接口
+        # 首选 mobi.s 签名接口 (海阔声阅APP同款, 返回每集真实音频; antiserver 老接口对
+        # VIP/收费章节只返回同一个11秒试听片段)
         u2 = (f"http://mobi.kuwo.cn/mobi.s?f=web&user=0&source=kwplayercar_ar_6.0.0.9_B_jiakong_vh.apk"
               f"&type=convert_url_with_sign&rid={chapter_id}&br=128kmp3")
         j = self._get_json(u2)
@@ -422,6 +413,16 @@ class Spider(BaseSpider):
             return {"parse": 0, "url": str(u3), "format": "audio/mpeg",
                     "header": {"User-Agent": self.UA, "Referer": "https://tingshu.kuwo.cn/"},
                     "flag": self.MNAME}
+        # 兜底: antiserver 干净直链 (仅当 mobi.s 失败时)
+        for fmt in ["mp3", "mp4", "aph"]:
+            u = f"{self.ANTI_HOST}/anti.s?type=convert_url&rid={chapter_id}&format={fmt}&response=url"
+            r = self._get(u)
+            if r:
+                txt = r.text.strip().replace("\n", "").replace("\r", "").replace(" ", "")
+                if txt.startswith("http"):
+                    return {"parse": 0, "url": txt, "format": "audio/mpeg",
+                            "header": {"User-Agent": self.UA, "Referer": "https://tingshu.kuwo.cn/"},
+                            "flag": self.MNAME}
         return {"parse": 0, "url": ""}
 
     def localProxy(self, param=""):
