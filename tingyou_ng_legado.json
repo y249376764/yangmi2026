@@ -1,7 +1,7 @@
 {
  "bookSourceComment": "听友FM 听书·阅读NG书源 v1 (2026-10-06 新H5协议)\n站点: https://tingyou.fm\n更多资源请到网站: https://navpage-2026.surge.sh/\n\n接口: GET category/album/chapters, POST search/play\n直链播放, 多域名自动切换",
  "bookSourceGroup": "🎧 听书",
- "bookSourceName": "🎧听友FM·阅读v1.2",
+ "bookSourceName": "🎧听友FM·阅读v1.3",
  "bookSourceType": 1,
  "bookSourceUrl": "https://tingyou.fm",
  "bookUrlPattern": "",
@@ -26,26 +26,26 @@
   "content": "@js:\n(function(){\n  var m = String(java.ruleUrl || '').match(/album\\/(\\d+)\\?chapter_idx=(\\d+)/);\n  if(!m) return '';\n  var albumId = m[1], idx = m[2];\n  var resp = java.ajax('https://laopaoaappi.oobyvy.vip/api/h5/listening/play', {\n    method: 'POST',\n    body: JSON.stringify({album_id: albumId, chapter_idx: parseInt(idx)}),\n    headers: {'Content-Type': 'application/json', 'Origin': 'https://tingyou.fm', 'Referer': 'https://tingyou.fm/listening'}\n  });\n  try{\n    var j = JSON.parse(resp);\n    return j.play_url || '';\n  }catch(e){ return ''; }\n})()"
  },
  "ruleExplore": {
-  "author": "result.author||result.teller||''",
+  "author": "@js:result.author||result.teller||''",
   "bookList": "$.data[*]",
   "bookUrl": "@js:\n(function(){ var id = result.id; return 'https://laopaoaappi.oobyvy.vip/api/h5/listening/album/' + id; })()",
-  "coverUrl": "result.cover_url||''",
-  "intro": "result.synopsis||result.description||''",
-  "kind": "result.type||''",
+  "coverUrl": "@js:result.cover_url||''",
+  "intro": "@js:result.synopsis||result.description||''",
+  "kind": "@js:result.type||''",
   "lastChapter": "",
-  "name": "result.title||''",
+  "name": "@js:result.title||''",
   "wordCount": ""
  },
  "ruleSearch": {
-  "author": "result.author||result.teller||''",
+  "author": "@js:result.author||result.teller||''",
   "bookList": "$.results[*]",
   "bookUrl": "@js:\n(function(){ var id = result.id; return 'https://laopaoaappi.oobyvy.vip/api/h5/listening/album/' + id; })()",
   "checkKeyWord": "三体",
-  "coverUrl": "result.cover_url||''",
-  "intro": "result.description||''",
-  "kind": "result.type||''",
+  "coverUrl": "@js:result.cover_url||''",
+  "intro": "@js:result.description||''",
+  "kind": "@js:result.type||''",
   "lastChapter": "",
-  "name": "result.title||''",
+  "name": "@js:result.title||''",
   "wordCount": ""
  },
  "ruleToc": {
