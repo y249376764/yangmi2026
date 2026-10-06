@@ -9,7 +9,7 @@
  "enabled": true,
  "enabledExplore": true,
  "exploreUrl": "[{\"title\": \"🏠 首页\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/rank?page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"📖 有声小说\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🌌 玄幻奇幻\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=46&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"⚔️ 武侠小说\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=11&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"💕 言情通俗\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=19&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"👻 恐怖惊悚\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=14&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🏛️ 官场商战\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=17&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"⚔️ 历史军事\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=15&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🕵️ 刑侦反腐\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=16&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"📚 有声文学\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=10&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🎭 广播剧\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?type_id=36&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}, {\"title\": \"🎙️ 评书\", \"url\": \"https://laopaoaappi.oobyvy.vip/api/h5/listening/category?category=1&sort=comprehensive&page={page}\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}]",
- "header": "",
+ "header": "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36\nReferer: https://tingyou.fm/listening\nOrigin: https://tingyou.fm\nAccept: application/json, text/plain, */*",
  "lastUpdateTime": 1791288700000,
  "loginUrl": "",
  "ruleBookInfo": {
@@ -23,7 +23,7 @@
   "tocUrl": "$.tocUrl"
  },
  "ruleContent": {
-  "content": "@js:\n(function(){\n  var m = String(java.ruleUrl || '').match(/album\\/(\\d+)\\?chapter_idx=(\\d+)/);\n  if(!m) return '';\n  var albumId = m[1], idx = m[2];\n  var resp = java.ajax('https://laopaoaappi.oobyvy.vip/api/h5/listening/play', {\n    method: 'POST',\n    body: JSON.stringify({album_id: albumId, chapter_idx: parseInt(idx)}),\n    headers: {'Content-Type': 'application/json'}\n  });\n  try{\n    var j = JSON.parse(resp);\n    return j.play_url || '';\n  }catch(e){ return ''; }\n})()"
+  "content": "@js:\n(function(){\n  var m = String(java.ruleUrl || '').match(/album\\/(\\d+)\\?chapter_idx=(\\d+)/);\n  if(!m) return '';\n  var albumId = m[1], idx = m[2];\n  var resp = java.ajax('https://laopaoaappi.oobyvy.vip/api/h5/listening/play', {\n    method: 'POST',\n    body: JSON.stringify({album_id: albumId, chapter_idx: parseInt(idx)}),\n    headers: {'Content-Type': 'application/json', 'Origin': 'https://tingyou.fm', 'Referer': 'https://tingyou.fm/listening'}\n  });\n  try{\n    var j = JSON.parse(resp);\n    return j.play_url || '';\n  }catch(e){ return ''; }\n})()"
  },
  "ruleExplore": {
   "author": "result.author||result.teller||''",
@@ -55,6 +55,6 @@
   "isVolume": "isVolume",
   "updateTime": ""
  },
- "searchUrl": "https://laopaoaappi.oobyvy.vip/api/h5/listening/search{\"method\": \"POST\", \"body\": \"{\\\"keyword\\\":\\\"{{key}}\\\",\\\"page\\\":{{page}}}\", \"headers\": {\"Content-Type\": \"application/json\"}}",
+ "searchUrl": "https://laopaoaappi.oobyvy.vip/api/h5/listening/search{\"method\": \"POST\", \"body\": \"{\\\"keyword\\\":\\\"{{key}}\\\",\\\"page\\\":{{page}}}\", \"headers\": {\"Content-Type\": \"application/json\", \"Origin\": \"https://tingyou.fm\", \"Referer\": \"https://tingyou.fm/listening\"}}",
  "weight": 0
 }
