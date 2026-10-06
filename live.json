@@ -2,6 +2,12 @@
   "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
   "lives": [
     {
+      "name": "Guovin聚合直播(1619频道)",
+      "type": 0,
+      "url": "https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u",
+      "epg": ""
+    },
+    {
       "name": "整合直播(分组线路)",
       "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/live_final.txt",
       "type": 0
