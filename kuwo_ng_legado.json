@@ -50,7 +50,7 @@
     "intro": "@js:result.info||''",
     "kind": "",
     "lastChapter": "",
-    "name": "@js:(result.name||'').split('|')[0]",
+    "name": "@js:(function(){\n  var nm = result.name || result.albumName || '';\n  if (!nm) return '';\n  var t = String(nm).split('|')[0].trim();\n  // 去掉开头【xxx】前缀(如【多播】)\n  var m = t.match(/^[【\\[（(][^】\\]）)]*[】\\]）)]/);\n  if (m) t = t.slice(m[0].length);\n  // 再去首尾剩余括号\n  var opens = ['【','[','（','('];\n  var closes = ['】',']','）',')'];\n  while (opens.indexOf(t.charAt(0)) >= 0) t = t.slice(1);\n  while (closes.indexOf(t.charAt(t.length-1)) >= 0) t = t.slice(0,-1);\n  return t.trim() || nm;\n})()",
     "note": "@js:(function(){var c=result.musiccnt||result.songnum||'';return c?c+'集':'';})()",
     "wordCount": ""
   },
