@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-06 05:58:18 UTC
+> 自动生成时间: 2026-10-06 12:13:58 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **112**
 - 有异常站点数: **13**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-06 05:58:58 UTC
+- 巡检时间: 2026-10-06 12:14:57 UTC
 
 ## ⚠️ 异常站点
 
@@ -149,7 +149,7 @@
 | tingshu.json | 📖275听书｜小说听书 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📖听书吧｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📗悦听吧｜听书资源 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
-| tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@58c34 | api脚本:✅ 200 (body 2048B) |
+| tingshu.json | 🎧听友FM｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@08888 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧365听书v2｜有声书 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@742c8 | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎙幻听网｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@5c0aa | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧酷我听书｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@778b8 | api脚本:✅ 200 (body 2048B) |
@@ -190,7 +190,7 @@
 - **juok3.py**: juok3.top jx.202617.xyz jx.xmflv.com www.iqiyi.com
 - **lanrentingshu.py**: backend.appmiaoda.com www.tingshu8.top
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
-- **tingyoufm.py**: file.tingyou8.vip json.hgeuz.cn tingyou.fm
+- **tingyoufm.py**: api-preview.toulaopao.cc laopaoaappi.oobyvy.vip tingyou.fm toudnbbaa.toulaopao1.cc
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
 - **kuwo_tingshu.py**: antiserver.kuwo.cn mobi.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
 - **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
