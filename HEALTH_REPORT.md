@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 05:51:22 UTC
+> 自动生成时间: 2026-10-07 05:55:34 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **147**
-- 有异常站点数: **13**
+- 探测站点数: **146**
+- 有异常站点数: **14**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-07 05:52:19 UTC
+- 巡检时间: 2026-10-07 05:56:15 UTC
 
 ## ⚠️ 异常站点
 
@@ -19,6 +19,7 @@
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBP | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 荐片[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
@@ -75,7 +76,7 @@
 | tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox.json | 影剧资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -169,7 +170,6 @@
 | tvbox_py.json | 欣欣影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 柯南影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 火车影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 熊猫影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 瓜子影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 美帕影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 绝对影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
@@ -219,7 +219,6 @@
 - **ximalaya.py**: fdfs.xmcdn.com imagev2.xmcdn.com m.ximalaya.com mobile.ximalaya.com mobwsa.ximalaya.com
 - **bilibilivd.py**: api-lmteam.koyeb.app api.bilibili.com www.bilibili.com
 - **hipi.py**: wys.upfuhn.com
-- **xiongmao.py**: ee55ff.com server10.vuljers.com server11.vuljers.com server12.xylhwdu.com server13.benpsbp.com
 - **tiantang.py**: dsystv.com
 - **xinxin.py**: tvfun.centos.chat
 - **dianyingmifeng.py**: www.meituuan.com
@@ -243,7 +242,6 @@
 - **yangshi.py**: api.cntv.cn search.cctv.com tv.cctv.com vdn.apps.cntv.cn
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: api-preview.toulaopao.cc laopaoaappi.oobyvy.vip tingyou.fm toudnbbaa.toulaopao1.cc
-- **tangxin2.py**: img1.souavzy.org www.txsp.my
 - **xueyue.py**: taoo.xyz
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
 - **juedui.py**: www.jdys.art
@@ -252,7 +250,6 @@
 - **bili_fanju.py**: api.bilibili.com www.bilibili.com
 - **kuwo_tingshu.py**: antiserver.kuwo.cn mobi.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
 - **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
-- **tangxin.py**: img1.souavzy.org www.txsp.my
 - **souju_360.py**: api.so.360kan.com api.web.360kan.com bpz1.app bpz1.top bpz10.app
 - **guoguo_spider.py**: www.mochadj.com
 - **guazi.py**: www.tvguazi.com
