@@ -59,15 +59,6 @@
       "filterable": 1
     },
     {
-      "key": "py_kkys",
-      "name": "可可追剧[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kkys.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_bubuzhuiju",
       "name": "布布追剧[py]",
       "type": 3,
@@ -116,21 +107,6 @@
       "changeable": 1
     },
     {
-      "key": "py_juok3",
-      "name": "剧OK[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juok3.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "changeable": 1
-    },
-    {
-      "key": "荐片",
-      "name": "荐片[js]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/荐片.js"
-    },
-    {
       "key": "金牌影院",
       "name": "金牌[js]",
       "type": 3,
@@ -163,77 +139,6 @@
       "filterable": 1,
       "order_num": 5,
       "ext": ""
-    },
-    {
-      "key": "py_文才",
-      "name": "文才影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/文才影视.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "ext": {
-        "site": "https://www.hkybqufgh.com,https://www.sizhengxt.com,https://0996zp.com,https://9zhoukj.com/,https://www.sizhengxt.com,https://www.tjrongze.com,https://www.jiabaide.cn,https://cqzuoer.com"
-      }
-    },
-    {
-      "key": "360",
-      "name": "360 | 采集",
-      "type": 1,
-      "searchable": 1,
-      "changeable": 1,
-      "api": "https://360zy.com/api.php/provide/vod/",
-      "categories": [
-        "动作片",
-        "爱情片",
-        "恐怖片",
-        "剧情片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "悬疑片",
-        "纪录片",
-        "动画片",
-        "台湾剧",
-        "日本剧",
-        "海外剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "国产动漫",
-        "欧美动漫",
-        "日韩动漫",
-        "爽文短剧"
-      ]
-    },
-    {
-      "key": "豆瓣",
-      "name": "豆瓣 | 采集",
-      "type": 1,
-      "quickSearch": 1,
-      "api": "https://caiji.dbzy.tv/api.php/provide/vod/",
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "恐怖片",
-        "剧情片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "台湾剧",
-        "日本剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫"
-      ]
     },
     {
       "key": "索尼",
@@ -878,28 +783,10 @@
       "filterable": 1
     },
     {
-      "key": "py_aowu",
-      "name": "嗷呜动漫[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/aowu.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_riben4k",
       "name": "日漫4K[py]",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/riben4k.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_xin51_dm",
-      "name": "动漫51[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xin51_dm.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
