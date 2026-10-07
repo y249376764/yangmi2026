@@ -1,0 +1,63 @@
+{
+  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/jar/xiaowu.jar",
+  "wallpaper": "",
+  "sites": [
+    {
+      "key": "xw_qiankan",
+      "name": "全看网",
+      "type": 3,
+      "api": "csp_Qiankan",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "xw_douhua",
+      "name": "豆花电影",
+      "type": 3,
+      "api": "csp_Douhua",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "xw_dyrs",
+      "name": "电影人生",
+      "type": 3,
+      "api": "csp_Dyrs",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "xw_4kvms",
+      "name": "4K影视",
+      "type": 3,
+      "api": "csp_4Kvms",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "xw_pywx",
+      "name": "玄武影视",
+      "type": 3,
+      "api": "csp_Pywx",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "xw_kpkuang",
+      "name": "看片狂人",
+      "type": 3,
+      "api": "csp_Kpkuang",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    }
+  ],
+  "parses": [],
+  "flags": [],
+  "ijk": []
+}
