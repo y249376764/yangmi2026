@@ -1028,15 +1028,6 @@
       "filterable": 1
     },
     {
-      "key": "py_xiongmao",
-      "name": "熊猫影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xiongmao.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_guazi",
       "name": "瓜子影视[py]",
       "type": 3,
