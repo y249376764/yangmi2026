@@ -82,6 +82,15 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
+    },
+    {
+      "key": "py_qiankan",
+      "name": "全看网[小看]",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiankan.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "lives": [
