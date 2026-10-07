@@ -1,11 +1,11 @@
 {
-  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
+  "spider": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
   "sites": [
     {
       "key": "qiankan_v1",
       "name": "全看网[小看v1]",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/py/qiankan_v1.py",
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/qiankan_v1.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
