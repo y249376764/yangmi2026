@@ -1073,15 +1073,6 @@
       "filterable": 1
     },
     {
-      "key": "py_tangxin",
-      "name": "糖心次元[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tangxin.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_xueyue",
       "name": "雪月映画[py]",
       "type": 3,
