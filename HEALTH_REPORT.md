@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 07:56:14 UTC
+> 自动生成时间: 2026-10-07 13:07:34 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **129**
-- 有异常站点数: **10**
+- 有异常站点数: **11**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-07 07:57:08 UTC
+- 巡检时间: 2026-10-07 13:08:12 UTC
 
 ## ⚠️ 异常站点
 
@@ -19,6 +19,7 @@
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBP | ext域名:❌ 超时/无法连接 |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
@@ -72,7 +73,7 @@
 | tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox.json | 影剧资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -185,15 +186,20 @@
 
 ## 🔍 js/py 源码内含域名(供参考)
 
+- **douhua.js**: dhvideo.cc navpage-2026.surge.sh
 - **netflixgc.js**: www.netflixgc.com
+- **dyrs.js**: dyrshd.cc navpage-2026.surge.sh
 - **金牌影视.js**: www.jpyy.com www.x8kb9k8.com
 - **apple.js**: asp.xpgtv.com c.xpgtv.net
+- **kpkuang.js**: navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.fyi www.kpkuang.us
 - **ting8.js**: www.ting8.cc
 - **荐片.js**: api.ztcgi.com img.jianpian.com
 - **kenan.py**: www.knvod.com
 - **mgtv.py**: dc.bz.mgtv.com mobileso.bz.mgtv.com pcweb.api.mgtv.com pianku.api.mgtv.com www.mgtv.com
 - **yinghua.py**: www.dmvvv.com
+- **qiankan_v2.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **wawa.py**: gitee.com
+- **douhua.py**: dhvideo.cc navpage-2026.surge.sh
 - **guangsu.py**: jingyu-1312635929.cos.ap-nanjing.myqcloud.com
 - **ximalaya.py**: fdfs.xmcdn.com imagev2.xmcdn.com m.ximalaya.com mobile.ximalaya.com mobwsa.ximalaya.com
 - **bilibilivd.py**: api-lmteam.koyeb.app api.bilibili.com www.bilibili.com
@@ -208,6 +214,7 @@
 - **tiantian_dm.py**: www.ttdm4.me
 - **yitingshu.py**: www.yitingshu.com
 - **dongmanla.py**: www.dongman.la
+- **kpkuang_v2.py**: kpkuang.fyi kpkuang.org navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.us
 - **bilibili_ts.py**: api.bilibili.com i0.hdslb.com search.bilibili.com www.bilibili.com
 - **huavod.py**: huavod.com
 - **fenxiangnunu.py**: nnyy.la
@@ -219,12 +226,15 @@
 - **huoche.py**: bfm11as9f.fuqiyun.cn dns.alidns.com
 - **lanrentingshu.py**: backend.appmiaoda.com www.tingshu8.top
 - **yangshi.py**: api.cntv.cn search.cctv.com tv.cctv.com vdn.apps.cntv.cn
+- **kpkuang.py**: kpkuang.fyi kpkuang.org navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.us
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: api-preview.toulaopao.cc laopaoaappi.oobyvy.vip tingyou.fm toudnbbaa.toulaopao1.cc
 - **xueyue.py**: taoo.xyz
+- **qiankan_v1.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
 - **juedui.py**: www.jdys.art
 - **yangshi_zongyi.py**: api.cntv.cn vdn.apps.cntv.cn www.cctv.com
+- **pywx_v2.py**: navpage-2026.surge.sh www.pywxw.com
 - **lianggebt.py**: www.bttwoo.com
 - **bili_fanju.py**: api.bilibili.com www.bilibili.com
 - **kuwo_tingshu.py**: antiserver.kuwo.cn mobi.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
@@ -234,13 +244,16 @@
 - **guazi.py**: www.tvguazi.com
 - **xin51_dm.py**: copbmjf.xpawro4.work
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
+- **qiankan.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **aowu.py**: app.wuyaoy.cn www.aowu.tv
 - **meipa.py**: g.c494.com
 - **gongchang.py**: 1.ysgc.top
 - **bajie.py**: osstexll.oss-rg-china-mainland.aliyuncs.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
 - **fandazi.py**: fdzys.net
+- **pywx.py**: navpage-2026.surge.sh www.pywxw.com
 - **yuetingba.py**: www.yuetingba.cn
+- **douhua_v2.py**: dhvideo.cc navpage-2026.surge.sh
 - **文才影视.py**: www.jiabaide.cn
 - **youtube_spider.py**: i.ytimg.com www.youtube.com
 - **aigua.py**: aigua1.com aigua8.com sf1-cdn-tos.huoshanstatic.com vres.wbadl.cn
@@ -257,8 +270,11 @@
 - **bilibili_audio.py**: api.bilibili.com search.bilibili.com www.bilibili.com
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
 - **riben4k.py**: hstream.moe
+- **dyrs.py**: dyrshd.cc navpage-2026.surge.sh
 - **qiyoudy.py**: www.baidu.com www.qiyoudy2.com
+- **4kvms.py**: navpage-2026.surge.sh www.4kvm.me www.4kvm.net www.4kvm.top www.4kvm.tv
 - **lx_converter.py**: antiserver.kuwo.cn img1.kuwo.cn music.163.com search.kuwo.cn www.kuwo.cn
+- **4kvms_v2.py**: navpage-2026.surge.sh www.4kvm.me www.4kvm.net www.4kvm.top www.4kvm.tv
 - **ting365.py**: app.365ting.com
 - **iqiyi.py**: mesh.if.iqiyi.com miniapp.iqiyi.com www.iqiyi.com
 - **zuiying.py**: zhuiying8.cc
@@ -267,4 +283,5 @@
 - **youku.py**: acs.youku.com search.youku.com v.youku.com www.youku.com
 - **douban.py**: api.douban.com frodo.douban.com servicewechat.com
 - **duoduo.py**: duoduosdf12223234334.top
+- **dyrs_v2.py**: dyrshd.cc navpage-2026.surge.sh
 - **lanrentingshu_v2.py**: backend.appmiaoda.com www.tingshu8.top
