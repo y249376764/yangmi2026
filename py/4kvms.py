@@ -275,11 +275,11 @@ class Spider(BaseSpider):
             if m:
                 v = m.group(1)
         if not p or not v:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         # 1. 拉取详情/播放页, 取 userlink 和服务器时间戳
         play_page = self._get(self.host + "/play/" + v, referer=self.host + "/")
         if not play_page:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         um = re.search(r"userlink:'([^']*)'", play_page)
         ul = um.group(1) if um else "0"
         sm = re.search(r'id="nb-st" content="(\d+)"', play_page)
@@ -293,7 +293,7 @@ class Spider(BaseSpider):
         api = f"{self.host}/video/play?p={p}&v={v}&q=1080&s={s}&t={t}&k={kk}"
         resp = self._get(api, referer=self.host + "/play/" + v)
         if not resp:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         try:
             data = json.loads(resp)
             if data.get("code") == 200 and data.get("data", {}).get("quality_urls"):
@@ -308,9 +308,9 @@ class Spider(BaseSpider):
                         best_bit, best = bit, qu.get("url")
                 if best:
                     return {"parse": 0, "playUrl": "", "url": best}
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         except Exception:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
 
 
 if __name__ == "__main__":
