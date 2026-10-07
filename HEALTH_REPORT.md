@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 01:43:48 UTC
+> 自动生成时间: 2026-10-07 05:51:22 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **148**
-- 有异常站点数: **14**
+- 探测站点数: **147**
+- 有异常站点数: **13**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-07 01:45:32 UTC
+- 巡检时间: 2026-10-07 05:52:19 UTC
 
 ## ⚠️ 异常站点
 
@@ -25,7 +25,6 @@
 | tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
-| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tingshu_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu_2.json' |
 
@@ -119,7 +118,7 @@
 | tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 爱瓜TV[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
-| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
+| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 索尼 | 采集  | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 量子 | 采集 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -175,7 +174,6 @@
 | tvbox_py.json | 美帕影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 绝对影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 端木[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
-| tvbox_py.json | 糖心次元[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 雪月映画[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 追剧网[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧喜马拉雅｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
