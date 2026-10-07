@@ -51,7 +51,7 @@
       "key": "py_douhua",
       "name": "豆花电影[小豆]",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douhua.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/douhua.js",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
@@ -60,7 +60,7 @@
       "key": "py_dyrs",
       "name": "电影人生[小演]",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dyrs.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/dyrs.js",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
@@ -69,7 +69,7 @@
       "key": "py_kpkuang",
       "name": "看片狂人[小狂]",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/kpkuang.js",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
