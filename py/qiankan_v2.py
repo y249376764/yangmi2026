@@ -1,6 +1,4 @@
 VERSION = "v2.0"
-# 全看网 py 蜘蛛 - 网飞式播放(带header防盗链)
-# 更多资源请到网站 https://navpage-2026.surge.sh/
 # -*- coding: utf-8 -*-
 """
 全看网 (91qkw) TVBox 蜘蛛 v1
@@ -186,30 +184,19 @@ class Spider(BaseSpider):
     def playerContent(self, flag, id, vipFlags):
         raw = id[0] if isinstance(id, (list, tuple)) and id else id
         url = str(raw or "").strip()
+        headers = {'User-Agent': self.UA, 'Referer': url}
         if not url:
-            return {}
-        headers = {"User-Agent": self.UA, "Referer": url}
+            return {"header": headers}
         html = self._get(url, referer=url)
         if not html:
-            return {"parse": 1, "jx": 0, "url": url, "header": headers}
-        # 明文 m3u8/mp4 直链
+            return {"parse": 1, "playUrl": "", "url": url, "header": headers}
+        # 尝试直接提取明文 m3u8
         c = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4)[^\s"\']*', html, re.I)
         for x in c:
             if x:
-                return {"parse": 0, "jx": 0, "url": x, "header": headers}
-        # player_aaaa encrypt:3
-        m = re.search(r'var player_aaaa=({.*?});', html, re.S)
-        if m:
-            try:
-                import json as _json
-                data = _json.loads(m.group(1))
-                enc = data.get("encrypt", 0)
-                pd = data.get("play_data", "")
-                if pd and enc == 0:
-                    return {"parse": 0, "jx": 0, "url": pd if pd.startswith("http") else self._abs(pd, url), "header": headers}
-            except Exception:
-                pass
-        return {"parse": 1, "jx": 0, "url": url, "header": headers}
+                return {"parse": 0, "playUrl": "", "url": x, "header": headers}
+        # encrypt 加密, 交给解析器
+        return {"parse": 1, "playUrl": "", "url": url, "header": headers}
 
 
 if __name__ == "__main__":
