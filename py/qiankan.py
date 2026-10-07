@@ -187,14 +187,14 @@ class Spider(BaseSpider):
             return {}
         html = self._get(url, referer=url)
         if not html:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         # 尝试直接提取明文 m3u8
         c = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4)[^\s"\']*', html, re.I)
         for x in c:
             if x:
                 return {"parse": 0, "playUrl": "", "url": x}
-        # encrypt 加密, 交给解析器
-        return {"parse": 1, "playUrl": "", "url": url}
+        # encrypt 加密, 返回播放页, 让默影视 Web 解析器嗅探
+        return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
 
 
 if __name__ == "__main__":
