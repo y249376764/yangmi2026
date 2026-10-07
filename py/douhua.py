@@ -298,33 +298,24 @@ class Spider(BaseSpider):
         url = str(raw or "").strip()
         if not url:
             return {}
+        # 方式1: 尝试页面 aa JSON 拿直链 (能拿到且可播则直接播)
         source = self._get_text(url, referer=url)
-        if not source:
-            return {"parse": 0, "playUrl": "", "url": url}
-        # aa: JSON.parse('{url:...}')
-        m = re.search(r"aa:\s*JSON\.parse\('([^']+)'\)", source)
-        if m:
-            try:
-                json_str = m.group(1)
-                # JS 单引号字符串里 \uXXXX 是字面量, 手动还原
-                json_str = re.sub(r"\\u([0-9a-fA-F]{4})", lambda mm: chr(int(mm.group(1), 16)), json_str)
-                json_str = json_str.replace("\\/", "/").replace("\\&", "&")
-                data = json.loads(json_str)
-                video_url = data.get("url", "")
-                if video_url:
-                    if not video_url.startswith("http"):
-                        video_url = self._absolute(video_url, url)
-                    # 跟随中转重定向 -> 拿到最终 m3u8 直链 (能跟随时)
-                    final = self._follow_redirect(video_url, url)
-                    return {"parse": 0, "playUrl": "", "url": final or video_url}
-            except Exception:
-                pass
-        # m3u8 直链兜底
-        candidates = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4)[^\s"\']*', source, re.I)
-        for c in candidates:
-            if c:
-                return {"parse": 0, "playUrl": "", "url": c}
-        return {"parse": 1, "playUrl": "", "url": url}
+        if source:
+            m = re.search(r"aa:\s*JSON\.parse\('([^']+)'\)", source)
+            if m:
+                try:
+                    json_str = re.sub(r"\\u([0-9a-fA-F]{4})", lambda mm: chr(int(mm.group(1), 16)), m.group(1))
+                    json_str = json_str.replace("\\/", "/").replace("\\&", "&")
+                    data = json.loads(json_str)
+                    video_url = data.get("url", "")
+                    if video_url:
+                        if not video_url.startswith("http"):
+                            video_url = self._absolute(video_url, url)
+                        return {"parse": 0, "playUrl": "", "url": video_url}
+                except Exception:
+                    pass
+        # 方式2: 返回播放页, 让默影视 Web 解析器(冰豆/咸鱼 type=0)嗅探真实视频流
+        return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
 
 
 if __name__ == "__main__":
