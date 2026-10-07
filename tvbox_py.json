@@ -137,12 +137,6 @@
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/金牌影视.js"
     },
     {
-      "key": "apple",
-      "name": "apple[js]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/apple.js"
-    },
-    {
       "key": "py_高清电影",
       "name": "高清电影[py]",
       "type": 3,
@@ -485,33 +479,6 @@
         "日本动漫",
         "欧美动漫",
         "伦理片"
-      ]
-    },
-    {
-      "key": "黑木耳",
-      "name": "黑木耳 | 采集",
-      "type": 1,
-      "api": "https://json02.heimuer.xyz/api.php/provide/vod/",
-      "quickSearch": 1,
-      "categories": [
-        "动作片",
-        "喜剧片",
-        "爱情片",
-        "恐怖片",
-        "剧情片",
-        "国产剧",
-        "香港剧",
-        "韩国剧",
-        "欧美剧",
-        "台湾剧",
-        "日本剧",
-        "泰国剧",
-        "大陆综艺",
-        "港台综艺",
-        "日韩综艺",
-        "国产动漫",
-        "日韩动漫",
-        "欧美动漫"
       ]
     },
     {
@@ -1046,28 +1013,10 @@
       "filterable": 1
     },
     {
-      "key": "py_juedui",
-      "name": "绝对影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juedui.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_duanmu",
       "name": "端木[py]",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/duanmu.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_xueyue",
-      "name": "雪月映画[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xueyue.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
