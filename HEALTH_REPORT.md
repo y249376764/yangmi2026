@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 16:00:48 UTC
+> 自动生成时间: 2026-10-07 23:40:09 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **119**
+- 探测站点数: **171**
 - 有异常站点数: **10**
 - 跳过本地/代理目标数: 16
-- 巡检时间: 2026-10-07 16:01:25 UTC
+- 巡检时间: 2026-10-07 23:41:15 UTC
 
 ## ⚠️ 异常站点
 
@@ -78,6 +78,58 @@
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 建安资源┃刺桐 | 1 | http://154.219.117.232:9981/jacloudapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🎬奈飞工厂｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 采集集合 | 4 | http://zhangqun1818.serv00.net/cj/cjjh.php | api脚本:✅ 200 (body 11B) |
+| tvbox.json | ❤红牛资源 | 1 | https://www.hongniuzy2.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ❤无尽资源 | 1 | https://api.wujinapi.me/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ❤光速资源 | 1 | https://api.guangsuapi.com/api.php/provide/vod/from/gsm | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀光速HTTP | 1 | http://api.guangsuapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ❤新浪资源 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide//vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀新浪资源 | 1 | http://api.xinlangapi.com/xinlangapi.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ❤闪电资源 | 1 | https://sdzyapi.com/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ❤ckzy | 1 | https://ckzy.me/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 非凡 | 采集 | 1 | https://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 无尽 | 采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 金鹰 | 采集 | 1 | https://jyzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀鲸鱼资源 | 1 | https://jyzyapi.com/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 天堂 | 采集 | 1 | http://caiji.dyttzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 艾旦 | 采集 | 1 | https://www.lovedan.net/api.php/provide/vod/ | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox.json | 茅台 | 采集 | 1 | https://mtzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀非凡资源 | 1 | http://ffzy5.tv/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀最大资源 | 1 | https://api.zuidapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀天涯资源 | 1 | https://tyyszy.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀魔都资源 | 1 | https://www.mdzyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀非凡API | 1 | https://api.ffzyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀天涯海角 | 1 | https://tyyszyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀乐子HTTP | 1 | http://cj.lziapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀无尽CC | 1 | https://api.wujinapi.cc/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀最大点播 | 1 | http://zuidazy.me/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀步步高资源 | 1 | https://api.yparse.com/api/json | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀豆瓣资源 | 1 | https://dbzy.tv/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀金鹰点播 | 1 | https://jinyingzy.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀魔都动漫 | 1 | https://caiji.moduapi.cc/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀红牛资源3 | 1 | https://www.hongniuzy3.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀索尼-闪电 | 1 | https://xsd.sdzyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 影视 | 量子[直连] | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 影视 | 率率[直连] | 1 | https://suoniapi.com/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 百度 | 1 | https://api.apibdzy.com/api.php/provide/vod?ac=list | api脚本:🟡 403(可能反爬/需UA) |
+| tvbox.json | 影视 | 暴風[直连] | 1 | https://bfzyapi.com/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 红牛资源(切) | 1 | https://www.hongniuzy2.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | iQIYI｜采集 | 1 | https://www.iqiyizyapi.com/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 牛牛｜采集 | 1 | https://api.niuniuzy.me/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 快车｜采集 | 1 | https://caiji.kuaichezy.org/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 极速｜采集 | 1 | https://jszyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 丫丫｜采集 | 1 | https://yayazy2.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 最大｜采集 | 1 | https://zuida.xyz/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 豪华｜采集 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 天涯｜采集 | 1 | https://tyyszyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 闪电｜采集 | 1 | https://sdzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 无尽｜采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 魔都｜采集 | 1 | https://caiji.moduapi.cc/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 天堂资源┃刺桐 | 1 | https://caiji.dyttzyapi.com/api.php/provide/vod/?ac=lis | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ➡️虎牙秒播 | 1 | https://www.huyaapi.com/api.php/provide/vod/from/hym3u8 | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ➡️极速秒播 | 1 | https://jszyapi.com/api.php/provide/vod/from/jsm3u8 | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ➡️速播资源 | 1 | https://subocaiji.com/api.php/provide/vod/from/subm3u8/ | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ➡️非凡资源 | 1 | http://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_2.json | ☘️┆听风┆知秋 | 3 | http://www.y456y.com/api//2026/zhiqiu.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 💃┆韩圈┆影视 | 3 | http://www.y456y.com/api//2026/fishhxq.php | ext域名:🟡 403(可能反爬/需UA) |
 | tvbox_2.json | 🫐┆三六┆影视 | 3 | https://tc-new.z.wiki/autoupload/k2fxc/20260918/8aF9/36 | ext域名:✅ 200 (body 2048B) |
