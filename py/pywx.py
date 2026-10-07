@@ -170,32 +170,28 @@ class Spider(BaseSpider):
         url = str(raw or "").strip()
         if not url:
             return {}
+        # 方式1: player_aaaa JSON 直链
         html = self._get(url, referer=url)
-        if not html:
-            return {"parse": 1, "playUrl": "", "url": url}
-        # player_aaaa JSON, 提取 url 字段
-        pm = re.search(r"var player_aaaa\s*=\s*(\{[^<]*?\});?\s*</script>", html, re.S)
-        if pm:
-            try:
-                # JSON 里 \/ 和 \uXXXX 转义
-                js = pm.group(1)
-                data = json.loads(js)
-                u = data.get("url", "")
-                if u:
-                    return {"parse": 0, "playUrl": "", "url": u}
-                # vod_data.url 备选
-                vd = data.get("vod_data") or {}
-                u2 = vd.get("url") or data.get("url_next") or ""
-                if u2:
-                    return {"parse": 0, "playUrl": "", "url": u2}
-            except Exception:
-                pass
-        # 兜底 m3u8
-        c = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4)[^\s"\']*', html, re.I)
-        for x in c:
-            if x:
-                return {"parse": 0, "playUrl": "", "url": x}
-        return {"parse": 1, "playUrl": "", "url": url}
+        if html:
+            pm = re.search(r"var player_aaaa\s*=\s*(\{[^<]*?\});?\s*</script>", html, re.S)
+            if pm:
+                try:
+                    data = json.loads(pm.group(1))
+                    u = data.get("url", "")
+                    if u:
+                        return {"parse": 0, "playUrl": "", "url": u}
+                    vd = data.get("vod_data") or {}
+                    u2 = vd.get("url") or data.get("url_next") or ""
+                    if u2:
+                        return {"parse": 0, "playUrl": "", "url": u2}
+                except Exception:
+                    pass
+            c = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4)[^\s"\']*', html, re.I)
+            for x in c:
+                if x:
+                    return {"parse": 0, "playUrl": "", "url": x}
+        # 方式2: 返回播放页, 让默影视 Web 解析器(冰豆/咸鱼 type=0)嗅探
+        return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
 
 
 if __name__ == "__main__":
