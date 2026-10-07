@@ -1,0 +1,27 @@
+{
+  "spider": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/spider/spider.jar",
+  "sites": [
+    {
+      "key": "qiankan_v1",
+      "name": "全看网[小看v1]",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiankan_v1.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    }
+  ],
+  "lives": [],
+  "parses": [],
+  "flags": [],
+  "ijk": {},
+  "headers": [
+    {
+      "host": "91qkw.cc",
+      "header": {
+        "User-Agent": "Mozilla/5.0 (Linux; Android 13; Mobile) AppleWebKit/537.36 Chrome/120.0 Mobile Safari/537.36",
+        "Referer": "https://pcduan.91qkw.cc/"
+      }
+    }
+  ]
+}
