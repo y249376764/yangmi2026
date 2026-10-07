@@ -37,6 +37,33 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+    {
+      "key": "py_4kvms",
+      "name": "4K影视[小四K]",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/4kvms.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "py_douhua",
+      "name": "豆花电影[小豆]",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douhua.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
+    },
+    {
+      "key": "py_kpkuang",
+      "name": "看片狂人[小狂]",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "lives": [
