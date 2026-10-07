@@ -1,6 +1,6 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 15:52:09 UTC
+> 自动生成时间: 2026-10-07 16:00:48 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
@@ -8,7 +8,7 @@
 - 探测站点数: **119**
 - 有异常站点数: **10**
 - 跳过本地/代理目标数: 16
-- 巡检时间: 2026-10-07 15:52:52 UTC
+- 巡检时间: 2026-10-07 16:01:25 UTC
 
 ## ⚠️ 异常站点
 
@@ -198,7 +198,6 @@
 - **yinghua.py**: www.dmvvv.com
 - **qiankan_v2.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **wawa.py**: gitee.com
-- **douhua.py**: dhvideo.cc navpage-2026.surge.sh
 - **guangsu.py**: jingyu-1312635929.cos.ap-nanjing.myqcloud.com
 - **ximalaya.py**: fdfs.xmcdn.com imagev2.xmcdn.com m.ximalaya.com mobile.ximalaya.com mobwsa.ximalaya.com
 - **bilibilivd.py**: api-lmteam.koyeb.app api.bilibili.com www.bilibili.com
@@ -214,7 +213,6 @@
 - **tiantian_dm.py**: www.ttdm4.me
 - **yitingshu.py**: www.yitingshu.com
 - **dongmanla.py**: www.dongman.la
-- **kpkuang_v2.py**: kpkuang.fyi kpkuang.org navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.us
 - **bilibili_ts.py**: api.bilibili.com i0.hdslb.com search.bilibili.com www.bilibili.com
 - **huavod.py**: huavod.com
 - **fenxiangnunu.py**: nnyy.la
@@ -224,13 +222,9 @@
 - **zhuiju.py**: www.luwozhuji.com
 - **juok3.py**: juok3.top jx.202617.xyz jx.xmflv.com www.iqiyi.com
 - **huoche.py**: bfm11as9f.fuqiyun.cn dns.alidns.com
-- **lanrentingshu.py**: backend.appmiaoda.com www.tingshu8.top
 - **yangshi.py**: api.cntv.cn search.cctv.com tv.cctv.com vdn.apps.cntv.cn
-- **kpkuang.py**: kpkuang.fyi kpkuang.org navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.us
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
-- **tingyoufm.py**: api-preview.toulaopao.cc laopaoaappi.oobyvy.vip tingyou.fm toudnbbaa.toulaopao1.cc
 - **xueyue.py**: taoo.xyz
-- **qiankan_v1.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
 - **juedui.py**: www.jdys.art
 - **yangshi_zongyi.py**: api.cntv.cn vdn.apps.cntv.cn www.cctv.com
@@ -244,14 +238,12 @@
 - **guazi.py**: www.tvguazi.com
 - **xin51_dm.py**: copbmjf.xpawro4.work
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
-- **qiankan.py**: navpage-2026.surge.sh pcduan.91qkw.cc
 - **aowu.py**: app.wuyaoy.cn www.aowu.tv
 - **meipa.py**: g.c494.com
 - **gongchang.py**: 1.ysgc.top
 - **bajie.py**: osstexll.oss-rg-china-mainland.aliyuncs.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
 - **fandazi.py**: fdzys.net
-- **pywx.py**: navpage-2026.surge.sh www.pywxw.com
 - **yuetingba.py**: www.yuetingba.cn
 - **douhua_v2.py**: dhvideo.cc navpage-2026.surge.sh
 - **kpkuang_v3.py**: kpkuang.fyi kpkuang.org navpage-2026.surge.sh www.kpkuang.cfd www.kpkuang.us
@@ -271,9 +263,7 @@
 - **bilibili_audio.py**: api.bilibili.com search.bilibili.com www.bilibili.com
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
 - **riben4k.py**: hstream.moe
-- **dyrs.py**: dyrshd.cc navpage-2026.surge.sh
 - **qiyoudy.py**: www.baidu.com www.qiyoudy2.com
-- **4kvms.py**: navpage-2026.surge.sh www.4kvm.me www.4kvm.net www.4kvm.top www.4kvm.tv
 - **lx_converter.py**: antiserver.kuwo.cn img1.kuwo.cn music.163.com search.kuwo.cn www.kuwo.cn
 - **4kvms_v2.py**: navpage-2026.surge.sh www.4kvm.me www.4kvm.net www.4kvm.top www.4kvm.tv
 - **ting365.py**: app.365ting.com
@@ -284,5 +274,4 @@
 - **youku.py**: acs.youku.com search.youku.com v.youku.com www.youku.com
 - **douban.py**: api.douban.com frodo.douban.com servicewechat.com
 - **duoduo.py**: duoduosdf12223234334.top
-- **dyrs_v2.py**: dyrshd.cc navpage-2026.surge.sh
 - **lanrentingshu_v2.py**: backend.appmiaoda.com www.tingshu8.top
