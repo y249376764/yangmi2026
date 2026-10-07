@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-07 00:06:07 UTC
+> 自动生成时间: 2026-10-07 01:43:48 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
-- 探测站点数: **112**
+- 探测站点数: **148**
 - 有异常站点数: **14**
 - 跳过本地/代理目标数: 6
-- 巡检时间: 2026-10-07 00:07:15 UTC
+- 巡检时间: 2026-10-07 01:45:32 UTC
 
 ## ⚠️ 异常站点
 
@@ -19,13 +19,13 @@
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBP | ext域名:❌ 超时/无法连接 |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 荐片[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
+| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tingshu_2.json | - | - | 配置解析失败: [Errno 2] No such file or directory: 'tingshu_2.json' |
 
@@ -76,7 +76,7 @@
 | tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 影剧资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -119,7 +119,7 @@
 | tvbox_py.json | 金牌影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 爱瓜TV[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 文才影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接; ext域名:❌ 超时/无法连接 |
-| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 360 | 采集 | 1 | https://360zy.com/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 豆瓣 | 采集 | 1 | https://caiji.dbzy.tv/api.php/provide/vod/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 索尼 | 采集  | 1 | https://suoniapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 量子 | 采集 | 1 | https://cj.lziapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -142,6 +142,42 @@
 | tvbox_py.json | 网飞[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 🎬腾爱优聚合[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tvbox_py.json | 🐝电影蜜蜂[py]｜茶杯狐 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@00114 | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 央视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 央视综合[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 央视综艺[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 腾讯视频[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 优酷视频[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 爱奇艺[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 芒果TV[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | B站番剧[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | B站视频[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 两个BT[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 低端影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 影视工厂[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 樱花动漫[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 天天动漫[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 动漫啦[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 嗷呜动漫[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 日漫4K[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 动漫51[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 光速影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 八戒影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 厂长资源[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 天空影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 努努影院[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 哇哇[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 嗨皮影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 欣欣影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 柯南影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 火车影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 熊猫影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 瓜子影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 美帕影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 绝对影视[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 端木[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 糖心次元[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 雪月映画[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
+| tvbox_py.json | 追剧网[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 🎧喜马拉雅｜有声小说 | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddf | api脚本:✅ 200 (body 2048B) |
 | tingshu.json | 📻蜻蜓｜FM频道 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
 | tingshu.json | 📢世界｜听书资源 | 内置/跳过 | - | ⚪ 内置蜘蛛/无公网目标 |
@@ -177,27 +213,57 @@
 - **apple.js**: asp.xpgtv.com c.xpgtv.net
 - **ting8.js**: www.ting8.cc
 - **荐片.js**: api.ztcgi.com img.jianpian.com
+- **kenan.py**: www.knvod.com
+- **mgtv.py**: dc.bz.mgtv.com mobileso.bz.mgtv.com pcweb.api.mgtv.com pianku.api.mgtv.com www.mgtv.com
+- **yinghua.py**: www.dmvvv.com
+- **wawa.py**: gitee.com
+- **guangsu.py**: jingyu-1312635929.cos.ap-nanjing.myqcloud.com
 - **ximalaya.py**: fdfs.xmcdn.com imagev2.xmcdn.com m.ximalaya.com mobile.ximalaya.com mobwsa.ximalaya.com
+- **bilibilivd.py**: api-lmteam.koyeb.app api.bilibili.com www.bilibili.com
+- **hipi.py**: wys.upfuhn.com
+- **xiongmao.py**: ee55ff.com server10.vuljers.com server11.vuljers.com server12.xylhwdu.com server13.benpsbp.com
 - **tiantang.py**: dsystv.com
+- **xinxin.py**: tvfun.centos.chat
 - **dianyingmifeng.py**: www.meituuan.com
 - **dsystv.py**: dsystv.com
 - **tengaiyou.py**: bd.jx.cn bfq.txnp.cn bfzyplayer.com cj.tianwe.cn go.88lin.eu.org
 - **geci_music.py**: interface.music.163.com interface3.music.163.com m.kugou.com mobilecdnbj.kugou.com music.163.com
+- **diduan.py**: ddys.io
+- **tiantian_dm.py**: www.ttdm4.me
 - **yitingshu.py**: www.yitingshu.com
+- **dongmanla.py**: www.dongman.la
 - **bilibili_ts.py**: api.bilibili.com i0.hdslb.com search.bilibili.com www.bilibili.com
 - **huavod.py**: huavod.com
+- **fenxiangnunu.py**: nnyy.la
+- **nunu.py**: nnyy.la
 - **pianku4k.py**: 4k01.pianku.online bd.jx.cn bfq.txnp.cn jx.2s0.cn jx.77flv.cc
 - **juhe_music.py**: antiserver.kuwo.cn app.c.nf.migu.cn c.y.qq.com dl.stream.qqmusic.qq.com img.sakula.com
+- **zhuiju.py**: www.luwozhuji.com
 - **juok3.py**: juok3.top jx.202617.xyz jx.xmflv.com www.iqiyi.com
+- **huoche.py**: bfm11as9f.fuqiyun.cn dns.alidns.com
 - **lanrentingshu.py**: backend.appmiaoda.com www.tingshu8.top
+- **yangshi.py**: api.cntv.cn search.cctv.com tv.cctv.com vdn.apps.cntv.cn
 - **bubuzhuiju.py**: 323433ssdfd.top dduotv01.top duoduosdf12223234334.top xds2435u23422342342u.top
 - **tingyoufm.py**: api-preview.toulaopao.cc laopaoaappi.oobyvy.vip tingyou.fm toudnbbaa.toulaopao1.cc
+- **tangxin2.py**: img1.souavzy.org www.txsp.my
+- **xueyue.py**: taoo.xyz
 - **yyduanju.py**: searchservice.yy.com yy-playlet.yy.com
+- **juedui.py**: www.jdys.art
+- **yangshi_zongyi.py**: api.cntv.cn vdn.apps.cntv.cn www.cctv.com
+- **lianggebt.py**: www.bttwoo.com
+- **bili_fanju.py**: api.bilibili.com www.bilibili.com
 - **kuwo_tingshu.py**: antiserver.kuwo.cn mobi.kuwo.cn search.kuwo.cn tingshu.kuwo.cn
 - **tingyou_simple.py**: file.tingyou8.vip tingyou.fm
+- **tangxin.py**: img1.souavzy.org www.txsp.my
 - **souju_360.py**: api.so.360kan.com api.web.360kan.com bpz1.app bpz1.top bpz10.app
 - **guoguo_spider.py**: www.mochadj.com
+- **guazi.py**: www.tvguazi.com
+- **xin51_dm.py**: copbmjf.xpawro4.work
 - **kkys.py**: vf.esadj.com vres.cyscyy.com vres.enbymae.com vres.esadj.com www.kkys20.com
+- **aowu.py**: app.wuyaoy.cn www.aowu.tv
+- **meipa.py**: g.c494.com
+- **gongchang.py**: 1.ysgc.top
+- **bajie.py**: osstexll.oss-rg-china-mainland.aliyuncs.com
 - **金牌.py**: sf1-cdn-tos.huoshanstatic.com www.lwdys.com
 - **fandazi.py**: fdzys.net
 - **yuetingba.py**: www.yuetingba.cn
@@ -205,19 +271,26 @@
 - **youtube_spider.py**: i.ytimg.com www.youtube.com
 - **aigua.py**: aigua1.com aigua8.com sf1-cdn-tos.huoshanstatic.com vres.wbadl.cn
 - **ting39.py**: www.ting39.com
+- **cctv.py**: api.cntv.cn search.cctv.com tv.cctv.com vdn.apps.cntv.cn
 - **juzong.py**: www.juzong01.me
+- **tencent.py**: pbaccess.video.qq.com v.qq.com
+- **tiankong.py**: api-live.vfilm.life
 - **hongguo.py**: api5-normal-sinfonlineb.fqnovel.com hongguoduanju.com novel.snssdk.com
+- **changzhang.py**: www.czzymovie.com
 - **maple.py**: fgsrg.hzqingshan.com maihaolian.com www.cd-zj.com www.vip1949.com www.zzztool.com
 - **souju.py**: bpz1.app bpz1.top bpz10.app bpz10.top bpz2.app
 - **libvio.py**: libvio.host libviobd.com www.libvio.to
 - **bilibili_audio.py**: api.bilibili.com search.bilibili.com www.bilibili.com
 - **高清电影.py**: kjjsaas-sh.oss-cn-shanghai.aliyuncs.com www.gaoqing888.com
+- **riben4k.py**: hstream.moe
 - **qiyoudy.py**: www.baidu.com www.qiyoudy2.com
 - **lx_converter.py**: antiserver.kuwo.cn img1.kuwo.cn music.163.com search.kuwo.cn www.kuwo.cn
 - **ting365.py**: app.365ting.com
+- **iqiyi.py**: mesh.if.iqiyi.com miniapp.iqiyi.com www.iqiyi.com
 - **zuiying.py**: zhuiying8.cc
 - **wangfei.py**: www.wangfei.tv
 - **dashixiong.py**: t.me www.dsxys8.com
+- **youku.py**: acs.youku.com search.youku.com v.youku.com www.youku.com
 - **douban.py**: api.douban.com frodo.douban.com servicewechat.com
 - **duoduo.py**: duoduosdf12223234334.top
 - **lanrentingshu_v2.py**: backend.appmiaoda.com www.tingshu8.top
