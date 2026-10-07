@@ -932,37 +932,10 @@
       "filterable": 1
     },
     {
-      "key": "py_tiankong",
-      "name": "天空影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiankong.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_nunu",
       "name": "努努影院[py]",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/nunu.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_wawa",
-      "name": "哇哇[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/wawa.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_hipi",
-      "name": "嗨皮影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/hipi.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -986,28 +959,10 @@
       "filterable": 1
     },
     {
-      "key": "py_huoche",
-      "name": "火车影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/huoche.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_guazi",
       "name": "瓜子影视[py]",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guazi.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_meipa",
-      "name": "美帕影视[py]",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/meipa.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
