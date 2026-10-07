@@ -315,10 +315,10 @@ class Spider(BaseSpider):
             return {}
         source = self._get_text(url, referer=url)
         if not source:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         # Cloudflare 验证页
         if "Just a moment" in source or "challenge-platform" in source:
-            return {"parse": 1, "playUrl": "", "url": url}
+            return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
         # 提取直链: m3u8 / mp4 / flv 等
         candidates = re.findall(r'https?://[^\s"\']+\.(?:m3u8|mp4|flv|mkv|ts)[^\s"\']*', source, re.I)
         for c in candidates:
@@ -336,8 +336,8 @@ class Spider(BaseSpider):
                     return {"parse": 0, "playUrl": "", "url": u}
             except Exception:
                 pass
-        # 兜底: 返回播放页地址, 交给解析器
-        return {"parse": 1, "playUrl": "", "url": url}
+        # 兜底: 返回播放页地址, 交给默影视 Web 解析器嗅探
+        return {"parse": 1, "playUrl": "parse:冰豆", "url": url}
 
 
 if __name__ == "__main__":
