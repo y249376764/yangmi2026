@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-看片狂人 (kpkuang) TVBox / 默影视 py 蜘蛛 v2
-v2 修复: ①集数块与线路错位导致集数不全 ②线路按集数降序(最全的默认选中)
-        ③播放同集跨线路自动回退 + m3u8分片/加密key校验, 过滤跑流量不出画面的废源
+看片狂人 (kpkuang) TVBox / 默影视 py 蜘蛛 v3
+v2: ①集数块与线路错位(某线路被拆多块)导致集数不全 ②线路按集数降序(最全的默认选中)
+        ③播放同集跨线路回退 + m3u8校验
+v3 修复(v2 的回归 bug): ①**校验误杀**——_m3u8_ok 误用 _fetch, 而 _fetch 要求返回含'<html',
+        m3u8 是纯文本 -> 永远拿到空 -> 所有 m3u8 被判废 -> 多线路时全跳过 -> 落到废源播放失败。
+        改用 _raw_get(不做'<html'检查)。②分片/HEAD 校验误杀(分片需特殊header/HEAD不支持) ->
+        去掉分片校验, 只判 m3u8 内容本身。③全废兜底改为落到"集数最全线路"(候选末位), 不是首个。
+        ④换文件名 kpkuang_v3.py, 强制 App 重新下载, 绕开蜘蛛缓存。
 由海阔视界 home_rule_v2 规则《看片狂人》改写 (作者: 星火AI)
 站点: MacCMS 模板  vodtype(分类) / voddetail(详情) / vodplay(播放)
 多域名自动切换 + 播放页 data-play 解密直链
@@ -54,7 +59,7 @@ class Spider(BaseSpider):
 
     # ---------------- 基础 ----------------
     def getName(self):
-        return {'name': '看片狂人v2[py]'}
+        return {'name': '看片狂人v3[py]'}
 
     def init(self, extend=''):
         try:
@@ -104,17 +109,7 @@ class Spider(BaseSpider):
         if referer:
             headers['Referer'] = referer
         for u in urls:
-            txt = ''
-            try:
-                if self.session is not None:
-                    r = self.session.get(u, headers=headers, timeout=timeout)
-                    txt = r.text or ''
-                else:
-                    import urllib.request
-                    req = urllib.request.Request(u, headers=headers)
-                    txt = urllib.request.urlopen(req, timeout=timeout).read().decode('utf-8', 'ignore')
-            except Exception:
-                txt = ''
+            txt = self._raw_get(u, headers, timeout)
             if txt and 'Just a moment' not in txt and '<html' in txt:
                 if base is not None:
                     m = re.match(r'^(https?://[^/]+)', u)
@@ -122,6 +117,29 @@ class Spider(BaseSpider):
                         self.fast = m.group(1)
                 return txt, u
         return '', url
+
+    @staticmethod
+    def _raw_get(url, headers=None, timeout=8):
+        """原始 GET: 不做 '<html' 校验。
+        _fetch 的 '<html' 检查是为了过滤 CF 挑战页, 但 m3u8/key/ts 是纯文本,
+        用 _fetch 拉会被误判为空 -> 校验全 False -> 好源也被当废源跳过。
+        所有非 HTML 资源(m3u8/分片/key)必须走这个方法。"""
+        headers = headers or {'User-Agent': PC_UA}
+        try:
+            import requests
+            try:
+                r = requests.get(url, headers=headers, timeout=timeout)
+                return r.text or ''
+            except Exception:
+                return ''
+        except ImportError:
+            pass
+        try:
+            import urllib.request
+            req = urllib.request.Request(url, headers=headers)
+            return urllib.request.urlopen(req, timeout=timeout).read().decode('utf-8', 'ignore')
+        except Exception:
+            return ''
 
     @staticmethod
     def _img(u, host):
@@ -447,10 +465,16 @@ class Spider(BaseSpider):
                     if j == i:
                         continue
                     au = line_map[j].get(str(num))
-                    if au and au != u:
+                    if au and au != u and au not in alts:
                         alts.append(au)
                     if len(alts) >= 2:
                         break
+                # 保底: 末尾追加"集数最全线路(order[0])"的同集地址。
+                # v2 曾因校验误杀导致全部候选跳过 -> 落到废源 ->
+                # 播放失败。playerContent 全废时取候选末尾 = 最全线路(真源)
+                best = line_map[order[0]].get(str(num)) if order else None
+                if best and best != u and best not in alts:
+                    alts.append(best)
                 tok = u + ('||' + '||'.join(alts) if alts else '')
                 parts.append('第%s集$%s' % (num, tok))
             froms.append(nm)
@@ -568,30 +592,40 @@ class Spider(BaseSpider):
             return False
 
     def _m3u8_ok(self, u):
-        """校验 m3u8: 内容合法 + 首个分片可下(过滤空壳/分片404的假源)"""
+        """校验 m3u8: 内容合法 + 首个分片可下(过滤空壳/分片404的假源)
+        ⚠️ 必须用 _raw_get, 不能用 _fetch: _fetch 要求返回含 '<html',
+        而 m3u8 是纯文本 -> 用 _fetch 会永远拿到空串 -> 好源也被判废
+        (v2 曾因此误杀全部 m3u8, 导致多线路时所有源都跳过, 播放失败)"""
         txt = ''
         try:
-            txt, _ = self._fetch(u, referer=self.host + '/', timeout=8)
+            txt = self._raw_get(u, {'User-Agent': PC_UA, 'Referer': self.host + '/'}, 8)
         except Exception:
+            return False
+        if not txt:
+            # 完全拉不到内容 -> 判废(典型废源特征)。
+            # 有备用候选 + 末位"集数最全线路"兜底, 跳过一个不会导致无源可播
             return False
         if '#EXTM3U' not in txt[:500]:
             return False
-        # 加密流: key 取不到则解不了, 判废(典型"跑流量不出画面")
+        # 加密流: key 明确返回错误页才算废(拉不到可能是 HEAD 限制, 不判废)
         km = re.search(r'#EXT-X-KEY[^\n]*URI="([^"]+)"', txt)
         if km:
             k = km.group(1)
             if not k.startswith('http'):
                 k = urllib.parse.urljoin(u, k)
-            if not self._head_ok(k):
+            kt = self._raw_get(k, {'User-Agent': PC_UA, 'Referer': self.host + '/'}, 6)
+            if kt and '<html' in kt[:200].lower():
                 return False
-        segs = [l.strip() for l in txt.splitlines()
-                if l.strip() and not l.strip().startswith('#')]
-        if not segs:
-            return False
-        seg = segs[0]
-        if not seg.startswith('http'):
-            seg = urllib.parse.urljoin(u, seg)
-        return self._head_ok(seg)
+        # 不再校验分片: v2 曾因此误杀好源(分片需特殊 header / HEAD 不支持 / 跨域都会判废),
+        # 且对"分片能下但流无效"这个病症本身也识别不出来(它分片是能下的)。
+        # 有 EXT-X-ENDLIST 或任意分片行即视为合法。
+        has_seg = False
+        for l in txt.splitlines():
+            s = l.strip()
+            if s and not s.startswith('#'):
+                has_seg = True
+                break
+        return has_seg or '#EXT-X-ENDLIST' in txt
 
     def playerContent(self, flag='', id='', vipFlags=None):
         raw_id = str(id)
@@ -606,8 +640,11 @@ class Spider(BaseSpider):
             'message': '',
         }
         first_direct = ''
+        # 保底地址: detailContent 把"集数最全线路"的同集地址放在候选末尾,
+        # 万一首选与备用都判废, 落到最全线路(实测它才是真源)
+        last_direct = ''
         multi = len(cands) > 1
-        for c in cands[:3]:
+        for c in cands[:4]:
             real = self._decode_play(c)
             if not real:
                 continue
@@ -615,17 +652,23 @@ class Spider(BaseSpider):
                 continue
             if not first_direct:
                 first_direct = real
+            last_direct = real
             # 多线路时才校验(单线路直接给播放器, 避免无谓延迟)
             if multi:
-                ok = self._m3u8_ok(real) if '.m3u8' in real.lower() else self._head_ok(real)
+                ok = self._m3u8_ok(real) if '.m3u8' in real.lower() else True
                 if not ok:
                     continue
             result['url'] = real
             result['parse'] = 0
             result['jx'] = 0
             return result
+        # 全部候选判废: 优先给最全线路(末尾), 其次首个直链, 让播放器最后一搏
+        if last_direct and multi:
+            result['url'] = last_direct
+            result['parse'] = 0
+            result['jx'] = 0
+            return result
         if first_direct:
-            # 全部候选校验不过: 仍给第一个直链, 让播放器最后一搏
             result['url'] = first_direct
             result['parse'] = 0
             result['jx'] = 0
