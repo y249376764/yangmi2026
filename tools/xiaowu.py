@@ -29,6 +29,12 @@ v2.0 升级:
 """
 import sys, os, json, re, base64, ssl, argparse, hashlib
 import urllib.request, concurrent.futures
+try:
+    from Crypto.Cipher import AES
+    from Crypto.Util.Padding import unpad
+    HAS_AES = True
+except ImportError:
+    HAS_AES = False
 
 SSL_CTX = ssl.create_default_context()
 SSL_CTX.check_hostname = False
@@ -122,6 +128,10 @@ def smart_decode(data):
     raw = data
     if raw[:3] == b'\xef\xbb\xbf': raw = raw[3:]
     txt = raw.decode('utf-8', 'ignore')
+    # 先试魔数加密格式 $#xxx#$ (南风/潇洒 的 AES-CBC 配置加密)
+    d, info = decode_magic_encrypted(txt)
+    if d:
+        return d, info
     txt = strip_line_comments(txt)
     txt = re.sub(r'/\*.*?\*/', '', txt, flags=re.S)
     txt = txt.strip()
@@ -148,6 +158,47 @@ def smart_decode(data):
             if d: return d, 'b64->' + info
         except Exception:
             pass
+    return None, None
+
+def decode_magic_encrypted(content):
+    """破解魔数加密格式: `$#KEY#$ + hex密文 + 尾部时间戳`
+    算法(源自 @whyun/tv-tools + 南风XQ.json 逆向):
+    - 内容以 '2423'(= '$#') 开头
+    - 密文 = 第一个 '2324'(= '#$') 之后 到 末尾-26 的 hex
+    - key = 魔数中间文本(如 '367') 右补 '0' 到 16 字节
+    - iv  = 尾部 13 位时间戳 右补 '0' 到 16 字节
+    - AES-128-CBC 解密
+    返回 (config_dict, 'magic-aes-cbc') 或 (None, None)"""
+    if not HAS_AES or not content.strip().startswith('2423'):
+        return None, None
+    try:
+        content = content.strip()
+        idx = content.index('2324')
+        data_hex = content[idx+4 : len(content)-26]
+        # 魔数中间文本(明文部分)
+        decoded = bytes.fromhex(content).decode('utf-8', 'ignore').lower()
+        if '$#' not in decoded or '#$' not in decoded:
+            return None, None
+        key_raw = decoded[decoded.index('$#')+2 : decoded.index('#$')]
+        iv_raw = decoded[len(decoded)-13:]
+        key = (key_raw + '0'*16)[:16]
+        iv = (iv_raw + '0'*16)[:16]
+        cipher = AES.new(key.encode(), AES.MODE_CBC, iv.encode())
+        dec = cipher.decrypt(bytes.fromhex(data_hex))
+        plain = unpad(dec, 16)
+        txt = plain.decode('utf-8', 'ignore')
+        # 剥注释 + 修复非标准 JSON 后解析
+        clean = strip_line_comments(txt).strip()
+        for t in (clean, fix_json_quirks(clean), clean_ctrl_chars(fix_json_quirks(clean))):
+            try:
+                js = t.index('{')
+                cfg = json.loads(t[js:])
+                if isinstance(cfg, dict) and cfg.get('sites'):
+                    return cfg, 'magic-aes-cbc(key=' + key_raw + ')'
+            except Exception:
+                continue
+    except Exception:
+        pass
     return None, None
 
 def classify(data):
