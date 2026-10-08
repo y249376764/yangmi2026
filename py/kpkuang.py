@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-看片狂人 (kpkuang) TVBox / 默影视 py 蜘蛛 v1
+看片狂人 (kpkuang) TVBox / 默影视 py 蜘蛛 v2
+v2 修复: ①集数块与线路错位导致集数不全 ②线路按集数降序(最全的默认选中)
+        ③播放同集跨线路自动回退 + m3u8分片/加密key校验, 过滤跑流量不出画面的废源
 由海阔视界 home_rule_v2 规则《看片狂人》改写 (作者: 星火AI)
 站点: MacCMS 模板  vodtype(分类) / voddetail(详情) / vodplay(播放)
 多域名自动切换 + 播放页 data-play 解密直链
@@ -52,7 +54,7 @@ class Spider(BaseSpider):
 
     # ---------------- 基础 ----------------
     def getName(self):
-        return {'name': '看片狂人[py]'}
+        return {'name': '看片狂人v2[py]'}
 
     def init(self, extend=''):
         try:
@@ -396,12 +398,40 @@ class Spider(BaseSpider):
                 ep_blocks = [ep_blocks[0]]
         if not ep_blocks:
             ep_blocks = [[]]
-        # 线路数与集数块对齐(只保留有集数的块)
+        # ---- 线路块与集数块对齐 ----
+        # 站点常出现"某线路被拆成多个 fed-play-item 块"(分卷/分组),
+        # 若按索引硬配会导致集数串位 + 集数不全 -> 多余块合并进最后一个线路
+        n_line = len(line_names)
+        if n_line > 0 and len(ep_blocks) > n_line:
+            head = ep_blocks[:n_line - 1]
+            rest, seen2 = [], set()
+            for b in ep_blocks[n_line - 1:]:
+                for num, u in b:
+                    if num in seen2:
+                        continue
+                    seen2.add(num)
+                    rest.append((num, u))
+            ep_blocks = head + [rest]
+        elif n_line > 0 and len(ep_blocks) < n_line:
+            line_names = line_names[:len(ep_blocks)]
+
         valid = [cl for cl in ep_blocks if cl]
         if not valid:
             valid = [[]]
+
+        # 各线路 集号->地址 映射(用于同集跨线路回退)
+        line_map = []
+        for cl in valid:
+            line_map.append({str(num): u for num, u in cl})
+
+        # ---- 线路排序: 集数最多的排第一(默认选中) ----
+        # 实测: 集数少的"官方线"(IK影视/电影天堂等)多为残缺失效源,
+        # 集数最全的线路(超清DR/AB等)才是真源, 故把最全的放默认位
+        order = sorted(range(len(valid)), key=lambda i: -len(valid[i]))
+
         froms, urls = [], []
-        for i, cl in enumerate(valid):
+        for i in order:
+            cl = valid[i]
             if not cl:
                 continue
             try:
@@ -409,8 +439,22 @@ class Spider(BaseSpider):
             except Exception:
                 pass
             nm = line_names[i] if i < len(line_names) else ('线路%d' % (i + 1))
+            parts = []
+            for num, u in cl:
+                # 同集备用线路(最多2条), 首选播不了时 playerContent 自动回退
+                alts = []
+                for j in order:
+                    if j == i:
+                        continue
+                    au = line_map[j].get(str(num))
+                    if au and au != u:
+                        alts.append(au)
+                    if len(alts) >= 2:
+                        break
+                tok = u + ('||' + '||'.join(alts) if alts else '')
+                parts.append('第%s集$%s' % (num, tok))
             froms.append(nm)
-            urls.append('#'.join(['第%s集$%s' % (num, u) for num, u in cl]))
+            urls.append('#'.join(parts))
         vod['vod_play_from'] = '$$$'.join(froms)
         vod['vod_play_url'] = '$$$'.join(urls)
         if not froms:
@@ -464,46 +508,130 @@ class Spider(BaseSpider):
         return {'list': out, 'page': 1, 'pagecount': 1, 'limit': len(out), 'total': len(out)}
 
     # ---------------- 播放 ----------------
+    @staticmethod
+    def _is_direct(u):
+        u = (u or '').lower()
+        return ('.m3u8' in u or '.mp4' in u or '.flv' in u or '.mkv' in u or '.ts' in u)
+
+    def _decode_play(self, page_url):
+        """拉播放页 -> data-play 去前3字符 -> base64 -> 真实地址"""
+        html = ''
+        try:
+            html, _ = self._fetch(page_url, referer=self.host + '/', timeout=8)
+        except Exception:
+            html = ''
+        m = re.search(r'data-play="([^"]+)"', html or '')
+        if not m or not m.group(1):
+            return ''
+        for cut in (3, 0):
+            try:
+                raw = m.group(1)[cut:]
+                pad = raw + '=' * (-len(raw) % 4)
+                cand = base64.b64decode(pad).decode('utf-8', 'ignore')
+                if cand.startswith('http'):
+                    return cand
+            except Exception:
+                continue
+        return ''
+
+    def _head_ok(self, u, referer=None):
+        """轻量探测资源是否真可下(过滤返回HTML错误页/空壳的假直链)"""
+        headers = {'User-Agent': PC_UA}
+        if referer:
+            headers['Referer'] = referer
+        try:
+            if self.session is not None:
+                try:
+                    r = self.session.head(u, headers=headers, timeout=6, allow_redirects=True)
+                except Exception:
+                    r = self.session.get(u, headers=headers, timeout=6, stream=True)
+                    r.close()
+                if r.status_code >= 400:
+                    return False
+                ct = (r.headers.get('Content-Type') or '').lower()
+                cl = r.headers.get('Content-Length') or ''
+                if cl.isdigit() and int(cl) > 20000:
+                    return True
+                if ('video' in ct or 'audio' in ct or 'mpeg' in ct
+                        or 'octet' in ct or 'mp4' in ct):
+                    return True
+                return False
+            import urllib.request
+            req = urllib.request.Request(u, headers=headers, method='HEAD')
+            r = urllib.request.urlopen(req, timeout=6)
+            ct = (r.headers.get('Content-Type') or '').lower()
+            cl = r.headers.get('Content-Length') or ''
+            if cl.isdigit() and int(cl) > 20000:
+                return True
+            return ('video' in ct or 'audio' in ct or 'mpeg' in ct or 'octet' in ct)
+        except Exception:
+            return False
+
+    def _m3u8_ok(self, u):
+        """校验 m3u8: 内容合法 + 首个分片可下(过滤空壳/分片404的假源)"""
+        txt = ''
+        try:
+            txt, _ = self._fetch(u, referer=self.host + '/', timeout=8)
+        except Exception:
+            return False
+        if '#EXTM3U' not in txt[:500]:
+            return False
+        # 加密流: key 取不到则解不了, 判废(典型"跑流量不出画面")
+        km = re.search(r'#EXT-X-KEY[^\n]*URI="([^"]+)"', txt)
+        if km:
+            k = km.group(1)
+            if not k.startswith('http'):
+                k = urllib.parse.urljoin(u, k)
+            if not self._head_ok(k):
+                return False
+        segs = [l.strip() for l in txt.splitlines()
+                if l.strip() and not l.strip().startswith('#')]
+        if not segs:
+            return False
+        seg = segs[0]
+        if not seg.startswith('http'):
+            seg = urllib.parse.urljoin(u, seg)
+        return self._head_ok(seg)
+
     def playerContent(self, flag='', id='', vipFlags=None):
-        url = str(id)
+        raw_id = str(id)
+        cands = [c for c in raw_id.split('||') if c]
+        if not cands:
+            cands = [raw_id]
         result = {
             'parse': 0,
             'playUrl': '',
-            'url': url,
+            'url': cands[0],
             'header': {'User-Agent': PC_UA},
             'message': '',
         }
-        html = ''
-        try:
-            html, _ = self._fetch(url, referer=self.host + '/')
-        except Exception:
-            html = ''
-        real = ''
-        m = re.search(r'data-play="([^"]+)"', html or '')
-        if m and m.group(1):
-            for cut in (3, 0):
-                try:
-                    raw = m.group(1)[cut:]
-                    pad = raw + '=' * (-len(raw) % 4)
-                    cand = base64.b64decode(pad).decode('utf-8', 'ignore')
-                    if cand.startswith('http'):
-                        real = cand
-                        break
-                except Exception:
+        first_direct = ''
+        multi = len(cands) > 1
+        for c in cands[:3]:
+            real = self._decode_play(c)
+            if not real:
+                continue
+            if not self._is_direct(real):
+                continue
+            if not first_direct:
+                first_direct = real
+            # 多线路时才校验(单线路直接给播放器, 避免无谓延迟)
+            if multi:
+                ok = self._m3u8_ok(real) if '.m3u8' in real.lower() else self._head_ok(real)
+                if not ok:
                     continue
-        if real and ('.m3u8' in real or '.mp4' in real or '.flv' in real):
             result['url'] = real
             result['parse'] = 0
             result['jx'] = 0
             return result
-        if real:
-            # 非直链: 交给解析接口
-            result['url'] = real
-            result['parse'] = 1
-            result['jx'] = 1
+        if first_direct:
+            # 全部候选校验不过: 仍给第一个直链, 让播放器最后一搏
+            result['url'] = first_direct
+            result['parse'] = 0
+            result['jx'] = 0
             return result
-        # 兜底: 嗅探播放页
-        result['url'] = url
+        # 无直链: 交解析接口嗅探播放页
+        result['url'] = cands[0]
         result['parse'] = 1
         result['jx'] = 1
         return result
