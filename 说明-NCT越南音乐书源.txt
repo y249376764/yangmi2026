@@ -1,0 +1,49 @@
+========================================
+ 🎵 NCT越南音乐 · 榜单纯播 (阅读NG书源)
+ 来源：NCT(NhacCuaTui) 8.4.33 APK 逆向
+ 日期：2026-10-08
+ 更多资源请到网站：https://navpage-2026.surge.sh/
+========================================
+
+【是什么】
+从「NCT 8.4.33 越南版汽水音乐 VIP版」APK 逆向出的
+NhacCuaTui（越南最大音乐平台）官方 API，做成阅读NG 音乐书源。
+
+【破解真相（学习成果）】
+- 不是代码破解会员, 是越南区策略: 128/320kbps 免费开放(onlyVIP=false)
+- 只有 Lossless 无损 才是真 VIP 锁(onlyVIP=true, status=0)
+- App 里有个 receive-base-vip 领基础VIP 接口, 登录可领
+- libNctSign.so 是接口签名(AES+MD5), 但核心播放链路不需要签名
+
+【功能】
+✔ 发现页: 12个热门榜单 + 12个推荐歌单
+✔ 榜单/歌单 = 一本书, 每首歌 = 一章 → 点开自动连播整榜
+✔ 搜索: 越南语歌库(歌名/歌手/封面/时长/流派)
+✔ 播放: 128/320kbps 直链, 免登录直接听, HTTP 206 可拖进度
+✔ 歌库: 越南/欧美/亚洲(华语/韩语/日语/泰语)
+
+【导入方式】(阅读NG)
+方式A 网络导入:
+  书源管理 → 右上角 ≡ → 从网络导入:
+  https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/nct_ng_legado.json
+
+方式B 剪贴板口令(备用):
+  https://paste.c-net.org/ScryingTurned
+
+【交付前全链路测试】(2026-10-08 已完成)
+- 搜索"den": 20首, 歌名/歌手/封面/时长/流派 全对 ✅
+- 榜单Top50: 50章, 每章=一首歌(序号+歌名+歌手) ✅
+- 歌单: 3章(Repercussions等) ✅
+- 播放: 直链 HTTP 206 audio/mpeg, 128/320kbps 免登录 ✅
+
+【技术要点】
+- 接口: graph.nct.vn
+  - 首页: /api/v1/app/home/recommend
+  - 搜索: /api/v4/search/all?keyword=
+  - 榜单: /api/v1/playlist/charts + /api/v1/playlist/charts/{key}
+  - 歌单: /api/v1/playlist/recommend + /api/v1/playlist/detail/{key}
+  - 单曲: /api/v1/song/detail/{key} → streamURL
+- 榜单key用 charts/{key}, 歌单key用 playlist/detail/{key}
+- 播放直链带CDN签名(st+e), 由接口下发, 无需自己算
+- 搜索/首页/榜单/歌单/详情 全部免签名免登录
+========================================
