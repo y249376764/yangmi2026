@@ -873,10 +873,10 @@
       "filterable": 1
     },
     {
-      "key": "py_kpkuang",
-      "name": "看片狂人v2[py]",
+      "key": "py_kpkuang_v3",
+      "name": "看片狂人v3[py]",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@22f83718923467e574939e4bf29b119f2ee7ff70/py/kpkuang.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@62dff99a9b7b00a2ba8b79b14cd404d0f9a47e0a/py/kpkuang_v3.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
