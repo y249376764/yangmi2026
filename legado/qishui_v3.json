@@ -1,0 +1,46 @@
+[
+  {
+    "bookSourceGroup": "🎵 音乐",
+    "bookSourceName": "汽水音乐·诊断版v3",
+    "bookSourceType": 1,
+    "bookSourceUrl": "https://www.qishui.com",
+    "customButton": false,
+    "customOrder": 0,
+    "enabled": true,
+    "enabledCookieJar": true,
+    "enabledExplore": true,
+    "eventListener": false,
+    "exploreUrl": "@js:(function(){\n  var D='3753066532709850', I='3753066532713946';\n  function p(region, sid){\n    var a=[['aid','386088'],['app_name','luna_pc']];\n    if(region) a.push(['region',region]);\n    a.push(['device_id',D]); a.push(['iid',I]);\n    a.push(['version_name','3.5.2']); a.push(['version_code','30050200']);\n    a.push(['channel','official']); a.push(['ac','wifi']);\n    a.push(['tz_name','Asia/Shanghai']); a.push(['device_platform','windows']);\n    a.push(['device_type','Windows']); a.push(['os_version','Windows%2010']);\n    a.push(['fp',D]); a.push(['scene_mode_id',String(sid)]);\n    var q=[]; for(var i=0;i<a.length;i++) q.push(a[i][0]+'='+a[i][1]);\n    return 'https://api.qishui.com/luna/pc/feed/song-tab?'+q.join('&');\n  }\n  var POST=',{\"method\":\"POST\",\"body\":\"{}\"}';\n  var out=[];\n  // ===== 诊断组：把接口原始返回显示出来，用于定位\"为什么空白\" =====\n  out.push('🔍自检·POST(cn)::'+p('cn',0)+POST);\n  out.push('🔍自检·GET(cn)::'+p('cn',0));\n  out.push('🔍自检·POST(vn)::'+p('vn',0)+POST);\n  out.push('🔍自检·GET(vn)::'+p('vn',0));\n  out.push('🔍自检·POST(无region)::'+p('',0)+POST);\n  // ===== 正常分类（cn，与原书源一致） =====\n  var cats=[['每日推荐',0],['流行',14],['华语',8],['欧美',9],['国风',20],\n            ['民谣',18],['摇滚',17],['说唱',16],['电子',15],['R&B',19],\n            ['治愈',21],['睡前',22],['学习',23]];\n  for(var i=0;i<cats.length;i++){\n    out.push(cats[i][0]+'::'+p('cn',cats[i][1])+POST);\n  }\n  return out;\n})()",
+    "lastUpdateTime": 0,
+    "respondTime": 180000,
+    "ruleBookInfo": {},
+    "ruleContent": {
+      "content": "@js:(function(){\n      var UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/134.0.0.0 Safari/537.36';\n      var s=String((typeof java!=='undefined' && java.baseUrl) || (typeof baseUrl!=='undefined'?baseUrl:'') || '');\n      var m=s.match(/trackId=([^&]+)/);\n      if(!m){ var m2=s.match(/\\/song\\/(\\d+)/); if(m2) m=m2; }\n      if(!m||!m[1]) return '';\n      var tid=m[1];\n      try{\n        var seo='https://beta-luna.douyin.com/luna/h5/seo_track?track_id='+tid+'&device_platform=web';\n        var o1={headers:{'User-Agent':UA,'Referer':'https://www.douyin.com/'}};\n        var s1=java.ajax(seo+','+JSON.stringify(o1));\n        if(!s1) return '';\n        var pu=(JSON.parse(s1).track_player||{}).url_player_info||'';\n        if(!pu) return '';\n        var o2={headers:{'User-Agent':UA,'Referer':'https://www.douyin.com/'}};\n        var s2=java.ajax(pu+','+JSON.stringify(o2));\n        if(!s2) return '';\n        var pl=((JSON.parse(s2).Result||{}).Data||{}).PlayInfoList||[];\n        function val(q){\n          q=String(q||'').toLowerCase();\n          if(q.indexOf('highest')>=0||q==='hi'||q==='exhigh') return 4;\n          if(q.indexOf('higher')>=0||q==='sq'||q==='lossless') return 3;\n          if(q.indexOf('normal')>=0||q==='hq') return 2;\n          if(q==='lq'||q.indexOf('low')>=0) return 1;\n          return 0;\n        }\n        var best='',bv=-1;\n        for(var i=0;i<pl.length;i++){\n          var u=pl[i].MainPlayUrl||pl[i].BackupPlayUrl1||pl[i].BackupPlayUrl2||'';\n          if(!u) continue;\n          var v=val(pl[i].Quality||pl[i].QualityDesc||'');\n          if(v>bv){bv=v;best=u;}\n        }\n        if(!best&&pl.length) best=pl[0].MainPlayUrl||pl[0].BackupPlayUrl1||'';\n        return best||'';\n      }catch(e){ return ''; }\n    })()",
+      "title": ""
+    },
+    "ruleExplore": {
+      "bookList": "@js:(function(){\n  var raw = (typeof result === 'string') ? result : (result ? JSON.stringify(result) : '');\n  var list = parseSongs(raw);\n  if (list && list.length) return list;\n  return [diag(raw)];\n\n  function parseSongs(s){\n    try {\n      var j = JSON.parse(s);\n      var items = j.items || (j.data && j.data.items) || [];\n      if (!items || !items.length) return null;\n      var out = [];\n      for (var i=0;i<items.length;i++){\n        var ent = items[i].entity || items[i];\n        var tr = (ent.track_wrapper && ent.track_wrapper.track) || ent.track || ent.audio || null;\n        if (!tr || !tr.id) continue;\n        var al = tr.album || {};\n        var arts = tr.artists || [];\n        var an=[]; for(var a=0;a<arts.length;a++) an.push(arts[a].name||'');\n        var uc = al.url_cover || al.cover || {};\n        var ul = uc.urls || uc.url_list || [];\n        var cov = (ul && ul.length) ? (ul[0]+(uc.uri||'')) : '';\n        out.push({\n          name: tr.name||'',\n          author: an.join('/'),\n          coverUrl: cov,\n          detail: 'https://www.qishui.com/song/'+tr.id+'?trackId='+tr.id,\n          lastChapter: '时长'+Math.round((tr.duration||0)/1000)+'秒'\n        });\n      }\n      return out.length ? out : null;\n    } catch(e){ return null; }\n  }\n\n  // 解析不出歌 -> 输出诊断卡：书名=结论，作者=原始返回摘要\n  function diag(s){\n    var brief='', detail='（空响应）';\n    if (!s){ brief='❌ 无返回：请求失败/被拦截'; }\n    else {\n      detail = s.substring(0,300);\n      try {\n        var j=JSON.parse(s);\n        var code = (j.status_code!==undefined?j.status_code:(j.code!==undefined?j.code:''));\n        var msg = j.message || j.msg || j.errmsg || '';\n        var no = j.err_no!==undefined?j.err_no:'';\n        if (String(s).indexOf('Request denied')>=0 || String(code)==='403'){\n          brief='❌ 被拦截(403/网关拒绝)';\n        } else if (j.items && !j.items.length){\n          brief='⚠️ 接口通但 items 为空（region/风控？）';\n        } else if (msg){\n          brief='⚠️ 接口返回错误: '+msg+(code?(' (code='+code+')'):'')+(no?(' err_no='+no):'');\n        } else if (code!=='' && String(code)!=='0'){\n          brief='⚠️ code='+code+(msg?(' '+msg):'');\n        } else {\n          brief='⚠️ 未知结构，看作者栏原始返回';\n        }\n      } catch(e){\n        if (String(s).indexOf('<html')>=0) brief='❌ 返回HTML页面（非JSON，可能需登录）';\n        else brief='⚠️ 非JSON返回';\n      }\n    }\n    return { name: brief, author: detail, coverUrl:'', detail:'', lastChapter:'' };\n  }\n})()",
+      "name": "{{$.name}}",
+      "author": "{{$.author}}",
+      "coverUrl": "{{$.coverUrl}}",
+      "bookUrl": "{{$.detail}}",
+      "lastChapter": "{{$.lastChapter}}"
+    },
+    "ruleSearch": {
+      "author": "{{$.author}}",
+      "bookList": "@js:(function(){\n  try {\n    var j = (typeof result === 'string') ? JSON.parse(result) : result;\n    if (!j) return [];\n    var out=[], groups = j.result_groups || [];\n    for (var g=0; g<groups.length; g++){\n      var ds = (groups[g] && groups[g].data) || [];\n      for (var i=0;i<ds.length;i++){ var tr=pick(ds[i]); if(tr) out.push(mk(tr)); }\n    }\n    if (!out.length){\n      var arr = j.items || j.data || j.tracks || [];\n      for (var k=0;k<arr.length;k++){ var tr2=pick(arr[k]); if(tr2) out.push(mk(tr2)); }\n    }\n    return out;\n  } catch(e){ return []; }\n  function pick(n){\n    if(!n) return null;\n    var e=n.entity||n;\n    var t=e.track||e.audio||(e.track_wrapper&&e.track_wrapper.track)||e;\n    return (t&&t.id)?t:null;\n  }\n  function mk(tr){\n    var al=tr.album||{}, ar=tr.artists||[], an=[];\n    for(var a=0;a<ar.length;a++) an.push(ar[a].name||'');\n    var uc=al.url_cover||al.cover||{}, ul=uc.urls||uc.url_list||[];\n    var cov=(ul&&ul.length)?(ul[0]+(uc.uri||'')):'';\n    return {name:tr.name||'', author:an.join('/'), coverUrl:cov,\n            detail:'https://www.qishui.com/song/'+tr.id+'?trackId='+tr.id,\n            lastChapter:'时长'+Math.round((tr.duration||0)/1000)+'秒'};\n  }\n})()",
+      "bookUrl": "{{$.detail}}",
+      "coverUrl": "{{$.coverUrl}}",
+      "lastChapter": "{{$.lastChapter}}",
+      "name": "{{$.name}}"
+    },
+    "ruleToc": {
+      "chapterList": "@js:(function(){\n      var s = String((typeof java!=='undefined' && java.baseUrl) || (typeof baseUrl!=='undefined'?baseUrl:'') || '');\n      var m = s.match(/trackId=([^&]+)/);\n      if(!m){ var m2=s.match(/\\/song\\/(\\d+)/); if(m2) m=m2; }\n      if(!m||!m[1]) return [];\n      var tid=m[1];\n      return [{name:'▶ 播放', url:'https://www.qishui.com/song/'+tid+'?trackId='+tid}];\n    })()",
+      "chapterName": "{{$.name}}",
+      "chapterUrl": "{{$.url}}"
+    },
+    "weight": 0,
+    "header": "{\"User-Agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36\", \"Referer\": \"https://www.qishui.com/\", \"Accept\": \"application/json, text/plain, */*\"}",
+    "searchUrl": "https://api.qishui.com/luna/search/track?aid=386088&app_name=luna&device_platform=android&os=android&ssmix=a&channel=xiaomi_8478_64&version_code=100198030&version_name=19.8.0&manifest_version_code=100198030&update_version_code=100198030&package=com.luna.music&ac=wifi&language=zh&os_api=35&os_version=15&resolution=1080*1920&dpi=480&device_type=ABR-AL80&device_brand=HUAWEI&device_model=ABR-AL80&tz_name=Asia/Shanghai&tz_offset=28800&sim_region=cn&is_teen_mode=0&need_personal_recommend=1&iid=3753066532713946&device_id=3753066532709850&q={{key}}&cursor=0&count=30"
+  }
+]
