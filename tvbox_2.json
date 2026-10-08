@@ -1,5 +1,5 @@
 {
-  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/1.jar",
+  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
   "sites": [
     {
       "key": "zhiqiu",
@@ -202,7 +202,7 @@
       "key": "tiantang",
       "name": "👼┆天堂┆影视",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/py/tiantang.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@a19e7f34565d238d4e7d95958b8faa5e6375739a/py/tiantang.py",
       "searchable": 1,
       "quickSearch": 0,
       "filterable": 1,
