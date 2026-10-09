@@ -1,14 +1,14 @@
 # 源仓库健康巡检报告
 
-> 自动生成时间: 2026-10-08 12:11:56 UTC
+> 自动生成时间: 2026-10-09 00:07:12 UTC
 > 由 GitHub Actions 每天定时运行, 检测各配置文件的站点/源可达性
 
 ## 📊 汇总
 
 - 探测站点数: **172**
-- 有异常站点数: **12**
+- 有异常站点数: **13**
 - 跳过本地/代理目标数: 16
-- 巡检时间: 2026-10-08 12:13:01 UTC
+- 巡检时间: 2026-10-09 00:09:08 UTC
 
 ## ⚠️ 异常站点
 
@@ -19,8 +19,9 @@
 | tvbox.json | 💠魔方丨蓝光秒播 | 3 | https://www.douy32mf.top | ext域名:❌ 超时/无法连接 |
 | tvbox.json | 🎬电影天堂丨蓝光 | 3 | http://39.105.18.5:5565/api.php/app/ | ext域名:❌ HTTP 404 |
 | tvbox.json | 🎡永乐｜蓝光影视 | 3 | https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBP | ext域名:❌ 超时/无法连接 |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
 | tvbox.json | 🍀豆瓣资源 | 1 | https://dbzy.tv/api.php/provide/vod | api脚本:❌ HTTP 502 |
+| tvbox.json | 🍀金鹰点播 | 1 | https://jinyingzy.com/api.php/provide/vod | api脚本:❌ 超时/无法连接 |
+| tvbox.json | ➡️虎牙秒播 | 1 | https://www.huyaapi.com/api.php/provide/vod/from/hym3u8 | api脚本:❌ 超时/无法连接 |
 | tvbox_2.json | ✏️┆文才┆影视 | 3 | https://www.tjrongze.com,https://y2s52n7.com,https://m. | ext域名:❌ 超时/无法连接 |
 | tvbox_py.json | 金牌[js] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
 | tvbox_py.json | 高清电影[py] | 3 | https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/ | api脚本:❌ 超时/无法连接 |
@@ -74,7 +75,7 @@
 | tvbox.json | 无尽资源┃刺桐 | 1 | https://api.wujinapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 速博资源┃刺桐 | 1 | https://subocaiji.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 最大资源┃刺桐 | 1 | https://api.zuidapi.com/api.php/provide/vod/from/zuidam | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:❌ HTTP 503 |
+| tvbox.json | 爱奇艺资源┃刺桐 | 1 | https://iqiyizyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 影剧资源┃刺桐 | 1 | https://caiji.maotaizy.cc/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 火狐资源┃刺桐 | 1 | https://hhzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 新浪资源┃刺桐 | 1 | https://api.xinlangapi.com/xinlangapi.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
@@ -107,7 +108,7 @@
 | tvbox.json | 🍀最大点播 | 1 | http://zuidazy.me/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🍀步步高资源 | 1 | https://api.yparse.com/api/json | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🍀豆瓣资源 | 1 | https://dbzy.tv/api.php/provide/vod | api脚本:❌ HTTP 502 |
-| tvbox.json | 🍀金鹰点播 | 1 | https://jinyingzy.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | 🍀金鹰点播 | 1 | https://jinyingzy.com/api.php/provide/vod | api脚本:❌ 超时/无法连接 |
 | tvbox.json | 🍀魔都动漫 | 1 | https://caiji.moduapi.cc/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🍀红牛资源3 | 1 | https://www.hongniuzy3.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 🍀索尼-闪电 | 1 | https://xsd.sdzyapi.com/api.php/provide/vod | api脚本:✅ 200 (body 2048B) |
@@ -128,7 +129,7 @@
 | tvbox.json | 无尽｜采集 | 1 | https://api.wujinapi.net/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 魔都｜采集 | 1 | https://caiji.moduapi.cc/api.php/provide/vod/?ac=list | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | 天堂资源┃刺桐 | 1 | https://caiji.dyttzyapi.com/api.php/provide/vod/?ac=lis | api脚本:✅ 200 (body 2048B) |
-| tvbox.json | ➡️虎牙秒播 | 1 | https://www.huyaapi.com/api.php/provide/vod/from/hym3u8 | api脚本:✅ 200 (body 2048B) |
+| tvbox.json | ➡️虎牙秒播 | 1 | https://www.huyaapi.com/api.php/provide/vod/from/hym3u8 | api脚本:❌ 超时/无法连接 |
 | tvbox.json | ➡️极速秒播 | 1 | https://jszyapi.com/api.php/provide/vod/from/jsm3u8 | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | ➡️速播资源 | 1 | https://subocaiji.com/api.php/provide/vod/from/subm3u8/ | api脚本:✅ 200 (body 2048B) |
 | tvbox.json | ➡️非凡资源 | 1 | http://cj.ffzyapi.com/api.php/provide/vod/ | api脚本:✅ 200 (body 2048B) |
