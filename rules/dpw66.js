@@ -236,13 +236,20 @@ function parseEpBlock(block) {
 }
 
 // ---------- 二级分类: 从分类页动态抓取, 不硬编码 id ----------
+// 抓取口径放宽: 多种分类URL形态都认, 并保存**完整href**(不自己拼URL)
 function parseSubs(html) {
     var out = [];
     if (html == null || html == '') { return out; }
     var seen = {};
-    // 一级 id 不算二级
     var tops = {};
     for (var t = 0; t < CATS.length; t++) { tops[CATS[t].id] = 1; }
+    var pats = [
+        /\/vodtype\/(\d+)/i,
+        /\/vodshow\/(\d+)/i,
+        /\/index\.php\/vod\/type\/id\/(\d+)/i,
+        /\/vod\/type\/id\/(\d+)/i,
+        /\/type\/id\/(\d+)/i
+    ];
     var re = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
     var m;
     while ((m = re.exec(html)) != null) {
@@ -251,19 +258,40 @@ function parseSubs(html) {
         var hm = attrs.match(/href="([^"]*)"/i);
         if (hm == null) { continue; }
         var href = hm[1];
-        var sm = href.match(/\/vodtype\/(\d+)\.html/i);
-        if (sm == null) { sm = href.match(/\/vodtype\/(\d+)\//i); }
-        if (sm == null) { continue; }
-        var sid = sm[1];
+        var sid = '';
+        for (var pi = 0; pi < pats.length; pi++) {
+            var sm = pats[pi].exec(href);
+            if (sm != null) { sid = sm[1]; break; }
+        }
+        if (sid == '') { continue; }
         if (tops[sid]) { continue; }
         if (seen[sid]) { continue; }
         var txt = inner.replace(/<[^>]+>/g, '').replace(/\s+/g, '').trim();
         if (txt == '') { continue; }
-        if (txt.length > 8) { continue; }
+        if (txt.length > 10) { continue; }
         seen[sid] = 1;
-        out.push({ name: txt, code: sid });
+        out.push({ name: txt, code: sid, url: getUrl(href) });
     }
     return out;
+}
+
+// 诊断: 抓不到二级时给一段可回传的线索
+function diagSubs(html) {
+    if (html == null || html == '') { return '页面为空(请求失败/被拦截)'; }
+    var all = [];
+    var re = /<a\b[^>]*href="([^"]*)"[^>]*>/gi;
+    var m;
+    var n = 0;
+    while ((m = re.exec(html)) != null && n < 400) {
+        n++;
+        var h = m[1] || '';
+        if (h.indexOf('javascript') == 0) { continue; }
+        if (all.length < 12) { all.push(h); }
+    }
+    var body = String(html).replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    return 'a链接总数=' + n + ' | 前几个href: ' + all.join(' , ') +
+        ' | 正文片段: ' + body.substring(0, 200);
 }
 
 // ================= 主页 =================
@@ -274,9 +302,15 @@ function 主页() {
     var subKey = 'dpw66Subs_' + tid;
     var subCache = getMyVar(subKey, '');
     var true_url = HOST + '/vodtype/' + tid + '.html';
-    var subNow = getMyVar('dpw66Sub', '');
-    if (subNow != '') { true_url = HOST + '/vodtype/' + subNow + '.html'; }
-    if (page > 1) { true_url = true_url.replace('.html', '-' + page + '.html'); }
+    var subUrl = getMyVar('dpw66SubUrl', '');
+    if (subUrl != '') { true_url = subUrl; }
+    if (page > 1) {
+        if (/\.html(\?|$)/i.test(true_url)) {
+            true_url = true_url.replace(/\.html/i, '-' + page + '.html');
+        } else {
+            true_url = true_url + (true_url.indexOf('?') >= 0 ? '&' : '?') + 'page=' + page;
+        }
+    }
     var html = getHtml(true_url);
     // 二级列表缓存到 MyVar, 避免选中二级后还要再请求一次一级页
     if (subCache == '' && html != '') {
@@ -297,6 +331,7 @@ function 主页() {
                     url: $('#noLoading#').lazyRule(function (itData) {
                         putMyVar('dpw66Cat', itData.id);
                         putMyVar('dpw66Sub', '');
+                        putMyVar('dpw66SubUrl', '');
                         putMyVar('MY_PAGE', 1);
                         refreshPage();
                         return 'hiker://empty';
@@ -322,6 +357,7 @@ function 主页() {
                         col_type: 'scroll_button',
                         url: $('#noLoading#').lazyRule(function (s2) {
                             putMyVar('dpw66Sub', s2.code);
+                            putMyVar('dpw66SubUrl', s2.url || '');
                             putMyVar('MY_PAGE', 1);
                             refreshPage();
                             return 'hiker://empty';
@@ -331,12 +367,13 @@ function 主页() {
                 })(subs[si]);
             }
             d.push({ col_type: 'blank_block' });
+        } else {
+            // 抓不到二级: 只在第一页显示一条诊断, 便于回传定位
+            d.push({ title: '⚠️未识别到二级分类, 请把这行发给开发者', col_type: 'long_text' });
+            d.push({ title: diagSubs(html), col_type: 'long_text' });
+            d.push({ col_type: 'blank_block' });
         }
     }
-    // 选中二级时用它作为 tid
-    var useTid = tid;
-    var sub = getMyVar('dpw66Sub', '');
-    if (sub != '') { useTid = sub; }
     if (html == '') {
         d.push({ title: '加载失败，请稍后重试', col_type: 'text_1' });
     } else {
@@ -377,23 +414,31 @@ function 搜索() {
         return;
     }
     var ek = encodeURIComponent(kw);
-    var html = getResCode();
-    if (html == null || html == '' || html.indexOf('<html') == -1) {
-        html = getHtml(HOST + '/vodsearch/-------------.html?wd=' + ek);
+    var log = [];
+    var list = [];
+    var html = '';
+    // 路径1: 海阔自带搜索页(0额外请求)
+    html = getResCode();
+    if (html != null && html != '' && html.indexOf('<html') != -1) {
+        list = parseList(html);
+        log.push('自带搜索页:' + list.length);
+    } else {
+        log.push('自带搜索页:无内容');
     }
-    var list = parseList(html);
-    // 兜底1: 换搜索路径
-    if (list.length == 0) {
-        var h2 = getHtml(HOST + '/index.php/vod/search.html?wd=' + ek);
-        if (h2 != '') { list = parseList(h2); }
-    }
-    // 兜底2: 苹果CMS XML API
-    if (list.length == 0) {
-        var xml = getHtml(HOST + '/api.php/provide/vod/at/xml/?wd=' + ek);
-        if (xml != '' && xml.indexOf('<list>') != -1) {
+    // 路径2~5: 逐个候选URL尝试
+    var cand = [
+        HOST + '/vodsearch/-------------.html?wd=' + ek,
+        HOST + '/index.php/vod/search.html?wd=' + ek,
+        HOST + '/index.php/ajax/suggest?mid=1&wd=' + ek,
+        HOST + '/api.php/provide/vod/at/xml/?wd=' + ek
+    ];
+    for (var ci2 = 0; ci2 < cand.length && list.length == 0; ci2++) {
+        var hh = getHtml(cand[ci2]);
+        if (hh == '' || hh == null) { log.push('路径' + (ci2 + 2) + ':空'); continue; }
+        if (hh.indexOf('<list>') != -1) {
             var re = /<vod>[\s\S]*?<id>(\d+)<\/id>[\s\S]*?<name>([\s\S]*?)<\/name>[\s\S]*?<pic>([\s\S]*?)<\/pic>/gi;
             var m;
-            while ((m = re.exec(xml)) != null) {
+            while ((m = re.exec(hh)) != null) {
                 list.push({
                     vid: m[1],
                     title: m[2].replace(/<[^>]+>/g, '').trim(),
@@ -402,9 +447,14 @@ function 搜索() {
                     url: getUrl('/voddetail/' + m[1] + '.html')
                 });
             }
+            log.push('路径' + (ci2 + 2) + '(XML):' + list.length);
+        } else {
+            var got = parseList(hh);
+            log.push('路径' + (ci2 + 2) + ':' + got.length);
+            if (got.length > 0) { list = got; }
         }
     }
-    // 兜底3: 放宽解析(抓所有 voddetail 链接, 不要求 title 属性)
+    // 兜底: 放宽解析(抓所有 voddetail 链接, 不要求 title 属性)
     if (list.length == 0 && html != '' && html.indexOf('<html') != -1) {
         var seen2 = {};
         var re2 = /<a\b[^>]*href="([^"]*\/voddetail\/\d+[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
@@ -418,9 +468,11 @@ function 搜索() {
             seen2[vm2[1]] = 1;
             list.push({ vid: vm2[1], title: t2, img: '', note: '', url: getUrl(m2[1]) });
         }
+        if (list.length > 0) { log.push('放宽解析:' + list.length); }
     }
     if (list.length == 0) {
         d.push({ title: '未找到相关影片', col_type: 'text_1' });
+        d.push({ title: '⚠️搜索诊断(请把这行发给开发者): ' + log.join(' | '), col_type: 'long_text' });
     } else {
         for (var i = 0; i < list.length; i++) {
             var v = list[i];
