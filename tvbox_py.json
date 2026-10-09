@@ -880,6 +880,15 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+    {
+      "key": "py_yangku",
+      "name": "央视｜云聚",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央库云.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
   ],
   "lives": [
