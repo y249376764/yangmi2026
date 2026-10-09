@@ -1,77 +1,61 @@
 {
-  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
-  "sites": [
-    {
-      "key": "七猫短剧",
-      "name": "七猫 • 短剧",
-      "type": 3,
-      "api": "csp_ShortQimao",
-      "genre": "shortdrama"
-    },
-    {
-      "key": "河马短剧",
-      "name": "河马 • 短剧",
-      "type": 3,
-      "api": "csp_ShortHema",
-      "genre": "shortdrama"
-    },
-    {
-      "key": "围观短剧",
-      "name": "围观 • 短剧",
-      "type": 3,
-      "api": "csp_ShortWeiguan",
-      "genre": "shortdrama"
-    },
-    {
-      "key": "好看短剧",
-      "name": "好看 • 短剧",
-      "type": 3,
-      "api": "csp_ShortHaokan",
-      "genre": "shortdrama"
-    },
-    {
-      "key": "星芽短剧",
-      "name": "星芽 • 短剧",
-      "type": 3,
-      "api": "csp_ShortXingya",
-      "genre": "shortdrama"
-    },
-    {
-      "key": "果果短剧",
-      "name": "果果v2",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@79c5c8e86d96c76a/py/guoguo_spider.py",
-      "genre": "shortdrama",
-      "searchable": 0,
-      "quickSearch": 0,
-      "filterable": 1
-    },
-    {
-      "key": "py_yyduanju",
-      "name": "YY短剧v4",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ab12152fbddbfc637033d747b22552353c467635/py/yyduanju.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1,
-      "genre": "shortdrama"
-    },
-    {
-      "key": "py_tianquan",
-      "name": "甜圈短剧",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/甜圈短剧.py",
-      "searchable": 1,
-      "quickSearch": 1
-    },
-    {
-      "key": "py_jinli",
-      "name": "锦鲤短剧",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/锦鲤短剧.py",
-      "searchable": 1,
-      "quickSearch": 1
-    }
-  ],
-  "parses": []
+ "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
+ "sites": [
+  {
+   "key": "七猫短剧",
+   "name": "七猫 • 短剧",
+   "type": 3,
+   "api": "csp_ShortQimao",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "河马短剧",
+   "name": "河马 • 短剧",
+   "type": 3,
+   "api": "csp_ShortHema",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "围观短剧",
+   "name": "围观 • 短剧",
+   "type": 3,
+   "api": "csp_ShortWeiguan",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "好看短剧",
+   "name": "好看 • 短剧",
+   "type": 3,
+   "api": "csp_ShortHaokan",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "星芽短剧",
+   "name": "星芽 • 短剧",
+   "type": 3,
+   "api": "csp_ShortXingya",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "果果短剧",
+   "name": "果果v2",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@79c5c8e86d96c76a/py/guoguo_spider.py",
+   "genre": "shortdrama",
+   "searchable": 0,
+   "quickSearch": 0,
+   "filterable": 1
+  },
+  {
+   "key": "py_yyduanju",
+   "name": "YY短剧v4",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ab12152fbddbfc637033d747b22552353c467635/py/yyduanju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "genre": "shortdrama"
+  }
+ ],
+ "parses": []
 }
