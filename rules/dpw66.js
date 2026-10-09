@@ -470,8 +470,56 @@ function 详情() {
 
     for (var c = 0; c < outEp.length; c++) {
         (function (ep) {
+            // lazyRule 回调是独立JS上下文, 看不到函数库里的任何方法
+            // —— 解密三段全部内联, UA硬编码, 不依赖外部函数(海阔铁律: 回调自包含)
             var lazy = $('').lazyRule(function (pu) {
                 var UA3 = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+                // 只处理 %XX, 不把 + 变空格(否则破坏 base64)
+                function ud(s) {
+                    if (s == null) { return ''; }
+                    s = String(s);
+                    try { return decodeURIComponent(s); } catch (e) {
+                        return s.replace(/%([0-9A-Fa-f]{2})/g, function (mm, hh) {
+                            return String.fromCharCode(parseInt(hh, 16));
+                        });
+                    }
+                }
+                function dec(raw, enc) {
+                    if (raw == null || raw == '') { return ''; }
+                    var s = String(raw);
+                    if (s.indexOf('http') == 0) { return s; }
+                    var v = '';
+                    if (enc == 1) {
+                        try { v = base64Decode(s); } catch (e1) { v = ''; }
+                        if (v != '' && v.indexOf('http') != 0) { v = ud(v); }
+                    } else {
+                        try { v = base64Decode(ud(s)); } catch (e2) { v = ''; }
+                        if (v != '') { try { v = ud(v); } catch (e3) { } }
+                    }
+                    if (v != '' && v.indexOf('http') == 0) { return v; }
+                    try {
+                        var v2 = base64Decode(s);
+                        if (v2 != '' && v2.indexOf('http') == 0) { return v2; }
+                    } catch (e4) { }
+                    return v;
+                }
+                function ext(html) {
+                    if (html == null || html == '') { return ''; }
+                    var src = html;
+                    var pm = html.match(/player_aaaa[\s\S]{0,2500}?<\/script>/i);
+                    if (pm != null) { src = pm[0]; }
+                    else {
+                        pm = html.match(/player_aaaa[\s\S]{0,2500}/i);
+                        if (pm != null) { src = pm[0]; }
+                    }
+                    var um = src.match(/"url"\s*:\s*"([^"]+)"/i);
+                    if (um == null) { um = src.match(/\burl\s*=\s*"([^"]+)"/i); }
+                    if (um == null) { um = src.match(/'url'\s*:\s*'([^']+)'/i); }
+                    if (um == null) { return ''; }
+                    var em = src.match(/"encrypt"\s*:\s*(\d+)/i);
+                    var enc = em != null ? parseInt(em[1]) : 2;
+                    return dec(um[1], enc);
+                }
                 var ph = '';
                 try { ph = request(pu) || ''; } catch (e1) { ph = ''; }
                 if (ph == '') {
@@ -480,9 +528,7 @@ function 详情() {
                     } catch (e2) { ph = ''; }
                 }
                 var real = '';
-                if (ph != '') {
-                    real = extractPlayUrl(ph);
-                }
+                if (ph != '') { real = ext(ph); }
                 if (real != '' && real.indexOf('http') == 0) {
                     return real + '#isVideo=true##noHistory#';
                 }
