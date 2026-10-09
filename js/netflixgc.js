@@ -8,6 +8,9 @@
  */
 
 let host = 'https://www.netflixgc.com';
+// 备用域名池（主域名失败自动切换）
+const HOSTS = ['https://www.netflixgc.com', 'https://www.netflixgc.net'];
+let hostIdx = 0;
 let UA = 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15';
 
 // 5个分类（MacCMS type id）
@@ -20,21 +23,31 @@ function clean(s) {
 }
 
 async function getHtml(url, postData) {
-    try {
-        let opts = { headers: { 'User-Agent': UA, 'Referer': host, 'X-Requested-With': 'XMLHttpRequest' } };
-        let res;
-        if (postData) {
-            opts.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-            opts.method = 'POST';
-            opts.body = postData;
-            res = await req(url, opts);
-        } else {
-            res = await req(url, opts);
+    // 域名失败自动切换重试（最多尝试全部域名）
+    for (let attempt = 0; attempt < HOSTS.length; attempt++) {
+        if (attempt > 0) {
+            hostIdx = (hostIdx + 1) % HOSTS.length;
+            host = HOSTS[hostIdx];
         }
-        return res ? res.content || '' : '';
-    } catch (e) {
-        return '';
+        let thisUrl = url.replace(HOSTS[(hostIdx + HOSTS.length - 1) % HOSTS.length], host);
+        try {
+            let opts = { headers: { 'User-Agent': UA, 'Referer': host, 'X-Requested-With': 'XMLHttpRequest' } };
+            let res;
+            if (postData) {
+                opts.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+                opts.method = 'POST';
+                opts.body = postData;
+                res = await req(thisUrl, opts);
+            } else {
+                res = await req(thisUrl, opts);
+            }
+            let content = res ? res.content || '' : '';
+            if (content && content.length > 1) {
+                return content;
+            }
+        } catch (e) {}
     }
+    return '';
 }
 
 // ============ 列表解析（ds_api/vod JSON） ============
