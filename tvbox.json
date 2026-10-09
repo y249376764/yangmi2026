@@ -388,15 +388,6 @@
    "type": 1
   },
   {
-   "key": "netflixgc",
-   "name": "🎬奈飞工厂｜蓝光影视",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@6c4cf814ad1f56c925784f6bf873f7126cca54ee/js/netflixgc.js",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
    "key": "采集集合",
    "name": "采集集合",
    "type": 4,
