@@ -235,10 +235,57 @@ function parseEpBlock(block) {
     return eps;
 }
 
+// ---------- 二级分类: 从分类页动态抓取, 不硬编码 id ----------
+function parseSubs(html) {
+    var out = [];
+    if (html == null || html == '') { return out; }
+    var seen = {};
+    // 一级 id 不算二级
+    var tops = {};
+    for (var t = 0; t < CATS.length; t++) { tops[CATS[t].id] = 1; }
+    var re = /<a\b([^>]*)>([\s\S]*?)<\/a>/gi;
+    var m;
+    while ((m = re.exec(html)) != null) {
+        var attrs = m[1] || '';
+        var inner = m[2] || '';
+        var hm = attrs.match(/href="([^"]*)"/i);
+        if (hm == null) { continue; }
+        var href = hm[1];
+        var sm = href.match(/\/vodtype\/(\d+)\.html/i);
+        if (sm == null) { sm = href.match(/\/vodtype\/(\d+)\//i); }
+        if (sm == null) { continue; }
+        var sid = sm[1];
+        if (tops[sid]) { continue; }
+        if (seen[sid]) { continue; }
+        var txt = inner.replace(/<[^>]+>/g, '').replace(/\s+/g, '').trim();
+        if (txt == '') { continue; }
+        if (txt.length > 8) { continue; }
+        seen[sid] = 1;
+        out.push({ name: txt, code: sid });
+    }
+    return out;
+}
+
 // ================= 主页 =================
 function 主页() {
     var d = [];
     var page = parseInt(MY_PAGE) || 1;
+    var tid = getMyVar('dpw66Cat', CATS[0].id);
+    var subKey = 'dpw66Subs_' + tid;
+    var subCache = getMyVar(subKey, '');
+    var true_url = HOST + '/vodtype/' + tid + '.html';
+    var subNow = getMyVar('dpw66Sub', '');
+    if (subNow != '') { true_url = HOST + '/vodtype/' + subNow + '.html'; }
+    if (page > 1) { true_url = true_url.replace('.html', '-' + page + '.html'); }
+    var html = getHtml(true_url);
+    // 二级列表缓存到 MyVar, 避免选中二级后还要再请求一次一级页
+    if (subCache == '' && html != '') {
+        var tmp = parseSubs(html);
+        if (tmp.length > 0) {
+            try { putMyVar(subKey, JSON.stringify(tmp)); } catch (eJ) { }
+            subCache = JSON.stringify(tmp);
+        }
+    }
     if (!MY_PAGE || page <= 1) {
         for (var ci = 0; ci < CATS.length; ci++) {
             (function (it) {
@@ -249,6 +296,7 @@ function 主页() {
                     col_type: 'scroll_button',
                     url: $('#noLoading#').lazyRule(function (itData) {
                         putMyVar('dpw66Cat', itData.id);
+                        putMyVar('dpw66Sub', '');
                         putMyVar('MY_PAGE', 1);
                         refreshPage();
                         return 'hiker://empty';
@@ -258,11 +306,37 @@ function 主页() {
             })(CATS[ci]);
         }
         d.push({ col_type: 'blank_block' });
+        // ---- 二级分类(优先用缓存, 缓存没有才用当前 html) ----
+        var subs = [];
+        if (subCache != '') {
+            try { subs = JSON.parse(subCache); } catch (eS) { subs = []; }
+        }
+        if (subs.length == 0 && html != '') { subs = parseSubs(html); }
+        if (subs.length > 0) {
+            var nowSub = getMyVar('dpw66Sub', '');
+            for (var si = 0; si < subs.length && si < 30; si++) {
+                (function (so) {
+                    var onS = so.code == nowSub;
+                    d.push({
+                        title: onS ? ('● ' + so.name) : so.name,
+                        col_type: 'scroll_button',
+                        url: $('#noLoading#').lazyRule(function (s2) {
+                            putMyVar('dpw66Sub', s2.code);
+                            putMyVar('MY_PAGE', 1);
+                            refreshPage();
+                            return 'hiker://empty';
+                        }, so),
+                        extra: { backgroundColor: onS ? '#20FA7298' : '' }
+                    });
+                })(subs[si]);
+            }
+            d.push({ col_type: 'blank_block' });
+        }
     }
-    var tid = getMyVar('dpw66Cat', CATS[0].id);
-    var true_url = HOST + '/vodtype/' + tid + '.html';
-    if (page > 1) { true_url = HOST + '/vodtype/' + tid + '-' + page + '.html'; }
-    var html = getHtml(true_url);
+    // 选中二级时用它作为 tid
+    var useTid = tid;
+    var sub = getMyVar('dpw66Sub', '');
+    if (sub != '') { useTid = sub; }
     if (html == '') {
         d.push({ title: '加载失败，请稍后重试', col_type: 'text_1' });
     } else {
@@ -302,14 +376,20 @@ function 搜索() {
         setResult(d);
         return;
     }
+    var ek = encodeURIComponent(kw);
     var html = getResCode();
     if (html == null || html == '' || html.indexOf('<html') == -1) {
-        html = getHtml(HOST + '/vodsearch/-------------.html?wd=' + encodeURIComponent(kw));
+        html = getHtml(HOST + '/vodsearch/-------------.html?wd=' + ek);
     }
     var list = parseList(html);
+    // 兜底1: 换搜索路径
     if (list.length == 0) {
-        // 兜底: 苹果CMS XML API
-        var xml = getHtml(HOST + '/api.php/provide/vod/at/xml/?wd=' + encodeURIComponent(kw));
+        var h2 = getHtml(HOST + '/index.php/vod/search.html?wd=' + ek);
+        if (h2 != '') { list = parseList(h2); }
+    }
+    // 兜底2: 苹果CMS XML API
+    if (list.length == 0) {
+        var xml = getHtml(HOST + '/api.php/provide/vod/at/xml/?wd=' + ek);
         if (xml != '' && xml.indexOf('<list>') != -1) {
             var re = /<vod>[\s\S]*?<id>(\d+)<\/id>[\s\S]*?<name>([\s\S]*?)<\/name>[\s\S]*?<pic>([\s\S]*?)<\/pic>/gi;
             var m;
@@ -322,6 +402,21 @@ function 搜索() {
                     url: getUrl('/voddetail/' + m[1] + '.html')
                 });
             }
+        }
+    }
+    // 兜底3: 放宽解析(抓所有 voddetail 链接, 不要求 title 属性)
+    if (list.length == 0 && html != '' && html.indexOf('<html') != -1) {
+        var seen2 = {};
+        var re2 = /<a\b[^>]*href="([^"]*\/voddetail\/\d+[^"]*)"[^>]*>([\s\S]*?)<\/a>/gi;
+        var m2;
+        while ((m2 = re2.exec(html)) != null) {
+            var vm2 = m2[1].match(/voddetail\/(\d+)/);
+            if (vm2 == null) { continue; }
+            if (seen2[vm2[1]]) { continue; }
+            var t2 = m2[2].replace(/<[^>]+>/g, '').trim();
+            if (t2 == '') { t2 = '影片' + vm2[1]; }
+            seen2[vm2[1]] = 1;
+            list.push({ vid: vm2[1], title: t2, img: '', note: '', url: getUrl(m2[1]) });
         }
     }
     if (list.length == 0) {
