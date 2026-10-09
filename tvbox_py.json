@@ -889,6 +889,60 @@
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
+    },
+    {
+      "key": "py_360",
+      "name": "360影搜",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/souju_360.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "4kvms_v2",
+      "name": "4K影视",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/4kvms_v2.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "douhua_v2",
+      "name": "豆花电影",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/douhua_v2.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "dyrs_v3",
+      "name": "电影人生",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/dyrs_v3.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "pywx_v2",
+      "name": "玄武影视",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pywx_v2.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
+    },
+    {
+      "key": "qiankan_v2",
+      "name": "全看网",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/qiankan_v2.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1
     }
   ],
   "lives": [
