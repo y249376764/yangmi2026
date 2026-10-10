@@ -90,6 +90,7 @@ var SrcParseS = {
         vipUrl = decodeURI(vipUrl);
         vipUrl = vipUrl.startsWith('tvbox-xg:')?vipUrl.replace('tvbox-xg:',''):vipUrl.startsWith('push://')?vipUrl.replace('push://',''):vipUrl
         let isVip = 0;
+        var isMusicFlag = 0;
         let extrajs;
         dataObj = dataObj || {};
 
@@ -122,6 +123,9 @@ var SrcParseS = {
             if(play.js){
                 extrajs = play.js;
             }
+            if(play.music_player || play.musicPlayer){
+                isMusicFlag = 1;
+            }
             
             if(play.url.startsWith('push://')){
                 play.url = play.url.replace('push://', '');
@@ -138,8 +142,8 @@ var SrcParseS = {
                 }
                 log(dataObj.stype + "自解析完成，进入选择播放");
                 return play.url;
-            }else if(/\.mp3|\.m4a|\.mp4|\.m3u8/.test(play.url) && play.header){
-                if(/.mp3|\.m4a/.test(play.url)){
+            }else if(play.header && (/\.mp3|\.m4a|\.mp4|\.m3u8|\.flac|\.wav|\.aac|\.ogg|\.oga|\.opus|\.ape|\.wma|\.amr|\.aiff|\.mka|\.flv|\.avi|\.mov|\.mkv/i.test(play.url) || play.music_player || play.musicPlayer)){
+                if(/\.mp3|\.m4a|\.flac|\.wav|\.aac|\.ogg|\.oga|\.opus|\.ape|\.wma|\.amr|\.aiff|\.mka/i.test(play.url) || play.music_player || play.musicPlayer){
                     play.url = play.url + '#isMusic=true##checkMetadata=false#';
                 }
                 log(dataObj.stype + "自解析完成，进入带headers播放");
@@ -188,7 +192,7 @@ var SrcParseS = {
             log("直链视频地址，直接播放"); 
             if(vipUrl.includes('app.grelighting.cn')){vipUrl = vipUrl.replace('app.','ht.')}
             return vipUrl + '#isVideo=true#';
-        }else if(/\.mp3|\.m4a/.test(vipUrl)){
+        }else if(/\.mp3|\.m4a|\.flac|\.wav|\.aac|\.ogg|\.oga|\.opus|\.ape|\.wma|\.amr|\.aiff|\.mka/i.test(vipUrl)){
             log("直链音乐地址，直接播放"); 
             return vipUrl + '#isMusic=true##checkMetadata=false#';
         }else if(vipUrl.includes('sa.sogou')) {
