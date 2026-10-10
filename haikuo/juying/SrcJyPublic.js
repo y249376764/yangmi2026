@@ -118,6 +118,7 @@ if(fileExist(libspath+"libs_jk")){
 function checkBoxUrl(input) {
     let html;
     try{
+        input = toAsciiUrl(input);   // ★ 中文域名转 punycode
         if(input.startsWith('/')){input = "file://" + input}
         if(input.includes('#nodejsID=')){
             let nodejsID = input.split('#nodejsID=')[1];
@@ -296,7 +297,7 @@ function getBoxSource(input, mode, imports){
                 if(/\.py(\?|#|$)/i.test(apistr) || /\.js(\?|#|$)/i.test(apistr)){
                     let ispy = /\.py(\?|#|$)/i.test(apistr);
                     try{
-                        let sc = getContnet(apistr);
+                        let sc = getContnet(toAsciiUrl(apistr));
                         if(sc && sc.length > 30){
                             let fn0 = apistr.split('?')[0].split('#')[0];
                             let fn = fn0.substr(fn0.lastIndexOf('/')+1);
@@ -361,7 +362,7 @@ function getBoxSource(input, mode, imports){
                         urlfile = filepath + '_' + (extfile.includes('?')?obj.key:"")+extfile.split('?')[0].substr(extfile.split('?')[0].lastIndexOf('/')+1);
                         if(mode==1){
                             try{
-                                let content = getContnet(extfile);
+                                let content = getContnet(toAsciiUrl(extfile));
                                 if (!content) {
                                     urlfile = '';
                                 }else{
@@ -447,8 +448,115 @@ function shuffleArray(array) {
     array.sort(() => Math.random() - 0.5);
     return array;
 }
+
+// ===== IDN / 中文域名支持 =====
+// 摸鱼接口等站点使用中文域名(如 http://我不是.摸鱼儿.top),
+// 底层 HTTP 库按 latin-1 编码 URL 会直接抛异常 -> 请求发不出去 -> 提取不到。
+// 默影视等 Java 原生实现会自动转 punycode 所以能播, 聚影缺这一步。
+function _punyAdapt(delta, numpoints, firsttime) {
+    var base = 36, tmin = 1, tmax = 26, skew = 38, damp = 700;
+    delta = firsttime ? Math.floor(delta / damp) : Math.floor(delta / 2);
+    delta = delta + Math.floor(delta / numpoints);
+    var k = 0;
+    while (delta > Math.floor((base - tmin) * tmax / 2)) {
+        delta = Math.floor(delta / (base - tmin));
+        k = k + base;
+    }
+    return k + Math.floor((base - tmin + 1) * delta / (delta + skew));
+}
+function _punyEncode(str) {
+    var base = 36, tmin = 1, tmax = 26, skew = 38, damp = 700, initialBias = 72, initialN = 128;
+    var out = [];
+    var inp = [];
+    for (var a = 0; a < str.length; a++) { inp.push(str.charCodeAt(a)); }
+    for (var b1 = 0; b1 < inp.length; b1++) {
+        if (inp[b1] < 128) { out.push(String.fromCharCode(inp[b1])); }
+    }
+    function digit(d) {
+        return String.fromCharCode(d + 22 + ((d < 26) ? 75 : 0));
+    }
+    var b = out.length, h = b, n = initialN, delta = 0, bias = initialBias;
+    if (b > 0) { out.push('-'); }
+    while (h < inp.length) {
+        var m = 2147483647;
+        for (var i1 = 0; i1 < inp.length; i1++) {
+            if (inp[i1] >= n && inp[i1] < m) { m = inp[i1]; }
+        }
+        delta = delta + (m - n) * (h + 1);
+        n = m;
+        for (var i2 = 0; i2 < inp.length; i2++) {
+            if (inp[i2] < n) { delta++; }
+            if (inp[i2] === n) {
+                var q = delta, k2 = base;
+                while (true) {
+                    var t = (k2 <= bias + tmin) ? tmin : ((k2 >= bias + tmax) ? tmax : (k2 - bias));
+                    if (q < t) { break; }
+                    out.push(digit(t + (q - t) % (base - t)));
+                    q = Math.floor((q - t) / (base - t));
+                    k2 = k2 + base;
+                }
+                out.push(digit(q));
+                bias = _punyAdapt(delta, h + 1, (h === b));
+                delta = 0;
+                h++;
+            }
+        }
+        delta++;
+        n++;
+    }
+    return out.join('');
+}
+function _hostToAscii(host) {
+    if (!host || !/[^\u0000-\u007F]/.test(host)) { return host; }
+    try {
+        if (typeof java !== 'undefined' && java.net && java.net.IDN) {
+            return String(java.net.IDN.toASCII(host));
+        }
+    } catch (eA) { }
+    var parts = host.split('.');
+    var res = [];
+    for (var pi = 0; pi < parts.length; pi++) {
+        var p = parts[pi];
+        if (/[^\u0000-\u007F]/.test(p)) {
+            res.push('xn--' + _punyEncode(p));
+        } else {
+            res.push(p);
+        }
+    }
+    return res.join('.');
+}
+// 只转 host, 保留路径/查询里的中文(中文域名的 path 一般也是 ASCII)
+function toAsciiUrl(u) {
+    try {
+        if (!u || typeof u !== 'string') { return u; }
+        var idx = u.indexOf('://');
+        if (idx < 0) { return u; }
+        var proto = u.substring(0, idx + 3);
+        var rest = u.substring(idx + 3);
+        var at = rest.indexOf('@');
+        var prefix2 = '';
+        if (at >= 0) { prefix2 = rest.substring(0, at + 1); rest = rest.substring(at + 1); }
+        var slash = rest.search(/[\/#?]/);
+        var host = (slash >= 0) ? rest.substring(0, slash) : rest;
+        var tail = (slash >= 0) ? rest.substring(slash) : '';
+        var colon = host.lastIndexOf(':');
+        var port = '';
+        if (colon > 0 && host.indexOf(']') < colon) {
+            port = host.substring(colon);
+            host = host.substring(0, colon);
+        }
+        if (host.charAt(0) === '[' && host.charAt(host.length - 1) === ']') {
+            return proto + prefix2 + host + port + tail;
+        }
+        return proto + prefix2 + _hostToAscii(host) + port + tail;
+    } catch (eU) {
+        return u;
+    }
+}
+
 //获取在线文件内容
 function getContnet(url) {
+    url = toAsciiUrl(url);   // ★ 中文域名转 punycode, 否则请求发不出去
     if(url.startsWith('file')){
         return fetch(url);
     }else if(!url.startsWith('http')){
