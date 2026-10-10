@@ -69,7 +69,10 @@ function getPlayExtra(obj){
         id: obj.id,
         jsLoadingInject: true,
         js: obj.js || extraJS(obj.playUrl),
-        blockRules: ['.m4a', '.mp3', '.gif', '.jpeg', '.jpg', '.ico', '.png', 'hm.baidu.com', '/ads/*.js', 'cnzz.com'],
+        // ★ 音频源/音频直链放开 .m4a/.mp3, 否则嗅探永远抓不到音频(与原逻辑自相矛盾)
+        blockRules: (obj.music || /\.mp3|\.m4a|\.flac|\.wav|\.aac|\.ogg|\.oga|\.opus|\.ape|\.wma|\.amr|\.aiff|\.mka/i.test(obj.playUrl||''))
+            ? ['.gif', '.jpeg', '.jpg', '.ico', '.png', '.css', '.svg', '.woff', 'hm.baidu.com', '/ads/*.js', 'cnzz.com']
+            : ['.m4a', '.mp3', '.gif', '.jpeg', '.jpg', '.ico', '.png', '.css', '.svg', '.woff', 'hm.baidu.com', '/ads/*.js', 'cnzz.com'],
         videoRules: videocontain,
         videoExcludeRules: videoexclude,
         cls: "Juloadlist playlist"
