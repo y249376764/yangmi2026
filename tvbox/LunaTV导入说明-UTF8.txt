@@ -1,0 +1,70 @@
+﻿# LunaTV-config 影视资源 -> 聚影导入
+
+日期：2026-10-10
+来源：github.com/zhujiejie/LunaTV-config （LunaTV-config.json）
+
+## 能不能导入聚影？能，但要转格式
+
+LunaTV 用的是自己的配置格式：
+{
+  "cache_time": 7200,
+  "api_site": {
+    "aqyzy": { "name": "爱奇艺", "api": "https://.../api.php/provide/vod", "detail": "..." }
+  }
+}
+
+**这不是 TVBox 格式**，聚影的 getBoxSource 只认 sites 数组，
+所以直接粘贴 LunaTV 地址进去 -> 解析不出任何站点。
+
+## 好消息：接口本身完全通用
+
+这些站点的 api 全是标准的苹果CMS 采集接口：
+    https://xxx.com/api.php/provide/vod
+对应聚影/TVBox 的 type=1（cms），聚影原生支持，不需要任何 jar 或蜘蛛。
+
+## 已转换并部署
+
+把 api_site 对象展开成 TVBox 的 sites 数组：
+    {"key":"aqyzy","name":"爱奇艺","type":1,"api":"...","searchable":1,"quickSearch":1,"filterable":1}
+
+共转换 **44 个普通影视站**（原仓库 78 个，另有 34 个是成人站，未包含）。
+
+部署位置：yangmi2026/tvbox/lunatv.json
+
+## 导入地址（固定链接）
+
+https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f90d67ce3fade16fb16677a6477d9c7f20b04d4c/tvbox/lunatv.json
+
+备用（浮动链接）：
+https://raw.githubusercontent.com/y249376764/yangmi2026/main/tvbox/lunatv.json
+
+## 聚影导入步骤
+
+1. 聚影 -> 资源管理
+2. 资源类型选「tvBox接口配置」
+3. 勾选「影视接口」（解析接口不用勾，这份配置没有）
+4. 粘贴上面的地址 -> 确定导入（增量）
+5. 导入方式可选「全量」（长按确定按钮切换）
+
+## 说明
+
+- 全部是 cms 类型（type=1），归到同一分组，可在聚影里再自行分组/加 TAG
+- 其中 4 个走了 CORS 代理（如意、魔爪、U酷、U酷88），
+  地址形如 https://jjpz.hafrey.dpdns.org/?url=https://... 
+  这是源站自己的代理，聚影直接 GET 即可，能正常用
+- 站点数量 44 个，一次全导入可能较慢，属正常
+
+## 关于成人站
+
+原仓库 78 个里有 34 个成人站（名称以特殊标记开头）。
+**这份转换默认不含**。需要的话告诉我，我再单独出一份。
+
+## 站点清单（44 个）
+
+爱奇艺 / 豆瓣资源 / 天涯影视 / CK资源 / 茅台资源 / 卧龙资源 / iKun资源 /
+量子影视 / 电影天堂 / 优质资源 / 猫眼资源 / 量子资源 / 如意资源 / 360资源 /
+卧龙资源1 / 极速资源 / 魔都资源 / 魔爪资源 / 非凡资源 / 非凡影视 / 暴风资源 /
+最大资源 / 最大点播 / 樱花资源 / 无尽资源 / 无尽资源1 / 索尼资源 / 快车资源 /
+闪电资源 / 新浪资源 / 旺旺短剧 / 旺旺资源 / 豪华资源 / 速播资源 / 小猫咪 /
+虎牙资源 / 金鹰点播 / 金鹰资源 / 飘零资源 / U酷资源 / U酷88 / 光速资源 /
+红牛资源 / 魔都动漫
