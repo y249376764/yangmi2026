@@ -720,57 +720,10 @@ function manageSet(){
         }
     });
     d.push({
-        title: '查看更新日志',
+        title: '已是最新版本',
         img: getIcon("管理-箭头.svg"),
         col_type: 'text_icon',
-        url: $("#noLoading#").lazyRule(() => {
-            eval(fetch(getItem("依赖","").replace(/[^/]*$/,'') + 'SrcTmplVersion.js'));
-            let updateRecords = newVersion.JYUpdateRecords || [];
-
-            const hikerPop = $.require(getItem("依赖","").replace(/[^/]*$/,'') + 'plugins/hikerPop.js');
-            hikerPop.updateRecordsBottom(updateRecords);
-            
-            return "hiker://empty";
-        })
-    });
-    d.push({
-        title: '检测版本更新',
-        img: getIcon("管理-箭头.svg"),
-        col_type: 'text_icon',
-        url: $("#noLoading#").lazyRule(() => {
-            if(!getItem("依赖","")){
-                return "toast://代码库获取异常，无法更新！";
-            }
-            if(!getItem("依赖","").startsWith("http")){
-                return "toast://非在线代码库，无法更新！";
-            }
-            try{
-                eval(request(getItem("依赖","").replace(/[^/]*$/,'') + 'SrcTmplVersion.js'))
-                let nowVersion = getItem('Version', getMyVar('Src_Jy_Version', '0.1').replace('-V',''));
-                let nowtime = Date.now();
-                if (parseFloat(newVersion.SrcJuying) > parseFloat(nowVersion)) {
-                    confirm({
-                        title: '发现新版本，是否更新？', 
-                        content: '本地V'+nowVersion+' => 云端V'+newVersion.SrcJuying, 
-                        confirm: getItem('本地依赖库')=="1"?$.toString((codeDownload) => {
-                            return "web://" + codeDownload;
-                        },newVersion.codeDownload):$.toString((nowtime,newVersion) => {
-                            setItem('Version', newVersion);
-                            setItem('VersionChecktime', nowtime+'time');
-                            deleteCache();
-                            putMyVar('Src_Jy_Version', '-V'+newVersion);
-                            refreshPage();
-                        },nowtime, newVersion.SrcJuying),
-                        cancel:''
-                    })
-                }else{
-                    toast('已经为最新版本');
-                }
-            }catch(e){
-                toast('获取版本信息异常>'+e.message);
-            }
-            return "hiker://empty";
-        })
+        url: "toast://当前为自建仓库最新版，无需更新"
     });
     d.push({
         title: '支持一下作者',
