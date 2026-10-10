@@ -26,8 +26,8 @@ if(!playSet.printlog){
         //未开启打印解析日志>不打印
     }
 }
-let exclude = /\/404\.m3u8|\/xiajia\.mp4|\.avif|\/余额不足\.m3u8/;//设置排除地址
-let contain = /\.mp4|\.m3u8|\.flv|\.avi|\.mpeg|\.wmv|\.mov|\.rmvb|\.dat|qqBFdownload|mime=video%2F|video_mp4|\.ts\?|TG@UosVod|video\/tos\/|m3u8\?pt=m3u8|\.mpd/;//设置符合条件的正确地址
+let exclude = /\/404\.m3u8|\/xiajia\.mp4|\.avif|\/余额不足\.m3u8|\.css|\.js|\.gif|\.png|\.jpg|\.jpeg|\.ico|\.svg|\.woff2?|hm\.baidu|cnzz|html,http|ac=dm/;//设置排除地址
+let contain = /\.mp4|\.m3u8|\.flv|\.avi|\.mpeg|\.mpg|\.wmv|\.mov|\.rmvb|\.rm|\.dat|\.mkv|\.webm|\.f4v|\.m4s|\.m2ts|\.3gp|\.asf|\.ogv|\.ts(?=\?|$)|qqBFdownload|mime=video%2F|mime=video\/|video_mp4|video%2Fmp4|video\/mp4|video\/tos\/|TG@UosVod|m3u8\?pt=m3u8|\/m3u8\/|type=m3u8|\.mpd/;//设置符合条件的正确地址
 let needparse = /suoyo\.cc|fen\.laodi|ruifenglb/;//设置需要解析的视频地址
 
 //数组去重
@@ -790,7 +790,7 @@ var SrcParseS = {
                     var urls = _getUrls();
                     //fba.log(fy_bridge_app.getUrls());
                     var exclude = /\/404\.m3u8|\/xiajia\.mp4|\/余额不足\.m3u8|\.avif|\.css|\.js|\.gif|\.png|\.jpg|\.jpeg|html,http|m3u88.com\/admin|\.php\?v=h|\?url=h|\?vid=h|%253Furl%253Dh|#amp=1|\.t-ui\.cn|ac=dm/;//设置排除地址
-                    var contain = /\.mp4|\.m3u8|\.flv|\.avi|\.mpeg|\.wmv|\.mov|\.rmvb|\.dat|qqBFdownload|mime=video%2F|video_mp4|\.ts\?|TG@UosVod|video\/tos\/|m3u8\?pt=m3u8|\.mpd/;//设置符合条件的正确地址
+                    var contain = /\.mp4|\.m3u8|\.flv|\.avi|\.mpeg|\.mpg|\.wmv|\.mov|\.rmvb|\.rm|\.dat|\.mkv|\.webm|\.f4v|\.m4s|\.m2ts|\.3gp|\.asf|\.ogv|\.ts(?=\?|$)|qqBFdownload|mime=video%2F|mime=video\/|video_mp4|video%2Fmp4|video\/mp4|video\/tos\/|TG@UosVod|m3u8\?pt=m3u8|\/m3u8\/|type=m3u8|\.mpd/;//设置符合条件的正确地址
                     for (var i in urls) {
                         if(!fba.getVar("getParse") && !webUrl.includes("=http") && /url=h|v=h|youku|mgtv|ixigua|qq\.com|iqiyi|migu|bilibili|sohu|pptv|\.le\.|\.1905|cctv/.test(urls[i])&&!/\/bid\?|\.gif\?|ads\?|img\.php|index\/\?|cityjson/.test(urls[i])){
                             try{
@@ -799,7 +799,8 @@ var SrcParseS = {
                             }catch(e){}
                         }
                         if(music){
-                            if(/\.mp3|\.m4a/.test(urls[i])){
+                            // ★ 扩展音频后缀, 原只认 mp3/m4a, flac/wav/aac/ogg/ape 无损全漏
+                            if(/\.mp3|\.m4a|\.flac|\.wav|\.aac|\.ogg|\.oga|\.opus|\.ape|\.wma|\.amr|\.aiff|\.mka/i.test(urls[i])){
                                 return fy_bridge_app.getHeaderUrl(urls[i]) + '#isMusic=true##checkMetadata=false#';
                             }
                         }else if (contain.test(urls[i])&&!exclude.test(urls[i])) {
@@ -812,7 +813,8 @@ var SrcParseS = {
                     fba.log("exeWebRule失败>"+e.message);
                 }
             },music,webUrl), {
-                blockRules: ['.m4a','.mp3','.gif','.jpg','.jpeg','.png','.ico','hm.baidu.com','/ads/*.js','/klad/*.php','layer.css'],
+                // ★ music 模式必须放开 .m3u8 之外的音频后缀, 否则把要找的 mp3/m4a/flac 全拦掉了(原代码自相矛盾)
+                blockRules: music ? ['.gif','.jpg','.jpeg','.png','.ico','hm.baidu.com','/ads/*.js','/klad/*.php','layer.css','.css','.svg','.woff','cnzz.com'] : ['.m4a','.mp3','.gif','.jpg','.jpeg','.png','.ico','hm.baidu.com','/ads/*.js','/klad/*.php','layer.css','.css','.svg','.woff','cnzz.com'],
                 jsLoadingInject: true,
                 js: js,
                 ua: head['user-agent'] || MOBILE_UA,
@@ -950,7 +952,8 @@ var SrcParseS = {
                         url = cacheM3u8(url, {timeout: 2000}, 'video' + parseInt(i) + '.m3u8') + '#pre#';
                     }
                 }
-                if(url.indexOf('#isVideo=true#')==-1){
+                // ★ 音频不能加 isVideo, 否则播放器按视频打开(黑屏/无声)
+                if(url.indexOf('#isVideo=true#')==-1 && url.indexOf('#isMusic=true#')==-1){
                     url = url + '#isVideo=true#';
                 }
                 return url;
