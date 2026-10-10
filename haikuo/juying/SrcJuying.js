@@ -1577,4 +1577,3 @@ function newSearch(name) {
 function Version() {
     // 更新机制已移除：聚影修复版不检查版本
 }
-}
