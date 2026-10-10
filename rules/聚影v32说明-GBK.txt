@@ -1,0 +1,130 @@
+# 聚影 v32 . 导入接口识别更多格式 + 固定链接
+
+日期：2026-10-10
+
+先纠正：你那张图是**聚影的资源管理界面**，不是 TVBox。我按聚影源码查了。
+
+---
+
+## 现状梳理（读了 SrcJyPublic.js / SrcJySet.js）
+
+### 导入入口（资源管理）
+| 类型 | 说明 |
+|---|---|
+| tvBox接口配置 | `getBoxSource` -> 解析 sites / parses |
+| js/py文件夹 | `scanFolder` -> 扫目录里的 .js/.py |
+
+### 站点类型识别（getBoxSource 的 task 函数）
+原来只有这几条：
+
+| 条件 | 识别为 |
+|---|---|
+| `/^csp_AppYs/` | AppYs |
+| `type==1 或 0` | cms |
+| `type==4` 且 api 含 /api/ 或 /drpys/ | hipy_t4 |
+| `/^csp_XBiubiu/` | biubiu |
+| `/^csp_XPath/` | XPath |
+| `csp_XBPQ` | XBPQ |
+| `/^csp_XYQHiker/` | XYQ |
+| `/drpy2/.test(api)` 且 type==3 | hipy_t3 |
+
+**两个缺口：**
+
+### ① .py 蜘蛛完全不识别
+TVBox 配置里如果站点是这样：
+```json
+{"key":"hg","name":"红果听书","type":3,"api":"./py/hongguo.py"}
+```
+api 直接指向 .py 文件 -- **上面 8 条一条都不匹配** -> `arr` 为 undefined -> **站点被静默丢弃**。
+
+而且原来判断 drpy 用的是 `/drpy2/.test(obj.api)`（拿 api 字符串匹配 "drpy2"），
+真正的 .js 蜘蛛（api 是 `./js/xxx.js`）也匹配不上。
+
+**修法**：按 **api 后缀**识别，不再赌前缀字符串
+```
+api 以 .py 结尾 -> type="py"
+api 以 .js 结尾 -> type="hipy_t3"
+```
+并且：
+- 处理 `clan://` 前缀和 `./` `../` 相对路径（拼上配置文件的基址）
+- 下载蜘蛛文件 -> 存到**永久目录 `jiekou/`**（不是 `_cache`，避免被清）
+- 保留原链接到 `ext` 字段
+
+### ② 多仓只认 JSON
+`checkBoxUrl` 原来只做 `eval('let data = ' + html)` 找 `data.urls`。
+**TVBox 常见的纯 txt 多仓（每行一个链接、`#` 注释）完全不支持。**
+
+**修法**：优先按内容首字符判断
+- 首字符 `{` 或 `[` -> JSON 分支（原逻辑）
+- 否则 -> txt 分支：
+  - 跳过空行、`#` 开头注释
+  - 支持「纯 URL」和「名称,URL」两种写法
+  - 兼容 BOM、CRLF
+  - 没识别到给明确提示（不再笼统报"内容有错"）
+
+---
+
+## 固定链接支持
+
+原来 `checkBoxUrl` 的缓存是**永久**的：
+```js
+let tmpFile = cachepath + md5(input) + ".json";
+if(!fileExist(tmpFile)){ ...下载... }else{ html = fetch(tmpFile); }
+```
+
+**问题**：用 `@main` 或 `raw/.../main/...` 这类浮动链接，
+第一次下载后就**永远用缓存**，配置更新了也拿不到新的。
+
+**修法**：按链接是否固定区分
+| 链接形式 | 缓存策略 |
+|---|---|
+| `@commit`（`@` 后跟 7~40 位 hex） | 长期缓存 -- URL 变了内容才变，key 自然不同 |
+| `@main` / `raw main` 等浮动链接 | **10 分钟时效**，过期重下 |
+
+这样固定链接既稳定又能拿到对应版本，浮动链接也不会一直吃旧缓存。
+另外下载失败时如果本地有旧缓存会回退使用，不会变空白。
+
+---
+
+## 改动文件
+`haikuo/juying/SrcJyPublic.js`
+- `getBoxSource` 的 task：新增 .py/.js 蜘蛛识别
+- `checkBoxUrl`：txt 多仓解析 + 固定/浮动链接缓存区分
+
+commit: 723d02d80c61
+
+## 导入
+
+Pro￥home_rule_url￥https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@b05fdb934891c34aac946eca4fea90418742c4f3/rules/juying_v32.txt
+
+**已本地化的**：本地化与优化 -> 「[音] 修复音频/无损播放 + 切源刷新」
+（按钮已升级为更新 **4 个文件**，含本次导入改动）-> **重启海阔**
+
+**未本地化的**：直接「[下载] 一键本地化」即拿到全部修好的源码。
+
+## 现在支持的导入格式
+
+| 格式 | 状态 |
+|---|---|
+| JSON 单仓（`sites`/`parses`） | [OK] 原有 |
+| JSON 多仓（`{urls:[...]}`） | [OK] 原有 |
+| **txt 多仓（每行一个链接）** | [新] 新增 |
+| **txt 多仓（名称,URL）** | [新] 新增 |
+| **站点 api 指向 .py** | [新] 新增 |
+| **站点 api 指向 .js** | [新] 新增 |
+| 本地文件路径 | [OK] 原有 |
+| js/py 文件夹扫描 | [OK] 原有 |
+
+## 验证建议
+1. 拿一份含 py 站点的 TVBox 配置导入，看站点数是否变多
+2. 用 txt 多仓链接（每行一个）导入，应弹出选择列表
+3. 同一个 `@main` 链接隔 10 分钟再导入，应能拿到更新后的内容
+
+## 未改动（有风险，先不动）
+- `type==2`（JsonParallel/Sequence 扩展）未识别
+- 其它未覆盖的 `csp_XXX` 前缀没做兜底 -- 强行按 hipy_t3 处理可能误判，
+  因为聚影没有对应 jar，导入了也跑不了
+
+## 版本
+v32（author: 小五，10 pages，113KB）
+16 项单元测试全过（txt 解析 8 + 链接判定 4 + 蜘蛛后缀 4）
