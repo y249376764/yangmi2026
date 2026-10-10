@@ -119,6 +119,7 @@ function checkBoxUrl(input) {
     let html;
     try{
         input = toAsciiUrl(input);   // ★ 中文域名转 punycode
+        input = normalizeInputUrl(input);   // ★ GitHub blob 页面 -> raw 原始文件
         if(input.startsWith('/')){input = "file://" + input}
         if(input.includes('#nodejsID=')){
             let nodejsID = input.split('#nodejsID=')[1];
@@ -193,7 +194,22 @@ function checkBoxUrl(input) {
                         u3 = tail;
                     }
                 }
-                if(/^https?:\/\//.test(u3) || u3.indexOf('/')===0 || u3.indexOf('file')===0){
+                // ★ 原判断 u3.indexOf('/')===0 太宽松:
+                //   JS 源码里 "// 注释" 也以 / 开头 -> 被当成"本地路径链接"
+                //   -> 每一行代码都被当成仓库列出来让用户选(用户实际遇到的现象)
+                //   收紧: 排除 // 注释、含空格、含代码特征字符
+                var uok = false;
+                if(/^https?:\/\//.test(u3)){
+                    uok = (u3.indexOf(' ') === -1);
+                }else if(u3.indexOf('file') === 0){
+                    uok = (u3.indexOf(' ') === -1);
+                }else if(u3.indexOf('/') === 0){
+                    uok = (u3.indexOf('//') !== 0)
+                        && (u3.indexOf(' ') === -1)
+                        && !/[(){}=;,"'<>]/.test(u3)
+                        && /\.(json|txt|m3u|m3u8|js|py|php|xml)$/i.test(u3.split('?')[0]);
+                }
+                if(uok){
                     if(!nm3 || nm3===u3){
                         let short = u3.split('?')[0];
                         nm3 = short.substr(short.lastIndexOf('/')+1) || u3;
@@ -204,6 +220,35 @@ function checkBoxUrl(input) {
             if(urls2.length > 0){
                 hideLoading();
                 return {urls: urls2};
+            }
+            // ★ 按行没解析出 -> 内容可能不是"每行一个链接"的格式, 智能识别
+            //   (1) HTML 页面(如 GitHub 文件页/导航站): 提取里面的配置链接
+            if(/<!DOCTYPE|<html[\s>]|<meta\s|<body[\s>]|<div[\s>]/i.test(t)){
+                var hlinks = extractLinksFromHtml(t);
+                if(hlinks.length > 0){
+                    hideLoading();
+                    return {urls: hlinks};
+                }
+                hideLoading();
+                return { message: "失败：这是网页不是配置文件，且页面里没找到可导入的链接" };
+            }
+            //   (2) 其他文本: 先正则抠出 http 链接抢救一下
+            var ex = extractUrlsFromText(t);
+            var good = [];
+            for(var ei = 0; ei < ex.length; ei++){
+                if(/\.(json|txt|m3u|m3u8)(\?|$)/i.test(ex[ei]) || /\/api\//.test(ex[ei])){
+                    var short0 = ex[ei].split('?')[0];
+                    good.push({name: (short0.substr(short0.lastIndexOf('/')+1) || ex[ei]), url: ex[ei]});
+                }
+            }
+            if(good.length > 0){
+                hideLoading();
+                return {urls: good};
+            }
+            //   (3) 还是不行, 且看着像 JS 源码 -> 明确告知, 不再把每行代码当仓库列出来
+            if(looksLikeJsCode(t)){
+                hideLoading();
+                return { message: "失败：这是 JS 源码文件，不是接口配置（请填 .json / .txt 配置地址）" };
             }
             hideLoading();
             return { message: "失败：未识别到有效链接（支持 JSON 单仓/多仓、txt 每行一个链接）" };
@@ -447,6 +492,107 @@ function getJkTags(datas){
 function shuffleArray(array) {
     array.sort(() => Math.random() - 0.5);
     return array;
+}
+
+
+// ===== 智能识别：拿到内容后先判断"这是什么"，再决定怎么处理 =====
+// 原逻辑一律按行拆分 -> 拿到 JS 源码时会把每一行代码当成"仓库"列给用户选(很离谱)
+
+// 1) 输入 URL 预处理：GitHub/Gitee blob 页面 -> 原始文件地址
+function normalizeInputUrl(u) {
+    try {
+        if (!u || typeof u !== 'string') { return u; }
+        var s = u.trim();
+        // https://github.com/a/b/blob/main/x.json -> raw.githubusercontent.com/a/b/main/x.json
+        var m = s.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/(.+)$/);
+        if (m) { return 'https://raw.githubusercontent.com/' + m[1] + '/' + m[2] + '/' + m[3] + '/' + m[4]; }
+        // https://github.com/a/b/raw/main/x.json
+        var m2 = s.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+)\/raw\/([^\/]+)\/(.+)$/);
+        if (m2) { return 'https://raw.githubusercontent.com/' + m2[1] + '/' + m2[2] + '/' + m2[3] + '/' + m2[4]; }
+        // gitee
+        var m3 = s.match(/^https?:\/\/gitee\.com\/([^\/]+)\/([^\/]+)\/blob\/([^\/]+)\/(.+)$/);
+        if (m3) { return 'https://gitee.com/' + m3[1] + '/' + m3[2] + '/raw/' + m3[3] + '/' + m3[4]; }
+        // jsdelivr 带 gh 的 blob 路径
+        var m4 = s.match(/^(https?:\/\/cdn\.jsdelivr\.net\/gh\/[^\/]+\/[^\/]+)@[^\/]+\/blob\/(.+)$/);
+        if (m4) { return m4[1] + '@main/' + m4[2]; }
+        return s;
+    } catch (e) { return u; }
+}
+
+// 2) 从任意文本里正则提取 http(s) 链接（去掉代码里的引号/括号包裹）
+function extractUrlsFromText(text) {
+    var out = [];
+    var seen = {};
+    try {
+        var re = /https?:\/\/[A-Za-z0-9\-._~%\/?#\[\]@!$&'()*+,;=]+/g;
+        var mm;
+        while ((mm = re.exec(text)) !== null) {
+            var u = mm[0];
+            // 去掉结尾的标点（常见于被代码/标点包裹）
+            u = u.replace(/[\)\]}'">,;。]+$/, '');
+            if (u.length < 12) { continue; }
+            if (seen[u]) { continue; }
+            seen[u] = 1;
+            out.push(u);
+            if (out.length > 30) { break; }
+        }
+    } catch (e) { }
+    return out;
+}
+
+// 3) 从 HTML 页面里提取"像配置"的链接（GitHub 页面、导航站等）
+function extractLinksFromHtml(h) {
+    var out = [];
+    var seen = {};
+    function add(u, nm) {
+        try {
+            u = String(u).replace(/&amp;/g, '&');
+            if (!/^https?:\/\//.test(u)) { return; }
+            if (seen[u]) { return; }
+            seen[u] = 1;
+            out.push({ name: nm || shortName(u), url: u });
+        } catch (e) { }
+    }
+    function shortName(u) {
+        var p = u.split('?')[0];
+        var f = p.substr(p.lastIndexOf('/') + 1);
+        return f || u;
+    }
+    try {
+        // GitHub blob 页面里的 "raw" 按钮 / 文件链接
+        var re1 = /href="([^"]*\/(?:raw|blob)\/[^"]*\.(?:json|txt|js|m3u|m3u8))"/g;
+        var m1;
+        while ((m1 = re1.exec(h)) !== null) {
+            var u1 = m1[1];
+            if (u1.indexOf('/') === 0) { u1 = 'https://github.com' + u1; }
+            add(normalizeInputUrl(u1));
+        }
+        // 直接的配置文件链接
+        var re2 = /(?:href|src|data-url)="(https?:\/\/[^"]*\.(?:json|txt|m3u|m3u8)(?:\?[^"]*)?)"/g;
+        var m2;
+        while ((m2 = re2.exec(h)) !== null) { add(m2[1]); }
+        // 纯文本里的链接（最后一个逗号前是名称的那种也顺带兼容）
+        if (out.length === 0) {
+            var all = extractUrlsFromText(h);
+            for (var i = 0; i < all.length && out.length < 20; i++) {
+                if (/\.(json|txt|m3u|m3u8)(\?|$)/i.test(all[i])) { add(all[i]); }
+            }
+        }
+    } catch (e) { }
+    return out;
+}
+
+// 4) 判断内容是不是 JS 源码（而不是配置）
+function looksLikeJsCode(t) {
+    if (!t) { return false; }
+    var score = 0;
+    if (/\bfunction\s*\w*\s*\(/.test(t)) { score++; }
+    if (/\b(var|let|const)\s+\w+\s*=/.test(t)) { score++; }
+    if (/=>\s*[{(]/.test(t)) { score++; }
+    if (/\brequire\s*\(|\bimport\s+/.test(t)) { score++; }
+    if (/\bmodule\.exports\b|\$\.exports/.test(t)) { score++; }
+    if (/;[\s]*$/.test(t) || /\{[\s]*\n/.test(t)) { score++; }
+    return score >= 2;
 }
 
 // ===== IDN / 中文域名支持 =====
