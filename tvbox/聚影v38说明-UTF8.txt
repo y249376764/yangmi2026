@@ -1,0 +1,62 @@
+﻿# 聚影 v38 · 一键导入（带诊断）
+
+日期：2026-10-10
+
+## 为什么之前"显示导入 0"
+
+### 根因：api_site 识别改在源码里，不本地化就不生效
+
+聚影加载公共文件的方式（SrcJyPublic.js 第 2 行）：
+    require((config.聚影||getPublicItem('聚影','')).replace(/[^/]*$/,'') + 'SrcJyPublic.js');
+
+而 api_site 识别（LunaTV 格式）就写在 SrcJyPublic.js 的 getBoxSource 里。
+
+**没本地化 -> config.聚影 指向远程 -> 加载的是原版 -> 没有 api_site 识别 -> 粘 LunaTV 原地址 = 0 站。**
+
+### 次要原因：重复导入
+jiekousave 里 `!datalist.some(checkitem)` 去重，
+站点已存在就不会累加 -> 第二次导入显示"新增 0"。
+
+## v38 怎么解决
+
+导入页顶部直接显示状态：
+    ✅ 本地源码 / ⚠️ 远程源码（改动未生效）　|　✅/❌ 支持 api_site
+    接口表共 N 站，其中 LunaTV 分组 M 站
+
+### 按钮① 更新源码（关键）
+只在检测到「远程源码」或「不支持 api_site」时出现。
+下载 4 个文件（SrcJyPublic/SrcParseS/SrcJyMethod/SrcJySet）到
+hiker://files/rules/Src/Juying2/，重启后 api_site 生效。
+
+### 按钮② 一键导入（44 站）
+内置 10 节点依次尝试，下载->解析->写入。
+结果写进「上次结果」区块，包含：
+    下载：节点N 成功（X 字节）
+    解析：44 站
+    写入：成功 N 站（jiekousave / 直接写 jiekou.json）
+    接口表：M -> 现有（新增 N）
+
+### 按钮③ 清掉 LunaTV 分组后重导
+解决"新增 0"：先删掉 group=='LunaTV' 的条目，重启后再导入。
+
+### 按钮④ M3U/TXT 直播源
+填订阅链接（#EXTM3U 或 #genre#），写 liveconfig.json。
+
+## 操作顺序（推荐）
+
+1. 导入 v38
+2. 打开「📥 一键导入」页，看顶部状态
+3. 若显示「远程源码」或「不支持 api_site」-> 点 ① 更新源码 -> **重启海阔**
+4. 点 ② 一键导入 -> 看「上次结果」
+5. 若显示新增 0 但接口表里 LunaTV 分组也是 0 -> 说明写入失败，把「上次结果」发我
+6. 若之前导入过想重来 -> 点 ③ 清除 -> 重启 -> 再点 ②
+
+## 导入地址
+
+规则：https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@d1f6f77d34b1f4f9c8496f0e45d1fa24cc93e678/rules/juying_v38.txt
+
+LunaTV 配置（备用手动粘贴）：
+https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f90d67ce3fade16fb16677a6477d9c7f20b04d4c/tvbox/lunatv.json
+
+## 注意
+每次操作后**重启海阔**才生效。
