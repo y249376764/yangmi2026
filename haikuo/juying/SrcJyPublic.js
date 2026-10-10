@@ -283,6 +283,40 @@ function getBoxSource(input, mode, imports){
     }else if(checkUrl.html){
         html = checkUrl.html;
         eval('data = ' + html);
+        // ★ LunaTV / MoonTV / LibreTV 等格式: {cache_time, api_site:{key:{name,api,detail}}}
+        //   它们不是 TVBox 的 sites 数组, 聚影原本完全不认 -> 导入 0 站。
+        //   (星集把这叫"菠菜源", 其 addbocai 批量导入支持的就是这个格式)
+        try {
+            if ((!data.sites || data.sites.length === 0) && data.api_site) {
+                var _as = data.api_site;
+                var _sites = [];
+                var hasOwn = Object.prototype.hasOwnProperty;
+                for (var _k in _as) {
+                    if (!hasOwn.call(_as, _k)) { continue; }
+                    var _v = _as[_k];
+                    if (!_v) { continue; }
+                    var _api = String(_v.api || '').trim();
+                    if (!_api) { continue; }
+                    var _item = {
+                        key: _k,
+                        name: String(_v.name || _k).trim(),
+                        type: 1,
+                        api: _api,
+                        searchable: 1,
+                        quickSearch: 1,
+                        filterable: 1
+                    };
+                    if (_v.detail) { _item.detail = String(_v.detail); }
+                    _sites.push(_item);
+                }
+                if (_sites.length > 0) {
+                    data.sites = _sites;
+                    log('识别为 api_site 格式, 转换站点 ' + _sites.length + ' 个');
+                }
+            }
+        } catch (eAS) {
+            log('api_site 转换失败>' + eAS.message);
+        }
     }else{
         return {
             message: "异常：为啥会没有获取到html"
