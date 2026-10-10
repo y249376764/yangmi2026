@@ -140,12 +140,29 @@ function checkBoxUrl(input) {
         }
         if(input.startsWith('http')){
             let tmpFile = cachepath + md5(input) + ".json";
-            if(!fileExist(tmpFile)){
+            // ★ 固定链接(jsdelivr @commit 等, URL 变即内容变)可长期缓存;
+            //   浮动链接(@main / raw 分支)内容会变, 加 10 分钟时效, 否则永远拿旧配置
+            let isFixed = /@[0-9a-f]{7,40}\b/i.test(input);
+            let needDl = !fileExist(tmpFile);
+            if(!needDl && !isFixed){
+                try{
+                    let rp0 = String(getPath(tmpFile)).replace(/^file:\/\//, "");
+                    let lm0 = Number(new java.io.File(rp0).lastModified());
+                    if((new Date().getTime() - lm0) > 600000){
+                        needDl = true;
+                    }
+                }catch(eT){
+                    needDl = true;
+                }
+            }
+            if(needDl){
                 showLoading('检测在线文件有效性');
                 html = getContnet(input);
                 //log(html);
                 if(html){
                     writeFile(tmpFile, html);
+                }else if(fileExist(tmpFile)){
+                    html = fetch(tmpFile);
                 }
             }else{
                 html = fetch(tmpFile);
@@ -158,7 +175,39 @@ function checkBoxUrl(input) {
         if(html.includes('LuUPraez**')){
             html = base64Decode(html.split('LuUPraez**')[1]);
         }
-        eval('let data = ' + html)
+        let t = String(html).replace(/^\uFEFF/, '').trim();
+        // ★ 新增: txt 多仓(每行一个链接, # 开头为注释), 原逻辑只认 JSON 的 {urls:[...]}
+        if(t.length>0 && t.charAt(0)!='{' && t.charAt(0)!='['){
+            let lines = t.split('\n');
+            let urls2 = [];
+            for(let li=0; li<lines.length; li++){
+                let ln = String(lines[li]).replace(/\r/g,'').trim();
+                if(!ln || ln.indexOf('#')===0){ continue; }
+                let nm3 = ln, u3 = ln;
+                let ci = ln.lastIndexOf(',');
+                if(ci > 0){
+                    let tail = ln.substr(ci+1).trim();
+                    if(/^https?:\/\//.test(tail) || tail.indexOf('/')===0){
+                        nm3 = ln.substr(0, ci).trim();
+                        u3 = tail;
+                    }
+                }
+                if(/^https?:\/\//.test(u3) || u3.indexOf('/')===0 || u3.indexOf('file')===0){
+                    if(!nm3 || nm3===u3){
+                        let short = u3.split('?')[0];
+                        nm3 = short.substr(short.lastIndexOf('/')+1) || u3;
+                    }
+                    urls2.push({name: nm3, url: u3});
+                }
+            }
+            if(urls2.length > 0){
+                hideLoading();
+                return {urls: urls2};
+            }
+            hideLoading();
+            return { message: "失败：未识别到有效链接（支持 JSON 单仓/多仓、txt 每行一个链接）" };
+        }
+        eval('let data = ' + t)
         if(data.urls){
             hideLoading();
             return {urls: data.urls};
@@ -235,6 +284,41 @@ function getBoxSource(input, mode, imports){
                     arr['onlysearch'] = 1;
                 }
             }else{
+                // ★ 新增: TVBox 配置里 api 直接指向蜘蛛文件(.py/.js)的识别
+                //   原逻辑只按 csp_ 前缀匹配, py 蜘蛛完全无法导入
+                let apistr = String(obj.api || "");
+                let spath = input.substr(0, input.lastIndexOf('/')+1);
+                if(/^clan:/.test(apistr)){
+                    apistr = apistr.replace("clan://TVBox/", (input.match(/file.*\//)||[""])[0]);
+                }else if(apistr.indexOf('./')===0 || apistr.indexOf('../')===0){
+                    apistr = apistr.replace("../", spath).replace(/\.\//g, spath);
+                }
+                if(/\.py(\?|#|$)/i.test(apistr) || /\.js(\?|#|$)/i.test(apistr)){
+                    let ispy = /\.py(\?|#|$)/i.test(apistr);
+                    try{
+                        let sc = getContnet(apistr);
+                        if(sc && sc.length > 30){
+                            let fn0 = apistr.split('?')[0].split('#')[0];
+                            let fn = fn0.substr(fn0.lastIndexOf('/')+1);
+                            if(fn){
+                                // 存到永久目录 jiekou/, 避免 _cache 被清
+                                let sf = jkfilespath + (ispy ? "py_" : "hipy_t3_") + fn;
+                                writeFile(sf, sc);
+                                if(fileExist(sf)){
+                                    let nm2 = obj.name || fn;
+                                    let a2 = { "name": nm2, "type": (ispy ? "py" : "hipy_t3"), "url": sf, "ext": apistr };
+                                    if(String(nm2).indexOf('[搜]')>-1){ a2['onlysearch'] = 1; }
+                                    a2['searchable'] = obj.searchable;
+                                    return {data: a2};
+                                }
+                            }
+                        }else{
+                            log((obj.name||'?') + '>蜘蛛文件获取为空, 跳过');
+                        }
+                    }catch(e5){
+                        log((obj.name||'?') + '>蜘蛛文件获取失败>' + e5.message);
+                    }
+                }
                 let extfile = obj.ext;
                 if($.type(extfile)=='string'){
                     if(/^clan:/.test(extfile)){
