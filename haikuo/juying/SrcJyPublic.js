@@ -748,6 +748,9 @@ function selectSource() {
                 clearMyVar('dianbo$flCache');
                 clearMyVar('点播动态加载loading');
                 clearMyVar('点播一级jkdata');
+                // ★ 补: 切源后 refreshPage 会触发 onRefresh 让"点播下滑num"+1,
+                //   未清零会导致动态加载/指纹校验分支误判 -> 页面空白需再刷一次
+                clearMyVar('点播下滑num');
                 
                 let key = tmpList[i].url;
                 setJkSort(key, {use: 1});
