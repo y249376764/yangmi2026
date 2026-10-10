@@ -1,0 +1,3 @@
+﻿# LunaTV 影视资源 - 聚影导入地址
+# 每行一个接口地址，# 开头为注释
+https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f90d67ce3fade16fb16677a6477d9c7f20b04d4c/tvbox/lunatv.json
