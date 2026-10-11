@@ -1,0 +1,66 @@
+[
+  {
+    "bookSourceComment": "🎬YY短剧 阅读NG书源 v1 (2026-10-11)\n站点: https://yy-playlet.yy.com (YY直播官方短剧)\n接口免鉴权直连, 分类/搜索/详情/全集/播放全链路\n\n接口:\n 分类: GET /homepage/playlist-list/{type}/{page}/18 (type:1男频/2女频/4都市/5虐恋/7古装/10战神)\n 搜索: GET searchservice.yy.com/search?keyword=&typ=playlet\n 详情: GET /playlet/video-list?pid=&direct=1&pageSize=1&recommend=false&seq=1\n 全集: GET /playlet/next-video-list?pid=&pageSize=30&direct=1&seq= (游标翻页)\n 播放: GET /playlet/video-list?pid=&direct=1&pageSize=30&recommend=false&seq=N → videoUrl mp4直链\n\n更多资源: https://navpage-2026.surge.sh/",
+    "bookSourceGroup": "🎬 短剧",
+    "bookSourceName": "🎬YY短剧·阅读v1",
+    "bookSourceType": 4,
+    "bookSourceUrl": "https://yy-playlet.yy.com",
+    "bookUrlPattern": "yy-playlet\\.yy\\.com|searchservice\\.yy\\.com",
+    "customButton": false,
+    "customOrder": 2,
+    "enabled": true,
+    "enabledCookieJar": false,
+    "enabledExplore": true,
+    "eventListener": false,
+    "exploreUrl": "[\n  {\"title\": \"🚹 男频\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/1/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}},\n  {\"title\": \"🚺 女频\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/2/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}},\n  {\"title\": \"🏙 都市\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/4/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}},\n  {\"title\": \"💔 虐恋\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/5/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}},\n  {\"title\": \"🏮 古装\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/7/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}},\n  {\"title\": \"⚔️ 战神\", \"url\": \"https://yy-playlet.yy.com/homepage/playlet-list/10/{{page}}/18\", \"style\": {\"layout_flexGrow\": 1, \"layout_flexBasisPercent\": 0.5}}\n]",
+    "header": "{\"User-Agent\": \"Platform/Android10 APP/yymand8.60.1 Model/MI 8 Browser/None HostVersion/8.60.1 HostName/yy HostId/1\"}",
+    "lastUpdateTime": 1791690000000,
+    "loginUrl": "",
+    "respondTime": 180000,
+    "ruleBookInfo": {
+      "author": "",
+      "coverUrl": "@js:result.snapshotUrl||''",
+      "init": "",
+      "intro": "@js:result.intro||result.description||''",
+      "kind": "",
+      "lastChapter": "",
+      "name": "@js:result.name||''",
+      "tocUrl": "@js:\n(function(){\n  var s = String(result || '');\n  var m = s.match(/(\\d+)/);\n  if(!m) return '';\n  return 'https://yy-playlet.yy.com/playlet/next-video-list?pid=' + m[1] + '&pageSize=30&direct=1&seq=1';\n})()"
+    },
+    "ruleContent": {
+      "content": "@js:\n(function(){\n  var d = null;\n  try { d = JSON.parse(String(result)); } catch(e) { d = null; }\n  if (!d) return '';\n  var vs = ((d.data||{}).videos) || [];\n  for (var i=0;i<vs.length;i++){\n    var u = vs[i].videoUrl || '';\n    if (u) return u;\n  }\n  return '';\n})()"
+    },
+    "ruleExplore": {
+      "author": "",
+      "bookList": "$.result[*]",
+      "bookUrl": "@js:\n(function(){ return 'https://yy-playlet.yy.com/playlet/video-list?pid=' + result.pid + '&direct=1&pageSize=1&recommend=false&seq=1'; })()",
+      "coverUrl": "@js:result.snapshotUrl||''",
+      "intro": "@js:result.intro||result.description||''",
+      "kind": "",
+      "lastChapter": "",
+      "name": "@js:result.name||''",
+      "wordCount": ""
+    },
+    "ruleSearch": {
+      "author": "",
+      "bookList": "$.response.playlet.docs[*]",
+      "bookUrl": "@js:\n(function(){ var id = result.pid || result.id; return 'https://yy-playlet.yy.com/playlet/video-list?pid=' + id + '&direct=1&pageSize=1&recommend=false&seq=1'; })()",
+      "checkKeyWord": "战神",
+      "coverUrl": "@js:result.snapshotUrl||result.headUrl||''",
+      "intro": "@js:result.intro||result.vintro||''",
+      "kind": "@js:'共'+(result.videoCount||'')+'集'",
+      "lastChapter": "",
+      "name": "@js:result.name||result.title||''",
+      "wordCount": ""
+    },
+    "ruleToc": {
+      "chapterList": "@js:\n(function(){\n  var d = null;\n  if (typeof result === 'string') { try { d = JSON.parse(result); } catch(e){} }\n  else { d = result; }\n  if (!d) return [];\n  var data = d.data || {};\n  var vs = data.videos || [];\n  var pid = '';\n  try { var m = String(baseUrl||'').match(/pid=(\\d+)/); if (m) pid = m[1]; } catch(e){}\n  if (!pid) { try { var m2 = String(book.bookUrl||'').match(/pid=(\\d+)/); if (m2) pid = m2[1]; } catch(e){} }\n  var out = [];\n  var seen = {};\n  for (var i=0;i<vs.length;i++){\n    var v = vs[i] || {};\n    var seq = v.seq || (i+1);\n    var u = v.videoUrl || '';\n    if (!u) continue;\n    if (seen[seq]) continue;\n    seen[seq] = 1;\n    out.push({\n      name: '第' + seq + '集',\n      url: 'https://yy-playlet.yy.com/playlet/video-list?pid=' + pid + '&direct=1&pageSize=30&recommend=false&seq=' + seq,\n      isVolume: false\n    });\n  }\n  return out;\n})()",
+      "chapterName": "name",
+      "chapterUrl": "url",
+      "isVolume": "isVolume",
+      "updateTime": ""
+    },
+    "searchUrl": "https://searchservice.yy.com/search?q={{key}}&typ=playlet&v=6&app=4&correct=0&page={{page}}&deviceScore=0.517&netType=2&deviceDay=1&hdid=abcdef0123456789abcdef0123456789&supportSwan=false&channel=1505&launch=0&yyVersion=8.60.1&uid=0&deviceTotalLevel=2&osVersion=10&appid=yym&deviceLevel=2&sdkVersion=8.60.1&ispType=4",
+    "weight": 0
+  }
+]
