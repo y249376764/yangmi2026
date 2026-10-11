@@ -1,0 +1,27 @@
+{
+  "comment": "站点清单（含分组）。group 字段是分组名，可填 影视/小说/音频 或任意自定义名。改完上传到与配置同目录即可。",
+  "groups": ["影视", "小说", "音频"],
+  "sites": [
+    {
+      "key": "demo_movie",
+      "name": "示例影视站",
+      "group": "影视",
+      "type": 1,
+      "api": "https://你的影视站/api.php/provide/vod/"
+    },
+    {
+      "key": "demo_novel",
+      "name": "示例小说站",
+      "group": "小说",
+      "type": 3,
+      "api": "./spiders/demo_novel.js"
+    },
+    {
+      "key": "demo_audio",
+      "name": "示例音频站",
+      "group": "音频",
+      "type": 3,
+      "api": "./spiders/demo_audio.py"
+    }
+  ]
+}
