@@ -119,6 +119,21 @@ if(fileExist(libspath+"libs_jk")){
 // ===== 多节点智能下载（网络导入优化）=====
 // 用户填一个 GitHub 链接经常拿不到（502/403/超时），
 // 这里自动生成等价候选（raw / jsdelivr / 代理池），逐个试到成功为止。
+
+// 带超时的取内容（底层 fetch 默认超时太长，导入时会一直转圈）
+function _fetchFast(u) {
+    var r = '';
+    try {
+        r = String(fetch(u, { timeout: 5000 }));
+    } catch (e1) {
+        try { r = String(fetch(u)); } catch (e2) { r = ''; }
+    }
+    if (!r) {
+        try { r = String(getContnet(u)); } catch (e3) { r = ''; }
+    }
+    return r;
+}
+
 function _candUrls(u) {
     var out = [];
     function add(x) { for (var i = 0; i < out.length; i++) { if (out[i] === x) { return; } } out.push(x); }
