@@ -11739,6 +11739,7 @@ class Spider(BaseSpider):
 
     # ===== v8.1 内容分类：按文件名语义自动归类，与手动标签合并生效 =====
     EXPORT_JSON_NAME = "\u672c\u5730\u70b9\u64ad.json"
+    EXPORT_SHARE_NAME = "\u672c\u5730\u70b9\u64ad_\u5206\u4eab\u7248.json"
 
     AUTO_TAG_RULES = (
         ("\u5b98\u6e90", ("iqiyi", "youku", "tencent", "mgtv", "douban",
@@ -11796,6 +11797,179 @@ class Spider(BaseSpider):
         return out
 
     # ===== v8.2 导出本地点播 JSON =====
+    # ===== v8.2 分享版：本地 file:// 转远程 URL =====
+    # 导出的 JSON 若全是 file:///sdcard/... 别人拿到是打不开的，
+    # 必须把蜘蛛文件本身放到公网。这里按文件名匹配公共仓库已托管的 py。
+    REMOTE_PY_MAP = {
+        '4kvms_v2': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/4kvms_v2.py',
+        'aigua': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/aigua.py',
+        'aowu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/aowu.py',
+        'bajie': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bajie.py',
+        'bili_fanju': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bili_fanju.py',
+        'bilibili_audio': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibili_audio.py',
+        'bilibili_ts': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibili_ts.py',
+        'bilibilivd': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibilivd.py',
+        'bubuzhuiju': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bubuzhuiju.py',
+        'cctv': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/cctv.py',
+        'changzhang': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/changzhang.py',
+        'dashixiong': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dashixiong.py',
+        'dianyingmifeng': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dianyingmifeng.py',
+        'diduan': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/diduan.py',
+        'dongmanla': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dongmanla.py',
+        'douban': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douban.py',
+        'douhua_v2': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douhua_v2.py',
+        'dsystv': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dsystv.py',
+        'duanmu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/duanmu.py',
+        'duoduo': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/duoduo.py',
+        'dyrs_v3': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dyrs_v3.py',
+        'fandazi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/fandazi.py',
+        'fenxiangnunu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/fenxiangnunu.py',
+        'geci_music': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/geci_music.py',
+        'gongchang': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/gongchang.py',
+        'guangsu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guangsu.py',
+        'guazi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guazi.py',
+        'guoguo_spider': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guoguo_spider.py',
+        'hipi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/hipi.py',
+        'hongguo': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/hongguo.py',
+        'huavod': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/huavod.py',
+        'huoche': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/huoche.py',
+        'iqiyi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/iqiyi.py',
+        'juedui': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juedui.py',
+        'juhe_music': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juhe_music.py',
+        'juok3': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juok3.py',
+        'juzong': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juzong.py',
+        'kenan': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kenan.py',
+        'kkys': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kkys.py',
+        'kpkuang': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang.py',
+        'kpkuang_v3': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang_v3.py',
+        'kuwo_tingshu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kuwo_tingshu.py',
+        'lanrentingshu_v2': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lanrentingshu_v2.py',
+        'lianggebt': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lianggebt.py',
+        'libvio': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/libvio.py',
+        'lx_converter': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lx_converter.py',
+        'maple': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/maple.py',
+        'meipa': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/meipa.py',
+        'mgtv': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/mgtv.py',
+        'nunu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/nunu.py',
+        'pianku4k': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/pianku4k.py',
+        'pywx_v2': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/pywx_v2.py',
+        'qiankan_v2': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiankan_v2.py',
+        'qiyoudy': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiyoudy.py',
+        'riben4k': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/riben4k.py',
+        'souju': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/souju.py',
+        'souju_360': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/souju_360.py',
+        'tencent': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tencent.py',
+        'tengaiyou': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tengaiyou.py',
+        'tiankong': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiankong.py',
+        'tiantang': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiantang.py',
+        'tiantian_dm': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiantian_dm.py',
+        'ting365': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ting365.py',
+        'ting39': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ting39.py',
+        'tingyou_simple': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tingyou_simple.py',
+        'tingyoufm': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tingyoufm.py',
+        'wangfei': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/wangfei.py',
+        'wawa': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/wawa.py',
+        'ximalaya': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ximalaya.py',
+        'xin51_dm': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xin51_dm.py',
+        'xinxin': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xinxin.py',
+        'xueyue': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xueyue.py',
+        'yangshi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yangshi.py',
+        'yangshi_zongyi': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yangshi_zongyi.py',
+        'yinghua': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yinghua.py',
+        'yitingshu': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yitingshu.py',
+        'youku': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/youku.py',
+        'youtube_spider': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/youtube_spider.py',
+        'yuetingba': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yuetingba.py',
+        'yunduo': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yunduo.py',
+        'yyduanju': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yyduanju.py',
+        'zhuiju': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/zhuiju.py',
+        'zuiying': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/zuiying.py',
+        '央库云': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央库云.py',
+        '文才影视': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/文才影视.py',
+        '甜圈短剧': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/甜圈短剧.py',
+        '金牌': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/金牌.py',
+        '锦鲤短剧': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/锦鲤短剧.py',
+        '高清电影': 'https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/高清电影.py',
+    }
+    REMOTE_PY_BASE = "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/"
+
+    def _remote_url_for(self, source):
+        """把本地源解析成公网 URL；命中不了返回空串。"""
+        try:
+            path = str(source.get("path") or "")
+            stem = os.path.basename(path)
+            if stem.lower().endswith(".py"):
+                stem = stem[:-3]
+            stem = str(source.get("base_name") or stem)
+            if stem.lower().endswith(".py"):
+                stem = stem[:-3]
+            key = stem.casefold().strip()
+            if key in self.REMOTE_PY_MAP:
+                return self.REMOTE_PY_MAP[key]
+        except Exception:
+            pass
+        return ""
+
+    def _export_share_json_file(self):
+        """导出分享版：api 能换远程的一律换成远程 URL。"""
+        try:
+            sources = [x for x in self.cache["sources"] if x.get("type") in ("PY", "JS", "CSP", "HTML")]
+        except Exception:
+            sources = []
+        if not sources:
+            return False, "\u672a\u53d1\u73b0\u6e90\u6587\u4ef6\uff0c\u8bf7\u5148\u626b\u63cf"
+        sites, hit, miss = [], 0, []
+        for src in sources:
+            try:
+                site = copy.deepcopy(self._build_site(src))
+            except Exception:
+                site = {"key": src.get("key", ""), "name": src.get("name", "")}
+            remote = self._remote_url_for(src)
+            if remote:
+                site["api"] = remote
+                hit += 1
+            else:
+                miss.append(str(src.get("name") or src.get("base_name") or src.get("key") or ""))
+                # 没托管的保留本地路径，别人打不开但至少自己能用
+            site.setdefault("type", 3)
+            site.setdefault("searchable", 1)
+            site.setdefault("changeable", 1)
+            site.setdefault("quickSearch", 1)
+            site.setdefault("filterable", 1)
+            sites.append(site)
+        config = {
+            "spider": "",
+            "wallpaper": "",
+            "logo": "",
+            "sites": sites,
+            "parses": [
+                {"name": "\u867e\U0001f990\u7c73", "type": 0,
+                 "url": "https://jx.xmflv.com/?url=",
+                 "ext": {"flag": ["qiyi", "\u7231\u5947\u827a", "qq", "\u817e\u8baf",
+                                  "youku", "\u4f18\u9177", "mgtv", "\u8292\u679c",
+                                  "letv", "\u4e50\u89c6", "sohu", "xigua", "pptv", "fun"],
+                         "header": {"User-Agent": "okhttp/4.1.0"}}},
+                {"name": "\u534e\u52c7", "type": 0, "url": "https://huayong.net/vip4/?url="},
+                {"name": "\u5256\u4e91", "type": 0, "url": "https://www.pouyun.com/?url="},
+            ],
+        }
+        out_dir = self.local_base_dir
+        try:
+            if out_dir and not os.path.isdir(out_dir):
+                os.makedirs(out_dir)
+            path = os.path.join(out_dir, self.EXPORT_SHARE_NAME)
+            with open(path, "w", encoding="utf-8") as handle:
+                json.dump(config, handle, ensure_ascii=False, indent=2)
+        except Exception as exc:
+            return False, "\u5199\u5165\u5931\u8d25: " + str(exc)
+        msg = "\u5bfc\u51fa\u6210\u529f {} \u4e2a\u7ad9\u70b9\uff08{} \u4e2a\u5df2\u8f6c\u8fdc\u7a0b / {} \u4e2a\u4ecd\u4e3a\u672c\u5730\u8def\u5f84\uff09\uff1a{}".format(
+            len(sites), hit, len(miss), path)
+        if miss:
+            msg += "\n\u672a\u6258\u7ba1\u516c\u7f51\uff1a" + "\u3001".join(miss[:12])
+            if len(miss) > 12:
+                msg += " \u7b49 {} \u4e2a".format(len(miss))
+        return True, msg
+
     def _export_json_items(self):
         """导出预览列表。"""
         try:
@@ -11812,13 +11986,24 @@ class Spider(BaseSpider):
         items = [self._info_item("export_header",
             "\U0001f4ca \u5c06\u5bfc\u51fa {} PY + {} JS + {} \u5176\u5b83".format(py_n, js_n, other),
             "\u70b9\u51fb\u4e0b\u65b9\u6309\u94ae\u5bfc\u51fa")]
+        hit_n = 0
+        for src in sources:
+            if self._remote_url_for(src):
+                hit_n += 1
         items.append({
             "vod_id": "export_do",
-            "vod_name": "\U0001f4e4 \u5bfc\u51fa\u672c\u5730\u70b9\u64ad JSON",
+            "vod_name": "\U0001f4e4 \u5bfc\u51fa\u672c\u5730\u7248\uff08\u81ea\u5df1\u7528\uff09",
             "vod_pic": self._icon("classify"),
             "vod_remarks": os.path.join(self.local_base_dir, self.EXPORT_JSON_NAME),
-            "vod_content": "\u751f\u6210\u540e\u53ef\u76f4\u63a5\u586b\u5165\u914d\u7f6e\u5730\u5740\u6216\u5206\u4eab",
+            "vod_content": "api \u4e3a\u672c\u5730 file:// \u8def\u5f84\uff0c\u4ec5\u672c\u673a\u53ef\u7528",
             "action": self.ACTION_EXPORT_JSON,
+        })
+        items.append({
+            "vod_id": "export_share",
+            "vod_name": "\U0001f310 \u5bfc\u51fa\u5206\u4eab\u7248\uff08\u53ef\u53d1\u522b\u4eba\uff09",
+            "vod_pic": self._icon("classify"),
+            "vod_remarks": os.path.join(self.local_base_dir, self.EXPORT_SHARE_NAME),
+            "vod_content": "\u5f53\u524d {} / {} \u4e2a\u80fd\u6362\u6210\u516c\u7f51 URL\uff1b\u5176\u4f59\u4ecd\u4e3a\u672c\u5730\u8def\u5f84".format(hit_n, len(sources)),
         })
         for src in sources[:25]:
             items.append(self._info_item("exp_" + str(src.get("id", "")),
@@ -17427,6 +17612,13 @@ class Spider(BaseSpider):
             detail = self._status_detail()
             detail["vod_name"] = "\U0001f4e4 \u5bfc\u51fa\u672c\u5730\u70b9\u64ad JSON"
             detail["vod_remarks"] = "\u70b9\u51fb\u4e0a\u65b9\u300c\u5bfc\u51fa\u300d\u5361\u7247\u6267\u884c"
+            return {"list": [detail]}
+        if source_id == "export_share":
+            ok, msg = self._export_share_json_file()
+            detail = self._status_detail()
+            detail["vod_name"] = "\U0001f310 \u5bfc\u51fa\u5206\u4eab\u7248"
+            detail["vod_remarks"] = "\u6210\u529f" if ok else "\u5931\u8d25"
+            detail["vod_content"] = msg + "\n\n" + str(detail.get("vod_content", ""))
             return {"list": [detail]}
         if source_id == "export_do":
             ok, msg = self._export_local_json_file()
