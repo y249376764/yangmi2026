@@ -1,0 +1,67 @@
+[
+  {
+    "bookSourceName": "示例小说站",
+    "bookSourceUrl": "https://你的小说站.com",
+    "bookSourceGroup": "小说,玄幻",
+    "bookSourceType": 0,
+    "bookUrlPattern": "",
+    "customOrder": 0,
+    "enabled": true,
+    "enabledExplore": true,
+    "searchUrl": "https://你的小说站.com/search?keyword={{key}}&page={{page}}",
+    "exploreUrl": "玄幻::https://你的小说站.com/list/1|都市::https://你的小说站.com/list/2",
+    "header": "User-Agent: Mozilla/5.0",
+    "ruleSearch": {
+      "bookList": ".book-item",
+      "name": ".book-name a@text",
+      "author": ".book-author@text",
+      "kind": ".book-category@text",
+      "lastChapter": ".book-last a@text",
+      "bookUrl": ".book-name a@href",
+      "coverUrl": ".book-cover img@src"
+    },
+    "ruleBookInfo": {
+      "name": "h1.book-title@text",
+      "author": ".author@text",
+      "intro": ".intro@text",
+      "coverUrl": ".cover img@src",
+      "tocUrl": "a.read@href"
+    },
+    "ruleToc": {
+      "chapterList": "#chapterlist a",
+      "chapterName": "a@text",
+      "chapterUrl": "a@href",
+      "nextTocUrl": ".next@href"
+    },
+    "ruleContent": {
+      "content": "#content@text",
+      "nextContentUrl": ".next@href",
+      "replaceRegex": "广告内容.*?"
+    }
+  },
+  {
+    "bookSourceName": "示例有声站",
+    "bookSourceUrl": "https://你的有声站.com",
+    "bookSourceGroup": "音频,听书",
+    "bookSourceType": 1,
+    "customOrder": 1,
+    "enabled": true,
+    "enabledExplore": false,
+    "searchUrl": "https://你的有声站.com/search?key={{key}}",
+    "ruleSearch": {
+      "bookList": "$.data.list[*]",
+      "name": "$.title",
+      "author": "$.author",
+      "coverUrl": "$.cover",
+      "bookUrl": "$.id@js:'https://你的有声站.com/album/'+result"
+    },
+    "ruleToc": {
+      "chapterList": "$.chapters[*]",
+      "chapterName": "$.title",
+      "chapterUrl": "$.audioUrl"
+    },
+    "ruleContent": {
+      "content": "$.audioUrl"
+    }
+  }
+]
