@@ -738,7 +738,27 @@ function dianboyiji(testSource, dd) {
                 js: $.toString(() => {
                     require(config.聚影.replace(/[^/]*$/,'') + 'SrcJyPublic.js');
                     deleteData('jk', homeSource);
-                    return "toast://已处理";
+                    // ★ 被删的正是当前源时，清掉缓存里的当前源指向，
+                    //   否则下次进页面仍按旧 homeSource 渲染，看起来"没删掉"
+                    try {
+                        let cf = cfgfile;
+                        let jc = null;
+                        try { eval("jc = " + fetch(cf) + ";"); } catch(e1) { jc = null; }
+                        if(jc && homeSource && homeSource.url){
+                            let still = false;
+                            let dl = [];
+                            try { eval("dl = " + fetch(jkfile) + ";"); } catch(e2) { dl = []; }
+                            for(let di = 0; di < dl.length; di++){
+                                if(dl[di] && dl[di].url == homeSource.url){ still = true; break; }
+                            }
+                            if(!still){
+                                delete jc['homeSource'];
+                                writeFile(cf, JSON.stringify(jc));
+                            }
+                        }
+                    } catch(e3) { }
+                    refreshPage(false);
+                    return "toast://已删除";
                 })
             },{
                 title: "编辑当前源",
