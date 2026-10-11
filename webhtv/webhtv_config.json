@@ -1,0 +1,24 @@
+{
+  "comment": "默影视(WebHomeTV) 配置。nav 是分类导航首页站点，其余站点按 group 归类。相对路径以配置文件 URL 为基准。",
+  "spider": "./spider.jar",
+  "home": "nav",
+  "sites": [
+    {
+      "key": "nav",
+      "name": "分类导航",
+      "type": 3,
+      "api": "csp_WebHome",
+      "homePage": "./webhome.html",
+      "searchable": 1,
+      "changeable": 1
+    },
+    {
+      "key": "demo_movie",
+      "name": "示例影视站",
+      "type": 1,
+      "api": "https://你的影视站/api.php/provide/vod/",
+      "searchable": 1,
+      "changeable": 1
+    }
+  ]
+}
