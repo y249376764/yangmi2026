@@ -115,6 +115,76 @@ if(fileExist(libspath+"libs_jk")){
 }
 
 // 较验box配置文件
+
+// ===== 多节点智能下载（网络导入优化）=====
+// 用户填一个 GitHub 链接经常拿不到（502/403/超时），
+// 这里自动生成等价候选（raw / jsdelivr / 代理池），逐个试到成功为止。
+function _candUrls(u) {
+    var out = [];
+    function add(x) { for (var i = 0; i < out.length; i++) { if (out[i] === x) { return; } } out.push(x); }
+    add(String(u));
+    var s = String(u);
+    // github.com/a/b/blob/branch/path  ->  raw / jsdelivr
+    var m = s.match(/^https?:\/\/github\.com\/([^\/]+)\/([^\/]+)\/(?:blob|raw)\/([^\/]+)\/(.+)$/);
+    if (m) {
+        var user = m[1], repo = m[2], br = m[3], p = m[4];
+        add('https://raw.githubusercontent.com/' + user + '/' + repo + '/' + br + '/' + p);
+        add('https://cdn.jsdelivr.net/gh/' + user + '/' + repo + '@' + br + '/' + p);
+        add('https://fastly.jsdelivr.net/gh/' + user + '/' + repo + '@' + br + '/' + p);
+    }
+    // raw.githubusercontent -> jsdelivr(需分支) / raw 直连
+    var m2 = s.match(/^https?:\/\/raw\.githubusercontent\.com\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.+)$/);
+    if (m2) {
+        add('https://cdn.jsdelivr.net/gh/' + m2[1] + '/' + m2[2] + '@' + m2[3] + '/' + m2[4]);
+        add('https://fastly.jsdelivr.net/gh/' + m2[1] + '/' + m2[2] + '@' + m2[3] + '/' + m2[4]);
+    }
+    // gitee / 其他直连保持原样
+    // 代理池前缀（只对 github/raw 加）
+    var proxies = [];
+    try {
+        var pl = Juconfig['ghproxy'] || [];
+        for (var q = 0; q < pl.length && proxies.length < 5; q++) {
+            if (pl[q] && pl[q].url && !pl[q].stop) { proxies.push(pl[q].url); }
+        }
+    } catch (eP) { }
+    if (proxies.length === 0) {
+        proxies = ['https://gh-proxy.com/', 'https://ghfast.top/', 'https://gh-proxy.org/', 'https://ghps.cc/', 'https://gh.llkk.cc/'];
+    }
+    var base = out.slice(0);
+    for (var b = 0; b < base.length; b++) {
+        if (/github|jsdelivr/.test(base[b])) {
+            for (var pp = 0; pp < proxies.length; pp++) { add(proxies[pp] + base[b]); }
+        }
+    }
+    return out;
+}
+
+// 依次尝试候选，返回第一个"看起来有效"的内容
+function _fetchMulti(u) {
+    // ★ 性能：原来最多试 12 个节点且无超时，每个 getContnet 同步阻塞，
+    //   节点不通时要等到底层超时（往往十几秒）-> 页面一直转圈。
+    //   现在：①每个节点带 5s 超时 ②最多试 6 个 ③先出结果先返回
+    var cands = _candUrls(u);
+    var last = '';
+    var maxTry = cands.length < 6 ? cands.length : 6;
+    for (var i = 0; i < maxTry; i++) {
+        try {
+            var r = String(_fetchFast(cands[i]));
+            if (r && r.length > 20) {
+                // 排除错误页（jsdelivr 502 会返回 HTML/纯文本）
+                var t = r.replace(/^\s+/, '');
+                if (t.charAt(0) === '{' || t.charAt(0) === '[' || t.indexOf('sites') > -1 || t.indexOf('api_site') > -1) {
+                    log('多节点成功[' + (i + 1) + '/' + cands.length + ']：' + cands[i]);
+                    return r;
+                }
+                last = t.substr(0, 60);
+            }
+        } catch (eC) { last = eC.message; }
+    }
+    log('多节点全部失败，最后：' + last);
+    return '';
+}
+
 function checkBoxUrl(input) {
     let html;
     try{
@@ -158,8 +228,9 @@ function checkBoxUrl(input) {
                 }
             }
             if(needDl){
-                showLoading('检测在线文件有效性');
-                html = getContnet(input);
+                showLoading('检测在线文件有效性（多节点自动重试）');
+                try { html = _fetchMulti(input); } catch (eM) { html = ''; }
+                if (!html) { html = getContnet(input); }
                 //log(html);
                 if(html){
                     writeFile(tmpFile, html);
