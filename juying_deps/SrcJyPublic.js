@@ -925,10 +925,28 @@ function deleteData(lx, data){
     }
 
     dellist.forEach(it => {
-        if(lx=='jk' && it.url.includes(jkfilespath)){
+        if(lx=='jk' && it.url && it.url.includes(jkfilespath)){
             deleteFile(it.url);
         }
-        let index = datalist.indexOf(datalist.filter(d => it.url==d.url )[0]);
+        // ★ 删除判据必须与 jiekousave 的去重视则一致。
+        //   v58 起去重是"同名同址"(url+name)，允许同 url 不同 name 的多条并存；
+        //   而这里原判据只看 url 且取 filter()[0] —— 会删到另一条同名址记录，
+        //   用户看着"没删掉"，于是要点第二次。这就是"删除要两次才生效"的真因。
+        let hit = null;
+        for(let di = 0; di < datalist.length; di++){
+            let dd = datalist[di];
+            if(!dd || dd.url != it.url){ continue; }
+            if(it.name && dd.name && String(it.name) !== String(dd.name)){ continue; }
+            hit = dd; break;
+        }
+        if(!hit){
+            // 精确匹配不到 -> 退回只看 url（兼容老数据 / 被改名过的源）
+            hit = datalist.filter(d => d && d.url == it.url)[0];
+        }
+        if(!hit){ return; }
+        let index = datalist.indexOf(hit);
+        // ★ 原写法 indexOf(undefined) 得 -1，splice(-1,1) 会误删最后一条
+        if(index < 0){ return; }
         datalist.splice(index, 1);
     })
 
