@@ -150,6 +150,79 @@
       "searchable": 1,
       "quickSearch": 0,
       "filterable": 0
+    },
+    {
+      "key": "少儿教育",
+      "name": "🦋 少儿 • 教育",
+      "type": 3,
+      "api": "csp_Bili",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "ext": {
+        "json": "./json/少儿教育.json",
+        "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
+      },
+      "style": {
+        "type": "rect",
+        "ratio": 1.597
+      },
+      "category": "少儿"
+    },
+    {
+      "key": "急救教学",
+      "name": "🦋 急救 • 教学",
+      "type": 3,
+      "api": "csp_FirstAid",
+      "searchable": 0,
+      "quickSearch": 0,
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 3.8
+      },
+      "gridview": "0-0-4.1",
+      "ext": "",
+      "category": "少儿"
+    },
+    {
+      "key": "呦呦DJ",
+      "name": "🦋 呦呦 • DJ",
+      "type": 3,
+      "api": "csp_Djuu",
+      "style": {
+        "type": "list"
+      },
+      "ext": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "category": "音乐"
+    },
+    {
+      "key": "轮回DJ",
+      "name": "🦋 轮回 • DJ",
+      "type": 3,
+      "api": "csp_Djlh",
+      "style": {
+        "type": "list"
+      },
+      "ext": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "category": "音乐"
+    },
+    {
+      "key": "戏曲多多",
+      "name": "🦋 戏曲 • 多多",
+      "type": 3,
+      "api": "csp_AppLY",
+      "style": {
+        "type": "list"
+      },
+      "ext": "",
+      "searchable": 1,
+      "quickSearch": 1,
+      "category": "音乐"
     }
   ],
   "parses": [],
