@@ -1,27 +1,903 @@
 {
-  "comment": "站点清单（含分组）。group 字段是分组名，可填 影视/小说/音频 或任意自定义名。改完上传到与配置同目录即可。",
-  "groups": ["影视", "小说", "音频"],
-  "sites": [
-    {
-      "key": "demo_movie",
-      "name": "示例影视站",
-      "group": "影视",
-      "type": 1,
-      "api": "https://你的影视站/api.php/provide/vod/"
-    },
-    {
-      "key": "demo_novel",
-      "name": "示例小说站",
-      "group": "小说",
-      "type": 3,
-      "api": "./spiders/demo_novel.js"
-    },
-    {
-      "key": "demo_audio",
-      "name": "示例音频站",
-      "group": "音频",
-      "type": 3,
-      "api": "./spiders/demo_audio.py"
-    }
-  ]
+ "comment": "默影视站点清单（89 个 Python 蜘蛛，按内容分类）。改完和 webhome.html 放同一目录即可。",
+ "groups": [
+  "影视",
+  "音频",
+  "官源",
+  "高清影视",
+  "动漫",
+  "短剧"
+ ],
+ "sites": [
+  {
+   "key": "py_4kvms_v2",
+   "name": "4kvms_v2",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/4kvms_v2.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_hongguo",
+   "name": "hongguo",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/hongguo.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_libvio",
+   "name": "libvio",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/libvio.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_maple",
+   "name": "maple",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/maple.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_pianku4k",
+   "name": "pianku4k",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/pianku4k.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_riben4k",
+   "name": "riben4k",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/riben4k.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_zuiying",
+   "name": "zuiying",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/zuiying.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_____",
+   "name": "高清电影",
+   "group": "高清影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/高清电影.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_aigua",
+   "name": "aigua",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/aigua.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_aowu",
+   "name": "aowu",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/aowu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bajie",
+   "name": "bajie",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bajie.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bubuzhuiju",
+   "name": "bubuzhuiju",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bubuzhuiju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_changzhang",
+   "name": "changzhang",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/changzhang.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_dashixiong",
+   "name": "dashixiong",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dashixiong.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_dianyingmifeng",
+   "name": "dianyingmifeng",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dianyingmifeng.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_diduan",
+   "name": "diduan",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/diduan.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_douhua_v2",
+   "name": "douhua_v2",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douhua_v2.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_dsystv",
+   "name": "dsystv",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dsystv.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_duanmu",
+   "name": "duanmu",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/duanmu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_duoduo",
+   "name": "duoduo",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/duoduo.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_dyrs_v3",
+   "name": "dyrs_v3",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dyrs_v3.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_fandazi",
+   "name": "fandazi",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/fandazi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_fenxiangnunu",
+   "name": "fenxiangnunu",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/fenxiangnunu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_gongchang",
+   "name": "gongchang",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/gongchang.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_guangsu",
+   "name": "guangsu",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guangsu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_guazi",
+   "name": "guazi",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guazi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_guoguo_spider",
+   "name": "guoguo_spider",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/guoguo_spider.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_hipi",
+   "name": "hipi",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/hipi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_huavod",
+   "name": "huavod",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/huavod.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_huoche",
+   "name": "huoche",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/huoche.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_juedui",
+   "name": "juedui",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juedui.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_juok3",
+   "name": "juok3",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juok3.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_juzong",
+   "name": "juzong",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juzong.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_kenan",
+   "name": "kenan",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kenan.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_kkys",
+   "name": "kkys",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kkys.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_kpkuang",
+   "name": "kpkuang",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_kpkuang_v3",
+   "name": "kpkuang_v3",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kpkuang_v3.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_lianggebt",
+   "name": "lianggebt",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lianggebt.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_lx_converter",
+   "name": "lx_converter",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lx_converter.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_meipa",
+   "name": "meipa",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/meipa.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_nunu",
+   "name": "nunu",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/nunu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_pywx_v2",
+   "name": "pywx_v2",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/pywx_v2.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_qiankan_v2",
+   "name": "qiankan_v2",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiankan_v2.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_qiyoudy",
+   "name": "qiyoudy",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qiyoudy.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_souju",
+   "name": "souju",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/souju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_souju_360",
+   "name": "souju_360",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/souju_360.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tiankong",
+   "name": "tiankong",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiankong.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tiantang",
+   "name": "tiantang",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiantang.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_wangfei",
+   "name": "wangfei",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/wangfei.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_wawa",
+   "name": "wawa",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/wawa.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_xinxin",
+   "name": "xinxin",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xinxin.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_xueyue",
+   "name": "xueyue",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xueyue.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_youtube_spider",
+   "name": "youtube_spider",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/youtube_spider.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yunduo",
+   "name": "yunduo",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yunduo.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_zhuiju",
+   "name": "zhuiju",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/zhuiju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py____",
+   "name": "央库云",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央库云.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_____",
+   "name": "文才影视",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/文才影视.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py___",
+   "name": "金牌",
+   "group": "影视",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/金牌.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bili_fanju",
+   "name": "bili_fanju",
+   "group": "动漫",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bili_fanju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_dongmanla",
+   "name": "dongmanla",
+   "group": "动漫",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/dongmanla.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tiantian_dm",
+   "name": "tiantian_dm",
+   "group": "动漫",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tiantian_dm.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_xin51_dm",
+   "name": "xin51_dm",
+   "group": "动漫",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xin51_dm.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yinghua",
+   "name": "yinghua",
+   "group": "动漫",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yinghua.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bilibili_audio",
+   "name": "bilibili_audio",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibili_audio.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_geci_music",
+   "name": "geci_music",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/geci_music.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_juhe_music",
+   "name": "juhe_music",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/juhe_music.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_kuwo_tingshu",
+   "name": "kuwo_tingshu",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/kuwo_tingshu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_lanrentingshu_v2",
+   "name": "lanrentingshu_v2",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/lanrentingshu_v2.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_ting365",
+   "name": "ting365",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ting365.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_ting39",
+   "name": "ting39",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ting39.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tingyou_simple",
+   "name": "tingyou_simple",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tingyou_simple.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tingyoufm",
+   "name": "tingyoufm",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tingyoufm.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_ximalaya",
+   "name": "ximalaya",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/ximalaya.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yitingshu",
+   "name": "yitingshu",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yitingshu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yuetingba",
+   "name": "yuetingba",
+   "group": "音频",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yuetingba.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bilibili_ts",
+   "name": "bilibili_ts",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibili_ts.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_bilibilivd",
+   "name": "bilibilivd",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bilibilivd.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_cctv",
+   "name": "cctv",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/cctv.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_douban",
+   "name": "douban",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/douban.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_iqiyi",
+   "name": "iqiyi",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/iqiyi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_mgtv",
+   "name": "mgtv",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/mgtv.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tencent",
+   "name": "tencent",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tencent.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yangshi",
+   "name": "yangshi",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yangshi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yangshi_zongyi",
+   "name": "yangshi_zongyi",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yangshi_zongyi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_youku",
+   "name": "youku",
+   "group": "官源",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/youku.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_tengaiyou",
+   "name": "tengaiyou",
+   "group": "短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/tengaiyou.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_yyduanju",
+   "name": "yyduanju",
+   "group": "短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/yyduanju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_____",
+   "name": "甜圈短剧",
+   "group": "短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/甜圈短剧.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_____",
+   "name": "锦鲤短剧",
+   "group": "短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/锦鲤短剧.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  }
+ ]
 }
