@@ -930,8 +930,11 @@ function jiekousave(urls, mode) {
                 it.url = it.url.replace('?ac=list','').replace('/vod?','/vod');//修正一下cms奇怪链接
             }
 
+            // ★ 原判据只看 url：配置里多个站点共用同一个采集 api（名字不同）时，
+            //   只导入第一个 -> 用户感觉"识别源数量不对"。
+            //   改成"同名同址"才算重复，不同名的同名址源都能进。
             function checkitem(item) {
-                return item.url==it.url;
+                return item.url==it.url && String(item.name)===String(it.name);
             }
             
             if(!datalist.some(checkitem)&&it.name&&it.url&&it.type){
