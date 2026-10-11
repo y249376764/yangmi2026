@@ -1,16 +1,17 @@
 /**
- * @name 合音聚合 · 七平台全线路 v5.0
- * @description QQ/网易/酷狗/酷我/咪咕/汽水/B站 全线路池自动切换 (2026-10-11 接口大检修版)
- * @version 5.0.0
+ * @name 合音聚合 · 七平台全线路 v5.1
+ * @description QQ/网易/酷狗/酷我/咪咕/汽水/B站 全线路池自动切换 (2026-10-11 接口大检修版, 新增星海GDAPI)
+ * @version 5.1.0
  * @author 星火
  * @homepage https://navpage-2026.surge.sh/
  */
 
 /* =========================================================
- *  洛雪音乐(LX Music)自定义音源 v5.0 全包
+ *  洛雪音乐(LX Music)自定义音源 v5.1 全包
  *  平台: QQ(tx) / 网易(wy) / 酷狗(kg) / 酷我(kw) / 咪咕(mg) / 汽水(qs) / B站兜底
  *  特性: 每个平台一个线路池, 顺序尝试失败自动切换
  *  2026-10-11 检修: 长青海棠/星海/酷我车机/QQ vkeys 已死, 全部换新
+ *  5.1 新增: 星海GDAPI官方网易后端 (music-api.gdstudio.xyz, 实测320k直链)
  *  洛雪源槽位: kw/kg/tx/wy/mg 内置, qs 需客户端支持(不支持自动忽略)
  * ========================================================= */
 
@@ -92,7 +93,18 @@ const wyEapi = (urlPath, object) => {
 const wyQualityMap = { '128k': 'standard', '320k': 'exhigh', flac: 'lossless', flac24bit: 'lossless' }
 
 const wyLines = [
-  // L1 eapi官方 (2026-10-11实测免费歌直链可用)
+  // L1 星海GDAPI官方后端 (2026-10-11实测: music-api.gdstudio.xyz 网易专用, 免费歌320k/128k直链)
+  async ({ id, quality }) => {
+    const brMap = { '128k': '128', '320k': '320', flac: '740', flac24bit: '740' }
+    const br = brMap[quality] || '320'
+    const url = 'https://music-api.gdstudio.xyz/api.php?use_xbridge3=true&loader_name=forest&need_sec_link=1&sec_link_scene=im&theme=light&types=url&source=netease&id=' + id + '&br=' + br
+    const resp = await httpGet(url, { headers: { 'User-Agent': UA_MOBILE, Accept: 'application/json' } })
+    const d = resp.body
+    const u = d && d.url
+    if (u && /^https?:/.test(u)) return u
+    throw new Error('GDAPI无链接(可能付费)')
+  },
+  // L2 eapi官方 (2026-10-11实测免费歌直链可用)
   async ({ id, quality }) => {
     const apiPath = '/api/song/enhance/player/url/v1'
     const params = wyEapi(apiPath, { ids: [Number(id)], level: wyQualityMap[quality] || 'exhigh', encodeType: 'mp3' })
@@ -105,7 +117,7 @@ const wyLines = [
     if (u && u !== '') return String(u).replace(/\\u0026/g, '&')
     throw new Error('eapi无链接(可能付费)')
   },
-  // L2 bugpk (128k稳, 2026-10-11实测; 付费歌返回163外链死链须过滤)
+  // L3 bugpk (128k稳, 2026-10-11实测; 付费歌返回163外链死链须过滤)
   async ({ id, quality }) => {
     const url = 'https://api.bugpk.com/api/163_music?type=url&id=' + id + '&br=' + (quality === '128k' ? '128' : '320')
     const resp = await httpGet(url, { headers: { 'User-Agent': UA } })
@@ -114,7 +126,7 @@ const wyLines = [
     if (u && !/music\.163\.com\/song\/media\/outer/.test(u)) return u
     throw new Error('bugpk无链接或付费死链')
   },
-  // L3 溯音163 oiapi (免费歌直链, 2026-10-11实测)
+  // L4 溯音163 oiapi (免费歌直链, 2026-10-11实测)
   async ({ id }) => {
     const url = 'https://oiapi.net/api/Music_163?id=' + id
     const resp = await httpGet(url, { headers: { 'User-Agent': UA } })
