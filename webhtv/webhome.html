@@ -6,119 +6,143 @@
 <title>分类导航</title>
 <style>
   :root{color-scheme:dark}
-  *{box-sizing:border-box}
-  html,body{margin:0;background:transparent;color:#fff;font-family:system-ui,sans-serif}
-  .wrap{padding:calc(env(safe-area-inset-top,0px) + 16px) 16px 32px}
-  h1{font-size:20px;margin:0 0 14px}
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;position:sticky;top:0;z-index:5;
-       padding:8px 0;background:rgba(0,0,0,.35);backdrop-filter:blur(8px)}
-  .tab{padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
-       background:rgba(255,255,255,.08);color:#fff;font-size:14px;cursor:pointer}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;background:transparent;color:#fff;font-family:system-ui,-apple-system,sans-serif}
+  html:not(.fm-native) body{background:#14161a}
+  .wrap{padding:calc(max(var(--fm-safe-top,0px),env(safe-area-inset-top,0px)) + 14px) 14px 40px}
+  h1{font-size:19px;margin:0 0 4px}
+  .sub{font-size:12px;opacity:.6;margin-bottom:14px}
+  .search{display:flex;gap:8px;margin-bottom:14px}
+  .search input{flex:1;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.16);
+                background:rgba(255,255,255,.08);color:#fff;font-size:14px}
+  .search button{padding:10px 16px;border-radius:10px;border:0;background:#2E9465;color:#fff;font-size:14px}
+  .tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;padding:7px 15px;border-radius:999px;border:1px solid rgba(255,255,255,.18);
+       background:rgba(255,255,255,.07);color:#fff;font-size:13px;cursor:pointer;white-space:nowrap}
   .tab.on{background:#2E9465;border-color:#2E9465}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
-  .card{border-radius:10px;overflow:hidden;background:rgba(255,255,255,.08);cursor:pointer}
-  .pic{width:100%;aspect-ratio:3/4;object-fit:cover;background:#222;display:block}
-  .ttl{font-size:12px;padding:6px;line-height:1.3;
-       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .sitelist{display:flex;flex-direction:column;gap:8px}
-  .site{padding:12px 14px;border-radius:10px;background:rgba(255,255,255,.08);cursor:pointer;
-        display:flex;justify-content:space-between;align-items:center}
-  .site .g{font-size:12px;opacity:.65}
-  .msg{padding:20px;text-align:center;opacity:.7;font-size:14px}
+  .sitelist{display:flex;flex-direction:column;gap:7px;margin-top:6px}
+  .site{padding:11px 13px;border-radius:10px;background:rgba(255,255,255,.08);cursor:pointer;
+        display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .site .nm{font-size:14px}
+  .site .g{font-size:11px;opacity:.6;flex:0 0 auto}
+  .msg{padding:24px 12px;text-align:center;opacity:.7;font-size:13px;line-height:1.6}
+  .tip{margin-top:16px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,.06);
+       font-size:11px;opacity:.65;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>📂 分类导航</h1>
+  <div class="sub" id="sub">加载中…</div>
+  <div class="search">
+    <input id="kw" placeholder="搜全网（走 App 原生聚合搜索）">
+    <button id="go">搜索</button>
+  </div>
   <div class="tabs" id="tabs"></div>
   <div class="sitelist" id="sites"></div>
-  <div id="list" style="margin-top:16px"></div>
-  <div class="msg" id="msg">加载中…</div>
+  <div class="msg" id="msg"></div>
+  <div class="tip" id="tip"></div>
 </div>
 <script>
-var MANIFEST = './sites_manifest.json';
-var state = { group: '', sites: [], current: null };
+var MANIFEST='./sites_manifest.json';
+var state={group:'',sites:[],groups:[],fm:null};
 
-function ready(cb){ if(window.fm) cb(window.fm); else window.addEventListener('fm:ready', function(){ cb(window.fm); }); }
-function $(id){ return document.getElementById(id); }
+function $(id){return document.getElementById(id);}
+function ready(cb){
+  if(window.fm){state.fm=window.fm;cb(window.fm);}
+  else window.addEventListener('fmsdk',function(){state.fm=window.fm;cb(window.fm);});
+}
 
-function renderTabs(groups){
-  var all = ['全部'].concat(groups);
-  if(!state.group) state.group = '全部';
-  $('tabs').innerHTML = all.map(function(g){
-    return '<button class="tab'+(g===state.group?' on':'')+'" data-g="'+g+'">'+g+'</button>';
+function renderTabs(){
+  var all=['全部'].concat(state.groups);
+  if(!state.group) state.group='全部';
+  $('tabs').innerHTML=all.map(function(g){
+    var n = g==='全部' ? state.sites.length : state.sites.filter(function(s){return s.group===g;}).length;
+    return '<button class="tab'+(g===state.group?' on':'')+'" data-g="'+g+'">'+g+' '+n+'</button>';
   }).join('');
-  [].forEach.call($('tabs').children, function(b){
-    b.onclick = function(){ state.group = b.dataset.g; state.current = null; $('list').innerHTML=''; renderTabs(groups); renderSites(); };
+  [].forEach.call($('tabs').children,function(b){
+    b.onclick=function(){state.group=b.dataset.g;renderTabs();renderSites();};
   });
 }
 
 function renderSites(){
-  var list = state.group==='全部' ? state.sites : state.sites.filter(function(s){ return (s.group||'未分组')===state.group; });
-  $('sites').innerHTML = list.map(function(s){
-    return '<div class="site" data-key="'+s.key+'"><span>'+s.name+'</span><span class="g">'+(s.group||'未分组')+'</span></div>';
+  var list = state.group==='全部' ? state.sites : state.sites.filter(function(s){return s.group===state.group;});
+  $('sites').innerHTML=list.map(function(s){
+    return '<div class="site" data-key="'+s.key+'"><span class="nm">'+s.name+'</span><span class="g">'+s.group+'</span></div>';
   }).join('');
-  [].forEach.call($('sites').children, function(el){
-    el.onclick = function(){
-      var s = null;
-      state.sites.forEach(function(x){ if(x.key===el.dataset.key) s=x; });
-      if(s) openSite(s);
-    };
+  [].forEach.call($('sites').children,function(el){
+    el.onclick=function(){openSite(el.dataset.key);};
   });
-  $('msg').textContent = list.length ? '点站点查看内容' : '该分组暂无站点';
+  $('msg').textContent = list.length ? '' : '该分类暂无站点';
 }
 
-// 拉首页内容：type 0/1 走 CMS 接口，type 3 走自己的 spider（交给原生）
-function openSite(s){
-  state.current = s;
-  $('msg').textContent = '加载 '+s.name+' …';
-  $('list').innerHTML = '';
-  if(s.type===3){ $('msg').textContent = s.name+' 是 Spider 站点，请用 App 原生首页查看（SDK 不提供切站点）'; return; }
-  var url = s.api.replace(/\/$/,'') + '/?ac=vodlist&pg=1';
-  ready(function(fm){
-    fm.req(url).then(function(r){
-      if(!r || !r.ok){ $('msg').textContent = '请求失败：'+((r&&r.error)||'未知'); return; }
-      var data;
-      try{ data = JSON.parse(r.body); }catch(e){ $('msg').textContent='返回不是 JSON'; return; }
-      var arr = (data && data.list) || [];
-      if(!arr.length){ $('msg').textContent='没有内容'; return; }
-      $('msg').textContent = '';
-      $('list').innerHTML = '<div class="grid">' + arr.map(function(v){
-        return '<div class="card" data-id="'+v.vod_id+'" data-pic="'+(v.vod_pic||'')+'" data-name="'+(v.vod_name||'')+'">'+
-               '<img class="pic" src="'+ (window.fm ? '' : '') +'" data-src="'+(v.vod_pic||'')+'">'+
-               '<div class="ttl">'+(v.vod_name||'')+'</div></div>';
-      }).join('') + '</div>';
-      // 图片走 fm.res 避免 CORS/防盗链
-      [].forEach.call($('list').querySelectorAll('img'), function(img){
-        var src = img.dataset.src;
-        if(!src){ img.style.display='none'; return; }
-        if(window.fm && window.fm.res){
-          window.fm.res(src).then(function(u){ if(u) img.src = u; }).catch(function(){ img.src = src; });
-        } else { img.src = src; }
-      });
-      [].forEach.call($('list').querySelectorAll('.card'), function(c){
-        c.onclick = function(){
-          window.fm.vod(s.key, c.dataset.id, c.dataset.name, c.dataset.pic);
-        };
-      });
-    }).catch(function(e){ $('msg').textContent = '请求异常：'+e; });
-  });
+/* ★ 核心：进入站点
+   fm SDK 没有"切换到指定站点"的方法（fm.site() 只读当前站点）。
+   可用的是 fm.openSite() —— 打开 App 原生「内容源选择器」，用户在弹窗里选。
+   这里逐级降级：openSite(key) → openSite() → openVod() → 提示手动切。 */
+function openSite(key){
+  var fm=state.fm;
+  if(!fm){ $('msg').textContent='SDK 未就绪'; return; }
+  var site=null;
+  state.sites.forEach(function(s){ if(s.key===key) site=s; });
+  var name=site?site.name:key;
+  $('msg').textContent='正在打开「'+name+'」…';
+  var done=false;
+  function fallback(){
+    if(done) return;
+    if(typeof fm.openSite==='function'){
+      try{ var r2=fm.openSite(); if(r2&&r2.then){ r2.then(function(){done=true;$('msg').textContent='已在原生选择器中选择站点';}).catch(function(){last();}); return; } done=true; $('msg').textContent='已打开内容源选择器'; return; }catch(e){}
+    }
+    last();
+  }
+  function last(){
+    if(done) return;
+    if(typeof fm.openVod==='function'){ try{ fm.openVod(); done=true; $('msg').textContent='已回到原生点播首页，请在站点列表选择「'+name+'」'; return; }catch(e){} }
+    $('msg').textContent='请在 App 原生站点列表里选择「'+name+'」（SDK 不支持直接切换站点）';
+  }
+  try{
+    if(typeof fm.openSite==='function'){
+      var r=fm.openSite(key);
+      if(r&&r.then){ r.then(function(){done=true;$('msg').textContent='已打开「'+name+'」';}).catch(fallback); }
+      else { done=true; $('msg').textContent='已打开「'+name+'」'; }
+      return;
+    }
+  }catch(e){}
+  fallback();
 }
 
-function boot(){
-  ready(function(fm){
-    fm.req(MANIFEST).then(function(r){
-      var m;
-      try{ m = JSON.parse(r.body); }catch(e){ $('msg').textContent='清单解析失败'; return; }
-      state.sites = m.sites || [];
-      renderTabs(m.groups || ['影视','小说','音频']);
-      renderSites();
-    }).catch(function(e){
-      $('msg').textContent = '清单加载失败：'+e+'（确认 sites_manifest.json 与本页面同目录）';
-    });
+function doSearch(){
+  var kw=($('kw').value||'').trim();
+  if(!kw){ $('msg').textContent='请输入关键词'; return; }
+  if(!state.fm){ $('msg').textContent='SDK 未就绪'; return; }
+  try{ state.fm.search(kw,{direct:true}); $('msg').textContent='已发起搜索：'+kw; }
+  catch(e){ $('msg').textContent='搜索失败：'+e; }
+}
+
+$('go').onclick=doSearch;
+$('kw').addEventListener('keydown',function(e){ if(e.key==='Enter') doSearch(); });
+
+function boot(fm){
+  fm.req(MANIFEST).then(function(r){
+    var m;
+    try{ m=JSON.parse(r.body); }catch(e){ $('sub').textContent='清单解析失败'; $('msg').textContent='确认 sites_manifest.json 与本页面同目录'; return; }
+    state.sites=m.sites||[];
+    state.groups=m.groups||[];
+    $('sub').textContent='共 '+state.sites.length+' 个 Python 蜘蛛站点 · '+state.groups.length+' 个分类';
+    renderTabs(); renderSites();
+    if(state.fm&&typeof state.fm.history==='function'){
+      state.fm.history().then(function(h){
+        if(h&&h.length) $('tip').textContent='最近观看 '+h.length+' 条 · 点站点后若直接进站点失败，会降级打开原生内容源选择器';
+      }).catch(function(){});
+    }
+    $('tip').textContent=$('tip').textContent||'点站点 → 打开 App 原生内容源选择器；搜索走 App 聚合搜索';
+  }).catch(function(e){
+    $('sub').textContent='清单加载失败';
+    $('msg').textContent=String(e)+'（确认 sites_manifest.json 与本页面同目录）';
   });
 }
-if(window.fm) boot(); else window.addEventListener('fm:ready', boot);
+if(window.fm){state.fm=window.fm;boot(window.fm);} else window.addEventListener('fmsdk',function(){state.fm=window.fm;boot(window.fm);});
 </script>
 </body>
 </html>
