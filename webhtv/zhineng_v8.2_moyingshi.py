@@ -12182,6 +12182,52 @@ class Spider(BaseSpider):
         self._schedule_manager_page_refresh(delay=0.2)
         return True, "「{}」已永久加载，切换站点后生效".format(name)
 
+    def _copy_source_to_registry_dir(self, source):
+        """把源文件复制到 TV/CustomCsp/<id>/ 目录（固化副本）。
+
+        与默影视官方 CustomCspSetting.copyFile 行为一致：注入后 api
+        指向副本路径，删除原始文件不影响加载，重启不丢。
+        返回 (ok, file_url 或错误信息)。
+        """
+        try:
+            src_path = str(source.get("path", "")).strip()
+            if not src_path or not os.path.isfile(src_path):
+                return False, "源文件不存在: {}".format(src_path)
+            base_name = os.path.basename(src_path) or "source.py"
+            item_id = str(source.get("key", "")).strip() or str(
+                source.get("identity", "")
+            ).strip()
+            if not item_id:
+                return False, "无法确定站点标识"
+            item_id = item_id.replace("/", "_").replace("\\", "_").replace(":", "_")
+            reg_dir = os.path.join(self.STORAGE_ROOT, "TV", "CustomCsp", item_id)
+            try:
+                os.makedirs(reg_dir, exist_ok=True)
+            except Exception:
+                pass
+            target = os.path.join(reg_dir, base_name)
+            try:
+                import shutil as _shutil
+
+                if os.path.abspath(src_path) != os.path.abspath(target):
+                    _shutil.copy2(src_path, target)
+            except Exception as exc:
+                return False, "复制源文件失败: {}".format(exc)
+            if not os.path.isfile(target):
+                return False, "固化副本写入失败: {}".format(target)
+            # 副本路径相对 STORAGE_ROOT 生成 file:// URL
+            try:
+                relative = os.path.relpath(target, self.STORAGE_ROOT).replace(
+                    os.sep, "/"
+                )
+            except Exception:
+                relative = ""
+            if relative and relative != ".." and not relative.startswith("../"):
+                return True, "file://" + relative.lstrip("/")
+            return True, "file://" + target
+        except Exception as exc:
+            return False, "固化复制异常: {}".format(exc)
+
     def _inject_site_to_registry(self, source):
         """把单个站点写入注册表（webhtv 站点注入方式）。
 
@@ -12195,6 +12241,16 @@ class Spider(BaseSpider):
                 items = []
             # 检查是否已存在（按 key 去重）
             site_dict = self._build_site(source)
+            # v8.2 默影视增强：永久加载时先把源文件复制到
+            # TV/CustomCsp/<id>/ 目录，api 指向副本 —— 删除原始文件
+            # 不影响加载（与默影视官方 copyFile 固化行为一致）。
+            source_type = str(source.get("type", "")).upper()
+            if source_type in ("PY", "JS", "CSP"):
+                copied, copy_ref = self._copy_source_to_registry_dir(source)
+                if copied and copy_ref:
+                    site_dict["api"] = copy_ref
+                    if source_type == "CSP":
+                        site_dict["jar"] = copy_ref
             site_key = str(site_dict.get("key", "")).strip()
             existing_idx = -1
             for i, item in enumerate(items):
