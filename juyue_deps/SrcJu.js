@@ -12,17 +12,8 @@ function yiji(testSource) {
         try{
             programversion = $.require("config").version || MY_RULE.version || 0;
         }catch(e){}
-        if(programversion<10){
-            confirm({
-                title: "温馨提示",
-                content: "发现小程序新版本",
-                confirm: $.toString(() => {
-                    return fetch(config.聚阅.replace(/[^/]*$/,'') + "聚阅.hiker");
-                }),
-                cancel: $.toString(() => {
-                    return "toast://不升级小程序，功能不全或有异常";
-                })
-            });
+        //[独立自主版] 已是最新版，不再弹升级提示
+        if(false){
         }
         Version();
         putMyVar('SrcJu_RuleVersionCheck', '1');
@@ -40,6 +31,18 @@ function yiji(testSource) {
     }
 
     let d = [];
+    //[独立自主版] TVBox / 蜘蛛 导入入口（只在第1页顶部显示）
+    try{
+        if(String(MY_PAGE)=='1' && !testSource){
+            d.push({
+                title: "📥 TVBox / 蜘蛛导入",
+                col_type: "text_2",
+                desc: "导入 TVBox 配置（sites / 菠菜源）或 py、js 蜘蛛",
+                url: "hiker://page/jyImport?rule=" + MY_RULE.title
+            });
+            d.push({ col_type: "blank_block" });
+        }
+    }catch(eImp){}
     if(MY_PAGE==1){
         let longClick = [{
             title: "分享",
