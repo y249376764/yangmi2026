@@ -1,8 +1,8 @@
 {
-  "v": 10,
+  "v": 11,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "修复v9崩溃(顶层return返回select对象导致返回值无效)|公告改为confirm://协议弹窗,首次进入自动弹,点确定复制网址|新增popup远程开关",
+  "note": "修复搜源0.4s零结果(be回调引用顶层变量被静默吞异常)|公告弹窗改单行(confirm://的换行会截断协议导致网址和复制失效)|搜索并发限60站+失败诊断|检查器覆盖be回调",
   "time": "2026-10-12",
-  "build": 57
+  "build": 58
 }
