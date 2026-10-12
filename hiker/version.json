@@ -1,7 +1,7 @@
 {
-  "v": 49,
-  "name": "蜘蛛加速器v49",
+  "v": 1,
+  "name": "蜘蛛加速器v1",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "搜索结果顺序修正(先搜到的排前面)+详情页线路高亮改8位ARGB",
+  "note": "正式版 v1：公告按钮支持复制网址 + 自动更新检查(不更新即停用)",
   "time": "2026-10-12"
 }
