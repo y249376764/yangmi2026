@@ -1,8 +1,8 @@
 {
-  "v": 12,
+  "v": 13,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "公告回退为顶部常驻文本行(无复制按钮/无弹窗)|加载失败加回到豆瓣+连续失败自动回退|影视3下载加内容校验防坏文件",
+  "note": "修复 v8 起致命bug: PH_P 被赋值为布尔导致所有py站点报找不到函数runPy|去掉公告图标按钮(顶部已有公告行)",
   "time": "2026-10-12",
-  "build": 59
+  "build": 60
 }
