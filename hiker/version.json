@@ -1,8 +1,8 @@
 {
-  "v": 4,
-  "name": "蜘蛛加速器v4",
+  "v": 5,
+  "name": "蜘蛛加速器v5",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "去掉作者模式；更新弹窗改为强制(取消也执行更新)",
+  "note": "内置影视3在线站点库(408站远程拉取，按需下载单站py，源地址可远程更新)",
   "time": "2026-10-12",
-  "build": 51
+  "build": 52
 }
