@@ -1,8 +1,8 @@
 {
-  "v": 8,
+  "v": 9,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "改名蜘蛛🕷️|公告按钮修复(去掉lazyRule包裹,select直挂url)|扫描结果文件缓存(10分钟,免Java遍历+免重复授权弹窗)|PythonHiker懒加载|删除死页面zlist|清理死代码",
+  "note": "公告改为首页顶部大块显示(免费分享+更多资源加网站)+复制网址按钮|复制API真因修复:海阔是copy()不是setClipboard/setClip",
   "time": "2026-10-12",
-  "build": 55
+  "build": 56
 }
