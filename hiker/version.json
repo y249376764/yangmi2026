@@ -1,8 +1,8 @@
 {
-  "v": 7,
-  "name": "蜘蛛加速器v7",
+  "v": 8,
+  "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "影视3在线站点翻页修复:远程列表本地文件缓存(不再每页重下115KB)+游标翻页+底部加载更多兜底",
+  "note": "改名蜘蛛🕷️|公告按钮修复(去掉lazyRule包裹,select直挂url)|扫描结果文件缓存(10分钟,免Java遍历+免重复授权弹窗)|PythonHiker懒加载|删除死页面zlist|清理死代码",
   "time": "2026-10-12",
-  "build": 54
+  "build": 55
 }
