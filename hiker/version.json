@@ -1,7 +1,7 @@
 {
-  "v": 2,
-  "name": "蜘蛛加速器v2",
+  "v": 3,
+  "name": "蜘蛛加速器v3",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "修点公告无反应(select未return)+公告按钮支持复制网址",
+  "note": "修更新提示收不到：BUILD纪元常量+min_version强制淘汰旧版+2小时节流",
   "time": "2026-10-12"
 }
