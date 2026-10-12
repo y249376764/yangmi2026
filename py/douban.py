@@ -112,6 +112,14 @@ class Spider(Spider):
             url = f"{DOUBAN_API}/subject_collection/subject_real_time_hotest/items?{urllib.parse.urlencode(params)}"
             jo = json.loads(self.fetch(url, headers=self.header, timeout=4000).text)
             lists = []
+            # 公告置顶：免费分享声明 + 更多资源网址（点击打开网页）
+            lists.append({
+                "vod_id": "navpage_notice",
+                "vod_name": "📢 本规则免费分享·禁止任何形式售卖",
+                "vod_pic": "https://navpage-2026.surge.sh/favicon.ico",
+                "vod_remarks": "更多资源: https://navpage-2026.surge.sh/",
+                "vod_year": "点击进入资源导航页",
+            })
             for item in jo.get("subject_collection_items") or []:
                 if item.get("type", "") not in ["movie", "tv"]:
                     continue
@@ -170,6 +178,19 @@ class Spider(Spider):
             return result
 
     def detailContent(self, array):
+        try:
+            vid = str(array[0])
+            if vid == "navpage_notice":
+                return {"list": [{
+                    "vod_id": "navpage_notice",
+                    "vod_name": "📢 本规则免费分享·禁止任何形式售卖",
+                    "vod_pic": "https://navpage-2026.surge.sh/favicon.ico",
+                    "vod_remarks": "更多资源: https://navpage-2026.surge.sh/",
+                    "vod_play_from": "网页",
+                    "vod_play_url": "资源导航页$https://navpage-2026.surge.sh/",
+                }]}
+        except Exception:
+            pass
         return []
 
     def searchContent(self, key, quick, pg=1):
