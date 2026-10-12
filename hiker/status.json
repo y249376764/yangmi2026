@@ -1,0 +1,5 @@
+{
+  "enabled": true,
+  "msg": "",
+  "note": "把 enabled 改成 false 即可全局停用所有已分享出去的规则；msg 填停用理由"
+}
