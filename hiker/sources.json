@@ -1,0 +1,6 @@
+{
+  "name": "影视3",
+  "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/tvbox_py.json",
+  "backup": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/tvbox_py.json",
+  "note": "改这里即可换源/更新链接，规则无需改动"
+}
