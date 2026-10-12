@@ -1,8 +1,8 @@
 {
-  "v": 13,
+  "v": 14,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "修复 v8 起致命bug: PH_P 被赋值为布尔导致所有py站点报找不到函数runPy|去掉公告图标按钮(顶部已有公告行)",
+  "note": "搜索15秒预算(并发降至15站+按历史速度排序慢站沉底)|离开搜索自动退出(3分钟无活动)|导航入口离开即清搜索态",
   "time": "2026-10-12",
-  "build": 60
+  "build": 61
 }
