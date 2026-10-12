@@ -108,7 +108,7 @@
     },
     {
       "key": "金牌影院",
-      "name": "金牌[js]",
+      "name": "金牌",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/js/金牌影视.js"
     },
@@ -142,7 +142,7 @@
     },
     {
       "key": "索尼",
-      "name": "索尼 | 采集",
+      "name": "索尼",
       "type": 1,
       "api": "https://suoniapi.com/api.php/provide/vod/",
       "quickSearch": 1,
@@ -178,7 +178,7 @@
     },
     {
       "key": "量子",
-      "name": "量子 | 采集",
+      "name": "量子",
       "type": 1,
       "api": "https://cj.lziapi.com/api.php/provide/vod/",
       "quickSearch": 1,
@@ -213,7 +213,7 @@
     },
     {
       "key": "非凡",
-      "name": "非凡 | 采集",
+      "name": "非凡",
       "type": 1,
       "api": "https://cj.ffzyapi.com/api.php/provide/vod/",
       "quickSearch": 1,
@@ -247,7 +247,7 @@
     },
     {
       "key": "无尽",
-      "name": "无尽 | 采集",
+      "name": "无尽",
       "type": 1,
       "api": "https://api.wujinapi.net/api.php/provide/vod/",
       "quickSearch": 1,
@@ -282,7 +282,7 @@
     },
     {
       "key": "金鹰",
-      "name": "金鹰 | 采集",
+      "name": "金鹰",
       "type": 1,
       "api": "https://jyzyapi.com/api.php/provide/vod/",
       "quickSearch": 1,
@@ -320,7 +320,7 @@
     },
     {
       "key": "速播",
-      "name": "速播 | 采集",
+      "name": "速播",
       "type": 1,
       "api": "https://subocaiji.com/api.php/provide/vod/",
       "quickSearch": 1,
@@ -356,7 +356,7 @@
     },
     {
       "key": "樱花",
-      "name": "樱花 | 采集",
+      "name": "樱花",
       "type": 1,
       "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/at/xml/",
       "quickSearch": 1,
@@ -388,7 +388,7 @@
     },
     {
       "key": "电影天堂",
-      "name": "天堂 | 采集",
+      "name": "天堂",
       "type": 1,
       "api": "http://caiji.dyttzyapi.com/api.php/provide/vod/",
       "searchable": 1,
@@ -422,7 +422,7 @@
     },
     {
       "key": "ikun",
-      "name": "ikun | 采集",
+      "name": "ikun",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod/",
       "playerType": 1,
@@ -454,7 +454,7 @@
     },
     {
       "key": "暴風",
-      "name": "暴風 | 采集",
+      "name": "暴風",
       "type": 1,
       "api": "https://bfzyapi.com/api.php/provide/vod/",
       "searchable": 1,
@@ -490,7 +490,7 @@
     },
     {
       "key": "旺旺",
-      "name": "旺旺 | 采集",
+      "name": "旺旺",
       "type": 1,
       "api": "https://api.wwzy.tv/api.php/provide/vod/",
       "playerType": 1,
@@ -519,7 +519,7 @@
     },
     {
       "key": "艾旦",
-      "name": "艾旦 | 采集",
+      "name": "艾旦",
       "type": 1,
       "ext": {
         "proxy": "proxy"
@@ -553,7 +553,7 @@
     },
     {
       "key": "茅台",
-      "name": "茅台 | 采集",
+      "name": "茅台",
       "type": 1,
       "api": "https://mtzy.me/api.php/provide/vod/",
       "quickSearch": 1,
@@ -2544,7 +2544,7 @@
     },
     {
       "key": "animexin",
-      "name": "[动漫]animexin",
+      "name": "animexin",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/animexin.py?tk=cj_a38415ea",
       "ext": "",
@@ -2554,7 +2554,7 @@
     },
     {
       "key": "樱之空动漫",
-      "name": "[动漫]樱之空动漫",
+      "name": "樱之空动漫",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/yingzhikongdongman.py?tk=cj_a38415ea",
       "ext": "",
@@ -2564,7 +2564,7 @@
     },
     {
       "key": "MiFun",
-      "name": "[动漫]MiFun动漫",
+      "name": "MiFun动漫",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/MiFundongman.py?tk=cj_a38415ea",
       "ext": "",
@@ -2574,7 +2574,7 @@
     },
     {
       "key": "动漫巴士",
-      "name": "[动漫]动漫巴士",
+      "name": "动漫巴士",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/dongmanbashi.py?tk=cj_a38415ea",
       "ext": "",
@@ -2584,7 +2584,7 @@
     },
     {
       "key": "青空次元",
-      "name": "[动漫]青空次元",
+      "name": "青空次元",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/qingkongciyuan.py?tk=cj_a38415ea",
       "ext": "",
@@ -2594,7 +2594,7 @@
     },
     {
       "key": "共和国动漫",
-      "name": "[动漫]共和国动漫",
+      "name": "共和国动漫",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/gongheguodongman.py?tk=cj_a38415ea",
       "ext": "",
@@ -2604,7 +2604,7 @@
     },
     {
       "key": "黑猫动漫",
-      "name": "[动漫]黑猫动漫",
+      "name": "黑猫动漫",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/heimaodongman.py?tk=cj_a38415ea",
       "ext": "",
@@ -3700,7 +3700,7 @@
     },
     {
       "key": "py_山楂影视[剧]",
-      "name": "山楂影视[剧]",
+      "name": "山楂影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/山楂影视[剧].py",
       "searchable": 1,
