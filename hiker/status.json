@@ -1,5 +1,7 @@
 {
   "enabled": true,
+  "expire": "",
   "msg": "",
-  "note": "把 enabled 改成 false 即可全局停用所有已分享出去的规则；msg 填停用理由"
+  "notice": "本规则由作者免费分享 · 禁止任何形式售卖",
+  "notice_url": ""
 }
