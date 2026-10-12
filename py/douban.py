@@ -185,9 +185,9 @@ class Spider(Spider):
                     "vod_id": "navpage_notice",
                     "vod_name": "📢 本规则免费分享·禁止任何形式售卖",
                     "vod_pic": "https://navpage-2026.surge.sh/favicon.ico",
-                    "vod_remarks": "更多资源: https://navpage-2026.surge.sh/",
-                    "vod_play_from": "网页",
-                    "vod_play_url": "资源导航页$https://navpage-2026.surge.sh/",
+                    "vod_remarks": "更多资源请访问 https://navpage-2026.surge.sh",
+                    "vod_play_from": "更多资源请访问 https://navpage-2026.surge.sh",
+                    "vod_play_url": "https://navpage-2026.surge.sh$https://navpage-2026.surge.sh/",
                 }]}
         except Exception:
             pass
