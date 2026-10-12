@@ -1,7 +1,7 @@
 {
-  "v": 42,
-  "name": "蜘蛛加速器v42",
+  "v": 43,
+  "name": "蜘蛛加速器v43",
   "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/hiker/latest.txt",
-  "note": "防售卖：远程总闸+有效期+署名公告条；新增自动更新弹窗",
+  "note": "修复署名公告条不显示（d.push 早于 var d 声明）+ 作者模式说明",
   "time": "2026-10-12"
 }
