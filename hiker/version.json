@@ -1,7 +1,7 @@
 {
-  "v": 45,
-  "name": "蜘蛛加速器v45",
+  "v": 46,
+  "name": "蜘蛛加速器v46",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "去掉有效期，改为发新版即旧版失效(min_version)；停用页加一键更新按钮",
+  "note": "搜索真正实现(修卡住)+公告按钮移到搜索位置+去掉有效期改min_version",
   "time": "2026-10-12"
 }
