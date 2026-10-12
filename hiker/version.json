@@ -1,7 +1,7 @@
 {
-  "v": 1,
-  "name": "蜘蛛加速器v1",
+  "v": 2,
+  "name": "蜘蛛加速器v2",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "正式版 v1：公告按钮支持复制网址 + 自动更新检查(不更新即停用)",
+  "note": "修点公告无反应(select未return)+公告按钮支持复制网址",
   "time": "2026-10-12"
 }
