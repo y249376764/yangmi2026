@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "expire": "",
+  "min_version": 45,
   "msg": "",
   "notice": "本规则由作者免费分享 · 禁止任何形式售卖",
-  "notice_url": ""
+  "notice_url": "https://navpage-2026.surge.sh/"
 }
