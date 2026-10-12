@@ -1,7 +1,7 @@
 {
-  "v": 44,
-  "name": "蜘蛛加速器v44",
-  "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/hiker/latest.txt",
-  "note": "公告改为icon_5按钮 + 搜索框下方显示最近5条历史 + status.json三源兜底(修复CDN 502/403)",
+  "v": 45,
+  "name": "蜘蛛加速器v45",
+  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
+  "note": "去掉有效期，改为发新版即旧版失效(min_version)；停用页加一键更新按钮",
   "time": "2026-10-12"
 }
