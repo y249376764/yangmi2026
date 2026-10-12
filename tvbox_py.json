@@ -2925,15 +2925,6 @@
       "filterable": 1
     },
     {
-      "key": "py_91短剧",
-      "name": "91短剧",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/91短剧.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_93合1",
       "name": "93合1",
       "type": 3,
