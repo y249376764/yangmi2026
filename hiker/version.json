@@ -1,8 +1,8 @@
 {
-  "v": 6,
-  "name": "蜘蛛加速器v6",
+  "v": 7,
+  "name": "蜘蛛加速器v7",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "修复更新机制失灵(jsDelivr返回陈旧缓存导致永远读到v41)；多源全试取最大值 + 离线FLOOR兜底 + 管理菜单手动检查更新",
+  "note": "影视3在线站点翻页修复:远程列表本地文件缓存(不再每页重下115KB)+游标翻页+底部加载更多兜底",
   "time": "2026-10-12",
-  "build": 53
+  "build": 54
 }
