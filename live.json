@@ -300,6 +300,12 @@
       "type": 0,
       "ua": "okhttp",
       "url": "https://gh-proxy.org/https://raw.githubusercontent.com/fafa002/yf2025/refs/heads/main/yiyifafa.txt"
+    },
+    {
+      "name": "凤凰中文/资讯(36线路)",
+      "type": 0,
+      "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/fenghuang_live.txt",
+      "epg": ""
     }
   ],
   "sites": [],
