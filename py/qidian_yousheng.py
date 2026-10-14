@@ -143,27 +143,35 @@ class Spider(BaseSpider):
     # ---- 列表解析 ----
     @staticmethod
     def _parse_book_list(html):
-        """分类页书籍列表 -> vod 数组。"""
+        """分类页书籍列表 -> vod 数组。
+        真实结构: <li><div class="list-imgbox"><a class="thumb" href="/book/{id}.html"
+                   title="{书名}"><img class="lazy" data-original="{封面}" src="/demo1.jpg" ...>
+        书名在 a.title; 封面在 img.data-original(懒加载), src 是 /demo1.jpg 占位。"""
         out = []
         seen = set()
-        # 匹配 li 块: href=/book/{id}.html + title + img
-        blocks = re.findall(
-            r'<li[^>]*>.*?href="(/book/\d+\.html)"[^>]*>.*?'
-            r'(?:title="([^"]*)"|>([^<]{2,50})<).*?'
-            r'<img[^>]*src="([^"]+)"',
-            html, re.S)
-        for href, t1, t2, pic in blocks:
-            vid = href
+        # 按 li 切块再逐块提取, 避免 findall 跨块错位
+        for block in re.findall(r'<li[^>]*>([\s\S]*?)</li>', html):
+            m = re.search(r'<a[^>]+href="(/book/\d+\.html)"[^>]*title="([^"]*)"', block)
+            if not m:
+                continue
+            vid, name = m.group(1), m.group(2).strip()
             if vid in seen:
                 continue
             seen.add(vid)
-            name = (t1 or t2 or "").strip()
-            # 清理书名后缀 "有声小说"
-            name = re.sub(r"(有声小说|章节_在线收听)$", "", name).strip()
+            # 清理书名后缀
+            name = re.sub(r"(有声小说|在线收听)$", "", name).strip()
             if not name:
-                name = href
-            pic = pic if pic.startswith("http") else ("https://www.qdysw.com" + pic if pic.startswith("/") else "")
-            if pic.endswith("demo1.jpg"):
+                name = vid
+            # 封面: data-original 优先(真实图), 回退 src; 忽略 /demo1.jpg 占位
+            pic = ""
+            im = re.search(r'<img[^>]*>', block)
+            if im:
+                dm = re.search(r'data-original="([^"]+)"', im.group(0))
+                sm = re.search(r'src="([^"]+)"', im.group(0))
+                pic = (dm or sm).group(1) if (dm or sm) else ""
+            if pic.startswith("/"):
+                pic = "https://www.qdysw.com" + pic
+            if pic.endswith("/demo1.jpg") or "demo1" in pic:
                 pic = ""
             out.append({
                 "vod_id": vid,
@@ -177,12 +185,12 @@ class Spider(BaseSpider):
     # ---- 分类 ----
     def categoryContent(self, tid, pg="1", filter=False, extend=""):
         page = int(pg) if str(pg).isdigit() and int(pg) > 0 else 1
-        if tid in dict(CLASSES):
-            url = HOST + "/book/%s/lastupdate.html" % tid
-        elif tid.startswith("/"):
+        if tid.startswith("/"):
             url = HOST + tid
-        else:
+        elif page <= 1:
             url = HOST + "/book/%s/lastupdate.html" % tid
+        else:
+            url = HOST + "/book/%s/lastupdate/%d.html" % (tid, page)
         html = self._get(url)
         vods = self._parse_book_list(html)
         # 分类页分页(如果有)
