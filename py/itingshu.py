@@ -95,7 +95,7 @@ def txt(s):
 
 def parse(h):
     out, seen = [], {}
-    for m in re.finditer(r'<a[^>]+class="thumb"[^>]+href="([^"]+)"[^>]*>[\s\S]*?<img[^>]+(?:data-original|src)="([^"]+)"[^>]*>', h or ""):
+    for m in re.finditer(r'<a[^>]*(?:class="[^"]*thumb[^"]*"[^>]*)?href="([^"]+)"[^>]*>[\s\S]*?<img[^>]+(?:data-original|src)="([^"]+)"[^>]*>', h or ""):
         href = absurl(m.group(1), ITS)
         if href in seen: continue
         seen[href] = 1
@@ -119,7 +119,7 @@ class Spider(BaseSpider):
         for g in CATS:
             for c in g[1]:
                 cls.append({"type_id": c[1], "type_name": "📕 " + c[0], "land": 1, "ratio": 1.0})
-        lst = parse(get(ITS + "/yousheng/all/lastupdate/1/1.html", dict(HDR, Referer=ITS + "/")))
+        lst = parse(unlock(ITS + "/yousheng/all/lastupdate/1/1.html", ITS + "/"))
         return {"class": cls, "list": lst, "filters": {}}
 
     def homeVideoContent(self): return {"list": []}
@@ -127,7 +127,7 @@ class Spider(BaseSpider):
     def categoryContent(self, tid, pg, filter=False, extend=""):
         p = max(int(pg or 1), 1)
         u = ITS + "/yousheng/%s/lastupdate/%d/1.html" % (tid, p)
-        h = get(u, dict(HDR, Referer=ITS + "/"))
+        h = unlock(u, ITS + "/")
         lst = parse(h)
         return {"list": lst, "page": p, "pagecount": p + 1 if lst else p, "limit": 30, "total": len(lst)}
 
