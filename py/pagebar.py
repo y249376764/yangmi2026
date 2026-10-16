@@ -113,7 +113,7 @@ class Spider(BaseSpider):
 
     def categoryContent(self, tid, pg, filter=False, extend=""):
         p = max(int(pg or 1), 1)
-        plat = extend or "leting8"
+        plat = self._plat(extend)
         g = ST.get(plat) or ST["leting8"]
         url = (g["catpat"] % tid) if tid.isdigit() else tid
         if not url.startswith("http"): url = g["host"] + ("/" if not url.startswith("/") else "") + url
