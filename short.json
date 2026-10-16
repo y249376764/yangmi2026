@@ -1,1 +1,209 @@
-{"spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar", "sites": [{"key": "七猫短剧", "name": "七猫 • 短剧", "type": 3, "api": "csp_ShortQimao", "genre": "shortdrama"}, {"key": "河马短剧", "name": "河马 • 短剧", "type": 3, "api": "csp_ShortHema", "genre": "shortdrama"}, {"key": "围观短剧", "name": "围观 • 短剧", "type": 3, "api": "csp_ShortWeiguan", "genre": "shortdrama"}, {"key": "好看短剧", "name": "好看 • 短剧", "type": 3, "api": "csp_ShortHaokan", "genre": "shortdrama"}, {"key": "星芽短剧", "name": "星芽 • 短剧", "type": 3, "api": "csp_ShortXingya", "genre": "shortdrama"}, {"key": "果果短剧", "name": "果果v2", "type": 3, "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@79c5c8e86d96c76a/py/guoguo_spider.py", "genre": "shortdrama", "searchable": 0, "quickSearch": 0, "filterable": 1}, {"key": "py_yyduanju", "name": "YY短剧v4", "type": 3, "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ab12152fbddbfc637033d747b22552353c467635/py/yyduanju.py", "searchable": 1, "quickSearch": 1, "filterable": 1, "genre": "shortdrama"}, {"key": "果果短剧", "name": "🦋 果果 • 短剧", "type": 3, "api": "csp_XBPQ", "ext": {"请求头": "User-Agent$MOBILE_UA", "编码": "UTF-8", "分类": "重生$1#穿越$2#爽剧$3#言情$4#都市$5#古装$6#悬疑$7#剧情$8", "分类url": "https://www.mochadj.com/i/{cateId}-{catePg}.html"}, "searchable": 1, "quickSearch": 1, "category": "短剧"}], "parses": [], "notice": "更多资源：https://navpage-2026.surge.sh"}
+{
+ "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
+ "sites": [
+  {
+   "key": "七猫短剧",
+   "name": "七猫 • 短剧",
+   "type": 3,
+   "api": "csp_ShortQimao",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "河马短剧",
+   "name": "河马 • 短剧",
+   "type": 3,
+   "api": "csp_ShortHema",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "围观短剧",
+   "name": "围观 • 短剧",
+   "type": 3,
+   "api": "csp_ShortWeiguan",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "好看短剧",
+   "name": "好看 • 短剧",
+   "type": 3,
+   "api": "csp_ShortHaokan",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "星芽短剧",
+   "name": "星芽 • 短剧",
+   "type": 3,
+   "api": "csp_ShortXingya",
+   "genre": "shortdrama"
+  },
+  {
+   "key": "果果短剧",
+   "name": "果果v2",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@79c5c8e86d96c76a/py/guoguo_spider.py",
+   "genre": "shortdrama",
+   "searchable": 0,
+   "quickSearch": 0,
+   "filterable": 1
+  },
+  {
+   "key": "py_yyduanju",
+   "name": "YY短剧v4",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@ab12152fbddbfc637033d747b22552353c467635/py/yyduanju.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1,
+   "genre": "shortdrama"
+  },
+  {
+   "key": "果果短剧",
+   "name": "🦋 果果 • 短剧",
+   "type": 3,
+   "api": "csp_XBPQ",
+   "ext": {
+    "请求头": "User-Agent$MOBILE_UA",
+    "编码": "UTF-8",
+    "分类": "重生$1#穿越$2#爽剧$3#言情$4#都市$5#古装$6#悬疑$7#剧情$8",
+    "分类url": "https://www.mochadj.com/i/{cateId}-{catePg}.html"
+   },
+   "searchable": 1,
+   "quickSearch": 1,
+   "category": "短剧"
+  },
+  {
+   "key": "py_99duanjuwang",
+   "name": "📱短剧｜99短剧网",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_99duanjuwang.py"
+  },
+  {
+   "key": "py_pynew012zaixianduanj",
+   "name": "📱短剧｜py_new_012_在线短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew012zaixianduanj.py"
+  },
+  {
+   "key": "py_pynew015yingkeduanju",
+   "name": "📱短剧｜py_new_015_映刻短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew015yingkeduanju.py"
+  },
+  {
+   "key": "py_pynew024xifuduanju",
+   "name": "📱短剧｜py_new_024_喜福短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew024xifuduanju.py"
+  },
+  {
+   "key": "py_pynew025wushengduanj",
+   "name": "📱短剧｜py_new_025_悟圣短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew025wushengduanj.py"
+  },
+  {
+   "key": "py_pynew030shuabutingdu",
+   "name": "📱短剧｜py_new_030_刷不停短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew030shuabutingdu.py"
+  },
+  {
+   "key": "py_pynew033shiliuduanju",
+   "name": "📱短剧｜py_new_033_石榴短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew033shiliuduanju.py"
+  },
+  {
+   "key": "py_pynew051kaixinduanju",
+   "name": "📱短剧｜py_new_051_开心短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew051kaixinduanju.py"
+  },
+  {
+   "key": "py_pynew058hongdouduanj",
+   "name": "📱短剧｜py_new_058_红豆短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew058hongdouduanj.py"
+  },
+  {
+   "key": "py_pynew074duanjudaquan",
+   "name": "📱短剧｜py_new_074_短剧大全",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew074duanjudaquan.py"
+  },
+  {
+   "key": "py_pynew076dusheduanju",
+   "name": "📱短剧｜py_new_076_毒舌短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew076dusheduanju.py"
+  },
+  {
+   "key": "py_pynew085daxiangduanj",
+   "name": "📱短剧｜py_new_085_大象短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew085daxiangduanj.py"
+  },
+  {
+   "key": "py_pynew093canchiduanju",
+   "name": "📱短剧｜py_new_093_蚕驰短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew093canchiduanju.py"
+  },
+  {
+   "key": "py_wuwuduanju",
+   "name": "📱短剧｜五五短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_wuwuduanju.py"
+  },
+  {
+   "key": "py_wuwuduanju2",
+   "name": "📱短剧｜五五短剧2",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_wuwuduanju2.py"
+  },
+  {
+   "key": "py_guoguoduanju",
+   "name": "📱短剧｜果果短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_guoguoduanju.py"
+  },
+  {
+   "key": "py_hemaduanju",
+   "name": "📱短剧｜河马短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_hemaduanju.py"
+  },
+  {
+   "key": "py_hemaduanju_2",
+   "name": "📱短剧｜河马短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_hemaduanju_2.py"
+  },
+  {
+   "key": "py_niuniuduanju",
+   "name": "📱短剧｜牛牛短剧",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_niuniuduanju.py"
+  },
+  {
+   "key": "py_duanjubashi",
+   "name": "📱短剧｜短剧巴士",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_duanjubashi.py"
+  },
+  {
+   "key": "py_duanjuwang",
+   "name": "📱短剧｜短剧网",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_duanjuwang.py"
+  },
+  {
+   "key": "py_dijiuduanjuwang",
+   "name": "📱短剧｜第九短剧网",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_dijiuduanjuwang.py"
+  }
+ ],
+ "parses": [],
+ "notice": "更多资源：https://navpage-2026.surge.sh"
+}
