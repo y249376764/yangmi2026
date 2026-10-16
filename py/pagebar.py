@@ -57,19 +57,30 @@ def hdr(host, ref):
 
 def parse(h, host, plat):
     out, seen = [], {}
-    for li in re.findall(r'<li[^>]*>[\s\S]*?</li>', h or ""):
-        m = re.search(r'<h2[^>]*><a[^>]+href="([^"]+)"[^>]*>([\s\S]*?)</a>', li) or re.search(r'<a[^>]+class="img-80"[^>]+href="([^"]+)"', li)
-        if not m: continue
-        href = absurl(m.group(1), host)
-        if href in seen: continue
-        seen[href] = 1
-        nm = txt(m.group(2)).replace("有声小说", "")
-        pic = ""
-        mi = re.search(r'<img[^>]+src="([^"]+)"', li)
-        if mi: pic = absurl(mi.group(1), host)
-        out.append({"vod_id": "ss:%s:%s" % (plat, href), "vod_name": nm, "vod_pic": pic,
-                    "vod_remarks": ST[plat]["name"], "vod_content": ST[plat]["name"],
-                    "style": {"type": "rect", "ratio": 1.0}})
+    # 原书源选择器：ul.row-b > li / ul.row3 > li；书名 h2 a.f-bold；封面 a.img-80 img
+    if h:
+        # 定位 ul.row3.row-b 或 ul.row-b 列表
+        ul = re.search(r'<ul[^>]*class="[^"]*row[3-]?-?b[^"]*"[^>]*>([\s\S]*?)</ul>', h, re.I)
+        body = ul.group(1) if ul else h
+        for li in re.findall(r'<li[^>]*>([\s\S]*?)</li>', body):
+            m = re.search(r'<h2[^>]*>[\s\S]*?<a[^>]*(?:class="[^"]*f-bold[^"]*"[^>]*)?href="([^"]+)"[^>]*>([\s\S]*?)</a>', li) \
+                or re.search(r'<h2[^>]*>[\s\S]*?<a[^>]+href="([^"]+)"[^>]*>([\s\S]*?)</a>', li) \
+                or re.search(r'<a[^>]+class="[^"]*img-80[^"]*"[^>]+href="([^"]+)"', li)
+            if not m: continue
+            href = absurl(m.group(1), host)
+            if href in seen: continue
+            seen[href] = 1
+            nm = txt(m.group(2)) if m.lastindex >= 2 else ""
+            if not nm:
+                ia = re.search(r'<img[^>]+alt="([^"]+)"', li)
+                if ia: nm = txt(ia.group(1))
+            if not nm: continue
+            pic = ""
+            mi = re.search(r'<img[^>]+src="([^"]+)"', li)
+            if mi: pic = absurl(mi.group(1), host)
+            out.append({"vod_id": "ss:%s:%s" % (plat, href), "vod_name": nm.replace("有声小说", ""),
+                        "vod_pic": pic, "vod_remarks": ST[plat]["name"], "vod_content": ST[plat]["name"],
+                        "style": {"type": "rect", "ratio": 1.0}})
     return out
 
 def nextlink(h, host):
