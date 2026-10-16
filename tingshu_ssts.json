@@ -1,0 +1,162 @@
+{
+ "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/9527.jar",
+ "sites": [
+  {
+   "key": "ssts_bili",
+   "name": "🎬哔哩听书｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/ssts_bilibili.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_bookan",
+   "name": "📕博看有声｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/bookan.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_yuntu",
+   "name": "☁️云图有声｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/yuntu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_kuwo",
+   "name": "🎵酷我畅听｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/kuwo.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_lrts",
+   "name": "😴懒人听书｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/lrts.py",
+   "searchable": 1,
+   "quickSearch": 0,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_psmp3",
+   "name": "🎙评书随身听｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/psmp3.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_xsmp3",
+   "name": "😂相声随身听｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/xsmp3.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_vbus",
+   "name": "🚌声音巴士｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/vbus.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_i275",
+   "name": "🇨🇳听中国｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/i275.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_ting15",
+   "name": "🔊有听网｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/ting15.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  },
+  {
+   "key": "ssts_leting8",
+   "name": "🎧乐听吧｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/pagebar.py",
+   "searchable": 1,
+   "quickSearch": 0,
+   "filterable": 0,
+   "changeable": 0,
+   "ext": "https://www.leting8.com"
+  },
+  {
+   "key": "ssts_mitingshu",
+   "name": "🎧米听书｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/pagebar.py",
+   "searchable": 1,
+   "quickSearch": 0,
+   "filterable": 0,
+   "changeable": 0,
+   "ext": "https://www.mitingshu.com"
+  },
+  {
+   "key": "ssts_jiongzei",
+   "name": "🎧囧贼听书｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/pagebar.py",
+   "searchable": 1,
+   "quickSearch": 0,
+   "filterable": 0,
+   "changeable": 0,
+   "ext": "https://www.jiongzei.com"
+  },
+  {
+   "key": "ssts_yihuanhuan",
+   "name": "🎧一夜幻听｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/pagebar.py",
+   "searchable": 1,
+   "quickSearch": 0,
+   "filterable": 0,
+   "changeable": 0,
+   "ext": "https://www.22ting.com"
+  },
+  {
+   "key": "ssts_itingshu",
+   "name": "📕爱听书｜随身听书",
+   "type": 3,
+   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/883c5b4277112fd3c98893df0c5c4587631f1704/py/itingshu.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 0,
+   "changeable": 0
+  }
+ ],
+ "parses": [],
+ "lives": [],
+ "notice": "随身听书17站｜更多资源：https://navpage-2026.surge.sh"
+}
