@@ -50,6 +50,7 @@ def parse(h):
     out, seen = [], {}
     for m in re.finditer(r'<a[^>]+href="([^"]+)"[^>]*>([\s\S]*?)</a>', h or ""):
         href = absurl(m.group(1), I2)
+        if href.startswith("//"): href = "https:" + href
         if not re.search(r"/book/\d+\.html$", href) or href in seen: continue
         img = re.search(r'<img[^>]+alt="([^"]+)"[^>]+src="([^"]+)"', m.group(2)) or re.search(r'<img[^>]+src="([^"]+)"[^>]+alt="([^"]+)"', m.group(2))
         nm, pic = "", ""
@@ -97,6 +98,7 @@ class Spider(BaseSpider):
     def detailContent(self, ids):
         vid = str(ids[0]) if ids else ""
         u = vid.split(":")[-1] if vid.startswith("ss:i275:") else vid
+        if u.startswith("//"): u = "https:" + u
         h = get(u)
         if not h:
             return {"list": [{"vod_id": vid, "vod_name": "", "vod_pic": "", "vod_remarks": "打不开页面", "vod_play_url": ""}]}
