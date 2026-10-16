@@ -12,16 +12,6 @@
    "changeable": 0
   },
   {
-   "key": "ssts_bookan",
-   "name": "📕博看有声｜随身听书",
-   "type": 3,
-   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/92abd5c1021f90226b1d2ef42915367f32b11c80/py/bookan.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 0,
-   "changeable": 0
-  },
-  {
    "key": "ssts_yuntu",
    "name": "☁️云图有声｜随身听书",
    "type": 3,
@@ -52,30 +42,10 @@
    "changeable": 0
   },
   {
-   "key": "ssts_psmp3",
-   "name": "🎙评书随身听｜随身听书",
-   "type": 3,
-   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/92abd5c1021f90226b1d2ef42915367f32b11c80/py/psmp3.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 0,
-   "changeable": 0
-  },
-  {
    "key": "ssts_xsmp3",
    "name": "😂相声随身听｜随身听书",
    "type": 3,
    "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/92abd5c1021f90226b1d2ef42915367f32b11c80/py/xsmp3.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 0,
-   "changeable": 0
-  },
-  {
-   "key": "ssts_vbus",
-   "name": "🚌声音巴士｜随身听书",
-   "type": 3,
-   "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/92abd5c1021f90226b1d2ef42915367f32b11c80/py/vbus.py",
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 0,
