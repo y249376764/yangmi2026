@@ -80,8 +80,16 @@ class Spider(BaseSpider):
     def getName(self): return "🎧乐听吧4站"
     def init(self, extend=""): pass
 
-    def _plat(self):
-        # 由 extend 或默认取 leting8
+    def _plat(self, extend=""):
+        # 兼容两种 extend：站点 key（leting8）或 host URL（https://www.leting8.com）
+        e = (extend or "").strip().lower()
+        if not e:
+            return "leting8"
+        if e in ST:
+            return e
+        for k, v in ST.items():
+            if v["host"].lower() in e or e in v["host"].lower():
+                return k
         return "leting8"
 
     def homeContent(self, filter=False):
