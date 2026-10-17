@@ -1,8 +1,8 @@
 {
-  "v": 20,
+  "v": 21,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "修复影视3报错找不到页面(fypage写法不适用于page模块)；加载更多连续追加翻页",
+  "note": "更新拉取提速：版本检查首源即返回(不再4源全试)+更新包多源兜底+进度提示",
   "time": "2026-10-12",
-  "build": 67
+  "build": 68
 }
