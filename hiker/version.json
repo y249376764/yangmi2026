@@ -1,8 +1,8 @@
 {
-  "v": 16,
+  "v": 17,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "icon_5 导航加'下载插件'按钮（下载安装 chaquopy 插件 chaquopy_hk.zip）",
+  "note": "扫描路径页：点路径直接删除(去二次确认)+显示py文件数量+重新加载按钮",
   "time": "2026-10-12",
-  "build": 63
+  "build": 64
 }
