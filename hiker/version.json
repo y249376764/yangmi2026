@@ -1,8 +1,8 @@
 {
-  "v": 18,
+  "v": 19,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "删除确认加回(防误点)+远程status缓存12小时(进规则秒开)+重新加载清缓存",
+  "note": "影视3在线站点用fypage上滑分页；加载更多按钮连续追加不再跳回第一页",
   "time": "2026-10-12",
-  "build": 65
+  "build": 66
 }
