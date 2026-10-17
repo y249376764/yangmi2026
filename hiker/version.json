@@ -1,8 +1,8 @@
 {
-  "v": 17,
+  "v": 18,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "扫描路径页：点路径直接删除(去二次确认)+显示py文件数量+重新加载按钮",
+  "note": "删除确认加回(防误点)+远程status缓存12小时(进规则秒开)+重新加载清缓存",
   "time": "2026-10-12",
-  "build": 64
+  "build": 65
 }
