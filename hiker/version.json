@@ -1,8 +1,8 @@
 {
-  "v": 19,
+  "v": 20,
   "name": "蜘蛛🕷️",
   "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "影视3在线站点用fypage上滑分页；加载更多按钮连续追加不再跳回第一页",
+  "note": "修复影视3报错找不到页面(fypage写法不适用于page模块)；加载更多连续追加翻页",
   "time": "2026-10-12",
-  "build": 66
+  "build": 67
 }
