@@ -1,1 +1,7 @@
-{"version": 23, "build": 70, "v": 23, "name": "蜘蛛🕷️", "desc": "下载插件星集式修复+4项检测+写入校验+保目录解压", "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt", "note": "蜘蛛🕷️ v23：下载插件修复（星集式：4项检测 chaquopy.apk+classes.dex+arm64-v8a+libs_py、阈值15MB、写入后校验、解压保目录、解压前保险）", "time": "2026-10-18"}
+{
+  "v": 24,
+  "build": 71,
+  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
+  "note": "下载插件→重生安装：一键检测+清残留+重下+重装，插件坏了点一下就好",
+  "time": "2026-10-18 11:00"
+}
