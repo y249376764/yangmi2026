@@ -71,6 +71,112 @@ function pre(){
 }
 
 let rule = {};
+
+// ================= AVBox 命令式 JS 蜘蛛兼容层 =================
+// 网上流通的 TVBox JS 源有三种格式：
+//   1. //bb 开头 = QuickJS 字节码（base64）
+//   2. 含 __JS_SPIDER__ = ES Module（自动 export default）
+//   3. 含 __jsEvalReturn = 老式 eval 风格（globalThis.req=http）
+// 聚影的 drpy2 是声明式规则引擎，这里把命令式蜘蛛自动适配成 rule 对象。
+let __JY_CMD_SPIDER__ = null;
+
+function tryLoadCmdSpider(code) {
+    if (!code || typeof code !== 'string') return false;
+    let t = code.trim();
+    if (t.startsWith('\uFEFF')) t = t.substring(1).trim();
+    // 字节码 / ES Module / evalReturn / export default 才算命令式
+    let isCmd = t.startsWith('//bb') || t.includes('__JS_SPIDER__') || t.includes('__jsEvalReturn') ||
+                (t.includes('export default') && !t.includes('var rule')) ||
+                (t.includes('__jsEvalReturn') && !t.includes('var rule'));
+    if (!isCmd) return false;
+    try {
+        if (t.startsWith('//bb')) {
+            // QuickJS 字节码：海阔 JSEngine 可直接 execute 字节码，
+            // 但 drpy 环境是声明式，字节码里是完整蜘蛛，用 eval 包一层转对象
+            // 字节码无法直接 eval，这里标记为"需引擎执行"，交给上层 SrcJyDrpy
+            __JY_CMD_SPIDER__ = { __bytecode: t };
+            return true;
+        }
+        // 命令式 JS 蜘蛛：把 export default / __JS_SPIDER__ / __jsEvalReturn 统一转成对象
+        let jsCode = code;
+        if (jsCode.includes('__JS_SPIDER__')) {
+            jsCode = jsCode.replace(/__JS_SPIDER__\s*=\s*/g, 'globalThis.__JY_RAW__ = ');
+        } else if (jsCode.includes('__jsEvalReturn')) {
+            jsCode = jsCode + '\nglobalThis.__JY_RAW__ = __jsEvalReturn();';
+            jsCode = jsCode.replace(/export default/g, '');
+        } else if (jsCode.includes('export default')) {
+            jsCode = jsCode.replace(/export default\s*([{])/g, 'globalThis.__JY_RAW__ = $1');
+            jsCode = jsCode.replace(/export default\s*([a-zA-Z_$][\w$]*)/g, 'globalThis.__JY_RAW__ = $1');
+        }
+        // 兜底：__JY_RAW__ 可能是对象或函数
+        eval(jsCode);
+        if (globalThis.__JY_RAW__ !== undefined) {
+            let raw = globalThis.__JY_RAW__;
+            delete globalThis.__JY_RAW__;
+            // 函数则实例化
+            if (typeof raw === 'function') {
+                try { raw = raw(); } catch (e) {}
+            }
+            __JY_CMD_SPIDER__ = raw;
+            return true;
+        }
+        return false;
+    } catch (e) {
+        print('AVBox命令式JS加载失败:' + e.message);
+        __JY_CMD_SPIDER__ = null;
+        return false;
+    }
+}
+
+// 把命令式蜘蛛对象适配成 drpy：覆写顶层 home/category/detail/search/play 为转发函数
+function installCmdSpider(spider) {
+    if (!spider) return;
+    if (spider.__bytecode) {
+        // 字节码源：无法直接解析出对象，由上层 SrcJyDrpy 用 JSEngine 执行
+        rule.__bytecode = spider.__bytecode;
+        return;
+    }
+    let r = Object.assign({}, rule);
+    r.__cmdSpider = spider;
+    // 覆写导出对象（ES Module 里 function 声明是只读绑定，直接 home= 无效；
+    // 外部拿到的是 export default 对象，覆写它的方法才生效）
+    let wrap = function (fn) {
+        return function () {
+            try {
+                let args = Array.prototype.slice.call(arguments);
+                let result = fn.apply(spider, args);
+                // ★ async 命令式源返回 Promise：海阔同步引擎无法 await，给明确提示（不静默失败）
+                if (result && typeof result.then === 'function') {
+                    print('该JS源是async异步源，海阔同步引擎不支持，请改用drpy声明式规则或换同步源');
+                    return '{}';
+                }
+                if (typeof result === 'string') return result;
+                return JSON.stringify(result);
+            } catch (e) {
+                print('命令式JS蜘蛛调用失败:' + e.message);
+                return '{}';
+            }
+        };
+    };
+    // ★ 覆写导出对象方法（关键：drpy 引擎外部只认 export default 对象的 home/category/detail/search/play）
+    if (typeof spider.home === 'function') __JY_EXPORTS__.home = wrap(spider.home);
+    if (typeof spider.homeVod === 'function') __JY_EXPORTS__.homeVod = wrap(spider.homeVod);
+    if (typeof spider.category === 'function') __JY_EXPORTS__.category = wrap(spider.category);
+    if (typeof spider.detail === 'function') __JY_EXPORTS__.detail = wrap(spider.detail);
+    if (typeof spider.search === 'function') __JY_EXPORTS__.search = wrap(spider.search);
+    if (typeof spider.play === 'function') __JY_EXPORTS__.play = wrap(spider.play);
+    if (typeof spider.proxy === 'function') __JY_EXPORTS__.proxy = wrap(spider.proxy);
+    // 免嗅/辅助嗅探
+    if (typeof spider.sniffer === 'function') __JY_EXPORTS__.sniffer = spider.sniffer;
+    if (typeof spider.isVideo === 'function') __JY_EXPORTS__.isVideo = spider.isVideo;
+    // 播放格式：命令式 play 直接返回 {parse,playUrl,url,header}
+    rule = r;
+    rule.play_parse = 0; // 命令式已自解析，不需 drpy 再解析
+    rule.lazy = '';
+    rule.play_json = [];
+    return rule;
+}
+
 let vercode = typeof(pdfl) ==='function'?'drpy2.1':'drpy2';
 const VERSION = vercode+' 3.9.49beta40 202400426';
 /** 已知问题记录
@@ -2462,11 +2568,22 @@ function init(ext) {
             if (ext.startsWith('http')) {
                 let js = request(ext,{'method':'GET'});
                 if (js){
-                    eval(js.replace('var rule', 'rule'));
+                    // ★ AVBox 兼容：先尝试命令式 JS 蜘蛛格式（__JS_SPIDER__/__jsEvalReturn///bb），失败再走 drpy 声明式
+                    if (!tryLoadCmdSpider(js)) {
+                        eval(js.replace('var rule', 'rule'));
+                    }
                 }
             } else {
-                eval(ext.replace('var rule', 'rule'));
+                // ★ AVBox 兼容：同上，处理直接传入源码的情况
+                if (!tryLoadCmdSpider(ext)) {
+                    eval(ext.replace('var rule', 'rule'));
+                }
             }
+        }
+        // ★ AVBox 兼容：若加载的是命令式 JS 蜘蛛，覆写顶层函数 + 适配 rule
+        if (globalThis.__JY_CMD_SPIDER__) {
+            installCmdSpider(globalThis.__JY_CMD_SPIDER__);
+            delete globalThis.__JY_CMD_SPIDER__;
         }
         if (rule.模板 && muban.hasOwnProperty(rule.模板)) {
             print('继承模板:'+rule.模板);
@@ -2793,7 +2910,7 @@ function DRPY(){//导出函数
  */
 
 // 导出函数对象
-export default {
+let __JY_EXPORTS__ = {
     init,
     home,
     homeVod,
@@ -2805,4 +2922,5 @@ export default {
     sniffer,
     isVideo,
     DRPY,
-}
+};
+export default __JY_EXPORTS__;
