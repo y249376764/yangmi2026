@@ -1,1 +1,1 @@
-{"version": 15, "build": 15, "v": 15, "name": "LIBVIO", "desc": "检查更新+QQ群按钮", "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/libvio.txt", "note": "LIBVIO v15：修复检查更新按钮JS语法错误，点一下从仓库拉最新版", "time": "2026-10-18"}
+{"version": 16, "build": 16, "v": 16, "name": "LIBVIO", "desc": "检查更新按钮改小", "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/libvio.txt", "note": "LIBVIO v16：检查更新按钮改小（scroll_button），点一下从仓库拉最新版", "time": "2026-10-18"}
