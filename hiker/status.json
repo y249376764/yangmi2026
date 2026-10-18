@@ -1,8 +1,1 @@
-{
-  "enabled": true,
-  "min_version": 68,
-  "msg": "",
-  "notice": "本规则免费分享 · 禁止任何形式售卖",
-  "notice_url": "https://navpage-2026.surge.sh/",
-  "popup": true
-}
+{"min_version": 69, "version": 22, "name": "蜘蛛🕷️"}
