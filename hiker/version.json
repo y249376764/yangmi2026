@@ -1,8 +1,1 @@
-{
-  "v": 21,
-  "name": "蜘蛛🕷️",
-  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
-  "note": "更新拉取提速：版本检查首源即返回(不再4源全试)+更新包多源兜底+进度提示",
-  "time": "2026-10-12",
-  "build": 68
-}
+{"version": 22, "build": 69, "name": "蜘蛛🕷️", "desc": "标签识别+分类管理+TG文字屏蔽+简介折叠+20站搜索+去管理站点"}
