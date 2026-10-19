@@ -1,1 +1,1 @@
-{"v": 42, "build": 85, "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt", "note": "蜘蛛v42：重生安装断点续传+多源下载（新增paste直链源）", "time": "2026-10-19"}
+{"v": 42, "build": 86, "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt", "note": "蜘蛛v42.1：重生安装修复死循环+换源提速（30s超时+ZIP校验删垃圾）", "time": "2026-10-19"}
