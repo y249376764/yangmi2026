@@ -356,9 +356,18 @@ function checkBoxUrl(input) {
 }
 
 // 从box配置文件获取
-function getBoxSource(input, mode, imports){
+function getBoxSource(input, mode, imports, raw){
     //input配置文件地址，mode模式1为导入，2为订阅，3为较验
+    //raw 有值 = 直接用现成内容(跳过网络抓取)，供 TVBox 预检页复用
     let html,data;
+    if(raw){
+        html = String(raw);
+        try{
+            eval('data = ' + html);
+        }catch(eR0){
+            return { message: "失败：配置内容无法解析>" + eR0.message };
+        }
+    }else{
     let checkUrl = checkBoxUrl(input);
     if(checkUrl.message){
         return checkUrl;
@@ -407,6 +416,7 @@ function getBoxSource(input, mode, imports){
         return {
             message: "异常：为啥会没有获取到html"
         };
+    }
     }
     
     if(mode==3){//订阅较验完成
