@@ -83,6 +83,7 @@ class Spider(BaseSpider):
     API = HOST + "/api"
     TP = HOST + "/tingyou-app"
     SITE = "https://api.365ting.com"
+    FALLBACK_PIC = "https://app.365ting.com/pic1/jd.jpg"
     UA = ("Mozilla/5.0 (Linux; Android 12; SM-G975F) "
           "AppleWebKit/537.36 (KHTML, like Gecko) "
           "Chrome/120.0.0.0 Mobile Safari/537.36")
@@ -156,6 +157,8 @@ class Spider(BaseSpider):
         pic = ""
         if aid:
             pic = self._cover_of(it.get("user_id")).get(aid, "")
+        if not pic:
+            pic = self.FALLBACK_PIC
 
         mm, ss = divmod(dur, 60)
         meta = {"i": sid, "n": title, "p": pic, "a": au, "d": dur,
