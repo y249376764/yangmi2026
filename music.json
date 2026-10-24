@@ -147,7 +147,7 @@
       "key": "shiyinyinyue",
       "name": "🎵拾音音乐｜歌曲歌单",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/shiyin_yinyue.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/shiyin_yinyue.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
