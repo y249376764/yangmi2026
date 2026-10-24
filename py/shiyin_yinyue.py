@@ -287,7 +287,8 @@ class Spider(BaseSpider):
             n = str(meta.get("n") or "音乐")
             au = str(meta.get("a") or "")
             sid = str(meta.get("i") or "")
-            play = (au + "$" + n) if au else ("id:%s@0$%s" % (sid, n))
+            # TVBox 约定：名称$地址
+            play = (n + "$" + au) if au else ("%s$id:%s@1" % (n, sid))
             return {"list": [{
                 "vod_id": raw,
                 "vod_name": n,
@@ -313,7 +314,7 @@ class Spider(BaseSpider):
             eps = []
             for i, s in enumerate(songs):
                 t = str(s.get("title") or ("第%d首" % (i + 1)))
-                eps.append("%s@%d$%s" % (aid, i + 1, t))
+                eps.append("%s$%s@%d" % (t, aid, i + 1))
                 if not cover:
                     cover = str(s.get("cover_url") or "")
             return {"list": [{
@@ -330,7 +331,7 @@ class Spider(BaseSpider):
             cnt = 1
         eps = []
         for i in range(cnt):
-            eps.append("%s@%d$第%d首" % (aid, i + 1, i + 1))
+            eps.append("第%d首$%s@%d" % (i + 1, aid, i + 1))
         return {"list": [{
             "vod_id": raw,
             "vod_name": name,
