@@ -375,6 +375,15 @@
       "quickSearch": 1,
       "filterable": 0,
       "changeable": 0
+    },
+    {
+      "key": "shiyintingshu",
+      "name": "🎧拾音听书｜有声书",
+      "type": 3,
+      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/shiyin_tingshu.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "parses": [],
