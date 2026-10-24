@@ -95,15 +95,6 @@
       "changeable": 0
     },
     {
-      "key": "ting365v2",
-      "name": "🎧365听书v2｜有声书",
-      "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/742c85961c1f/py/ting365.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0
-    },
-    {
       "key": "ting39",
       "name": "🎙幻听网｜有声小说",
       "type": 3,
