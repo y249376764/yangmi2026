@@ -1,19 +1,28 @@
 # -*- coding: utf-8 -*-
 """
-拾音听书 (shiyin_tingshu.py)
-----------------------------
+拾音听书 (shiyin_tingshu.py) v3
+--------------------------------
 站点: https://api.365ting.com  （拾音 App 官方接口，免登录）
 更多资源请到网站 navpage-2026.surge.sh
 
-接口:
+接口
 - 搜索/分类  GET /tingyou-app/search?keyword={kw}&page={pg}   10 条/页
-             items[]{id,title,author,teller,count,cover_url} / total / has_more
-- 音频        GET /tingyou/stream?album={id}&idx={n}   Range 206 audio/mp4
-             单集约 25kbps，直接可播，无需二次解析
-- 没有专辑详情接口：集数用搜索返回的 count，章节序号 1..count
+             data.items[]{id,title,author,teller,count,cover_url}
+             data.total / data.has_more
+- 音频        GET /tingyou/stream?album={id}&idx={n}    idx 从 1 起
+             206 audio/mp4（M4A 容器），站点不支持 HEAD
+- 没有专辑详情接口：集数取搜索返回的 count，章节序号 1..count
 
-vod_id 约定: base64(id|title|teller|cover|count)
-这样详情页不用二次搜索就能拿到书名/封面/集数。
+v3 修复（播放解析不出来）
+  根因不是网络也不是 HEAD，而是 vod_play_url 的字段顺序写反了。
+  TVBox 约定每项必须「名称$地址」，v2 写成「地址$名称」，
+  于是点第 1 集时把「第1集」三个字当成播放地址 → 解析失败。
+  现已改为「第{n}集$album@idx」。
+
+v3 布局（参照 365听书）
+  首屏多关键词聚合铺满 60 条，分类 24 个平铺，上滑翻页 10 条/页。
+
+vod_id 约定: base64(json{id,title,teller,cover,count})
 """
 import base64
 import json
@@ -64,16 +73,12 @@ except ImportError:
 
 
 def _b64(s):
-    try:
-        return base64.b64encode(str(s).encode('utf-8')).decode('ascii')
-    except Exception:
-        return ''
+    return base64.b64encode(str(s).encode('utf-8')).decode('ascii')
 
 
 def _unb64(s):
     try:
-        pad = '=' * (-len(s) % 4)
-        return base64.b64decode(str(s) + pad).decode('utf-8', 'ignore')
+        return base64.b64decode(str(s) + '=' * (-len(s) % 4)).decode('utf-8', 'ignore')
     except Exception:
         return ''
 
@@ -81,25 +86,29 @@ def _unb64(s):
 class Spider(BaseSpider):
     HOST = "https://api.365ting.com"
     API = HOST + "/tingyou-app"
-    SITE = "https://api.365ting.com"
     UA = ("Mozilla/5.0 (Linux; Android 12; SM-G975F) "
           "AppleWebKit/537.36 (KHTML, like Gecko) "
           "Chrome/120.0.0.0 Mobile Safari/537.36")
+    PAGE_SIZE = 10
 
     CATS = [
-        ("评书", "评书"), ("相声", "相声"), ("小说", "小说"), ("儿童", "儿童"),
-        ("历史", "历史"), ("悬疑", "悬疑"), ("玄幻", "玄幻"), ("都市", "都市"),
-        ("言情", "言情"), ("科幻", "科幻"), ("军事", "军事"), ("武侠", "武侠"),
-        ("仙侠", "仙侠"), ("恐怖", "恐怖"), ("纪实", "纪实"), ("脱口秀", "脱口秀"),
-        ("百家讲坛", "百家讲坛"), ("戏曲", "戏曲"), ("睡前故事", "睡前故事"),
-        ("英语", "英语"),
+        ("评书", "评书"), ("相声", "相声"), ("有声小说", "有声小说"),
+        ("玄幻", "玄幻"), ("都市", "都市"), ("历史", "历史"),
+        ("军事", "军事"), ("悬疑", "悬疑"), ("恐怖", "恐怖"),
+        ("言情", "言情"), ("仙侠", "仙侠"), ("武侠", "武侠"),
+        ("科幻", "科幻"), ("儿童", "儿童"), ("广播剧", "广播剧"),
+        ("百家讲坛", "百家讲坛"), ("纪实", "纪实"), ("脱口秀", "脱口秀"),
+        ("戏曲", "戏曲"), ("睡前故事", "睡前故事"), ("英语", "英语"),
+        ("郭德纲", "郭德纲"), ("单田芳", "单田芳"), ("鬼吹灯", "鬼吹灯"),
     ]
+
+    HOME_KW = ["有声小说", "评书", "玄幻", "悬疑", "都市", "历史", "相声", "儿童"]
 
     def __init__(self):
         self.sess = requests.Session()
         self.sess.headers.update({
             "User-Agent": self.UA,
-            "Referer": self.SITE + "/",
+            "Referer": self.HOST + "/",
             "Accept": "application/json, text/plain, */*",
         })
 
@@ -109,7 +118,6 @@ class Spider(BaseSpider):
     def init(self, extend=''):
         pass
 
-    # ---------- 基础 ----------
     def _get(self, url, timeout=15):
         try:
             r = self.sess.get(url, timeout=timeout)
@@ -133,9 +141,8 @@ class Spider(BaseSpider):
             return [], False, 0
         data = d.get("data") or {}
         items = data.get("items") or []
-        has_more = bool(data.get("has_more"))
-        total = int(data.get("total") or 0)
-        return items, has_more, total
+        total = int(re.sub(r"[^0-9]", "", str(data.get("total") or 0)) or 0)
+        return items, bool(data.get("has_more")), total
 
     @staticmethod
     def _num(v):
@@ -145,7 +152,6 @@ class Spider(BaseSpider):
         vid = str(it.get("id") or "")
         name = str(it.get("title") or "未知")
         teller = str(it.get("teller") or "")
-        author = str(it.get("author") or "")
         count = self._num(it.get("count"))
         cover = str(it.get("cover_url") or "")
         token = _b64(json.dumps({"i": vid, "n": name, "t": teller,
@@ -156,27 +162,31 @@ class Spider(BaseSpider):
             "vod_name": name,
             "vod_pic": cover,
             "vod_remarks": ("%d集" % count) if count else "",
-            "vod_content": "演播：%s　作者：%s" % (teller, author),
+            "vod_content": "演播：%s" % teller if teller else "",
             "vod_actor": teller,
-            "vod_director": author,
             "type_name": "有声书",
         }
 
-    # ---------- 首页 ----------
     def homeContent(self, filter=False):
         classes = [{"type_id": k, "type_name": n} for k, n in self.CATS]
-        items, _, _ = self._search("评书", 1)
-        return {"class": classes,
-                "list": [self._vod(x) for x in items],
-                "filters": {}}
+        lst, seen = [], set()
+        for kw in self.HOME_KW:
+            items, _, _ = self._search(kw, 1)
+            for it in items:
+                vid = str(it.get("id") or "")
+                if vid and vid not in seen:
+                    seen.add(vid)
+                    lst.append(self._vod(it))
+            if len(lst) >= 60:
+                break
+        return {"class": classes, "list": lst, "filters": {}}
 
     def homeVideoContent(self):
-        items, _, _ = self._search("评书", 1)
+        items, _, _ = self._search("有声小说", 1)
         return {"list": [self._vod(x) for x in items]}
 
-    # ---------- 分类 ----------
     def categoryContent(self, tid, pg, filter=False, extend=''):
-        items, has_more, total = self._search(str(tid or "评书"), pg)
+        items, has_more, total = self._search(str(tid or "有声小说"), pg)
         try:
             pg_i = int(pg)
         except Exception:
@@ -185,11 +195,10 @@ class Spider(BaseSpider):
             "list": [self._vod(x) for x in items],
             "page": pg_i,
             "pagecount": (pg_i + 1) if has_more else pg_i,
-            "limit": 10,
-            "total": total or (pg_i * 10),
+            "limit": self.PAGE_SIZE,
+            "total": total or (pg_i * self.PAGE_SIZE),
         }
 
-    # ---------- 搜索 ----------
     def searchContent(self, key, quick, pg='1'):
         items, has_more, _ = self._search(key, pg)
         try:
@@ -200,10 +209,9 @@ class Spider(BaseSpider):
             "list": [self._vod(x) for x in items],
             "page": pg_i,
             "pagecount": (pg_i + 1) if has_more else pg_i,
-            "limit": 10,
+            "limit": self.PAGE_SIZE,
         }
 
-    # ---------- 详情 ----------
     def detailContent(self, ids):
         raw = str(ids[0] if isinstance(ids, list) else ids)
         vid, title, teller, cover, count = raw, "有声书", "", "", 0
@@ -222,9 +230,8 @@ class Spider(BaseSpider):
         if count <= 0:
             count = 1
 
-        eps = []
-        for i in range(1, count + 1):
-            eps.append("%s@%d$第%d集" % (vid, i, i))
+        # 名称在前、地址在后：第{n}集 $ album@idx
+        eps = ["第%d集$%s@%d" % (i, vid, i) for i in range(1, count + 1)]
 
         vod = {
             "vod_id": raw,
@@ -238,22 +245,18 @@ class Spider(BaseSpider):
         }
         return {"list": [vod]}
 
-    # ---------- 播放 ----------
     def playerContent(self, flag, id, vipFlags=None):
-        raw = str(id or "")
+        raw = str(id or "").strip()
         album, idx = raw, "1"
         if "@" in raw:
             seg = raw.split("@")
             album = seg[0]
             idx = seg[1] if len(seg) > 1 else "1"
-        elif "$" in raw:
-            album = raw.split("$")[0]
         elif "##" in raw:
             seg = raw.split("##")
             album = seg[0]
             idx = seg[1] if len(seg) > 1 else "1"
-        album = album.split("|")[0]
-
+        album = album.split("|")[0].strip()
         if not album:
             return {"parse": 0, "url": ""}
         url = "%s/tingyou/stream?album=%s&idx=%s" % (
@@ -263,9 +266,12 @@ class Spider(BaseSpider):
             "url": url,
             "header": {
                 "User-Agent": self.UA,
-                "Referer": self.SITE + "/",
+                "Referer": self.HOST + "/",
             },
         }
+
+    def localProxy(self, param=''):
+        return {}
 
     def isVideoFormat(self, url):
         return False
