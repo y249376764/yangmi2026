@@ -711,28 +711,10 @@
       "filterable": 1
     },
     {
-      "key": "py_tiantian_dm",
-      "name": "天天动漫",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/天天动漫.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_dongmanla",
       "name": "动漫啦",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/动漫啦.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_riben4k",
-      "name": "日漫4K",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/日漫4K.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -1146,31 +1128,6 @@
       "quickSearch": 1,
       "filterable": 0,
       "ext": "",
-      "category": "综合"
-    },
-    {
-      "key": "youtube",
-      "name": "油管",
-      "type": 3,
-      "api": "https://sub.lytvs.top/pydl/youguanxf.py?tk=cj_a38415ea",
-      "searchable": 0,
-      "quickSearch": 0,
-      "filterable": 0,
-      "ext": "",
-      "category": "综合"
-    },
-    {
-      "key": "py_油管",
-      "name": "油管①",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/油管.py",
-      "searchable": 0,
-      "quickSearch": 0,
-      "changeable": 0,
-      "ext": {
-        "json": "",
-        "proxy": "127.0.0.1:7897"
-      },
       "category": "综合"
     },
     {
@@ -2744,15 +2701,6 @@
       "filterable": 1
     },
     {
-      "key": "py_51短剧",
-      "name": "51短剧",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/51短剧.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_520短剧",
       "name": "520短剧",
       "type": 3,
@@ -2780,28 +2728,10 @@
       "filterable": 1
     },
     {
-      "key": "py_57短剧",
-      "name": "57短剧",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/57短剧.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_66在线",
       "name": "66在线",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/66在线.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_93合1",
-      "name": "93合1",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/93合1.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3293,15 +3223,6 @@
       "filterable": 1
     },
     {
-      "key": "py_xin51_dm",
-      "name": "新51动漫",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/新51动漫.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_xueyue",
       "name": "雪月听书",
       "type": 3,
@@ -3315,15 +3236,6 @@
       "name": "易听书",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/易听书.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_youtube_spider",
-      "name": "油管蜘蛛",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/油管蜘蛛.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3360,15 +3272,6 @@
       "name": "一起刷",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/一起刷.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_九合一",
-      "name": "九合一",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/九合一.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -3725,15 +3628,6 @@
       "filterable": 1
     },
     {
-      "key": "py_爱看去广告",
-      "name": "爱看去广告",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/爱看去广告.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
       "key": "py_片吧",
       "name": "片吧",
       "type": 3,
@@ -3864,15 +3758,6 @@
       "name": "花子动漫2",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/花子动漫.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_苹果视频",
-      "name": "苹果视频",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/苹果视频.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -4017,15 +3902,6 @@
       "name": "鱼塘社",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/鱼塘社.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 1
-    },
-    {
-      "key": "py_黄果剧场",
-      "name": "黄果剧场",
-      "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/黄果剧场.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
