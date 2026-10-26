@@ -1175,7 +1175,7 @@
     },
     {
       "key": "腾爱优芒B",
-      "name": "腾爱优芒B",
+      "name": "腾爱优芒",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/tengaiyoumangB.py?tk=cj_a38415ea",
       "ext": "",
@@ -1185,7 +1185,7 @@
     },
     {
       "key": "PTT线上看",
-      "name": "PTT线上看",
+      "name": "批踢踢线上看",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/PTTxianshangkan.py?tk=cj_a38415ea",
       "ext": "",
@@ -1395,7 +1395,7 @@
     },
     {
       "key": "ZIP0影视",
-      "name": "ZIP0影视",
+      "name": "零点影视",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/ZIP0yingshi.py?tk=cj_a38415ea",
       "ext": "",
@@ -1645,7 +1645,7 @@
     },
     {
       "key": "VS影院",
-      "name": "VS影院",
+      "name": "微视影院",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/VS影院.py",
       "ext": "",
@@ -1765,7 +1765,7 @@
     },
     {
       "key": "FoFo影院",
-      "name": "FoFo影院",
+      "name": "佛佛影院",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/FoFoyingyuan.py?tk=cj_a38415ea",
       "ext": "",
@@ -2808,7 +2808,7 @@
     },
     {
       "key": "py_E佬苹果",
-      "name": "E佬苹果",
+      "name": "伊佬苹果",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/E佬苹果.py",
       "searchable": 1,
@@ -2979,7 +2979,7 @@
     },
     {
       "key": "py_juok3",
-      "name": "聚OK3",
+      "name": "聚好3",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/聚OK3.py",
       "searchable": 1,
@@ -3276,7 +3276,7 @@
     },
     {
       "key": "py_xb6v",
-      "name": "6V电影",
+      "name": "六维电影",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/6V电影.py",
       "searchable": 1,
@@ -4032,7 +4032,7 @@
     },
     {
       "key": "py_🎬xb6v電影",
-      "name": "🎬六V电影",
+      "name": "🎬六维电影",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/🎬xb6v電影.py",
       "searchable": 1,
@@ -4092,7 +4092,7 @@
     },
     {
       "key": "py_4kmpyingshi",
-      "name": "🎬影视｜4KMP影视",
+      "name": "🎬影视｜4K米片影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_4kmpyingshi.py"
     },
@@ -4104,49 +4104,49 @@
     },
     {
       "key": "py_6vdianying",
-      "name": "🎬影视｜6V电影",
+      "name": "🎬影视｜六维电影",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_6vdianying.py"
     },
     {
       "key": "py_freeokyingshi",
-      "name": "🎬影视｜FreeOK影视",
+      "name": "🎬影视｜免费看影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_freeokyingshi.py"
     },
     {
       "key": "py_pomo4k",
-      "name": "🎬影视｜POMO4K",
+      "name": "🎬影视｜泡馍4K",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pomo4k.py"
     },
     {
       "key": "py_uvodyingshi",
-      "name": "🎬影视｜UVOD影视",
+      "name": "🎬影视｜优影影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_uvodyingshi.py"
     },
     {
       "key": "py_vsyingyuan",
-      "name": "🎬影视｜VS影院",
+      "name": "🎬影视｜微视影院",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_vsyingyuan.py"
     },
     {
       "key": "py_juok3",
-      "name": "🎬影视｜聚OK3",
+      "name": "🎬影视｜聚好3",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_juok3.py"
     },
     {
       "key": "py_pynew000zip0yingshi",
-      "name": "🎬影视｜ZIP0影视",
+      "name": "🎬影视｜零点影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew000zip0yingshi.py"
     },
     {
       "key": "py_pynew005cnflix",
-      "name": "🎬影视｜CNFLIX",
+      "name": "🎬影视｜网飞影库",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew005cnflix.py"
     },
@@ -4428,7 +4428,7 @@
     },
     {
       "key": "py_pynew107fofoyingyuan",
-      "name": "🎬影视｜FoFo影院",
+      "name": "🎬影视｜佛佛影院",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew107fofoyingyuan.py"
     },
