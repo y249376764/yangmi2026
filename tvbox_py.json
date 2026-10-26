@@ -5,7 +5,7 @@
       "key": "py_douban",
       "name": "豆瓣",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@eea170892fa1c348647250fc20836ed47e6ed55a/py/douban.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/豆瓣影视.py",
       "changeable": 0,
       "searchable": 0,
       "filterable": 0
@@ -642,7 +642,7 @@
       "key": "py_mifeng",
       "name": "🐝电影蜜蜂｜茶杯狐",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@001142a03b6e30e5df78d6d959bc93519ed188db/py/dianyingmifeng.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/电影蜜蜂.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
@@ -820,9 +820,9 @@
     },
     {
       "key": "py_kpkuang_v3",
-      "name": "看片狂人v3",
+      "name": "看片狂人3",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@62dff99a9b7b00a2ba8b79b14cd404d0f9a47e0a/py/kpkuang_v3.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/看片狂v3.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -840,7 +840,7 @@
       "key": "py_360",
       "name": "360影搜",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/souju_360.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/搜剧AI2.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -849,7 +849,7 @@
       "key": "4kvms_v2",
       "name": "4K影视",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/4kvms_v2.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/4K影视v2.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -858,7 +858,7 @@
       "key": "douhua_v2",
       "name": "豆花电影",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/douhua_v2.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/豆花v2.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -867,7 +867,7 @@
       "key": "dyrs_v3",
       "name": "电影人生",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/dyrs_v3.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/电影人生v3.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -876,7 +876,7 @@
       "key": "pywx_v2",
       "name": "玄武影视",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pywx_v2.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/玄武v2.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -885,7 +885,7 @@
       "key": "qiankan_v2",
       "name": "全看网",
       "type": 3,
-      "api": "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/qiankan_v2.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/全看v2.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -1161,7 +1161,7 @@
     },
     {
       "key": "py_油管",
-      "name": "油管",
+      "name": "油管①",
       "type": 3,
       "api": "https://cnb.cool/fish2035/xs/-/git/raw/main/py/ytb1_m8.py",
       "searchable": 0,
@@ -1255,7 +1255,7 @@
     },
     {
       "key": "影巢movie",
-      "name": "影巢movie",
+      "name": "影巢影视",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/yingchaomovie.py?tk=cj_a38415ea",
       "ext": "",
@@ -1655,7 +1655,7 @@
     },
     {
       "key": "EcoHub影视",
-      "name": "EcoHub影视",
+      "name": "易可影视",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/EcoHubyingshi.py?tk=cj_a38415ea",
       "ext": "",
@@ -1735,7 +1735,7 @@
     },
     {
       "key": "Auete影视",
-      "name": "Auete影视",
+      "name": "奥爱特影视",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/Aueteyingshi.py?tk=cj_a38415ea",
       "ext": "",
@@ -2377,7 +2377,7 @@
     },
     {
       "key": "ik4k影院",
-      "name": "ik4k影院",
+      "name": "爱看4K影院",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/ik4kyingyuan.py?tk=cj_a38415ea",
       "ext": "",
@@ -2458,7 +2458,7 @@
     },
     {
       "key": "MiFun",
-      "name": "MiFun动漫",
+      "name": "米番动漫",
       "type": 3,
       "api": "https://sub.lytvs.top/pydl/MiFundongman.py?tk=cj_a38415ea",
       "ext": "",
@@ -2736,7 +2736,7 @@
     },
     {
       "key": "py_4kvms_v2",
-      "name": "4K影视v2",
+      "name": "4K影视①",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/4K影视v2.py",
       "searchable": 1,
@@ -2862,7 +2862,7 @@
     },
     {
       "key": "py_bzsp005-去广告",
-      "name": "bzsp005-去广告",
+      "name": "哔站视频005去广告",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/bzsp005-去广告.py",
       "searchable": 1,
@@ -2880,7 +2880,7 @@
     },
     {
       "key": "py_douhua_v2",
-      "name": "豆花v2",
+      "name": "豆花2",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/豆花v2.py",
       "searchable": 1,
@@ -2889,7 +2889,7 @@
     },
     {
       "key": "py_dyrs_v3",
-      "name": "电影人生v3",
+      "name": "电影人生3",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/电影人生v3.py",
       "searchable": 1,
@@ -3006,7 +3006,7 @@
     },
     {
       "key": "py_kpkuang_v3",
-      "name": "看片狂v3",
+      "name": "看片狂3",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/看片狂v3.py",
       "searchable": 1,
@@ -3024,7 +3024,7 @@
     },
     {
       "key": "py_lanrentingshu_v2",
-      "name": "懒人听书v2",
+      "name": "懒人听书2",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/懒人听书v2.py",
       "searchable": 1,
@@ -3168,7 +3168,7 @@
     },
     {
       "key": "py_py_追影",
-      "name": "追影2",
+      "name": "追影①",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/py_追影.py",
       "searchable": 1,
@@ -3195,7 +3195,7 @@
     },
     {
       "key": "py_pywx_v2",
-      "name": "玄武v2",
+      "name": "玄武2",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/玄武v2.py",
       "searchable": 1,
@@ -3204,7 +3204,7 @@
     },
     {
       "key": "py_qiankan_v2",
-      "name": "全看v2",
+      "name": "全看2",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/全看v2.py",
       "searchable": 1,
@@ -3474,7 +3474,7 @@
     },
     {
       "key": "py_喜福短剧_",
-      "name": "喜福短剧2",
+      "name": "喜福短剧①",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/喜福短剧_.py",
       "searchable": 1,
@@ -3744,7 +3744,7 @@
     },
     {
       "key": "py_片库",
-      "name": "片库2",
+      "name": "片库①",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/片库.py",
       "searchable": 1,
@@ -4032,7 +4032,7 @@
     },
     {
       "key": "py_🎬xb6v電影",
-      "name": "🎬xb6v電影",
+      "name": "🎬六V电影",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/🎬xb6v電影.py",
       "searchable": 1,
@@ -4074,7 +4074,7 @@
     },
     {
       "key": "py_ecohubyingshi",
-      "name": "🎬影视｜EcoHub影视",
+      "name": "🎬影视｜易可影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_ecohubyingshi.py"
     },
@@ -4098,7 +4098,7 @@
     },
     {
       "key": "py_66dpw",
-      "name": "🎬影视｜66dpw",
+      "name": "🎬影视｜66大片网",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_66dpw.py"
     },
@@ -4134,7 +4134,7 @@
     },
     {
       "key": "py_juok3",
-      "name": "🎬影视｜juok3",
+      "name": "🎬影视｜聚OK3",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_juok3.py"
     },
@@ -4434,13 +4434,13 @@
     },
     {
       "key": "py_zgtv",
-      "name": "🎬影视｜zgtv",
+      "name": "🎬影视｜中国电视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_zgtv.py"
     },
     {
       "key": "py_ztzsszyingshi",
-      "name": "🎬影视｜ztzssz影视",
+      "name": "🎬影视｜自选影视",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_ztzsszyingshi.py"
     },
@@ -4590,7 +4590,7 @@
     },
     {
       "key": "py_pynew003mifundongman",
-      "name": "🎌动漫｜MiFun动漫",
+      "name": "🎌动漫｜米番动漫",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew003mifundongman.py"
     },
@@ -4632,9 +4632,9 @@
     },
     {
       "key": "py_1234",
-      "name": "1234",
+      "name": "一二三四影视",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/1234.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/1234影视.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -4722,7 +4722,7 @@
     },
     {
       "key": "py_星梦Asmr",
-      "name": "星梦Asmr",
+      "name": "星梦助眠",
       "type": 3,
       "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/星梦Asmr.py",
       "searchable": 1,
