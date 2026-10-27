@@ -35,7 +35,7 @@
     {
       "name": "🎵歌词适配v8丨歌单",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@20c730fdc3492fdb0162bf70703f435e4183ba82/py/geci_music.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/geci_music.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
@@ -147,7 +147,7 @@
       "key": "shiyinyinyue",
       "name": "🎵拾音音乐｜歌曲歌单",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@2a48632eab8c85c2d88f88ae32bd79bfffa0eb39/py/shiyin_yinyue.py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/shiyin_yinyue.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0
