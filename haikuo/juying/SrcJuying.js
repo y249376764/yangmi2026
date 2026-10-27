@@ -1139,6 +1139,9 @@ function yiji() {
     if(MY_RULE.title=="聚影✓"){
         toast("此小程序已停用，请重新导入聚影");
     }
+    if(!getMyVar('Src_Jy_vchk77')){
+        putMyVar('Src_Jy_vchk77', 1);
+    }
     if(getMyVar('Src_Jy_VersionCheck', '0') == '0'){
         let programversion = 0;
         try{
@@ -1613,7 +1616,56 @@ function newSearch(name) {
     erjisousuo(name,'',undefined,'newSearch');
 }
 
-// 版本检测
+// 版本检测 -> 弹窗更新
 function Version() {
-    // 更新机制已移除：聚影修复版不检查版本
+    var BUILD = 77;
+    var VURL = "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy_version.json";
+    var urls = [VURL,
+        "https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy_version.json",
+        "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/hiker/jy_version.json"];
+    var vJo = null;
+    for (var i = 0; i < urls.length; i++) {
+        var txt = "";
+        try { txt = request(urls[i], { timeout: 5000 }); } catch (e0) { }
+        if (!txt) { continue; }
+        try { var o = JSON.parse(String(txt)); if (o) { vJo = o; break; } } catch (e1) { }
+    }
+    if (!vJo) { return; }
+    var rBuild = parseInt(vJo.build) || 0;
+    var rV = parseInt(vJo.version || vJo.v) || 0;
+    if (rBuild > BUILD) {
+        try { putMyVar("jy_vurl", String(vJo.url || VURL)); } catch (e2) { }
+        confirm({
+            title: "⬆️ 发现新版本 v" + rV,
+            content: String(vJo.note || "有更新") + "\n\n当前版本：v77（BUILD " + BUILD + "）\n发布时间：" + String(vJo.time || "") + "\n\n点确定立即更新。",
+            confirm: $.toString(function () {
+                var u = "";
+                try { u = getMyVar("jy_vurl", "") || ""; } catch (g1) { }
+                if (!u) { u = "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy.txt"; }
+                var uu = [u, "https://gh-proxy.com/" + u, "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/hiker/jy.txt"];
+                for (var k = 0; k < uu.length; k++) {
+                    try {
+                        toast("正在获取更新(" + (k + 1) + "/" + uu.length + ")...");
+                        var r = request(uu[k], { timeout: 30000 });
+                        if (r && String(r).indexOf("base64://") > -1) { return fetch(uu[k]); }
+                    } catch (fe) { }
+                }
+                toast("更新失败，请检查网络");
+                return "hiker://empty";
+            }),
+            cancel: $.toString(function () {
+                var u2 = "";
+                try { u2 = getMyVar("jy_vurl", "") || ""; } catch (g2) { }
+                if (!u2) { u2 = "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy.txt"; }
+                var uu2 = [u2, "https://gh-proxy.com/" + u2, "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/hiker/jy.txt"];
+                for (var m = 0; m < uu2.length; m++) {
+                    try {
+                        var r2 = request(uu2[m], { timeout: 30000 });
+                        if (r2 && String(r2).indexOf("base64://") > -1) { return fetch(uu2[m]); }
+                    } catch (fe2) { }
+                }
+                return "hiker://empty";
+            })
+        });
+    }
 }
