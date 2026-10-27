@@ -2002,7 +2002,7 @@ function scanFolder(input,start) {
     
     if(newfiles.length==0){
         log("扫描本地文件夹,未发现新增的js/py文件");
-        return start?"hiker://empty":"toast://没有新增的js/py文件"
+        return start?[]:"toast://没有新增的js/py文件"
     }else if(start){
         return newfiles;
     }else{
