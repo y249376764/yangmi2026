@@ -1,7 +1,7 @@
 {
   "v": 77,
   "build": 77,
-  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy.txt",
-  "note": "修复自动扫描出现的 empty 假条目；修复 updateResource 未定义报错；新增检查更新弹窗",
+  "url": "https://paste.c-net.org/LynneClients",
+  "note": "修复自动扫描出现的 empty 假条目；修复 updateResource 未定义报错；检查更新改为弹窗",
   "time": "2026-10-27"
 }
