@@ -1,5 +1,5 @@
 {
-  "spider": "https://gh-proxy.com/raw.githubusercontent.com/y249376764/yangmi2026/main/jar/xs.jar",
+  "spider": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/jar/xs.jar",
   "sites": [
     {
       "key": "py_douban",
@@ -1090,7 +1090,7 @@
       "key": "4KYY",
       "name": "4K影院",
       "type": 3,
-      "api": "https://ghfast.top/https://raw.githubusercontent.com/GodLike631/Ly_live/refs/heads/main/datas/4k.py",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/GodLike631/Ly_live/refs/heads/main/datas/4k.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0,
@@ -3460,7 +3460,7 @@
       "key": "py_山楂影视[剧]",
       "name": "山楂影视",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/山楂影视[剧].py",
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/%E5%B1%B1%E6%A5%82%E5%BD%B1%E8%A7%86%5B%E5%89%A7%5D.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 1
