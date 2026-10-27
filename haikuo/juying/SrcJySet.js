@@ -2794,6 +2794,13 @@ function importConfirm(jsfile) {
         lx = "jk";
     }
     if(name!="聚影资源码"){
+        importdatas = (importdatas||[]).filter(function(it){
+            if(!it) { return false; }
+            var _u = String(it.url||"");
+            if(!_u || _u=="hiker://empty") { return false; }
+            if(String(it.name||"")=="empty" && !it.type) { return false; }
+            return true;
+        });
         //获取现有接口
         datalist = [];
         let sourcefile = getFile(lx);
