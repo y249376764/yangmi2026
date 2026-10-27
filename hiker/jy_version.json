@@ -1,7 +1,7 @@
 {
   "v": 77,
   "build": 77,
-  "url": "https://paste.c-net.org/LynneClients",
-  "note": "修复自动扫描出现的 empty 假条目；修复 updateResource 未定义报错；检查更新改为弹窗",
+  "url": "https://paste.c-net.org/RaysyMarcie",
+  "note": "修复自动扫描出现的 empty 假条目；修复 updateResource 未定义报错；检查更新改为弹窗多源下载",
   "time": "2026-10-27"
 }
