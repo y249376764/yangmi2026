@@ -1,1 +1,7 @@
-{"version": 76, "build": 76, "v": 76, "name": "聚影·星火改", "desc": "导入助手重写 + 删支持作者 + 内置改 TVBox 导入", "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy.txt", "note": "聚影 v76：导入助手页重写（清乱码·删内置源·删菠菜导入）· 删「支持一下作者」· 「内置」按钮改指星集 TVBox 接口导入", "time": "2026-10-26", "verx": "1d29d57b72f4"}
+{
+  "v": 77,
+  "build": 77,
+  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/jy.txt",
+  "note": "修复自动扫描出现的 empty 假条目；修复 updateResource 未定义报错；新增检查更新弹窗",
+  "time": "2026-10-27"
+}
