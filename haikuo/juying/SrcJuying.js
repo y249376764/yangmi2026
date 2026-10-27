@@ -784,9 +784,10 @@ function dianboyiji(testSource, dd) {
                     for(let j=0;j<importrecord.length;j++){
                         if(importrecord[j].scan==1&&importrecord[j].type=='4'){
                             log("开始扫描本地文件夹新增接口文件，目录>"+importrecord[j].url);
-                            newfiles = newfiles.concat(scanFolder(importrecord[j].url, 1));
+                            newfiles = newfiles.concat(scanFolder(importrecord[j].url, 1) || []);
                         }
                     }
+                    newfiles = newfiles.filter(function(v){ return typeof v == 'string' && /\.(js|py)$/i.test(v); });
                     
                     if(newfiles.length>0){
                         log("发现"+newfiles.length+"个本地接口文件");
@@ -1587,7 +1588,7 @@ function yiji() {
     if (!getMyVar('Src_Jy_startCheck') && nowtime > (oldstartChecktime+24*60*60*1000)) {
         setItem('startChecktime', nowtime+'time');//保存检查时间
         excludeLoadingItems(); //执行一些加载后的事项
-        updateResource(); //检查更新订阅资源码
+        try { if (typeof updateResource == "function") { updateResource(); } } catch (eUR) { }
         putMyVar('Src_Jy_startCheck', 1);
         log('执行首页加载后事项');
     }
