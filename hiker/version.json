@@ -1,1 +1,1 @@
-{"v":70,"build":96,"url":"https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt","note":"蜘蛛🕷️ v70：修复 v69「检查更新」点了却执行「清理失效站点」的菜单错位；「恢复默认路径」三处已去掉，清理失效站点功能保留","time":"2026-10-28"}
+{"v":71,"build":97,"url":"https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt","note":"蜘蛛🕷️ v71：修复「已是最新仍提示更新」——检查更新的本地版本号写死在93，与BUILD脱节；现已同步为97","time":"2026-10-28"}
