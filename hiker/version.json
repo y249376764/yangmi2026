@@ -1,1 +1,1 @@
-{"v":69,"build":95,"url":"https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt","note":"蜘蛛🕷️ v69：去掉「恢复默认路径」（首页管理菜单 / 扫描路径页 / 资源管理页三处）· 修复「管理」菜单索引错位（6项5分支 → 4项4分支）· 承接 v68：去掉内置影视3链接、QQ群、网址说明","time":"2026-10-28"}
+{"v":70,"build":96,"url":"https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt","note":"蜘蛛🕷️ v70：修复 v69「检查更新」点了却执行「清理失效站点」的菜单错位；「恢复默认路径」三处已去掉，清理失效站点功能保留","time":"2026-10-28"}
