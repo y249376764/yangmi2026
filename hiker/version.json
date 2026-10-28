@@ -1,1 +1,1 @@
-{"v": 67, "build": 93, "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt", "note": "蜘蛛🕷️ v67：Python 引擎安装模块精简重写（官方 chaquopy.zip 精简包 + 离线包用法说明）· pyshim 兼容层同步更新", "time": "2026-10-26"}
+{"v":69,"build":95,"url":"https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt","note":"蜘蛛🕷️ v69：去掉「恢复默认路径」（首页管理菜单 / 扫描路径页 / 资源管理页三处）· 修复「管理」菜单索引错位（6项5分支 → 4项4分支）· 承接 v68：去掉内置影视3链接、QQ群、网址说明","time":"2026-10-28"}
