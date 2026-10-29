@@ -97,7 +97,15 @@ if (JY_OWN) {
         config.聚影 = jyRemoteEntry();
     }
 }
-require((config.聚影||config.依赖).replace(/[^/]*$/,'') + 'SrcJyPublic.js');//加载公共文件
+// 本地模块异常时清缓存回退远端，保证首页一定能打开
+try {
+    require((config.聚影||config.依赖).replace(/[^/]*$/,'') + 'SrcJyPublic.js');
+} catch (eLm) {
+    try { jyCacheClear(); } catch (eLm2) { }
+    config.聚影 = jyRemoteEntry();
+    require((config.聚影||config.依赖).replace(/[^/]*$/,'') + 'SrcJyPublic.js');
+}
+
 
 // 搜索逻辑代码
 function search(name, sstype, jkdata) {
