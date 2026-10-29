@@ -5,7 +5,7 @@ if (String(fetch(_LDIR + "embed_installed.json")) != "" && fileExist(_LDIR + "Sr
     try { config.聚影 = _LDIR + "SrcJuying.js"; } catch (eL) { }
 }
 // ===== 首页加速：模块本地缓存（首屏先出，首进后台缓存，之后首页走本地） =====
-var JY_CDIR = "hiker://files/rules/Src/Juying2/";
+var JY_CDIR = "hiker://files/rules/Src/Juying4/";
 var JY_CFILES = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "SrcJyMethod.js", "SrcParseS.js", "SrcJyDrpy.js", "SrcJyAliDisk.js", "SrcJyAliPublic.js", "SrcJyAlist.js", "SrcLive.js", "SrcAutoTmpl.js", "SrcTmplVersion.js", "SrcJiexi.html", "plugins/globalmap.js", "plugins/gzip.js", "plugins/hikerPop.js", "plugins/m3u8_ad_rule.json", "plugins/pyDriver.js", "drpy/drpy2.js", "drpy/jsencrypt.js", "drpy/gbk.js"];
 var JY_CORE = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "plugins/pyDriver.js"];
 var JY_COK = null;
@@ -87,10 +87,15 @@ function jyCacheBuild() {
     }
     return false;
 }
-if (jyCacheOk()) {
-    jyCacheUse();
-} else if (String(config.聚影 || "").indexOf("hiker://") === 0 && jyRemoteEntry().indexOf("http") === 0) {
-    config.聚影 = jyRemoteEntry();
+var JY_CUR = String(config.聚影 || "");
+var JY_ISLOCAL = JY_CUR.indexOf("hiker://") === 0;
+var JY_OWN = (!JY_ISLOCAL) || JY_CUR.indexOf(JY_CDIR) === 0;
+if (JY_OWN) {
+    if (jyCacheOk()) {
+        jyCacheUse();
+    } else if (JY_ISLOCAL && jyRemoteEntry().indexOf("http") === 0) {
+        config.聚影 = jyRemoteEntry();
+    }
 }
 require((config.聚影||config.依赖).replace(/[^/]*$/,'') + 'SrcJyPublic.js');//加载公共文件
 
@@ -1674,7 +1679,7 @@ function yiji() {
         dianboyiji(null, d);
     }
 
-    if (MY_PAGE == 1 && !jyCacheOk()) { try { jyCacheBuild(); } catch (eC) { } }
+    if (MY_PAGE == 1 && JY_OWN && !jyCacheOk()) { try { jyCacheBuild(); } catch (eC) { } }
     // 一些自动检查调用在首页加载后，间隔24小时
     let nowtime = Date.now();
     let oldstartChecktime = parseInt(getItem('startChecktime','0').replace('time',''));
