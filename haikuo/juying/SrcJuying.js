@@ -9,16 +9,22 @@ var JY_CDIR = "hiker://files/rules/Src/Juying2/";
 var JY_CFILES = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "SrcJyMethod.js", "SrcParseS.js", "SrcJyDrpy.js", "SrcJyAliDisk.js", "SrcJyAliPublic.js", "SrcJyAlist.js", "SrcLive.js", "SrcAutoTmpl.js", "SrcTmplVersion.js", "SrcJiexi.html", "plugins/globalmap.js", "plugins/gzip.js", "plugins/hikerPop.js", "plugins/m3u8_ad_rule.json", "plugins/pyDriver.js", "drpy/drpy2.js", "drpy/jsencrypt.js", "drpy/gbk.js"];
 var JY_CORE = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "plugins/pyDriver.js"];
 var JY_COK = null;
+function jyCoreReady() {
+    try {
+        for (var i = 0; i < JY_CORE.length; i++) {
+            if (!fileExist(JY_CDIR + JY_CORE[i])) { return false; }
+        }
+        return true;
+    } catch (e) { return false; }
+}
 function jyCacheOk() {
     if (JY_COK !== null) { return JY_COK; }
     JY_COK = false;
-    try {
-        var ok = true;
-        for (var i = 0; i < JY_CORE.length; i++) {
-            if (!fileExist(JY_CDIR + JY_CORE[i])) { ok = false; break; }
-        }
-        JY_COK = ok;
-    } catch (e) { JY_COK = false; }
+    if (jyCoreReady()) {
+        var st = 0;
+        try { st = parseInt(fetch(JY_CDIR + "stamp.txt")) || 0; } catch (es) { st = 0; }
+        if (st && Date.now() - st <= 72 * 60 * 60 * 1000) { JY_COK = true; }
+    }
     return JY_COK;
 }
 function jyRemoteEntry() {
@@ -37,11 +43,13 @@ function jyCacheClear() {
             var p = JY_CDIR + JY_CFILES[i];
             if (fileExist(p)) { deleteFile(p); }
         }
+        if (fileExist(JY_CDIR + "stamp.txt")) { deleteFile(JY_CDIR + "stamp.txt"); }
     } catch (e) { }
     JY_COK = null;
 }
 function jyCacheUse() {
     try { setItem("Jy_remote", jyRemoteEntry()); } catch (e0) { }
+    try { writeFile(JY_CDIR + "stamp.txt", String(Date.now())); } catch (e2) { }
     try { config.聚影 = JY_CDIR + "SrcJuying.js"; } catch (e1) { }
 }
 function jyCacheBuild() {
@@ -72,7 +80,7 @@ function jyCacheBuild() {
         if (i == 4 || i == 10 || i == 15) { try { toast("本地加速缓存 " + (i + 1) + "/" + JY_CFILES.length); } catch (e3) { } }
     }
     JY_COK = null;
-    if (jyCacheOk()) {
+    if (jyCoreReady()) {
         jyCacheUse();
         try { toast("✅ 首页已启用本地加速，下次进入更快"); } catch (e4) { }
         return true;
