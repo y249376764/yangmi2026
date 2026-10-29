@@ -55,13 +55,19 @@ function jyCacheBuild() {
     if (base.indexOf("cdn.jsdelivr.net") > -1) { hosts.push(base.replace("cdn.jsdelivr.net", "fastly.jsdelivr.net")); }
     hosts.push("https://gh-proxy.com/" + base);
     hosts.push("https://ghfast.top/" + base);
+    var fail = 0;
     for (var i = 0; i < JY_CFILES.length; i++) {
         var dst = JY_CDIR + JY_CFILES[i];
+        var ok = false;
         for (var h = 0; h < hosts.length; h++) {
             try {
                 requireDownload(hosts[h] + JY_CFILES[i], dst, {"User-Agent": "Mozilla/5.0"});
-                if (fileExist(dst) && String(fetch(dst)) != "") { break; }
+                if (fileExist(dst) && String(fetch(dst)) != "") { ok = true; break; }
             } catch (e2) { }
+        }
+        if (!ok) {
+            fail++;
+            if (fail >= 2 && i < 6) { break; }
         }
         if (i == 4 || i == 10 || i == 15) { try { toast("本地加速缓存 " + (i + 1) + "/" + JY_CFILES.length); } catch (e3) { } }
     }
@@ -1660,7 +1666,7 @@ function yiji() {
         dianboyiji(null, d);
     }
 
-    if (!jyCacheOk()) { try { jyCacheBuild(); } catch (eC) { } }
+    if (MY_PAGE == 1 && !jyCacheOk()) { try { jyCacheBuild(); } catch (eC) { } }
     // 一些自动检查调用在首页加载后，间隔24小时
     let nowtime = Date.now();
     let oldstartChecktime = parseInt(getItem('startChecktime','0').replace('time',''));
