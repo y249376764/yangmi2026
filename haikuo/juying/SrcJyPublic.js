@@ -1372,11 +1372,18 @@ function getHistory(i){
 }
 // 获取图标地址
 function getIcon(icon, nochange) {
+    let _cp = codepath;
+    try {
+        if (_cp.indexOf("hiker://") === 0 && !fileExist(_cp + "img/" + icon)) {
+            _cp = (typeof jyRemoteBase === "function") ? jyRemoteBase() : String(getItem("Jy_remote", "")).replace(/[^/]*$/, "");
+            if (_cp.indexOf("http") !== 0) { _cp = codepath; }
+        }
+    } catch (eIc) { _cp = codepath; }
     if(!icon.includes('.svg')){
-        return codepath + 'img/' + icon;
+        return _cp + 'img/' + icon;
     }
     let color = getItem('主题颜色','');
-    return codepath + 'img/' + icon + ((!color||nochange)?'':'?s='+color+'@js=' + $.toString((color) => {
+    return _cp + 'img/' + icon + ((!color||nochange)?'':'?s='+color+'@js=' + $.toString((color) => {
         let javaImport = new JavaImporter();
         javaImport.importPackage(Packages.com.example.hikerview.utils);
         with(javaImport) {

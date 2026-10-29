@@ -4,6 +4,80 @@ var _LDIR = "hiker://files/rules/Src/Juying2/";
 if (String(fetch(_LDIR + "embed_installed.json")) != "" && fileExist(_LDIR + "SrcJyPublic.js")) {
     try { config.聚影 = _LDIR + "SrcJuying.js"; } catch (eL) { }
 }
+// ===== 首页加速：模块本地缓存（首屏先出，首进后台缓存，之后首页走本地） =====
+var JY_CDIR = "hiker://files/rules/Src/Juying2/";
+var JY_CFILES = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "SrcJyMethod.js", "SrcParseS.js", "SrcJyDrpy.js", "SrcJyAliDisk.js", "SrcJyAliPublic.js", "SrcJyAlist.js", "SrcLive.js", "SrcAutoTmpl.js", "SrcTmplVersion.js", "SrcJiexi.html", "plugins/globalmap.js", "plugins/gzip.js", "plugins/hikerPop.js", "plugins/m3u8_ad_rule.json", "plugins/pyDriver.js", "drpy/drpy2.js", "drpy/jsencrypt.js", "drpy/gbk.js"];
+var JY_CORE = ["SrcJuying.js", "SrcJyPublic.js", "SrcJyData.js", "SrcJySet.js", "SrcJyMenu.js", "plugins/pyDriver.js"];
+var JY_COK = null;
+function jyCacheOk() {
+    if (JY_COK !== null) { return JY_COK; }
+    JY_COK = false;
+    try {
+        var ok = true;
+        for (var i = 0; i < JY_CORE.length; i++) {
+            if (!fileExist(JY_CDIR + JY_CORE[i])) { ok = false; break; }
+        }
+        JY_COK = ok;
+    } catch (e) { JY_COK = false; }
+    return JY_COK;
+}
+function jyRemoteEntry() {
+    var r = "";
+    try { r = String(getItem("Jy_remote", "") || ""); } catch (e0) { r = ""; }
+    if (r.indexOf("http") !== 0) {
+        try { r = String(config.聚影 || config.依赖 || ""); } catch (e1) { r = ""; }
+    }
+    if (r.indexOf("http") !== 0) { r = "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/haikuo/juying/SrcJuying.js"; }
+    return r;
+}
+function jyRemoteBase() { return jyRemoteEntry().replace(/[^/]*$/, ""); }
+function jyCacheClear() {
+    try {
+        for (var i = 0; i < JY_CFILES.length; i++) {
+            var p = JY_CDIR + JY_CFILES[i];
+            if (fileExist(p)) { deleteFile(p); }
+        }
+    } catch (e) { }
+    JY_COK = null;
+}
+function jyCacheUse() {
+    try { setItem("Jy_remote", jyRemoteEntry()); } catch (e0) { }
+    try { config.聚影 = JY_CDIR + "SrcJuying.js"; } catch (e1) { }
+}
+function jyCacheBuild() {
+    if (jyCacheOk()) { jyCacheUse(); return true; }
+    var last = 0;
+    try { last = parseInt(getItem("Jy_cache_try", "0")) || 0; } catch (e0) { }
+    if (last && Date.now() - last < 10 * 60 * 1000) { return false; }
+    try { setItem("Jy_cache_try", String(Date.now())); } catch (e1) { }
+    var base = jyRemoteBase();
+    var hosts = [base];
+    if (base.indexOf("cdn.jsdelivr.net") > -1) { hosts.push(base.replace("cdn.jsdelivr.net", "fastly.jsdelivr.net")); }
+    hosts.push("https://gh-proxy.com/" + base);
+    hosts.push("https://ghfast.top/" + base);
+    for (var i = 0; i < JY_CFILES.length; i++) {
+        var dst = JY_CDIR + JY_CFILES[i];
+        for (var h = 0; h < hosts.length; h++) {
+            try {
+                requireDownload(hosts[h] + JY_CFILES[i], dst, {"User-Agent": "Mozilla/5.0"});
+                if (fileExist(dst) && String(fetch(dst)) != "") { break; }
+            } catch (e2) { }
+        }
+        if (i == 4 || i == 10 || i == 15) { try { toast("本地加速缓存 " + (i + 1) + "/" + JY_CFILES.length); } catch (e3) { } }
+    }
+    JY_COK = null;
+    if (jyCacheOk()) {
+        jyCacheUse();
+        try { toast("✅ 首页已启用本地加速，下次进入更快"); } catch (e4) { }
+        return true;
+    }
+    return false;
+}
+if (jyCacheOk()) {
+    jyCacheUse();
+} else if (String(config.聚影 || "").indexOf("hiker://") === 0 && jyRemoteEntry().indexOf("http") === 0) {
+    config.聚影 = jyRemoteEntry();
+}
 require((config.聚影||config.依赖).replace(/[^/]*$/,'') + 'SrcJyPublic.js');//加载公共文件
 
 // 搜索逻辑代码
@@ -1152,7 +1226,8 @@ function yiji() {
                 title: "温馨提示",
                 content: "发现小程序新版本",
                 confirm: $.toString(() => {
-                    return fetch((config.聚影||config.依赖).replace(/[^/]*$/,'') + "聚影.hiker");
+                    try { jyCacheClear(); } catch (eCc) { }
+                    return fetch(jyRemoteBase() + "聚影.hiker");
                 }),
                 cancel: $.toString(() => {
                     return "toast://不升级小程序，功能不全或有异常"
@@ -1585,6 +1660,7 @@ function yiji() {
         dianboyiji(null, d);
     }
 
+    if (!jyCacheOk()) { try { jyCacheBuild(); } catch (eC) { } }
     // 一些自动检查调用在首页加载后，间隔24小时
     let nowtime = Date.now();
     let oldstartChecktime = parseInt(getItem('startChecktime','0').replace('time',''));
