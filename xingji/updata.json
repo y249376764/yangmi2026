@@ -1,7 +1,7 @@
 [
  {
-  "新版本": "2026110226",
-  "更新": "修复选映分享：云剪贴板槽位识别与失败诊断",
-  "data": "Pro￥home_rule_url￥https://raw.githubusercontent.com/y249376764/yangmi2026/pkg/xingji/xingjimedia_2026110226.hkzip"
+  "新版本": "2026110227",
+  "更新": "分享导入不再卡加载：直连口令优先、云链接改 fetch 超时、文件兜底",
+  "data": "Pro￥home_rule_url￥https://raw.githubusercontent.com/y249376764/yangmi2026/pkg/xingji/xingjimedia_2026110227.hkzip"
  }
 ]
