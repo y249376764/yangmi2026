@@ -5,14 +5,16 @@
    "key": "韩圈",
    "name": "🌼韩圈｜蓝光韩剧",
    "type": 3,
-   "api": "csp_Hxq"
+   "api": "csp_Hxq",
+   "group": "影视"
   },
   {
    "key": "农民影视",
    "name": "🌾农民｜蓝光秒播",
    "type": 3,
    "api": "csp_Wwys",
-   "ext": "https://vip.wwgz.cn:5200"
+   "ext": "https://vip.wwgz.cn:5200",
+   "group": "影视"
   },
   {
    "key": "热播影视",
@@ -24,7 +26,8 @@
    "filterable": 0,
    "ext": {
     "url": "http://v.rbotv.cn"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "搜剧AI",
@@ -33,7 +36,8 @@
    "type": 3,
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 0
+   "filterable": 0,
+   "group": "影视"
   },
   {
    "key": "北斗",
@@ -42,7 +46,8 @@
    "type": 3,
    "searchable": 0,
    "quickSearch": 0,
-   "filterable": 1
+   "filterable": 1,
+   "group": "影视"
   },
   {
    "key": "厂长",
@@ -52,7 +57,8 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1,
-   "ext": "https://cz01.vip"
+   "ext": "https://cz01.vip",
+   "group": "影视"
   },
   {
    "key": "咕噜",
@@ -61,7 +67,8 @@
    "api": "csp_Gulu",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 1
+   "filterable": 1,
+   "group": "影视"
   },
   {
    "key": "布布",
@@ -78,7 +85,8 @@
     "sk": "WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1",
     "client": "8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a",
     "sign": "ddtvf65f3a83d6d9ad6f"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "半日99",
@@ -93,7 +101,8 @@
     "package": "com.yf.lelian",
     "buildNumber": "2001",
     "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "猴影视",
@@ -109,7 +118,8 @@
     "pkg": "com.damahou.tv",
     "sk": "SK-woniu-thanks",
     "ver": "1"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "天堂",
@@ -129,20 +139,23 @@
     "site": "https://dyttandroid04-1372779881.cos.ap-shanghai.myqcloud.com/app_dyttandroid.txt",
     "version": "3.0.0.7",
     "decrypt": "0"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "独播影视",
    "name": "🧿独播｜蓝光秒播",
    "type": 3,
-   "api": "csp_Duboku"
+   "api": "csp_Duboku",
+   "group": "影视"
   },
   {
    "key": "金牌影视",
    "name": "🧿金牌｜蓝光秒播",
    "type": 3,
    "api": "csp_Jpys",
-   "ext": "https://m.610pkea.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.sizhengxt.com,https://m.jiabaide.cn"
+   "ext": "https://m.610pkea.com,https://y2s52n7.com,https://m.hkybqufgh.com,https://m.sizhengxt.com,https://m.9zhoukj.com,https://m.sizhengxt.com,https://m.jiabaide.cn",
+   "group": "影视"
   },
   {
    "key": "魔方",
@@ -155,7 +168,8 @@
     "url": "https://www.douy32mf.top",
     "dataKey": "1234567887654321",
     "dataIv": "1234567887654321"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "爱看机器人",
@@ -164,7 +178,8 @@
    "api": "csp_Ikanbot",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 1
+   "filterable": 1,
+   "group": "影视"
   },
   {
    "key": "天堂1",
@@ -175,7 +190,8 @@
    "quickSearch": 1,
    "filterable": 1,
    "playerType": 2,
-   "ext": "http://39.105.18.5:5565/api.php/app/"
+   "ext": "http://39.105.18.5:5565/api.php/app/",
+   "group": "影视"
   },
   {
    "key": "一起",
@@ -184,14 +200,16 @@
    "api": "csp_AppYQK",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 0
+   "filterable": 0,
+   "group": "影视"
   },
   {
    "key": "永乐影视",
    "name": "🎡永乐｜蓝光影视",
    "type": 3,
    "api": "csp_XBPQ",
-   "ext": "https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBPQ/永乐影视.json"
+   "ext": "https://cdn.jsdelivr.net/gh/tushen6/Tomorrow@master/XBPQ/永乐影视.json",
+   "group": "影视"
   },
   {
    "key": "1905",
@@ -200,7 +218,8 @@
    "api": "csp_Web1905",
    "searchable": 1,
    "quickSearch": 0,
-   "filterable": 0
+   "filterable": 0,
+   "group": "影视"
   },
   {
    "key": "哔哩视频",
@@ -217,175 +236,204 @@
    },
    "ext": {
     "cookie": "http://127.0.0.1:9978/file/TVBox/bili_cookie.txt"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "猫眼资源",
    "name": "猫眼资源┃刺桐",
    "api": "https://api.maoyanapi.top/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "牛牛资源",
    "name": "牛牛资源┃刺桐",
    "api": "https://api.niuniuzy.me/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "丫丫资源",
    "name": "丫丫资源┃刺桐",
    "api": "https://cj.yayazy.net/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "茅台资源",
    "name": "茅台资源┃刺桐",
    "api": "https://caiji.maotaizy.cc/api.php/provide/vod/from/mtm3u8/at/josn/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "豪华资源",
    "name": "豪华资源┃刺桐",
    "api": "https://hhzyapi.com/api.php/provide/vod",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "极速资源",
    "name": "极速资源┃刺桐",
    "api": "https://jszyapi.com/api.php/provide/vod",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "豆瓣资源",
    "name": "豆瓣资源┃刺桐",
    "api": "https://caiji.dbzy5.com/api.php/provide/vod/at/josn/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "索尼资源",
    "name": "索尼资源┃刺桐",
    "api": "https://suoniapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "OK资源",
    "name": "OK资源┃刺桐",
    "api": "https://api.okzyw.net/api.php/provide/vod/?ac=list",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "非凡资源",
    "name": "非凡资源┃刺桐",
    "api": "http://cj.ffzyapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "量子资源",
    "name": "量子资源┃刺桐",
    "api": "https://cj.lziapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "暴风影视",
    "name": "暴风影视┃刺桐",
    "api": "https://bfzyapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "鸭鸭资源",
    "name": "鸭鸭资源┃刺桐",
    "api": "https://cj.yayazy.net/api.php/provide/vod/?ac=list",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "闪电资源",
    "name": "闪电资源┃刺桐",
    "api": "http://sdzyapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "樱花资源",
    "name": "樱花资源┃刺桐",
    "api": "https://m3u8.apiyhzy.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "U酷资源",
    "name": "U酷资源┃刺桐",
    "api": "https://api.ukuapi88.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "光速资源",
    "name": "光速资源┃刺桐",
    "api": "https://api.guangsuapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "虎牙资源",
    "name": "虎牙资源┃刺桐",
    "api": "https://www.huyaapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "百度资源",
    "name": "百度资源┃刺桐",
    "api": "https://api.apibdzy.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "飘零影院",
    "name": "飘零影院┃刺桐",
    "api": "https://p2100.net/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "无尽资源",
    "name": "无尽资源┃刺桐",
    "api": "https://api.wujinapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "速博资源",
    "name": "速博资源┃刺桐",
    "api": "https://subocaiji.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "最大资源",
    "name": "最大资源┃刺桐",
    "api": "https://api.zuidapi.com/api.php/provide/vod/from/zuidam3u8/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "爱奇艺资源",
    "name": "爱奇艺资源┃刺桐",
    "api": "https://iqiyizyapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "影剧资源",
    "name": "影剧资源┃刺桐",
    "api": "https://caiji.maotaizy.cc/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "火狐资源",
    "name": "火狐资源┃刺桐",
    "api": "https://hhzyapi.com/api.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "新浪资源",
    "name": "新浪资源┃刺桐",
    "api": "https://api.xinlangapi.com/xinlangapi.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "建安资源",
    "name": "建安资源┃刺桐",
    "api": "http://154.219.117.232:9981/jacloudapi.php/provide/vod/",
-   "type": 1
+   "type": 1,
+   "group": "接口"
   },
   {
    "key": "netflixgc",
@@ -394,7 +442,8 @@
    "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@f6ddfc186001e03584f922c62adcd3d1afd4c6b8/js/netflixgc.js",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 1
+   "filterable": 1,
+   "group": "接口"
   },
   {
    "key": "douban",
@@ -408,14 +457,16 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "工具其他"
   },
   {
    "key": "config",
    "name": "🔧网盘┃设置",
    "type": 3,
    "api": "csp_Config",
-   "searchable": 0
+   "searchable": 0,
+   "group": "网盘"
   },
   {
    "key": "HJZhenCai",
@@ -433,7 +484,8 @@
     ],
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "网盘"
   },
   {
    "key": "csp_Wogg",
@@ -444,7 +496,8 @@
    "filterable": 1,
    "timeout": 15,
    "changeable": 0,
-   "ext": "ewogICJzaXRlX3VybHMiOiBbCiAgICAiaHR0cHM6Ly93d3cud29nZy5saXZlIiwKICAgICJodHRwczovL3dvZ2dwYW4uMzMzMjMyLnh5ei8iLAogICAgImh0dHBzOi8vd3d3LndvZ2cubmV0IgogIF0sCiAgInRva2VuIjogIiIsCiAgInVjQ29va2llIjogIiIsCiAgInF1YXJrQ29va2llIjogIiIKfQ=="
+   "ext": "ewogICJzaXRlX3VybHMiOiBbCiAgICAiaHR0cHM6Ly93d3cud29nZy5saXZlIiwKICAgICJodHRwczovL3dvZ2dwYW4uMzMzMjMyLnh5ei8iLAogICAgImh0dHBzOi8vd3d3LndvZ2cubmV0IgogIF0sCiAgInRva2VuIjogIiIsCiAgInVjQ29va2llIjogIiIsCiAgInF1YXJrQ29va2llIjogIiIKfQ==",
+   "group": "网盘"
   },
   {
    "key": "AppV7_Fz",
@@ -454,7 +507,8 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1,
-   "ext": "AppV7Fz"
+   "ext": "AppV7Fz",
+   "group": "影视"
   },
   {
    "key": "AppV7_Zjdr",
@@ -464,7 +518,8 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1,
-   "ext": "AppV7Zjdr"
+   "ext": "AppV7Zjdr",
+   "group": "影视"
   },
   {
    "key": "AppV7_Dsx",
@@ -474,7 +529,8 @@
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1,
-   "ext": "AppV7Dsx"
+   "ext": "AppV7Dsx",
+   "group": "影视"
   },
   {
    "key": "mtq",
@@ -486,7 +542,8 @@
    "filterable": 1,
    "ext": {
     "hide_unplayable": false
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "mino",
@@ -499,7 +556,8 @@
    "ext": {
     "rotate_device": 1,
     "auto_fallback": 1
-   }
+   },
+   "group": "网盘"
   },
   {
    "key": "JuXiaFan",
@@ -513,7 +571,8 @@
     "site": "http://jumianfei.com",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "tvb_yunbo",
@@ -531,7 +590,8 @@
     "referer": "http://app.tuxianimg.com/",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "AppRJ",
@@ -545,7 +605,8 @@
     "site": "http://v.rbotv.cn",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "symx",
@@ -559,7 +620,8 @@
     "site": "https://film.symx.club",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "KanJuMe",
@@ -572,7 +634,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "dyx",
@@ -581,7 +644,8 @@
    "api": "csp_DianYingXia",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 0
+   "filterable": 0,
+   "group": "影视"
   },
   {
    "key": "dongpian",
@@ -590,7 +654,8 @@
    "api": "csp_DongPianDi",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 1
+   "filterable": 1,
+   "group": "影视"
   },
   {
    "key": "JpysWorld",
@@ -604,7 +669,8 @@
     "site": "https://yvyeigh.com",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "Gulu",
@@ -617,7 +683,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "Wwys",
@@ -631,7 +698,8 @@
     "site": "https://vip.wwgz.cn:5200",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "Gz360",
@@ -644,7 +712,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "YunDuo",
@@ -663,7 +732,8 @@
     "sign": "ddtvf65f3a83d6d9ad6f",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "FengYe",
@@ -677,7 +747,8 @@
     "site": "https://www.vip1949.com/",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "xifan",
@@ -690,7 +761,8 @@
    "ext": {
     "email": "",
     "password": ""
-   }
+   },
+   "group": "短剧动漫"
   },
   {
    "key": "共和国",
@@ -699,7 +771,8 @@
    "api": "csp_Dmghg",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 1
+   "filterable": 1,
+   "group": "短剧动漫"
   },
   {
    "key": "Ciyuancheng",
@@ -714,7 +787,8 @@
     "password": "xiaomi888",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "短剧动漫"
   },
   {
    "key": "红果·短剧",
@@ -729,7 +803,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "短剧动漫"
   },
   {
    "key": "AppXY",
@@ -744,7 +819,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "短剧动漫"
   },
   {
    "key": "瓜子体育",
@@ -764,7 +840,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "体育"
   },
   {
    "key": "Kanqiu",
@@ -784,7 +861,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "体育"
   },
   {
    "key": "Bili",
@@ -803,7 +881,8 @@
     "cookie": "",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "短剧动漫"
   },
   {
    "key": "App99",
@@ -821,7 +900,8 @@
     "buildSignature": "054FA8DDA4319C6B6A9B954CA5777541C993F00B1B0BD4394F7EDE48184C4594",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "半日99b1",
@@ -838,7 +918,8 @@
     "buildSignature": "A40DA80A59D170CAA950CF15C18C454D47A39B26989D8B640ECD745BA71BF5DC",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "AppDramaPingguo",
@@ -861,7 +942,8 @@
     "decrypt": "1",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "橘汁",
@@ -883,7 +965,8 @@
     "version": "3.0.2.6",
     "vApp": "3026",
     "decrypt": "1"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "Jianpian",
@@ -902,7 +985,8 @@
     "site": "https://api.ztcgi.com",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "tingshijie",
@@ -911,7 +995,8 @@
    "api": "csp_TingShiJie",
    "searchable": 1,
    "quickSearch": 1,
-   "filterable": 0
+   "filterable": 0,
+   "group": "音乐听书"
   },
   {
    "key": "qishui",
@@ -929,7 +1014,8 @@
     "site": "https://app.365ting.com",
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "音乐听书"
   },
   {
    "key": "KuKuMusic",
@@ -947,7 +1033,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "音乐听书"
   },
   {
    "key": "南瓜视频APP",
@@ -972,7 +1059,8 @@
     "bizHost": "http://134.175.188.60:2025",
     "publicKey": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsfgFYt5LTHeDslGbyQb836pa/f9FaJa20ZvU3rq2TaT4QxbhzMz0QlXhxyJA78VEooiFzNsOKJDFZAvAYGHid1BvTkqEmwaUD38WN/gOXWPevX20X13kbKlKctbTzqB6CsKLdxYyjB4awtF6o66cVFwLAjPmeePSxiSIoMKaO8jZakhHlPMhIgztAgd09eX+bSM6pve35k9CV5X2GSey7Dtth4DQz/NZVc8HGb79uhyrwH1h6IV3BKgOoqcpsHUcggoV1bJ3IIT0+WUMM8S9Yo2dh9T2EXc+gmIH0UAIxwKxmO1jTNzTDR7BvOCMnJQs5DIUx409BPdLdg4zg0SbmQIDAQAB",
     "privateKey": "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCN9LrnN2+FFW9oTw5ySIQxClbNZyPQyXyueQmsJw9PELWamIvyrVDhsi2862Da83nXRwjzcBsuT3fSq4BETKfRpsOrI3xprN6HyB+aALoYJbdMt5p3liUeyaw9WNxGZ2VhJ+st6ThGNikKRinFgPkOKaocZgefK7MuKI/EJKrj/FFB1WUE1I1/TT5bkIFMmjc8dszKyqxNdDaRgNTNP1Xou0s/tRCgKpmc503wf2h46F94YK6tpbHvYKouCCKps5ieUu+eWsXZmLRfiM0iZQcD0K5wcbrMvWcS/KmElkWPsCOwErpd/EDgeIbVKtsoHPewG8fOta75iCcb8/J56VbZAgMBAAECggEBAI2+8WIvWIvq+3OMfUBgaJ8PU92GP50blAQjmCTuW7r3VF8qM5P+u+ShpkoePnhi5iawJ5/tMTbs4xjZZxrL8EbH3lnk9TYQB6RNkECWuTujbYSNURBYPHihp/sZ39ntJK3+zjbpyedR7Wj05oDwZ8BcmiABQVsOp7xPhD623m0G3wSYtv1bIeCc+vP8pc1kauCPXl5ZyNCUN6XZKH1mvRkGd+VP9hCYr5LOsPVvn3JM8yF5HUJbxltzZVU/m9WcN9D3lcJ9pqpKBd99G1l5zsN+U23+4VvwX8Qhj4ZkNlMCaNndj+6PvhPGMp4+cCpt94I3xh/OqjdrUAd6jnZpioECgYEA709jQ+yFCobRPKzT/PT6KsqVIJJn0FTMXVc1VP5Sn3t5NTQ+iLzOxQRcO1aTNFVgNKhIgsVnVlGh+1Oa2Zor3vXr1eQBjHCZ2zOH+2QdZbRk4GXoOsZ0d203H189SBCTVj20Zd8mL5csBvihIsMjKZ6R62k/mEyOLD+IVuh+axMCgYEAl9sxrVbU1bvGYgHkGWV7BkqYsezOXR65F3eRq8jbNV0YdYN7rnFCStllIJsMCzJBSs2rBD3lcY6/Tk2ThlFIVHVEhgjjRAUIrLHQBJrFKCSusDMGX39Ekk5DZa+5JNak5J7Ikon6klYtDa1G8PFQTJDKTDfQLm/NgryVFS4Np+MCgYEAljLAfcg8NEAroSZkIvbq8OKXOItLRxGB9u+eVIsO9nP7vi3dNdsy96rl7IRI/ea77DDW2eTmF+JChUiS/xJpiJXXADcL1cZyeobcSScr4EKZsdGkMQeP38kXeMRA5TMqFk3CJNIq2GHMS0/Pas8JCb0xnow/UupxrUnu24UumysCgYBKjYuLDVk6gZC45zLEISVQBmmG2LrLztySH9q9msO8JDNw5hdfoi0osChM5LH6ATc68VQnpfeyU6GqYL2vsNIw3M3CfDSPXWVP25BD4nQu7CtzR+m2ErZomdHO54GfC14y+51/DAyfsX02/L4aZm7E2ETpPHGRisQ7jjgnCNAdfwKBgQDSVzfLvsDi2UqbTjyEIeVYPfgm3Owo0fh79rKvinAainQHabVkAezx+RwiJdWeor/08WiyDjFZC86hJOH8gSMLZ2yJw6EVgHqLTvJ+nkYbk0LzvS2gS2h9lDnqOkkKGZBc5l8k/ScCytcDz3WUFEC2TV2CXDj89H14699s1SjpSw=="
-   }
+   },
+   "group": "影视"
   },
   {
    "key": "YXZB",
@@ -988,7 +1076,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "工具其他"
   },
   {
    "key": "AppTd",
@@ -1001,7 +1090,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "工具其他"
   },
   {
    "key": "FirstAid",
@@ -1017,7 +1107,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "工具其他"
   },
   {
    "key": "push_agent",
@@ -1031,7 +1122,8 @@
    "ext": {
     "danmu": true,
     "danmu_api": "https://dm.211.li/nonay"
-   }
+   },
+   "group": "工具其他"
   }
  ],
  "parses": [
