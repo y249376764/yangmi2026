@@ -1,0 +1,40 @@
+name: xj-import
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: base64 text url
+        required: true
+      name:
+        description: target filename
+        required: true
+      sha256:
+        description: expected sha256
+        required: false
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: pkg
+          fetch-depth: 0
+      - name: fetch and decode
+        run: |
+          curl -L --fail -o src.txt "${{ inputs.url }}"
+          base64 -d src.txt > "${{ inputs.name }}"
+          ls -l "${{ inputs.name }}"
+          sha256sum "${{ inputs.name }}"
+          if [ -n "${{ inputs.sha256 }}" ]; then echo "${{ inputs.sha256 }}  ${{ inputs.name }}" | sha256sum -c -; fi
+      - name: replace old and push
+        run: |
+          mkdir -p xingji
+          rm -f xingji/*.hkzip
+          mv "${{ inputs.name }}" xingji/"${{ inputs.name }}"
+          git config user.name "xj-bot"
+          git config user.email "xj-bot@users.noreply.github.com"
+          git add -A xingji
+          git commit -m "星集Media 2026110225：导入新包并删除旧包（元宝修订版 + 拉闸）"
+          git push origin HEAD:pkg
