@@ -81,3 +81,16 @@ JSON 数组：
    - 该源关掉「自动换源」（探活失败会被切到广告线路）
    - 接口 → 编辑：类型是 py，路径是 `hiker://files/rules/Src/Juying2/jiekou/py_xxx.py`
    - 再强制停止一次
+
+## 五、搜索：站内搜索 vs 软件搜索（聚搜）
+
+| | 走哪条链 | hipy_t3 | py |
+|---|---|---|---|
+| 当前页面搜索（站内） | 普通上下文，rule/GM 正常 | ✅ 能搜 | ✅ 能搜 |
+| 软件搜索（全局聚搜） | 独立上下文 `GM→getext()→drpy.init→search` | ❌ getext 返回空 → 空 rule → `'{}'` → 0 条 | ✅ pyDriver 直调 `searchContent`，不经 getext/drpy/GM |
+
+结论：**hipy_t3 只当浏览源，别指望聚搜**；要进聚搜只能 py 版。
+py 版想稳定出结果，三条硬要求：
+1. `searchContent` 要快（聚搜是并发拉全部源，慢的会被丢），单请求超时控制在 8 秒内，别做多页聚合。
+2. 永远返回 `{'list': [...], 'page': p, 'pagecount': n, 'limit': 20, 'total': n}`，`list` 空就是 0 条，别返回 `{}`。
+3. key 可能带空格/多词/URL 编码：先按原样搜，0 条再试 `quote(key)`，必要时按空格取第一个词再搜一次。
