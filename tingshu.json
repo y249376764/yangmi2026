@@ -330,26 +330,6 @@
       "quickSearch": 1,
       "filterable": 0,
       "changeable": 0
-    },
-    {
-      "key": "psmp3",
-      "name": "📻评书随身听",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/psmp3.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0,
-      "changeable": 0
-    },
-    {
-      "key": "vbus",
-      "name": "🎙声音巴士",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/vbus.py",
-      "searchable": 1,
-      "quickSearch": 1,
-      "filterable": 0,
-      "changeable": 0
     }
   ],
   "parses": [],
