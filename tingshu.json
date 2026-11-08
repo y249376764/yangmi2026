@@ -330,6 +330,16 @@
       "quickSearch": 1,
       "filterable": 0,
       "changeable": 0
+    },
+    {
+      "key": "tingwang",
+      "name": "🎧听书网｜有声小说",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/tingwang.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 0
     }
   ],
   "parses": [],
