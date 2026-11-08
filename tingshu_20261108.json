@@ -330,6 +330,81 @@
       "quickSearch": 1,
       "filterable": 0,
       "changeable": 0
+    },
+    {
+      "key": "ting8",
+      "name": "⚠️📖听书吧｜有声小说",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/js/ting8.js",
+      "searchable": 0,
+      "quickSearch": 0,
+      "changeable": 0,
+      "style": {
+        "type": "list"
+      }
+    },
+    {
+      "key": "ssts_leting8",
+      "name": "⚠️🎧乐听吧｜随身听书",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "ext": "https://www.leting8.com"
+    },
+    {
+      "key": "ssts_mitingshu",
+      "name": "⚠️🎧米听书｜随身听书",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "ext": "https://www.ting78.com"
+    },
+    {
+      "key": "ssts_jiongzei",
+      "name": "⚠️🎧囧贼听书｜随身听书",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "ext": "https://www.jiongzei.com"
+    },
+    {
+      "key": "ssts_yihuanhuan",
+      "name": "⚠️🎧一夜幻听｜随身听书",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
+      "searchable": 1,
+      "quickSearch": 0,
+      "filterable": 0,
+      "changeable": 0,
+      "ext": "https://www.22ting.com"
+    },
+    {
+      "key": "ssts_itingshu",
+      "name": "⚠️📕爱听书｜随身听书",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/itingshu.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 0
+    },
+    {
+      "key": "shiyintingshu",
+      "name": "⚠️🎧拾音听书｜有声书",
+      "type": 3,
+      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/shiyin_tingshu.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0
     }
   ],
   "parses": [],
