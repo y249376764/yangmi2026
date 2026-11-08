@@ -64,18 +64,6 @@
       "api": "https://gh-proxy.org/https://raw.githubusercontent.com/tushen6/Tomorrow/master/py/275%E5%90%AC%E4%B9%A6.py"
     },
     {
-      "key": "ting8",
-      "name": "📖听书吧｜有声小说",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/js/ting8.js",
-      "searchable": 0,
-      "quickSearch": 0,
-      "changeable": 0,
-      "style": {
-        "type": "list"
-      }
-    },
-    {
       "key": "yuetingba",
       "name": "📗悦听吧｜听书资源",
       "type": 3,
@@ -314,67 +302,54 @@
       "changeable": 0
     },
     {
-      "key": "ssts_leting8",
-      "name": "🎧乐听吧｜随身听书",
+      "key": "nianyin",
+      "name": "🎧念音听书｜上万集",
       "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
-      "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 0,
-      "changeable": 0,
-      "ext": "https://www.leting8.com"
-    },
-    {
-      "key": "ssts_mitingshu",
-      "name": "🎧米听书｜随身听书",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
-      "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 0,
-      "changeable": 0,
-      "ext": "https://www.ting78.com"
-    },
-    {
-      "key": "ssts_jiongzei",
-      "name": "🎧囧贼听书｜随身听书",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
-      "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 0,
-      "changeable": 0,
-      "ext": "https://www.jiongzei.com"
-    },
-    {
-      "key": "ssts_yihuanhuan",
-      "name": "🎧一夜幻听｜随身听书",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pagebar.py",
-      "searchable": 1,
-      "quickSearch": 0,
-      "filterable": 0,
-      "changeable": 0,
-      "ext": "https://www.22ting.com"
-    },
-    {
-      "key": "ssts_itingshu",
-      "name": "📕爱听书｜随身听书",
-      "type": 3,
-      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/itingshu.py",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/nianyin.py",
       "searchable": 1,
       "quickSearch": 1,
       "filterable": 0,
       "changeable": 0
     },
     {
-      "key": "shiyintingshu",
-      "name": "🎧拾音听书｜有声书",
+      "key": "ting29",
+      "name": "🎧29听书网",
       "type": 3,
-      "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/shiyin_tingshu.py",
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/ting29.py",
       "searchable": 1,
       "quickSearch": 1,
-      "filterable": 0
+      "filterable": 0,
+      "changeable": 0
+    },
+    {
+      "key": "pingshu5",
+      "name": "📻单田芳评书网",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/pingshu5.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 0
+    },
+    {
+      "key": "psmp3",
+      "name": "📻评书随身听",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/psmp3.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 0
+    },
+    {
+      "key": "vbus",
+      "name": "🎙声音巴士",
+      "type": 3,
+      "api": "https://gh-proxy.org/https://raw.githubusercontent.com/y249376764/yangmi2026/main/py/vbus.py",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 0,
+      "changeable": 0
     }
   ],
   "parses": [],
