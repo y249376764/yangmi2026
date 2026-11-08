@@ -108,7 +108,7 @@ class Spider(BaseSpider):
 
     def detailContent(self, ids):
         vid = str(ids[0]) if ids else ""
-        u = vid.split(":")[-1] if vid.startswith("ss:psmp3:") else vid
+        u = vid[len("ss:psmp3:"):] if vid.startswith("ss:psmp3:") else vid
         h = get(u)
         if not h:
             return {"list": [{"vod_id": vid, "vod_name": "", "vod_pic": "", "vod_remarks": "打不开页面", "vod_play_url": ""}]}
