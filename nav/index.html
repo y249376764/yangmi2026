@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>资源导航</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+h1{font-size:22px;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.sub{color:#94a3b8;font-size:13px;margin-bottom:12px}
+.disclaimer{background:#78350f22;border:1px solid #92400e44;color:#fbbf24;font-size:12px;padding:8px 12px;border-radius:8px;margin-bottom:12px;line-height:1.6}
+.tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.tab{flex:1;text-align:center;padding:10px 8px;border-radius:10px;background:#1e293b;color:#94a3b8;font-size:14px;cursor:pointer;user-select:none;min-width:70px}
+.tab.active{background:#2563eb;color:#fff;font-weight:600}
+.panel{display:none}
+.panel.active{display:block}
+.sec{background:#1e293b;border-radius:12px;padding:14px;margin-bottom:12px}
+.sec-t{font-size:15px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.sec-d{font-size:12px;color:#94a3b8;margin-bottom:10px;line-height:1.6}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#0f172a;border-radius:8px;margin-bottom:8px}
+.it-name{font-size:13px;flex:1;word-break:break-all}
+.copy-btn{flex-shrink:0;background:#2563eb;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;cursor:pointer}
+.copy-btn:hover{background:#1d4ed8}
+.note{background:#14532d22;border:1px solid #16653444;color:#86efac;font-size:12px;padding:10px 12px;border-radius:8px;margin-bottom:12px;line-height:1.8}
+.ft{color:#64748b;font-size:11px;text-align:center;margin-top:20px;padding:10px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>📁 资源导航</h1>
+<div class="sub">全网公开资源 · 复制链接直接导入</div>
+<div class="disclaimer">⚠️ 本站资源均为网络收集，仅供学习交流，版权归原作者所有，如有侵犯请联系删除 ｜ QQ群：106631209 ｜ 腾讯频道：<b>pd35726446</b><button class="copy-btn" style="margin-left:8px;padding:2px 8px;font-size:11px" onclick="copyText(this,'pd35726446')">复制频道号</button></div>
+<div class="tabs">
+<div class="tab active" onclick="sw(0)">🎵 音乐</div>
+<div class="tab" onclick="sw(1)">📺 影视</div>
+<div class="tab" onclick="sw(2)">📚 阅读</div>
+<div class="tab" onclick="sw(3)">🌊 海阔</div>
+</div>
+<div class="panel active" id="p0">
+
+
+<div class="sec">
+  <div class="sec-t">🎵 洛雪音乐音源（每日自动更新 · 精选 12 个）</div>
+  <div class="sec-d">复制链接 → 洛雪App「设置 → 自定义源管理 → 在线导入」· 每日自动从音源直通车抓取最新</div>
+  <div class="item">
+    <span class="it-name">🔥 合音聚合 v9.1 · 五平台三线路（网易/QQ/酷狗/酷我/咪咕，21/21 实测全通）</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/lx/heyin_v9.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">HYWmusic_beta_公益测试.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260810/推荐/HYWmusic_beta_公益测试.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">K×H测试 v1.7.17.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260817/推荐/K×H测试%20v1.7.17.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">lx-玉宁熙 (2).js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260716/推荐/lx-玉宁熙%20%282%29.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">lx-玉宁熙1.2.5.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V261020/一般/lx-玉宁熙1.2.5.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">👖裤佬SVIP音源.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://seep.eu.org/https://dogpan.com/f/KOyDi4/%E8%A3%A4%E4%BD%ACSVIP%E9%9F%B3%E6%BA%90.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">xinghai-music-sourcev2.3.11.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260810/推荐/xinghai-music-sourcev2.3.11.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">xinghai-music-sourcev2.3.7.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260714/推荐/xinghai-music-sourcev2.3.7.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">【推荐】长青SVIP音源v1.2.0（全平台支持无损）.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260620/推荐/【推荐】长青SVIP音源v1.2.0（全平台支持无损）.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">全豆要-聚合音源-V4.1.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260620/推荐/全豆要-聚合音源-V4.1.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">全豆要-聚合音源_v9.7_97特供版_DeepSeek优化并修复版本.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260620/推荐/全豆要-聚合音源_v9.7_97特供版_DeepSeek优化并修复版本.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">墨澜聚合音源 v2.0.0.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260810/推荐/墨澜聚合音源%20v2.0.0.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">墨澜音乐源v2.3.0.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260817/推荐/墨澜音乐源v2.3.0.js&#39;)">复制</button>
+  </div>
+  <div class="item">
+    <span class="it-name">屿溪-终章.js</span>
+    <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/sowahsun/lxmusic-/main/V260817/推荐/屿溪-终章.js&#39;)">复制</button>
+  </div>
+</div>
+
+<div class="sec">
+  <div class="sec-t">📢 腾讯频道 · 海阔视界</div>
+  <div class="sec-d">扫码或搜频道号加入「海阔视界」腾讯频道 · 频道号 <b>pd35726446</b></div>
+  <div class="item">
+    <span class="it-name">频道号：pd35726446（复制后去腾讯频道搜索加入）</span>
+    <button class="copy-btn" onclick="copyText(this,'pd35726446')">复制频道号</button>
+  </div>
+  <div class="item">
+    <span class="it-name">🔗 一键加入：https://pd.qq.com/s/pd35726446</span>
+    <button class="copy-btn" onclick="copyText(this,'https://pd.qq.com/s/pd35726446')">复制链接</button>
+  </div>
+</div>
+
+</div>
+<div class="panel" id="p1">
+<div class="sec">
+    <div class="sec-t">📺 直播源（实测流畅）</div>
+    <div class="sec-d">复制链接 → TVBox/影视仓「设置 → 配置地址」或直播列表导入 · Guovin 聚合 1619 频道实测可用</div>
+    <div class="item">
+      <span class="it-name">Guovin聚合直播（1619频道，央视/卫视/港澳台/体育）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">全球直播（iptv-org，海外为主）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://iptv-org.github.io/iptv/index.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">📺 B站直播（mursor1985/LIVE · 1120频道 · 自动更新）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/mursor1985/LIVE@main/bililive.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🐟 斗鱼直播（mursor1985/LIVE · 933频道 · 自动更新）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/mursor1985/LIVE@main/douyuyqk.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🦁 虎牙直播（mursor1985/LIVE · 1051频道 · 自动更新）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/mursor1985/LIVE@main/huyayqk.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">📻 YY直播（mursor1985/LIVE · 538频道 · 自动更新）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cdn.jsdelivr.net/gh/mursor1985/LIVE@main/yylunbo.m3u&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🌊 海量直播聚合（多线路 · 误道者整理）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://0.wudaozhe.net/tvbox/海量直播聚合接口.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">📺 TVBox 影视接口 · 全量大全</div>
+    <div class="sec-d">复制链接 → TVBox/影视仓「设置 → 配置地址」粘贴 → 即用。接口较多，失效就换下一个</div>
+    <div class="item">
+      <span class="it-name">💪 俊佬 top98（24影视站+解析+直播，实测可用）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://home.jundie.top:81/top98.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">六六线路（164影视站+4K网盘+解析+去广告，全量）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://tv.sxi.qzz.io/jsm.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">🐱 OK猫 2026 接口大全（okfm.cn 汇总 · 精选63个）</div>
+    <div class="sec-d">来源 https://okfm.cn/3711.html · 影视点播主接口精选 · 复制链接 TVBox 导入</div>
+    <div class="item">
+      <span class="it-name">匿名单仓</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://12586.kstore.space/123.txt&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">匿名多仓</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://12586.kstore.space/123.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">xmbjm 多仓汇总</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://xmbjm.github.io/ck.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">南风综合源</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.net/https://raw.githubusercontent.com/yoursmile66/TVBox/refs/heads/main/XC.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">如意接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gitee.com/wynp/ys/raw/master/yc.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">凯弟多仓</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/jyqhkd1/jk/-/raw/main/8.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">挺好接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://ztha.top/TVBox/thdjk.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">刘 673 仓</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://fastly.jsdelivr.net/gh/liu673cn/box@main/m.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">流年点播</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://210.245.166.68:1188/tvbox/liunian/&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">4K 龙源</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://v-dragon.com.hk/4k/&#39;)">复制</button>
+    </div>
+    
+    
+    <div class="item">
+      <span class="it-name">PG 在线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.252035.xyz/p/jsm.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">PG 备用</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://ghfast.top/https://raw.githubusercontent.com/debaters6/XYQ/master/0821.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">真心接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.252035.xyz/z/FongMi.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">夏夏 4K 合集</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://11405.kstore.space/xiaye/qk4k.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">夏夏高清免扫</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://11405.kstore.space/xiaye/1080.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">学习专线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.su7.run/&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">刺桐自营</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.cttv.vip/ys/json/ctys.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">小荷接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/z-blog/xh2/-/raw/main/t.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">玄珠接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/xuanzhuapp/xzys/-/raw/main/xzvip.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">聚玩盒子主页</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://xhztv.top/xhz/&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">大佬接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://tv.203511.xyz/0821.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">宝盒视界</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://ghproxy.net/https://raw.githubusercontent.com/guot55/yg/main/box%E5%8E%9F.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">教育专线 1</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://box.nihaohezi.com/app/hzjy.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">教育专线 2</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/bhjk1/vip/-/raw/main/vip.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">天神 LY</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://codeberg.org/froggy123/yydf2025/raw/branch/main/api.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">鸟叔接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/laozi4vip/JellyZYC/main/niaoshu/tongyong.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">悦儿优质接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/yueer/yueera/-/raw/main/11.17/yueer.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">绿茶影院</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://550.3vcn.work/cbh.json&#39;)">复制</button>
+    </div>
+    
+    
+    <div class="item">
+      <span class="it-name">金鹰影视</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://550.3vcn.work/wdjyys.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">星河 4K</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://116.196.116.76/tv&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">QIST 接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/qist/tvbox/master/jsm.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">宝盒 VIP</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://3043.kstore.space/bhvip/bh/box.json&#39;)">复制</button>
+    </div>
+    
+    
+    <div class="item">
+      <span class="it-name">摸鱼 UZ</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://xn--ihqu10cn4c.xn--v4q818bf34b.com/UZ/DEMO.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">胜寒接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://ghfast.top/https://raw.githubusercontent.com/hanhan8127/TVBox/main/hanXC.json&#39;)">复制</button>
+    </div>
+    
+    
+    <div class="item">
+      <span class="it-name">影视仓 Box</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/mengzhu2/ysc/-/raw/main/YSC.json&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">主用多仓</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://wget.la/https://github.com/2124662895/2026cbdva/blob/main/xfnn.json&#39;)">复制</button>
+    </div>
+    
+  </div>
+<div class="sec">
+    <div class="sec-t">🔥 枫斗（主接口）</div>
+    <div class="sec-d">激活码：5678（有提示需要激活码就输入，无提示不用搭理）</div>
+    <div class="item">
+      <span class="it-name">http://枫斗.top/tv</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://枫斗.top/tv&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">饭太硬</div>
+    <div class="item">
+      <span class="it-name">线路 1</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.饭太硬.cc/tv&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 2</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.饭太硬.net/tv&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">线路 4</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.饭太硬.art/tv&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 5</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://fty.888484.xyz/tv&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 6</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://fty.333232.xyz/tv&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">肥猫</div>
+    <div class="item">
+      <span class="it-name">线路 1</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://肥猫.net/&#39;)">复制</button>
+    </div>
+    
+    <div class="item">
+      <span class="it-name">线路 3</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://肥猫.net/tv&#39;)">复制</button>
+    </div>
+    
+    
+  </div>
+<div class="sec">
+    <div class="sec-t">王二小放牛娃</div>
+    <div class="item">
+      <span class="it-name">线路 1</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9280.kstore.vip/newwex.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 2</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://tvbox.王二小放牛娃.top&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 3</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://tv.999888987.xyz/&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 4</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://tv.999888123.xyz/&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 5</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9280.kstore.vip/wex.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 6</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.iyouhun.com/tv/wex&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">线路 7</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://tvbox.xn--4kq62z5rby2qupq9ub.top&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">小盒子4K</div>
+    <div class="item">
+      <span class="it-name">http://xhztv.top/4k.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://xhztv.top/4k.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">二月红</div>
+    <div class="item">
+      <span class="it-name">https://700sjro44343.vicp.fun/eggp/0211/tv.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://700sjro44343.vicp.fun/eggp/0211/tv.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">菜妮丝</div>
+    <div class="item">
+      <span class="it-name">https://tv.菜妮丝.top</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://tv.菜妮丝.top&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">宝盒</div>
+    <div class="item">
+      <span class="it-name">https://宝盒接口.top</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://宝盒接口.top&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">潇洒</div>
+    <div class="item">
+      <span class="it-name">https://qist.wyfc.qzz.io/xiaosa/api.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://qist.wyfc.qzz.io/xiaosa/api.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">苍蓝</div>
+    <div class="item">
+      <span class="it-name">http://xn--6orr3pi6g9uu.top</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://xn--6orr3pi6g9uu.top&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">影视仓</div>
+    <div class="item">
+      <span class="it-name">http://影视仓.com/</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://影视仓.com/&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">UUCCC</div>
+    <div class="item">
+      <span class="it-name">http://xn--5mqx81b535a.com</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://xn--5mqx81b535a.com&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">日后</div>
+    <div class="item">
+      <span class="it-name">http://rihou.cc:555/nzk/nzk0722.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://rihou.cc:555/nzk/nzk0722.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">小马</div>
+    <div class="item">
+      <span class="it-name">https://szyyds.cn/tv/x.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://szyyds.cn/tv/x.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">蜗牛</div>
+    <div class="item">
+      <span class="it-name">https://tv.xn--11x555b.top/svip</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://tv.xn--11x555b.top/svip&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">动漫</div>
+    <div class="item">
+      <span class="it-name">https://www.yingm.cc/dm/dm.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yingm.cc/dm/dm.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">茄子</div>
+    <div class="item">
+      <span class="it-name">https://700sjro44343.vicp.fun/eggp/qzku/tv.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://700sjro44343.vicp.fun/eggp/qzku/tv.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">L佬</div>
+    <div class="item">
+      <span class="it-name">https://android.lushunming.qzz.io/json/index.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://android.lushunming.qzz.io/json/index.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">分享</div>
+    <div class="item">
+      <span class="it-name">http://hucongrong.web3v.work/风水/fxz/fxz.json</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://hucongrong.web3v.work/风水/fxz/fxz.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">俊佬</div>
+    
+  </div>
+<div class="sec">
+    <div class="sec-t">🐟 摸鱼影视接口（y456y.com · 多备用域名）</div>
+    <div class="sec-d">摸鱼是门艺术 · 浏览器访问接口获取全部资源 · TVBox「配置地址」导入 · 备用域名多，挂一个换下一个</div>
+    <div class="item">
+      <span class="it-name">🐟 摸鱼主接口1</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.y456y.com&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🐟 摸鱼主接口2</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://fish.y456y.com&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🐟 摸鱼备用接口一</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://我不是.摸鱼儿.cc&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🐟 摸鱼备用接口二</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://我不是.小不点.com&#39;)">复制</button>
+    </div>
+  </div>
+
+<div class="sec">
+    <div class="sec-t">📦 海量接口备份 · 新增 47 条（去重后）</div>
+    <div class="sec-d">来源「海量接口搬运备份」（误道者整理 · 20260907 批次）· 已与本页现有接口自动去重：抓到 68 条，站内合并 1 条，与已有重复 20 条，实际新增 47 条 · 失效就换下一个</div>
+    <div class="item">
+      <span class="it-name">更新专用接口</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://0.12yue.de5.net/0/666&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">菠菜园pro</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://0.12yue.de5.net/5/x4pro.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">菠菜园</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://0.12yue.de5.net/5/x4.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">少儿频道</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://0.12yue.de5.net/5/tv少儿.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">饭太硬4线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://fty.xxooo.cf/tv&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">嗷呜</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.英格里希嗷呜.top/tv&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">嗷呜2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9763.kstore.vip/aowu.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">嗷呜3线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://itv666.cc/aowu/config.webp&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">肥猫2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jk.catvod.site&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">王二小</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9280.kstore.vip/aiwex.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">王二小2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9280.kstore.space/aiwex.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">集多</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://rihou.cc:88/demo.php&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">集多3线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://rihou.cc:88/demoabc.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">摸鱼</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://6800.kstore.vip/fish.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">摸鱼2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://摸鱼儿.cc&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">摸鱼3线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://我不是.摸鱼儿.top&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">摸鱼4线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://www.小不点.com&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">南风</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://ghproxy.monkeyray.net/raw.githubusercontent.com/yoursmile66/TVBox/main/XC.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">南风2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/raw.githubusercontent.com/yoursmile66/TVBox/main/XC.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">潇洒</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://9877.kstore.space/one.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">老张</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://zhangqun1818.serv00.net/zq/api.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">驸马</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://fmys.top/fmys.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">周J</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/raw.githubusercontent.com/zhoujck/config/main/box&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">小米</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.org/raw.githubusercontent.com/ggrrttyyiii/CatVodSpider/refs/heads/main/json/demo.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">菜妮丝</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://tv.xn--yhqu5zs87a.top&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">心魔</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/raw.githubusercontent.com/yw88075/tvbox/main/yw.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">clun</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://clun.top/box.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">小凯</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jihulab.com/jyqhkd/kd/-/raw/main/kai.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">东篱</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://chigua.eu.org&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">东篱2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://16151.kstore.space&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">道长</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gitlab.com/duomv/dzhipy/-/raw/main/index.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">小苹果</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://bitbucket.org/xduo/duoapi/raw/master/xpg.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">哈吉米</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://17264.kstore.space/哈基米.png&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">真六</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://cccimg.com/down.php/7d1f30263b3f2bf3deda2d7faeef4844.zhen6&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">天神</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/raw.githubusercontent.com/IY-CPU/IY/main/天神IY.png&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">星微Vip</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://7337.kstore.vip/xw/测试勿传&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">宝盒2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/guot55/yg/main/pg/bh.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">愿望18</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/yuanwangokk-1/TV-BOX/main/纯福利/纯福利.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">沐辰</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://php.doube.eu.org/spider/php/config.php&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">软件小哥</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;http://47.96.82.41:5188/svip/svip.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">高天流云</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">澜露</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.giteeusercontent.com/hulanlu/04/raw/master/lanlu.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">澜露2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gitee.com/hulanlu/04/raw/master/lanlu.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">ray</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/dxawi/0/main/0.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">残月影视</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://jsd.cdn.zzko.cn/gh/1771245847/TvBox/tvbox.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">残月影视2线</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://bitbucket.org/1771245847/tvbox/raw/main/tvbox.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">月光宝盒</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://raw.githubusercontent.com/guot55/yg/refs/heads/main/ygbox.json&#39;)">复制</button>
+    </div>
+  </div>
+
+<div class="sec">
+  <div class="sec-t">📢 腾讯频道 · 海阔视界</div>
+  <div class="sec-d">扫码或搜频道号加入「海阔视界」腾讯频道 · 频道号 <b>pd35726446</b></div>
+  <div class="item">
+    <span class="it-name">频道号：pd35726446（复制后去腾讯频道搜索加入）</span>
+    <button class="copy-btn" onclick="copyText(this,'pd35726446')">复制频道号</button>
+  </div>
+  <div class="item">
+    <span class="it-name">🔗 一键加入：https://pd.qq.com/s/pd35726446</span>
+    <button class="copy-btn" onclick="copyText(this,'https://pd.qq.com/s/pd35726446')">复制链接</button>
+  </div>
+</div>
+
+</div>
+<div class="panel" id="p2">
+<div class="sec">
+    <div class="sec-t">📚 阅读书源（Legado / 阅读App）</div>
+    <div class="sec-d">复制链接 → 阅读App「我的 → 书源管理 → 导入」· 或点「一键导入」自动唤起（部分需长按复制协议）</div>
+    <div class="item">
+      <span class="it-name">🐧 酷我音乐（nyasama 书源）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://shuyuan.nyasama.net/shuyuan/22dab0eee7de45ce5e6fb39c07d67f51.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 番茄听书AI + 官方（nyasama 双听书源）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://shuyuan.nyasama.net/shuyuan/ca410ed33bea24fbe7483be9fe8eb8c0.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🍅 番茄听书官方（单源，咪咪喵）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://shuyuan.nyasama.net/shuyuan/c549398e14c3f573db00b3640ba0c654.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">📖 全量书源（aoaostar 合集）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/b778fe6b.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🔥 XIU2 精品书源</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/71e56d4f.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🔥 破冰书源</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/4dc410d1.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">📚 shidahuilang 书源</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/e29e19ee.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🔊 TTS 听书源（在线朗读）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/856adf0e.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🧹 替换净化规则（去广告）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://legado.aoaostar.com/sources/3f067eb2.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">🔖 我的听书 · 订阅源（聆阅源）</div>
+    <div class="sec-d">复制链接 → 我的听书App「源管理 → 订阅」粘贴 → 自动加载（懒人+酷我+wenge 合集）</div>
+    <div class="item">
+      <span class="it-name">🎧 聆阅源 v25（懒人+酷我+wenge合集）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://gh-proxy.com/https://raw.githubusercontent.com/y249376764/yangmi2026/main/tingshu_lingyue.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">🔥 最近更新书源（yck2026 源仓库 · 近7天）</div>
+    <div class="sec-d">来源 https://www.yck2026.fun/yuedu/shuyuan/ · 复制 JSON 链接 → 阅读App 网络导入</div>
+    <div class="item">
+      <span class="it-name">神文小说 · 13小时前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7901.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">📚书山聚合 · 19小时前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7814.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">Z-Library 登录版 · 21小时前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7900.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">®️爱丽丝书屋（大侠修） · 22小时前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7899.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">顶点小说移动版 · 1天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7898.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">番茄小说 · 1天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7897.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🗨️ 轻之国度 · 2天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7574.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🌙 七猫小说 API · 2天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7895.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🍅大灰狼聚合 vip完全版 · 2天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7632.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">若雨中文 · 2天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7894.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">全本小说网 · 2天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7893.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">👍 同人小说 · 3天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7890.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">⚡📂有度中文 · 4天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7883.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🔅光遇聚合 · 4天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7249.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">存书啦 · 5天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7750.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">魔丸小说 · 5天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7813.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">新龙小说网 · 5天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7878.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">UAA小说·言璃版 · 6天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7713.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">可乐小说 webView · 6天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7877.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">伪速读谷² · 6天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7875.json&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">全本小说网 · 7天前</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://www.yck2026.fun/yuedu/shuyuan/json/id/7874.json&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">🎧 音频书源 · 千千音乐</div>
+    <div class="sec-d">千千音乐（music.91q.com / 太合音乐）音频书源 · 发现=官方分类歌单 · 搜索可用 · 阅读App「书源管理 → 网络导入」</div>
+    <div class="item">
+      <span class="it-name">千千音乐 音频书源（官方分类歌单 · 70子分类）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;https://shuyuan.nyasama.net/shuyuan/8b92301ae96c63df70f6b030ebde97c6.json&#39;)">复制</button>
+    </div>
+  </div>
+
+<div class="sec">
+  <div class="sec-t">📢 腾讯频道 · 海阔视界</div>
+  <div class="sec-d">扫码或搜频道号加入「海阔视界」腾讯频道 · 频道号 <b>pd35726446</b></div>
+  <div class="item">
+    <span class="it-name">频道号：pd35726446（复制后去腾讯频道搜索加入）</span>
+    <button class="copy-btn" onclick="copyText(this,'pd35726446')">复制频道号</button>
+  </div>
+  <div class="item">
+    <span class="it-name">🔗 一键加入：https://pd.qq.com/s/pd35726446</span>
+    <button class="copy-btn" onclick="copyText(this,'https://pd.qq.com/s/pd35726446')">复制链接</button>
+  </div>
+</div>
+
+</div>
+<div class="panel" id="p3">
+<div class="sec">
+    <div class="sec-t">🌊 海阔视界规则（影视）</div>
+    <div class="sec-d">复制链接 → 海阔视界 App「设置 → 剪贴板口令导入」粘贴 → 自动下载规则 · 口令格式 Pro￥home_rule_url￥链接</div>
+    <div class="item">
+      <span class="it-name">🎬 千千影视 v24（达标范本 · 分类/线路/集数整齐）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/TJ6i6&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 LIBVIO v13.9（网页解析 · 多域名）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/iY2yW&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 搜剧AI v6.2（API签名 · 丝滑布局）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/YPKVR&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 简云 v12.2（网页解析）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/THZOF&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 6v电影 v32（多域名+播放线路）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/vH44h&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 两个BT v15.3（BT聚合）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/QSgTx&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 路漫漫（动漫影视 · 多域名+NPE防护）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/BleedingEarrings&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎬 小猪看看（影视 · 标准改造）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/MyrtleCalves&#39;)">复制</button>
+    </div>
+  </div>
+<div class="sec">
+    <div class="sec-t">🌊 海阔视界规则（听书）</div>
+    <div class="sec-d">复制口令 → 海阔视界「剪贴板口令导入」· 音频播放器 · 支持连播/继续收听</div>
+    <div class="item">
+      <span class="it-name">🎧 书旗听书 v3（三模式音色 · AI朗读/真人/阅读）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/PlantBrazil&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 笔趣阁朗读 v7（三源聚合 + AI朗读）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/BeatingsVisually&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 七猫小说阅读（官方API + AES解密）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/UpdateMissy&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 魔丸小说朗读（聚合4源 · 账号一键登录）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/JulietIlene&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 大灰狼听书（官方音频直链）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/TribeCurse&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 聚合书库朗读（AU文学 · 多源聚合）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/AgainWeave&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 懒人听书（有声小说+广播剧）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/RoutedDottie&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 蜻蜓FM（8分类+板块筛选）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/ScandalProwling&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 番茄听书 v9（官方音频 · 大文件）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/PiercingMalcolm&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 听友FM v19（音频webRule范本）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.rs/JKCOM&#39;)">复制</button>
+    </div>
+    <div class="item">
+      <span class="it-name">🎧 书音FM（▶继续收听 · 音频直链）</span>
+      <button class="copy-btn" onclick="copyText(this,&#39;Pro￥home_rule_url￥https://paste.c-net.org/DenimKibosh&#39;)">复制</button>
+    </div>
+  </div>
+<div class="note">
+    💡 <b>海阔视界导入方法</b><br/>
+    · 打开海阔视界 App →「设置」→「剪贴板口令导入」→ 粘贴上面复制的口令 → 自动下载规则<br/>
+    · 口令格式：Pro￥home_rule_url￥<链接> · 一个口令一个规则，复制哪个就导入哪个
+  </div>
+
+<div class="sec">
+  <div class="sec-t">📢 腾讯频道 · 海阔视界</div>
+  <div class="sec-d">扫码或搜频道号加入「海阔视界」腾讯频道 · 频道号 <b>pd35726446</b></div>
+  <div class="item">
+    <span class="it-name">频道号：pd35726446（复制后去腾讯频道搜索加入）</span>
+    <button class="copy-btn" onclick="copyText(this,'pd35726446')">复制频道号</button>
+  </div>
+  <div class="item">
+    <span class="it-name">🔗 一键加入：https://pd.qq.com/s/pd35726446</span>
+    <button class="copy-btn" onclick="copyText(this,'https://pd.qq.com/s/pd35726446')">复制链接</button>
+  </div>
+</div>
+
+</div>
+<script>
+
+function copyText(btn, text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  var old = btn.textContent;
+  btn.textContent = '✅ 已复制';
+  setTimeout(function() { btn.textContent = old; }, 1500);
+}
+
+function sw(i){
+  var tabs = document.querySelectorAll('.tab');
+  for (var k = 0; k < tabs.length; k++) { tabs[k].classList.toggle('active', k === i); }
+  var panels = document.querySelectorAll('.panel');
+  for (var k2 = 0; k2 < panels.length; k2++) { panels[k2].classList.toggle('active', k2 === i); }
+}
+</script>
+</div>
+<div class="ft">公开资源导航 · 资源持续更新</div>
+
+</body>
+</html>
