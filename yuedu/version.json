@@ -1,9 +1,9 @@
 {
- "v": 80,
- "build": 80,
+ "v": 82,
+ "build": 82,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v80：首页「检查更新」取代原来的重新加载，点确定即下载覆盖安装",
+ "note": "蜘蛛阅读 v82：首页新增「🌐 全部书源搜索」，跨全部已装书源一次搜",
  "time": "2026-11-14",
  "auto_update": false
 }
