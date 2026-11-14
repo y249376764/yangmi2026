@@ -1,9 +1,9 @@
 {
- "v": 82,
- "build": 82,
+ "v": 84,
+ "build": 84,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v82：首页新增「🌐 全部书源搜索」，跨全部已装书源一次搜",
+ "note": "蜘蛛阅读 v84：聚搜补起点通道（3 个源都有结果了）",
  "time": "2026-11-14",
  "auto_update": false
 }
