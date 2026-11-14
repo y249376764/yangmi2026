@@ -1,9 +1,9 @@
 {
- "v": 76,
- "build": 76,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/蜘蛛阅读v76.hkzip",
+ "v": 78,
+ "build": 78,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v76：设置新增「检查更新」，直连/镜像拉取口令并导入",
+ "note": "蜘蛛阅读 v78：设置→检查更新，点确定就自动下载并覆盖安装",
  "time": "2026-11-14",
  "auto_update": false
 }
