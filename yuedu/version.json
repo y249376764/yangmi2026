@@ -1,9 +1,9 @@
 {
- "v": 74,
- "build": 74,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/蜘蛛阅读v74.hkzip",
+ "v": 76,
+ "build": 76,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/蜘蛛阅读v76.hkzip",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v74：包内页面 js: 前缀修复（v73 打包丢失前缀导致 jsoup 选择器报错）",
+ "note": "蜘蛛阅读 v76：设置里新增「检查更新」，可直连/镜像拉取口令并导入",
  "time": "2026-11-14",
  "auto_update": false
 }
