@@ -1,9 +1,9 @@
 {
- "v": 98,
- "build": 98,
+ "v": 100,
+ "build": 100,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v98：通用解析（目录入口自动发现/og 详情兜底/正文自动抽/GBK 自动重取）+ 10 个分类",
+ "note": "蜘蛛阅读 v100：兼容 ##正则清洗/裸 href/裸 text/倒数索引/区间/text.关键字 选择器",
  "time": "2026-11-15",
  "auto_update": false
 }
