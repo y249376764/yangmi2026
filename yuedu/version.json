@@ -1,9 +1,9 @@
 {
- "v": 20261115,
- "build": 20261115,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 20261115：目录全量补齐（详情页/分卷/上一页/下一页/断档补页）、章节按号排序、正文分段",
+ "v": 20261116,
+ "build": 20261116,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261116",
+ "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261116",
+ "note": "蜘蛛阅读 20261116：更新逻辑加缓存穿透+完整性校验；目录全量补齐、章节按号排序、正文分段",
  "time": "2026-11-15",
  "auto_update": false
 }
