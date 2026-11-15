@@ -1,9 +1,9 @@
 {
- "v": 104,
- "build": 104,
+ "v": 106,
+ "build": 106,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v104：目录落在中段页时按「上一页」和页码递减往回补，补齐前面的章节",
+ "note": "蜘蛛阅读 v106：目录页只在更全时才替换详情页；详情页全量目录兜底合并",
  "time": "2026-11-15",
  "auto_update": false
 }
