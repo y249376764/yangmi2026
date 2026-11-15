@@ -6,7 +6,7 @@
   "bookSourceType": 0,
   "enabled": true,
   "customOrder": 1,
-  "bookSourceComment": "纯规则源（无 JS）：搜索 / 全本发现 / 目录（/book/N → /chapterlist/N 自动兜底）/ 正文",
+  "bookSourceComment": "纯规则源（无 JS）：搜索 / 10 个分类 / 目录（自动找目录页 + 断页补抓）/ 正文",
   "searchUrl": "/search/?searchkey={{key}}",
   "exploreUrl": "玄幻::/sort/1/{{page}}.html\n仙侠::/sort/2/{{page}}.html\n都市::/sort/3/{{page}}.html\n历史::/sort/4/{{page}}.html\n游戏::/sort/5/{{page}}.html\n科幻::/sort/6/{{page}}.html\n灵异::/sort/7/{{page}}.html\n言情::/sort/8/{{page}}.html\n同人::/sort/9/{{page}}.html\n全本::/quanben/sort/{{page}}/",
   "ruleSearch": {
@@ -29,7 +29,7 @@
    "chapterList": "class.chapterlist@tag.ul@tag.li@tag.a",
    "chapterName": "text",
    "chapterUrl": "tag.a@href",
-   "nextTocUrl": "@js:var h=String(result||''),cur=String(typeof url!=='undefined'?url:'');var m=/\\/chapterlist\\/(\\d+)(?:\\/(\\d+))?\\.html/.exec(cur);if(!m){return '';}var id=m[1],pg=parseInt(m[2]||'1',10),mx=1,re=new RegExp('/chapterlist/'+id+'/(\\\\d+)\\\\.html','g'),t;while((t=re.exec(h))!==null){var v=parseInt(t[1],10);if(v>mx){mx=v;}}return pg<mx?('/chapterlist/'+id+'/'+(pg+1)+'.html'):'';"
+   "nextTocUrl": ""
   },
   "ruleContent": {
    "content": "id.booktxt@tag.p"
