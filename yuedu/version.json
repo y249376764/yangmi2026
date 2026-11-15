@@ -1,9 +1,9 @@
 {
- "v": 102,
- "build": 102,
+ "v": 104,
+ "build": 104,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v102：目录分页自动跟随「下一页」+ 中文数字章号排序（第一百零五章）",
+ "note": "蜘蛛阅读 v104：目录落在中段页时按「上一页」和页码递减往回补，补齐前面的章节",
  "time": "2026-11-15",
  "auto_update": false
 }
