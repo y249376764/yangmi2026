@@ -1,9 +1,9 @@
 {
- "v": 100,
- "build": 100,
+ "v": 102,
+ "build": 102,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v100：兼容 ##正则清洗/裸 href/裸 text/倒数索引/区间/text.关键字 选择器",
+ "note": "蜘蛛阅读 v102：目录分页自动跟随「下一页」+ 中文数字章号排序（第一百零五章）",
  "time": "2026-11-15",
  "auto_update": false
 }
