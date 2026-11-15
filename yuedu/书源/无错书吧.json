@@ -8,7 +8,7 @@
   "customOrder": 1,
   "bookSourceComment": "纯规则源（无 JS）：搜索 / 全本发现 / 目录（/book/N → /chapterlist/N 自动兜底）/ 正文",
   "searchUrl": "/search/?searchkey={{key}}",
-  "exploreUrl": "全本::/quanben/sort/",
+  "exploreUrl": "玄幻::/sort/1/{{page}}.html\n仙侠::/sort/2/{{page}}.html\n都市::/sort/3/{{page}}.html\n历史::/sort/4/{{page}}.html\n游戏::/sort/5/{{page}}.html\n科幻::/sort/6/{{page}}.html\n灵异::/sort/7/{{page}}.html\n言情::/sort/8/{{page}}.html\n同人::/sort/9/{{page}}.html\n全本::/quanben/sort/{{page}}/",
   "ruleSearch": {
    "bookList": "tag.dl",
    "name": "tag.dt.1@tag.a@text",
