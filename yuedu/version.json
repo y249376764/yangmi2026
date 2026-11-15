@@ -1,9 +1,9 @@
 {
- "v": 90,
- "build": 90,
+ "v": 92,
+ "build": 92,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v90：Legado 纯 HTML 书源（发现/目录/正文）支持",
+ "note": "蜘蛛阅读 v92：纯规则书源 + 目录自动换地址（/book/N → /chapterlist/N）",
  "time": "2026-11-15",
  "auto_update": false
 }
