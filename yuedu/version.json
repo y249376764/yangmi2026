@@ -1,9 +1,9 @@
 {
- "v": 86,
- "build": 86,
+ "v": 88,
+ "build": 88,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v86：JS 书源支持目录/正文/聚搜（可导入文本书源）",
- "time": "2026-11-14",
+ "note": "蜘蛛阅读 v88：JS 书源导入自检 + 首页/搜索/列表按名回读 jsCode",
+ "time": "2026-11-15",
  "auto_update": false
 }
