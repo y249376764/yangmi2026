@@ -6,14 +6,14 @@
   "bookSourceType": 0,
   "enabled": true,
   "customOrder": 1,
-  "bookSourceComment": "纯规则源（无 jsCode）：搜索 / 全本发现 / 目录自动翻页 / 正文",
-  "searchUrl": "@js:return '/search/?searchkey=' + encodeURIComponent(String(key || ''))",
-  "exploreUrl": "@js:return [{title:'全本', url:'/quanben/sort/'}]",
+  "bookSourceComment": "纯规则源（无 JS）：搜索 / 全本发现 / 目录（/book/N → /chapterlist/N 自动兜底）/ 正文",
+  "searchUrl": "/search/?searchkey={{key}}",
+  "exploreUrl": "全本::/quanben/sort/",
   "ruleSearch": {
    "bookList": "tag.dl",
    "name": "tag.dt.1@tag.a@text",
    "author": "tag.dd.1@tag.a@text",
-   "bookUrl": "tag.dt.1@tag.a@href@js:result.indexOf('/book/')>-1?result.replace('/book/','/chapterlist/'):result",
+   "bookUrl": "tag.dt.1@tag.a@href",
    "coverUrl": "tag.dt.0@tag.img@src",
    "intro": "tag.dd.0@text"
   },
@@ -21,7 +21,7 @@
    "bookList": "tag.dl",
    "name": "tag.dt.1@tag.a@text",
    "author": "tag.dd.1@tag.a@text",
-   "bookUrl": "tag.dt.1@tag.a@href@js:result.indexOf('/book/')>-1?result.replace('/book/','/chapterlist/'):result",
+   "bookUrl": "tag.dt.1@tag.a@href",
    "coverUrl": "tag.dt.0@tag.img@src",
    "intro": "tag.dd.0@text"
   },
