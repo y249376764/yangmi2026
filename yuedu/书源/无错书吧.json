@@ -1,0 +1,38 @@
+[
+ {
+  "bookSourceName": "无错书吧",
+  "bookSourceUrl": "https://www.wcshuba.com",
+  "bookSourceGroup": "文本书",
+  "bookSourceType": 0,
+  "enabled": true,
+  "customOrder": 1,
+  "bookSourceComment": "纯规则源（无 jsCode）：搜索 / 全本发现 / 目录自动翻页 / 正文",
+  "searchUrl": "@js:return '/search/?searchkey=' + encodeURIComponent(String(key || ''))",
+  "exploreUrl": "@js:return [{title:'全本', url:'/quanben/sort/'}]",
+  "ruleSearch": {
+   "bookList": "tag.dl",
+   "name": "tag.dt.1@tag.a@text",
+   "author": "tag.dd.1@tag.a@text",
+   "bookUrl": "tag.dt.1@tag.a@href@js:result.indexOf('/book/')>-1?result.replace('/book/','/chapterlist/'):result",
+   "coverUrl": "tag.dt.0@tag.img@src",
+   "intro": "tag.dd.0@text"
+  },
+  "ruleExplore": {
+   "bookList": "tag.dl",
+   "name": "tag.dt.1@tag.a@text",
+   "author": "tag.dd.1@tag.a@text",
+   "bookUrl": "tag.dt.1@tag.a@href@js:result.indexOf('/book/')>-1?result.replace('/book/','/chapterlist/'):result",
+   "coverUrl": "tag.dt.0@tag.img@src",
+   "intro": "tag.dd.0@text"
+  },
+  "ruleToc": {
+   "chapterList": "class.chapterlist@tag.ul@tag.li@tag.a",
+   "chapterName": "text",
+   "chapterUrl": "tag.a@href",
+   "nextTocUrl": "@js:var h=String(result||''),cur=String(typeof url!=='undefined'?url:'');var m=/\\/chapterlist\\/(\\d+)(?:\\/(\\d+))?\\.html/.exec(cur);if(!m){return '';}var id=m[1],pg=parseInt(m[2]||'1',10),mx=1,re=new RegExp('/chapterlist/'+id+'/(\\\\d+)\\\\.html','g'),t;while((t=re.exec(h))!==null){var v=parseInt(t[1],10);if(v>mx){mx=v;}}return pg<mx?('/chapterlist/'+id+'/'+(pg+1)+'.html'):'';"
+  },
+  "ruleContent": {
+   "content": "id.booktxt@tag.p"
+  }
+ }
+]
