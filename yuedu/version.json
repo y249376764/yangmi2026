@@ -1,9 +1,9 @@
 {
- "v": 20261121,
- "build": 20261121,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261121",
- "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261121",
- "note": "蜘蛛阅读 20261121：引擎吃 JSON 书源（.list[*] / 纯字段名 / 对象条目）+ Legado AES JS（createSymmetricCrypto 等，纯 JS 实现）+ java.put 返回请求头选项，加密 path 源可直接解析",
+ "v": 20261122,
+ "build": 20261122,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261122",
+ "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261122",
+ "note": "蜘蛛阅读 20261122：list 模式的 ## 清洗生效（目录分页 nextTocUrl 可剥域名，不再同书抓两遍）",
  "time": "2026-11-15",
  "auto_update": false
 }
