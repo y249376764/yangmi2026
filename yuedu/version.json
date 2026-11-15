@@ -1,9 +1,9 @@
 {
- "v": 20261122,
- "build": 20261122,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261122",
- "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261122",
- "note": "蜘蛛阅读 20261122：list 模式的 ## 清洗生效（目录分页 nextTocUrl 可剥域名，不再同书抓两遍）",
+ "v": 20261125,
+ "build": 20261125,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261125",
+ "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261125",
+ "note": "蜘蛛阅读 20261125：最新正式版（覆盖 latest.txt，未拉旧基线）",
  "time": "2026-11-15",
  "auto_update": false
 }
