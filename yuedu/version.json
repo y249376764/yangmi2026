@@ -1,9 +1,9 @@
 {
- "v": 20261118,
- "build": 20261118,
- "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261118",
- "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261118",
- "note": "蜘蛛阅读 20261118：详情页加速——DOM 只解析一次 + 目录 30 分钟缓存 + 目录已全时不再多抓",
+ "v": 20261119,
+ "build": 20261119,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261119",
+ "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt.20261119",
+ "note": "蜘蛛阅读 20261119：补齐 _ydShort（1.5/1.6 之前会抛 ReferenceError 中断目录）、目录上限放开 30000 章/400 页、缓存仅在标 full:1 时短路、卡片地址去空白与锚点、DOM 单次解析",
  "time": "2026-11-15",
  "auto_update": false
 }
