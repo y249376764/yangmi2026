@@ -1,9 +1,9 @@
 {
- "v": 94,
- "build": 94,
+ "v": 96,
+ "build": 96,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
  "latest": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/yuedu/latest.txt",
- "note": "蜘蛛阅读 v94：自带 HTML 解析引擎，不再依赖海阔 pdfa/pdfh；封面兜底",
+ "note": "蜘蛛阅读 v96：目录改用真目录页+断页补抓，章节按章号排序，新增正序/倒序按钮",
  "time": "2026-11-15",
  "auto_update": false
 }
