@@ -1,6 +1,6 @@
 {
   "name": "ShunSources",
-  "version": "5.7",
+  "version": "5.8",
   "author": "shun（移植）",
   "description": "听书源合集（从 Windows 版 ShunSources.Plugin 移植）+ 番茄听书 / 七猫听书",
   "scripts": [
