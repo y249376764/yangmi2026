@@ -176,7 +176,10 @@
       var type = trim(val(d, 'content_type'));
       if (!audio) throw new Error('没有取到音频地址，可能这本书没有真人演播');
       if (type !== '' && type !== 'audio') throw new Error('这一章返回的是文字内容，不是音频');
-      return { url: audio, headers: { 'User-Agent': UA, 'Referer': SITE + '/' } };
+      // FIX6 这里千万不能带 Referer：音频在 fqnovelvod.com 的 CDN 上，它的防盗链规则是
+      // 「带 Referer 就 403 deny by referer access rule」，而裸请求/只带 UA 是 206 正常。
+      // 之前一律回 {url, headers:{UA, Referer}} 导致播放器拿到 403，表现就是“点了没声音”。
+      return { url: audio, headers: { 'User-Agent': UA } };
     },
 
     coverHeaders: function (url) {
