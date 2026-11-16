@@ -1,6 +1,6 @@
 # 随身听书（ssts）插件：新增 番茄听书 / 七猫听书
 
-在仓库自带的 `ShunSources` 听书插件上加了两个源，版本 5.6 → **5.7**。成品 `ShunSources.zip` 结构跟官方 `plugins/dist/ShunSources.zip` 一致（manifest + 脚本都在根目录），App 里「插件 → + → 从文件导入 zip」直接试。
+在仓库自带的 `ShunSources` 听书插件上加了两个源，版本 5.6 → **5.8**。成品 `ShunSources.zip` 结构跟官方 `plugins/dist/ShunSources.zip` 一致（manifest + 脚本都在根目录），App 里「插件 → + → 从文件导入 zip」直接试。
 
 | 文件 | 源 | 分组 | 说明 |
 |---|---|---|---|
@@ -29,6 +29,7 @@
 3. `/api/content` 少 `tab=听书` 直接 400；`content_type` 不是 `audio` 就是没音频的书。
 4. 作者字段混着「（主播：索尔配音）」→ 拆成 author + artist。
 5. 两个聚合站都偶发 TLS 断连 → 每请求重试一次，`e.cancelled` 不重试。
+6. **音频 CDN 不能带 Referer**：`fqnovelvod.com` 的防盗链规则是「带 Referer 就 403 deny by referer access rule」，只带 UA 或裸请求才 206。之前 `audio()` 回了 `headers:{UA, Referer}`，播放器直接吃 403，表现就是“点了没声音”，而海阔那边用裸地址所以能放 —— 这是 5.7 听不了的根因。
 
 ## 二、七猫听书（`qimao.js`）
 
@@ -58,12 +59,14 @@
 | 番茄 | categoryPage | 1.8 s | 100 本（服务端固定一页） |
 | 番茄 | search「剑来」1/2 页 | 1.6 / 1.2 s | 10 + 10 本，0 重复 |
 | 番茄 | bookDetail | 2.0 s | 1316 集，主播=索尔配音 |
-| 番茄 | audio | 1.1 s | 206 audio/mpeg，魔数 `494433`(ID3)，真音频 |
+| 番茄 | audio（5.8 修复后） | 1.1 s | 206 audio/mpeg，前 3 集全 206；带 Referer 时是 403 |
 | 七猫 | categoryMenus | 0.9 s | 3 组 / 31 按钮 |
 | 七猫 | categoryPage | 1.1 / 0.8 s | 首页 52 本；分类 10 本 / 195 页 |
 | 七猫 | bookDetail | 1.4 s | 《剑来》1279 集，7 种 AI 音色 |
 | 七猫 | audio 默认/古风御姐/相声阿龙 | 0.9 s | 三次 206，三个文件互不相同（音色真生效） |
 | 整包 | 12 脚本同作用域加载 | — | 39 个源全部注册，无加载期异常 |
+
+> 5.8 改动：只改了 `fanqie.js` 的 `audio()` —— 去掉 Referer 头。其余逻辑与 5.7 相同。
 
 两个新脚本都扫过 `=>`、`const`、`let`、反引号、`class`、展开符、可选链、async：纯 ES5，Rhino 可跑。
 
