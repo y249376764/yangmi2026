@@ -1,1 +1,7 @@
-{"v": 113, "build": 98, "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt", "note": "蜘蛛🕷️ v113：扫描加载复核 + 幽灵站过滤（不强制更新）", "time": "2026-11-14"}
+{
+ "v": 114,
+ "build": 99,
+ "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
+ "note": "蜘蛛🕷️ v114：修复检测新版误报（已是最新仍提示更新）+ 点取消不再强制下载",
+ "time": "2026-11-16"
+}
