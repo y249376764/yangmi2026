@@ -583,15 +583,6 @@
    "filterable": 1
   },
   {
-   "key": "py_fandazi",
-   "name": "饭搭子影视",
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/饭搭子影视2.py",
-   "type": 3,
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
    "key": "py_zuiying",
    "name": "追影",
    "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/追影2.py",
@@ -1346,16 +1337,6 @@
    "name": "零点影视",
    "type": 3,
    "api": "https://sub.lytvs.top/pydl/ZIP0yingshi.py?tk=cj_a38415ea",
-   "ext": "",
-   "searchable": 1,
-   "quickSearch": 1,
-   "category": "综合"
-  },
-  {
-   "key": "饭搭子影视",
-   "name": "饭搭子影视2",
-   "type": 3,
-   "api": "https://sub.lytvs.top/pydl/fandaziyingshi.py?tk=cj_a38415ea",
    "ext": "",
    "searchable": 1,
    "quickSearch": 1,
@@ -4160,12 +4141,6 @@
    "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew068fengye4k.py"
   },
   {
-   "key": "py_pynew071fandaziyings",
-   "name": "🎬影视｜饭搭子影视",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_pynew071fandaziyings.py"
-  },
-  {
    "key": "py_pynew077douhuayingsh",
    "name": "🎬影视｜豆花影视",
    "type": 3,
@@ -4575,6 +4550,15 @@
    "name": "动漫巴士",
    "type": 3,
    "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/conv_DongmanBashi.py",
+   "searchable": 1,
+   "quickSearch": 1,
+   "filterable": 1
+  },
+  {
+   "key": "py_conv_fandazi",
+   "name": "饭搭子影视[优]",
+   "type": 3,
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/conv_Fandazi.py",
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1
