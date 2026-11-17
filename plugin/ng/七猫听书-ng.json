@@ -1,0 +1,66 @@
+{
+  "bookSourceComment": "从 ssts 随身听书插件 5.8 的 qimao.js 迁移：接口 qm.neeao.dpdns.org。AI 演播的书必须带 voice 参数，不带会返回「该章节暂无可播放音频」；voice 取详情里的 defaultVoice 并在目录阶段就拼进 chapterUrl（每本书只开一部分音色，所以不做固定值）。详情接口本身就带全部章节，tocUrl 留空复用详情。",
+  "bookSourceGroup": "🎧 听书",
+  "bookSourceName": "🐱七猫听书·直连",
+  "bookSourceType": 1,
+  "bookSourceUrl": "https://qm.neeao.dpdns.org#七猫听书直连",
+  "bookUrlPattern": "",
+  "customButton": false,
+  "customOrder": 1,
+  "enabled": true,
+  "enabledCookieJar": false,
+  "enabledExplore": true,
+  "eventListener": false,
+  "exploreUrl": "[{\"title\":\"🔥 热门听书\",\"url\":\"https://qm.neeao.dpdns.org/api/audio/home\"}]",
+  "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36\"}",
+  "lastUpdateTime": 0,
+  "loginUrl": "",
+  "respondTime": 180000,
+  "searchUrl": "https://qm.neeao.dpdns.org/api/audio/search?keyword={{key}}&page=1",
+  "weight": 0,
+  "ruleBookInfo": {
+    "author": "$.data.author",
+    "coverUrl": "$.data.cover",
+    "intro": "$.data.intro",
+    "kind": "@js:(function(){var d=(typeof result==='string'?JSON.parse(result):result).data||{};var s=(d.mode==='ai')?'AI 演播':'真人演播';var n=((d.chapters)||[]).length;return s+(n?' · '+n+' 集':'');})()",
+    "lastChapter": "",
+    "name": "$.data.title",
+    "tocUrl": "",
+    "wordCount": ""
+  },
+  "ruleContent": {
+    "content": "@js:(function(){var d=(typeof result==='string'?JSON.parse(result):result);var x=d.data||{};if(!x.url){throw new Error('没有取到音频地址（可能是会员/下架章节）');}return x.url;})()"
+  },
+  "ruleExplore": {
+    "author": "$.author",
+    "bookList": "$.data.sections[*].items[*]",
+    "bookUrl": "@js:(function(){return 'https://qm.neeao.dpdns.org/api/audio/info?id='+result.id;})()",
+    "coverUrl": "$.cover",
+    "intro": "$.intro",
+    "kind": "$.kind",
+    "lastChapter": "",
+    "name": "$.title",
+    "note": "",
+    "wordCount": ""
+  },
+  "ruleSearch": {
+    "author": "$.author",
+    "bookList": "$.data.items[*]",
+    "bookUrl": "@js:(function(){return 'https://qm.neeao.dpdns.org/api/audio/info?id='+result.id;})()",
+    "checkKeyWord": "剑来",
+    "coverUrl": "$.cover",
+    "intro": "$.intro",
+    "kind": "$.kind",
+    "lastChapter": "",
+    "name": "$.title",
+    "note": "$.episodes",
+    "wordCount": ""
+  },
+  "ruleToc": {
+    "chapterList": "@js:(function(){var d=(typeof result==='string'?JSON.parse(result):result);var dd=d.data||{};var id=dd.id||'';var v=(dd.defaultVoice===0||dd.defaultVoice)?dd.defaultVoice:'';var cs=dd.chapters||[];for(var i=0;i<cs.length;i++){var c=cs[i];c._u='https://qm.neeao.dpdns.org/api/audio/chapter?id='+id+'&cid='+c.id+'&voice='+v;}return cs;})()",
+    "chapterName": "$.title",
+    "chapterUrl": "$._u",
+    "isVolume": false,
+    "updateTime": ""
+  }
+}
