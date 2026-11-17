@@ -1,7 +1,7 @@
 {
- "v": 115,
+ "v": 117,
  "build": 100,
  "url": "https://raw.githubusercontent.com/y249376764/yangmi2026/main/hiker/latest.txt",
- "note": "蜘蛛🕷️ v115：修复点检查更新报 BUILD 未定义（lazyRule 独立作用域读不到外层变量）",
- "time": "2026-11-16"
+ "note": "蜘蛛🕷️ v117：搜索结果按相关度过滤（zzmatch）、排序只取一次表提速、播放/详情解析抽成 zzplaylib",
+ "time": "2026-11-17"
 }
