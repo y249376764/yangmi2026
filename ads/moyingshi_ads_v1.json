@@ -1,0 +1,58 @@
+[
+	{
+		"name": "通用·广告目录 /ad/ /ads/ /adv/",
+		"hosts": [],
+		"regex": [
+			"#EXTINF[^\\n]*\\s+[^\\n]*/ads?/[^\\n]*\\.ts[^\\n]*\\s+",
+			"#EXTINF[^\\n]*\\s+[^\\n]*/adv/[^\\n]*\\.ts[^\\n]*\\s+",
+			"#EXTINF[^\\n]*\\s+[^\\n]*/advert[^\\n]*\\.ts[^\\n]*\\s+"
+		]
+	},
+	{
+		"name": "通用·贴片关键词 preroll/midroll",
+		"hosts": [],
+		"regex": [
+			"#EXTINF[^\\n]*\\s+[^\\n]*/(?:preroll|midroll|commercial)/[^\\n]*\\.ts[^\\n]*\\s+",
+			"#EXTINF[^\\n]*\\s+[^\\n]*(?:preroll|midroll|commercial)[^\\n]*\\.ts[^\\n]*\\s+"
+		]
+	},
+	{
+		"name": "通用·混淆广告分片名 1o/p1ayer/gg",
+		"hosts": [],
+		"regex": [
+			"#EXTINF[^\\n]*\\s+[^\\n]*/(?:1o|ads?|gg|p1ayer|guanggao)[0-9]*\\.ts[^\\n]*\\s+"
+		]
+	},
+	{
+		"name": "暴风 bfzy·约3秒贴片",
+		"hosts": [
+			"bfzy.tv",
+			"bfzycdn.com"
+		],
+		"regex": [
+			"#EXTINF:(?:2\\.9[0-9]*|3\\.0[0-9]*),\\s+[^\\n]*\\.ts[^\\n]*\\s+"
+		]
+	},
+	{
+		"name": "量子 lz·约6.43秒贴片",
+		"hosts": [
+			"vip.lz",
+			"hd.lz",
+			"cdnlz"
+		],
+		"regex": [
+			"#EXTINF:6\\.[3-5][0-9]*,\\s+[^\\n]*\\.ts[^\\n]*\\s+"
+		]
+	},
+	{
+		"name": "非凡 ffzy·约6.67秒贴片",
+		"hosts": [
+			"vip.ffzy",
+			"hd.ffzy",
+			"super.ffzy"
+		],
+		"regex": [
+			"#EXTINF:6\\.[6-7][0-9]*,\\s+[^\\n]*\\.ts[^\\n]*\\s+"
+		]
+	}
+]
