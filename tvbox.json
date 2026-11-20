@@ -2193,36 +2193,6 @@
     "新片首发",
     "UUE29"
    ]
-  },
-  {
-   "name": "默影·广告目录 /ad/ /ads/ /adv/",
-   "hosts": [
-    "*"
-   ],
-   "regex": [
-    "#EXTINF[^\\n]*\\s+[^\\n]*/ads?/[^\\n]*\\.ts[^\\n]*\\s+",
-    "#EXTINF[^\\n]*\\s+[^\\n]*/adv/[^\\n]*\\.ts[^\\n]*\\s+",
-    "#EXTINF[^\\n]*\\s+[^\\n]*/advert[^\\n]*\\.ts[^\\n]*\\s+"
-   ]
-  },
-  {
-   "name": "默影·贴片关键词 preroll/midroll",
-   "hosts": [
-    "*"
-   ],
-   "regex": [
-    "#EXTINF[^\\n]*\\s+[^\\n]*/(?:preroll|midroll|commercial)/[^\\n]*\\.ts[^\\n]*\\s+",
-    "#EXTINF[^\\n]*\\s+[^\\n]*(?:preroll|midroll|commercial)[^\\n]*\\.ts[^\\n]*\\s+"
-   ]
-  },
-  {
-   "name": "默影·混淆广告分片名 1o/p1ayer/gg",
-   "hosts": [
-    "*"
-   ],
-   "regex": [
-    "#EXTINF[^\\n]*\\s+[^\\n]*/(?:1o|ads?|gg|p1ayer|guanggao)[0-9]*\\.ts[^\\n]*\\s+"
-   ]
   }
  ],
  "notice": "更多资源：https://navpage-2026.surge.sh ｜QQ群：106631209"
