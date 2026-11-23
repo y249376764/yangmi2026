@@ -1513,13 +1513,14 @@
    "category": "综合"
   },
   {
-   "key": "青牛影视",
-   "name": "青牛影视",
+   "key": "py_qingniuyingyuan",
+   "name": "青牛影院",
    "type": 3,
-   "api": "https://sub.lytvs.top/pydl/qingniuyingshi.py?tk=cj_a38415ea",
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/qingniuyingyuan.py",
    "ext": "",
    "searchable": 1,
    "quickSearch": 1,
+   "filterable": 1,
    "category": "综合"
   },
   {
