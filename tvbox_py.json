@@ -1483,13 +1483,14 @@
    "category": "综合"
   },
   {
-   "key": "夏日影院",
+   "key": "py_xiariyingyuan",
    "name": "夏日影院",
    "type": 3,
-   "api": "https://sub.lytvs.top/pydl/xiariyingyuan.py?tk=cj_a38415ea",
+   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/xiariyingyuan.py",
    "ext": "",
    "searchable": 1,
    "quickSearch": 1,
+   "filterable": 1,
    "category": "综合"
   },
   {
@@ -4308,12 +4309,6 @@
    "name": "🎬影视｜嘀嗒影视",
    "type": 3,
    "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_didayingshi.py"
-  },
-  {
-   "key": "py_xiariyingyuan",
-   "name": "🎬影视｜夏日影院",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/zxsla/pyjuhe@main/py_xiariyingyuan.py"
   },
   {
    "key": "py_duonaoyingyuan",
