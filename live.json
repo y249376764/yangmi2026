@@ -264,6 +264,24 @@
       "type": 0,
       "url": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/fenghuang_live.txt",
       "epg": ""
+    },
+    {
+      "name": "📺 央视/卫视｜zbds IPTV4",
+      "type": 0,
+      "url": "https://live.zbds.top/tv/iptv4.txt",
+      "epg": ""
+    },
+    {
+      "name": "📺 各省卫视｜zby",
+      "type": 0,
+      "url": "https://myernestlu.github.io/zby.txt",
+      "epg": ""
+    },
+    {
+      "name": "📺 茶客源｜YueChan Live",
+      "type": 0,
+      "url": "https://testingcf.jsdelivr.net/gh/YueChan/Live@main/IPTV.m3u",
+      "epg": ""
     }
   ],
   "sites": [],
