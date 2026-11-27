@@ -630,33 +630,6 @@
    "filterable": 0
   },
   {
-   "key": "py_cctv",
-   "name": "央视",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央视.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
-   "key": "py_yangshi",
-   "name": "央视综合",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央视综合.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
-   "key": "py_yangshi_zy",
-   "name": "央视综艺",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央视综艺.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
    "key": "py_lianggebt",
    "name": "两个BT",
    "type": 3,
@@ -787,15 +760,6 @@
    "name": "看片狂人3",
    "type": 3,
    "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/看片狂v3.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
-   "key": "py_yangku",
-   "name": "央视｜云聚",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央库云.py",
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1
@@ -2267,16 +2231,6 @@
    "category": "综合"
   },
   {
-   "key": "央视频",
-   "name": "央视频",
-   "type": 3,
-   "api": "https://sub.lytvs.top/pydl/yangshipin.py?tk=cj_a38415ea",
-   "ext": "",
-   "searchable": 1,
-   "quickSearch": 1,
-   "category": "综合"
-  },
-  {
    "key": "起点有声",
    "name": "起点有声",
    "type": 3,
@@ -3370,15 +3324,6 @@
    "name": "大象短剧",
    "type": 3,
    "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/大象短剧.py",
-   "searchable": 1,
-   "quickSearch": 1,
-   "filterable": 1
-  },
-  {
-   "key": "py_央视网",
-   "name": "央视网",
-   "type": 3,
-   "api": "https://cdn.jsdelivr.net/gh/y249376764/yangmi2026@main/py/央视网.py",
    "searchable": 1,
    "quickSearch": 1,
    "filterable": 1
